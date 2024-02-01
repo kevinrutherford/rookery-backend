@@ -1,6 +1,5 @@
-DATA_VOLUME     := $(shell pwd)
 IMAGE           := kevinrutherford/rookery-collections
-MK_IMAGE_BUILT  := .mk-built
+MK_IMAGE  := .mk-built
 MK_PUBLISHED    := .mk-published
 MK_COMPILED     := .mk-compiled
 MK_LINTED       := .mk-linted
@@ -28,31 +27,35 @@ $(MK_LINTED): node_modules .eslintrc.js $(SOURCES)
 
 ci-test: clean $(MK_COMPILED) $(MK_LINTED)
 
-# Dev server - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Production build - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-dev: build-dev
-	docker run \
-		-e FORCE_COLOR=3 \
-		-p 44002:8081 \
-		-v /var/opt/zk:/var/opt/zk \
-		-v $(DATA_VOLUME)/src:/home/wiki/src:ro \
-		$(IMAGE):local-dev
+$(MK_IMAGE): $(SOURCES) Dockerfile
+	docker build --tag $(IMAGE) .
+	@touch $@
 
-build-dev: node_modules
-	docker build -t $(IMAGE):local-dev . --target dev
+preview: $(MK_IMAGE)
+	docker run -e FORCE_COLOR=3 -p 44002:8081 -it --rm $(IMAGE)
+
+release: $(MK_IMAGE) git-status-clean
+	docker tag $(IMAGE):latest $(IMAGE):$(IMAGE_VERSION)
+	docker push $(IMAGE):$(IMAGE_VERSION)
+	docker push $(IMAGE):latest
+
+git-status-clean:
+	@test -z "$$(git status --porcelain)"
 
 # Artefacts - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 node_modules: package.json
 	npm install
+	@touch $@
 
 # Utilities - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 clean:
-	rm -f $(MK_IMAGE_BUILT) $(MK_PUBLISHED) $(MK_LINTED)
+	rm -f $(MK_IMAGE) $(MK_PUBLISHED) $(MK_LINTED)
 
 clobber: clean
-	-rm -rf node_modules
-	-docker rmi $$(docker images -f "dangling=true" -q)
-	-docker volume rm $$(docker volume ls -f "dangling=true" -q)
+	rm -rf node_modules
+	docker system prune --force --volumes
 
