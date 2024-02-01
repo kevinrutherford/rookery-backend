@@ -9,7 +9,7 @@ export const router = (views: Views, logger: Logger): Router => {
 
   r.get('/ping', ping())
 
-  r.get('/collections', executeView(logger)(views.listMissingCards))
+  r.get('/collections', executeView(logger)(views.getCollections))
 
   return r
 }
