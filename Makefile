@@ -35,7 +35,7 @@ $(MK_IMAGE): $(SOURCES) Dockerfile node_modules
 	@touch $@
 
 preview: $(MK_IMAGE)
-	docker run -e FORCE_COLOR=3 -p 44002:8081 -it --rm $(IMAGE)
+	docker run -e FORCE_COLOR=3 -p 44002:44002 -it --rm $(IMAGE)
 
 release: $(MK_IMAGE) git-status-clean
 	docker tag $(IMAGE):latest $(IMAGE):$(IMAGE_VERSION)

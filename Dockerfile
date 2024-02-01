@@ -3,7 +3,7 @@ ENV NODE_OPTIONS --unhandled-rejections=strict --enable-source-maps
 
 RUN mkdir -p /srv/app
 WORKDIR /srv/app
-EXPOSE 8081
+EXPOSE 44002
 
 COPY package.json package-lock.json ./
 
