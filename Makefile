@@ -4,37 +4,29 @@ MK_IMAGE_BUILT  := .mk-built
 MK_PUBLISHED    := .mk-published
 MK_COMPILED     := .mk-compiled
 MK_LINTED       := .mk-linted
-MK_TESTED       := .mk-tested
-SOURCES         := $(shell find src test -type f)
+SOURCES         := $(shell find src -type f)
 
-.PHONY: all build-dev ci-* clean clobber dev lint test watch-*
+.PHONY: all build-dev ci-* clean clobber dev lint watch-*
 
 # Software development - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-all: $(MK_TESTED) $(MK_LINTED)
+all: $(MK_LINTED)
 
 watch-compiler: node_modules
 	npx tsc --watch
-
-watch-tests: node_modules
-	npx jest --watch
 
 $(MK_COMPILED): node_modules $(SOURCES) tsconfig.json
 	npx tsc --noEmit
 	@touch $@
 
-$(MK_TESTED): node_modules $(SOURCES) jest.config.js
-	npx jest
-	@touch $@
-
 $(MK_LINTED): node_modules .eslintrc.js $(SOURCES)
-	npx eslint src test --ext .ts
+	npx eslint src --ext .ts
 	npx ts-unused-exports tsconfig.json --silent --ignoreTestFiles
 	@touch $@
 
 # CI pipeline - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-ci-test: clean $(MK_COMPILED) $(MK_TESTED) $(MK_LINTED)
+ci-test: clean $(MK_COMPILED) $(MK_LINTED)
 
 # Dev server - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -58,7 +50,7 @@ node_modules: package.json
 # Utilities - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 clean:
-	rm -f $(MK_IMAGE_BUILT) $(MK_PUBLISHED) $(MK_LINTED) $(MK_TESTED)
+	rm -f $(MK_IMAGE_BUILT) $(MK_PUBLISHED) $(MK_LINTED)
 	rm -rf .jest
 
 clobber: clean

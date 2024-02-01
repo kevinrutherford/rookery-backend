@@ -7,9 +7,8 @@ import { logRequest } from './log-request'
 import * as L from './logger'
 import { startServer } from './start-server'
 import { Views } from '../views'
-import { Commands } from '../write-resources'
 
-export const createHttpServer = (views: Views, commands: Commands): void => {
+export const createHttpServer = (views: Views): void => {
   const logger = L.create({
     emit: (s: string) => process.stdout.write(s),
     colour: process.env.NODE_ENV !== 'production',
@@ -20,7 +19,7 @@ export const createHttpServer = (views: Views, commands: Commands): void => {
     .use(helmet())
     .use(json())
     .use(cors())
-    .use('/', router(views, commands, logger)),
+    .use('/', router(views, logger)),
   )
   server.on('listening', (): void => logger.info('Server running'))
   server.on('close', (): void => logger.info('Server stopping'))
