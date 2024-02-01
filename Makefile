@@ -1,5 +1,5 @@
 DATA_VOLUME     := $(shell pwd)
-IMAGE           := xpsurgery/simple-wiki-api
+IMAGE           := kevinrutherford/rookery-collections
 MK_IMAGE_BUILT  := .mk-built
 MK_PUBLISHED    := .mk-published
 MK_COMPILED     := .mk-compiled
@@ -32,9 +32,8 @@ ci-test: clean $(MK_COMPILED) $(MK_LINTED)
 
 dev: build-dev
 	docker run \
-		--env-file ./.env \
 		-e FORCE_COLOR=3 \
-		-p 17000:8081 \
+		-p 44002:8081 \
 		-v /var/opt/zk:/var/opt/zk \
 		-v $(DATA_VOLUME)/src:/home/wiki/src:ro \
 		$(IMAGE):local-dev
@@ -51,7 +50,6 @@ node_modules: package.json
 
 clean:
 	rm -f $(MK_IMAGE_BUILT) $(MK_PUBLISHED) $(MK_LINTED)
-	rm -rf .jest
 
 clobber: clean
 	-rm -rf node_modules

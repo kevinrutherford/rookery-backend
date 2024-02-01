@@ -1,4 +1,4 @@
-import { getCollections } from './box/list-missing-cards'
+import { getCollections } from './get-collections'
 import { View } from './view'
 
 export type Views = {
