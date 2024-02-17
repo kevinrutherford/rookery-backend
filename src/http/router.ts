@@ -11,6 +11,7 @@ export const router = (views: Views, logger: Logger): Router => {
 
   r.get('/about', executeView(logger)(views.getAbout))
   r.get('/collections', executeView(logger)(views.getCollections))
+  r.get('/collections/:id', executeView(logger)(views.getCollection))
 
   return r
 }
