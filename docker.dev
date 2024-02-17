@@ -24,7 +24,6 @@ COPY .eslintignore \
   ./
 COPY --from=npm-dev /srv/app .
 COPY scripts/ scripts/
-COPY src/ src/
 
 CMD ["sh", "./scripts/start-dev.sh"]
 
