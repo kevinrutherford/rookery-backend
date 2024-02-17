@@ -9,6 +9,7 @@ export const router = (views: Views, logger: Logger): Router => {
 
   r.get('/ping', ping())
 
+  r.get('/about', executeView(logger)(views.getAbout))
   r.get('/collections', executeView(logger)(views.getCollections))
 
   return r
