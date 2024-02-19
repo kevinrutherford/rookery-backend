@@ -6,7 +6,6 @@ import { View } from './view'
 
 const paramsCodec = t.type({
   id: t.string,
-  memberid: t.string,
 })
 
 export const getCollectionMember = (): View => (input) => pipe(
@@ -16,7 +15,7 @@ export const getCollectionMember = (): View => (input) => pipe(
   E.map(() => ({
     type: 'CollectionMember',
     data: {
-      id: '10.1126%2Fscience.1172133',
+      id: '72fe90a8-38db-4635-81db-1e78501fce22',
       title: 'A General Framework for Analyzing Sustainability of Social-Ecological Systems',
       doi: '10.1126/science.1172133',
       comments: [
