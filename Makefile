@@ -1,4 +1,4 @@
-IMAGE           := kevinrutherford/rookery-collections
+IMAGE           := kevinrutherford/rookery-backend
 IMAGE_VERSION := $(shell git describe --tags)
 MK_IMAGE  := .mk-built
 MK_PUBLISHED    := .mk-published
