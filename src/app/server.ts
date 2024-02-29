@@ -1,8 +1,8 @@
 import { createHttpServer } from '../http/create-server'
-import { instantiate as instantiateViews } from '../views'
+import * as Views from '../views'
 
 export const makeServer = async (): Promise<void> => {
-  const views = instantiateViews()
+  const views = Views.instantiate()
 
   createHttpServer(views)
 }
