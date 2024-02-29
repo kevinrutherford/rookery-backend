@@ -1,6 +1,2 @@
-import { allCollections } from './all-collections'
-import { Queries } from './queries'
+export { instantiate } from './instantiate'
 
-export const instantiate = (): Queries => ({
-  allCollections,
-})
