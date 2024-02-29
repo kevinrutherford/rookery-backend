@@ -8,7 +8,7 @@ export type Collection = {
   lastActivityAt: Date,
 }
 
-export const allCollections = (currentState: ReadonlyArray<Collection>) => (): ReadonlyArray<Collection> => {
-  return currentState
+export const allCollections = (currentState: Map<string, Collection>) => (): ReadonlyArray<Collection> => {
+  return Array.from(currentState.values())
 }
 
