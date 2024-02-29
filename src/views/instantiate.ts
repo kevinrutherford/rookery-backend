@@ -3,7 +3,7 @@ import { getCollection } from './get-collection'
 import { getCollectionMember } from './get-collection-member'
 import { getCollections } from './get-collections'
 import { View } from './view'
-import { allCollections } from '../readmodels/all-collections'
+import { Queries } from '../readmodels/queries'
 
 export type Views = {
   getAbout: View,
@@ -12,11 +12,9 @@ export type Views = {
   getCollections: View,
 }
 
-export const instantiate = (): Views => ({
+export const instantiate = (queries: Queries): Views => ({
   getAbout: getAbout(),
   getCollection: getCollection(),
   getCollectionMember: getCollectionMember(),
-  getCollections: getCollections({
-    allCollections,
-  }),
+  getCollections: getCollections(queries),
 })
