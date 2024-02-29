@@ -2,10 +2,10 @@ import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { View } from './view'
-import { allCollections } from '../readmodels/all-collections'
+import { Queries } from '../readmodels/queries'
 
-export const getCollections = (): View => () => pipe(
-  allCollections(),
+export const getCollections = (queries: Queries): View => () => pipe(
+  queries.allCollections(),
   RA.map((collection) => ({
     ...collection,
     lastActivityAt: collection.lastActivityAt.toISOString(),
