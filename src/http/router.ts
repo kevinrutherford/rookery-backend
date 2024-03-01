@@ -12,7 +12,7 @@ export const router = (views: Views, logger: Logger): Router => {
   r.get('/about', executeView(logger)(views.getAbout))
   r.get('/collections', executeView(logger)(views.getCollections))
   r.get('/collections/:id', executeView(logger)(views.getCollection))
-  r.get('/members/:id', executeView(logger)(views.getCollectionMember))
+  r.get('/entries/:id', executeView(logger)(views.getEntry))
 
   return r
 }

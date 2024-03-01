@@ -20,7 +20,7 @@ export const getCollection = (): View => (input) => pipe(
       description: 'Papers under review by the CHS project',
       commentsCount: 23,
       followersCount: 4,
-      members: [
+      entries: [
         {
           id: '72fe90a8-38db-4635-81db-1e78501fce22',
           title: 'A General Framework for Analyzing Sustainability of Social-Ecological Systems',

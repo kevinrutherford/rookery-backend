@@ -8,12 +8,12 @@ const paramsCodec = t.type({
   id: t.string,
 })
 
-export const getCollectionMember = (): View => (input) => pipe(
+export const getEntry = (): View => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map((params) => params.id),
   E.map(() => ({
-    type: 'CollectionMember',
+    type: 'Entry',
     data: {
       id: '72fe90a8-38db-4635-81db-1e78501fce22',
       title: 'A General Framework for Analyzing Sustainability of Social-Ecological Systems',
