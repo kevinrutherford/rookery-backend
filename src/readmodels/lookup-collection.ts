@@ -1,4 +1,6 @@
+import * as E from 'fp-ts/Either'
 import { Collection } from './all-collections'
+import { ErrorOutcome } from '../views'
 
 export type CollectionWithEntries = {
   id: string,
@@ -17,9 +19,19 @@ export type CollectionWithEntries = {
   }>,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const lookupCollection = (currentState: Map<string, Collection>) => (): CollectionWithEntries => {
-  return {
+type LookupCollection = (currentState: Map<string, Collection>)
+=> (collectionId: string)
+=> E.Either<ErrorOutcome, CollectionWithEntries>
+
+export const lookupCollection: LookupCollection = (currentState) => (collectionId) => {
+  if (!currentState.has(collectionId)) {
+    return E.left({
+      category: 'not-found',
+      message: 'Collection not found',
+      evidence: { collectionId },
+    })
+  }
+  return E.right({
     id: 'chs',
     name: 'CHS',
     description: 'Papers under review by the CHS project',
@@ -54,6 +66,6 @@ export const lookupCollection = (currentState: Map<string, Collection>) => (): C
         latestActivityAt: new Date().toISOString(),
       },
     ],
-  }
+  })
 }
 

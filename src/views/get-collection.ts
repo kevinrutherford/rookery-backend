@@ -13,7 +13,7 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map((params) => params.id),
-  E.map(queries.lookupCollection),
+  E.chain(queries.lookupCollection),
   E.map((collection) => ({
     type: 'Collection',
     data: collection,
