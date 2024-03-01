@@ -3,7 +3,7 @@ import { getCollection } from './get-collection'
 import { getCollections } from './get-collections'
 import { getEntry } from './get-entry'
 import { View } from './view'
-import { Queries } from '../readmodels/queries'
+import { Queries } from '../readmodels'
 
 export type Views = {
   getAbout: View,

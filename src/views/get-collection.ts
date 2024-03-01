@@ -3,7 +3,7 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { validateInput } from './validate-input'
 import { View } from './view'
-import { Queries } from '../readmodels/queries'
+import { Queries } from '../readmodels'
 
 const paramsCodec = t.type({
   id: t.string,
