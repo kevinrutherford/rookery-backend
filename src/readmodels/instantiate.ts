@@ -1,5 +1,6 @@
 import { EventStoreDBClient, excludeSystemEvents, JSONEventType, RecordedEvent, START } from '@eventstore/db-client'
 import { allCollections, Collection } from './all-collections'
+import { lookupCollection } from './lookup-collection'
 import { Queries } from './queries'
 
 type CollectionCreatedEvent = JSONEventType<'collection-created', {
@@ -37,5 +38,6 @@ export const instantiate = (): Queries => {
 
   return ({
     allCollections: allCollections(currentState),
+    lookupCollection: lookupCollection(currentState),
   })
 }
