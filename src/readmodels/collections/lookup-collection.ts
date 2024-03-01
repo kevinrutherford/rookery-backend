@@ -11,6 +11,6 @@ type LookupCollection = (currentState: Readmodel)
 
 export const lookupCollection: LookupCollection = (currentState) => (collectionId) => pipe(
   currentState,
-  RM.lookup(S.Eq)(collectionId),
+  RM.lookup(S.Eq)(`/collections/${collectionId}`), // SMELL
 )
 
