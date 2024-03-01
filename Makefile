@@ -1,3 +1,5 @@
+DEPCRUISE_CONFIG := .dependency-cruiser.cjs
+GRAPHS_DIR      := graphs
 IMAGE           := kevinrutherford/rookery-backend
 IMAGE_VERSION := $(shell git describe --tags)
 MK_IMAGE  := .mk-built
@@ -6,11 +8,13 @@ MK_COMPILED     := .mk-compiled
 MK_LINTED       := .mk-linted
 SOURCES         := $(shell find src -type f)
 
+depcruise := npx depcruise --config $(DEPCRUISE_CONFIG)
+
 .PHONY: all build-dev ci-* clean clobber dev lint watch-*
 
 # Software development - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-all: $(MK_LINTED)
+all: $(GRAPHS_DIR)/modules.svg $(GRAPHS_DIR)/arch.svg $(MK_LINTED)
 
 watch-compiler: node_modules
 	npx tsc --watch
@@ -51,10 +55,20 @@ node_modules: package.json
 	npm install
 	@touch $@
 
+$(GRAPHS_DIR)/modules.svg: $(SOURCES) $(GRAPHS_DIR) node_modules $(DEPCRUISE_CONFIG)
+	$(depcruise) --validate -T dot src | dot -Tsvg > $@
+
+$(GRAPHS_DIR)/arch.svg: $(SOURCES) $(GRAPHS_DIR) node_modules $(DEPCRUISE_CONFIG)
+	$(depcruise) -T archi --collapse 2 src | dot -Tsvg > $@
+
+$(GRAPHS_DIR):
+	mkdir -p $@
+
 # Utilities - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 clean:
 	rm -f $(MK_IMAGE) $(MK_PUBLISHED) $(MK_LINTED)
+	rm -rf $(GRAPHS_DIR)
 
 clobber: clean
 	rm -rf node_modules
