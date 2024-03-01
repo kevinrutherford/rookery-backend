@@ -1,7 +1,6 @@
 import { EventStoreDBClient, excludeSystemEvents, JSONEventType, RecordedEvent, START } from '@eventstore/db-client'
 import { allCollections, Collection } from './all-collections'
 import { lookupCollection } from './lookup-collection'
-import { Queries } from './queries'
 
 type CollectionCreatedEvent = JSONEventType<'collection-created', {
   id: string,
@@ -12,7 +11,8 @@ type CollectionCreatedEvent = JSONEventType<'collection-created', {
 
 type HandledEvents = CollectionCreatedEvent
 
-export const instantiate = (): Queries => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const instantiate = () => {
   const currentState: Map<string, Collection> = new Map()
   const client = EventStoreDBClient.connectionString('esdb://eventstore:2113?tls=false&keepAliveTimeout=10000&keepAliveInterval=10000')
   const subscription = client.subscribeToAll({
@@ -41,3 +41,6 @@ export const instantiate = (): Queries => {
     lookupCollection: lookupCollection(currentState),
   })
 }
+
+export type Queries = ReturnType<typeof instantiate>
+
