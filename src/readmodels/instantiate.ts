@@ -2,9 +2,22 @@ import { EventStoreDBClient, excludeSystemEvents, RecordedEvent, START } from '@
 import { allCollections, lookupCollection, Readmodel } from './collections'
 import { DomainEvent } from './domain-event'
 
+const handleEvent = (state: Readmodel, event: RecordedEvent<DomainEvent>): Readmodel => {
+  if (event.type === 'collection-created') {
+    state.set(event.data.id, {
+      ...event.data,
+      papersCount: 0,
+      commentsCount: 0,
+      followersCount: 0,
+      lastActivityAt: new Date(),
+    })
+  }
+  return state
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = () => {
-  const currentState: Readmodel = new Map()
+  let currentState: Readmodel = new Map()
   const client = EventStoreDBClient.connectionString('esdb://eventstore:2113?tls=false&keepAliveTimeout=10000&keepAliveInterval=10000')
   const subscription = client.subscribeToAll({
     fromPosition: START,
@@ -16,15 +29,7 @@ export const instantiate = () => {
     if (!event)
       return
     const x = event as RecordedEvent<DomainEvent>
-    if (x.type === 'collection-created') {
-      currentState.set(x.data.id, {
-        ...x.data,
-        papersCount: 0,
-        commentsCount: 0,
-        followersCount: 0,
-        lastActivityAt: new Date(),
-      })
-    }
+    currentState = handleEvent(currentState, x)
   })
 
   return ({
