@@ -26,6 +26,7 @@ $(MK_COMPILED): node_modules $(SOURCES) tsconfig.json
 $(MK_LINTED): node_modules .eslintrc.js $(SOURCES)
 	npx eslint src --ext .ts
 	npx ts-unused-exports tsconfig.json --silent --ignoreTestFiles
+	$(depcruise) src
 	@touch $@
 
 # CI pipeline - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
