@@ -1,6 +1,7 @@
 import { EventStoreDBClient, excludeSystemEvents, RecordedEvent, START } from '@eventstore/db-client'
 import { allCollections, lookupCollection, Readmodel } from './collections'
 import { DomainEvent } from './domain-event'
+import { findEntries } from './entries'
 
 const handleEvent = (state: Readmodel, event: RecordedEvent<DomainEvent>): Readmodel => {
   if (event.type === 'collection-created') {
@@ -35,6 +36,7 @@ export const instantiate = () => {
   return ({
     allCollections: allCollections(currentState),
     lookupCollection: lookupCollection(currentState),
+    findEntries,
   })
 }
 
