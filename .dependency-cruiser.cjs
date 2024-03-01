@@ -197,7 +197,6 @@ module.exports = {
         '^.*-spec.ts$',
         'helper',
         '^src/index.ts$',
-        '^src/app$',
       ],
       dynamic: true,
     },
@@ -223,20 +222,12 @@ module.exports = {
               },
             },
             {
-              criteria: { source: 'write-resources' },
-              attributes: { fillcolor: '#c9dff4' },
-            },
-            {
               criteria: { source: 'views' },
               attributes: { fillcolor: 'white' },
             },
             {
-              criteria: { source: 'file-based-card-store|http' },
+              criteria: { source: 'app|http' },
               attributes: { fillcolor: '#f8cce0' },
-            },
-            {
-              criteria: { source: 'sagas' },
-              attributes: { fillcolor: '#d0bfe8' },
             },
             {
               criteria: { source: 'readmodel' },
@@ -272,20 +263,12 @@ module.exports = {
               },
             },
             {
-              criteria: { source: 'write-resources' },
-              attributes: { fillcolor: '#c9dff4' },
-            },
-            {
               criteria: { source: 'views' },
               attributes: { fillcolor: 'white' },
             },
             {
-              criteria: { source: 'file-based-card-store|http' },
+              criteria: { source: 'app|http' },
               attributes: { fillcolor: '#f8cce0' },
-            },
-            {
-              criteria: { source: 'sagas' },
-              attributes: { fillcolor: '#d0bfe8' },
             },
             {
               criteria: { source: 'readmodel' },
