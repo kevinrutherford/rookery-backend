@@ -14,7 +14,7 @@ export type Views = {
 
 export const instantiate = (queries: Queries): Views => ({
   getAbout: getAbout(),
-  getCollection: getCollection(),
+  getCollection: getCollection(queries),
   getEntry: getEntry(),
   getCollections: getCollections(queries),
 })
