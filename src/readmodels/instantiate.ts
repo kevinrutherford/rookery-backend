@@ -23,8 +23,6 @@ export const instantiate = (): Queries => {
     const event = resolvedEvent.event
     if (!event)
       return
-    console.log(event)
-    console.log(`Received event ${event.revision}@${event.streamId}`)
     const x = event as RecordedEvent<HandledEvents>
     if (x.type === 'collection-created') {
       currentState.set(x.data.id, {
