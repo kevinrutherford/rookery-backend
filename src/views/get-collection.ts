@@ -13,7 +13,11 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map((params) => params.id),
-  E.chain(queries.lookupCollection),
+  E.flatMapOption(queries.lookupCollection, (id) => ({
+    category: 'not-found' as const,
+    message: 'Collection not found',
+    evidence: { id },
+  })),
   E.map((collection) => ({
     type: 'Collection',
     data: collection,

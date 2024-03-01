@@ -1,6 +1,5 @@
-import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
 import { Collection } from './all-collections'
-import { ErrorOutcome } from '../views'
 
 export type CollectionWithEntries = {
   id: string,
@@ -21,17 +20,12 @@ export type CollectionWithEntries = {
 
 type LookupCollection = (currentState: Map<string, Collection>)
 => (collectionId: string)
-=> E.Either<ErrorOutcome, CollectionWithEntries>
+=> O.Option<CollectionWithEntries>
 
 export const lookupCollection: LookupCollection = (currentState) => (collectionId) => {
-  if (!currentState.has(collectionId)) {
-    return E.left({
-      category: 'not-found',
-      message: 'Collection not found',
-      evidence: { collectionId },
-    })
-  }
-  return E.right({
+  if (!currentState.has(collectionId))
+    return O.none
+  return O.some({
     id: 'chs',
     name: 'CHS',
     description: 'Papers under review by the CHS project',
