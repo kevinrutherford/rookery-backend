@@ -1,4 +1,4 @@
-import { createHttpServer } from '../http/create-server'
+import { createHttpServer } from '../http'
 import * as Readmodels from '../readmodels'
 import * as Views from '../views'
 
