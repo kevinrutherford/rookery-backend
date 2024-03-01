@@ -7,12 +7,20 @@ import { Views } from '../views'
 export const router = (views: Views, logger: Logger): Router => {
   const r = Router()
 
-  r.get('/ping', ping())
+  const routeHandlers = {
+    about: executeView(logger)(views.getAbout),
+    collections: executeView(logger)(views.getCollections),
+    collection: executeView(logger)(views.getCollection),
+    entry: executeView(logger)(views.getEntry),
+    ping: ping(),
+  }
 
-  r.get('/about', executeView(logger)(views.getAbout))
-  r.get('/collections', executeView(logger)(views.getCollections))
-  r.get('/collections/:id', executeView(logger)(views.getCollection))
-  r.get('/entries/:id', executeView(logger)(views.getEntry))
+  r.get('/ping', routeHandlers.ping)
+
+  r.get('/about', routeHandlers.about)
+  r.get('/collections', routeHandlers.collections)
+  r.get('/collections/:id', routeHandlers.collection)
+  r.get('/entries/:id', routeHandlers.entry)
 
   return r
 }
