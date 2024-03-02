@@ -24,7 +24,6 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
     data: {
       type: 'Collection',
       ...collection,
-      lastActivityAt: collection.lastActivityAt.toISOString(), // SMELL: duplication?
       entries: pipe(
         collection.id,
         queries.findEntries,

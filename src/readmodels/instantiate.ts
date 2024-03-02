@@ -4,15 +4,8 @@ import { DomainEvent } from './domain-event'
 import { findEntries } from './entries'
 
 const handleEvent = (state: Readmodel, event: RecordedEvent<DomainEvent>): Readmodel => {
-  if (event.type === 'collection-created') {
-    state.set(event.data.id, {
-      ...event.data,
-      papersCount: 0,
-      commentsCount: 0,
-      followersCount: 0,
-      lastActivityAt: new Date(),
-    })
-  }
+  if (event.type === 'collection-created')
+    state.set(event.data.id, event.data)
   return state
 }
 
