@@ -1,5 +1,4 @@
 import * as E from 'fp-ts/Either'
-import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { validateInput } from './validate-input'
@@ -27,10 +26,6 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
       entries: pipe(
         collection.id,
         queries.findEntries,
-        RA.map((entry) => ({
-          ...entry,
-          latestActivityAt: entry.latestActivityAt.toISOString(),
-        })),
       ),
     },
   })),
