@@ -1,4 +1,4 @@
 import { Entry } from './entry'
 
-export type Readmodel = Map<string, ReadonlyArray<Entry>>
+export type Readmodel = Map<string, Array<Entry>>
 

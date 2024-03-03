@@ -1,7 +1,7 @@
 export type Entry = {
   id: string,
   doi: string,
-  frontMatter: {
+  frontMatter?: {
     title: string,
   },
 }
