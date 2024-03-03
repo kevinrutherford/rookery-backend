@@ -1,12 +1,7 @@
-type Entry = {
-  id: string,
-  doi: string,
-  frontMatter: {
-    title: string,
-  },
-}
+import { Entry } from './entry'
+import { Readmodel } from './readmodel'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const findEntries = (collectionId: string): ReadonlyArray<Entry> => [
+export const findEntries = (currentState: Readmodel) => (collectionId: string): ReadonlyArray<Entry> => [
 ]
 

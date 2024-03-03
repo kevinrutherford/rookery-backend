@@ -1,7 +1,7 @@
 import { EventStoreDBClient, excludeSystemEvents, RecordedEvent, START } from '@eventstore/db-client'
 import * as collections from './collections'
 import { DomainEvent } from './domain-event'
-import { findEntries } from './entries'
+import * as entries from './entries'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = () => {
@@ -11,19 +11,21 @@ export const instantiate = () => {
     filter: excludeSystemEvents(),
   })
 
-  const { handleEvent, queries } = collections.instantiate()
+  const r1 = collections.instantiate()
+  const r2 = entries.instantiate()
 
   subscription.on('data', (resolvedEvent) => {
     const event = resolvedEvent.event
     if (!event)
       return
     const x = event as RecordedEvent<DomainEvent>
-    handleEvent(x)
+    r1.handleEvent(x)
+    r2.handleEvent(x)
   })
 
   return ({
-    ...queries,
-    findEntries,
+    ...r1.queries,
+    ...r2.queries,
   })
 }
 

@@ -1,2 +1,2 @@
-export { findEntries } from './find-entries'
+export { instantiate } from './instantiate'
 
