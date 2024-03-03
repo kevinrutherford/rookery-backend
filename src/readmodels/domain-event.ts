@@ -7,5 +7,13 @@ type CollectionCreatedEvent = JSONEventType<'collection-created', {
   description: string,
 }>
 
-export type DomainEvent = CollectionCreatedEvent
+type DoiEnteredEvent = JSONEventType<'doi-entered', {
+  id: string,
+  doi: string,
+  collectionId: string,
+}>
+
+export type DomainEvent =
+  | CollectionCreatedEvent
+  | DoiEnteredEvent
 
