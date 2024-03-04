@@ -7,6 +7,12 @@ type CollectionCreatedEvent = JSONEventType<'collection-created', {
   description: string,
 }>
 
+type CommentCreatedEvent = JSONEventType<'comment-created', {
+  id: string,
+  entryId: string,
+  content: string,
+}>
+
 type DoiEnteredEvent = JSONEventType<'doi-entered', {
   id: string,
   doi: string,
@@ -15,5 +21,6 @@ type DoiEnteredEvent = JSONEventType<'doi-entered', {
 
 export type DomainEvent =
   | CollectionCreatedEvent
+  | CommentCreatedEvent
   | DoiEnteredEvent
 

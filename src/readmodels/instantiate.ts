@@ -1,5 +1,6 @@
 import { EventStoreDBClient, excludeSystemEvents, RecordedEvent, START } from '@eventstore/db-client'
 import * as collections from './collections'
+import * as comments from './comments'
 import { DomainEvent } from './domain-event'
 import * as entries from './entries'
 
@@ -13,6 +14,7 @@ export const instantiate = () => {
 
   const r1 = collections.instantiate()
   const r2 = entries.instantiate()
+  const r3 = comments.instantiate()
 
   subscription.on('data', (resolvedEvent) => {
     const event = resolvedEvent.event
@@ -21,11 +23,13 @@ export const instantiate = () => {
     const x = event as RecordedEvent<DomainEvent>
     r1.handleEvent(x)
     r2.handleEvent(x)
+    r3.handleEvent(x)
   })
 
   return ({
     ...r1.queries,
     ...r2.queries,
+    ...r3.queries,
   })
 }
 
