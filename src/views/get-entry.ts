@@ -18,12 +18,10 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
     message: 'Entry not found',
     evidence: { id },
   })),
-  E.map(() => ({
+  E.map((entry) => ({
     type: 'Entry',
     data: {
-      id: '72fe90a8-38db-4635-81db-1e78501fce22',
-      title: 'A General Framework for Analyzing Sustainability of Social-Ecological Systems',
-      doi: '10.1126/science.1172133',
+      ...entry,
       comments: [
         {
           id: 'ea36343f-97b2-4908-86a5-1f5a4f623297',
