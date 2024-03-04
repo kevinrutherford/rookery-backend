@@ -3,12 +3,14 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { validateInput } from './validate-input'
 import { View } from './view'
+import { Queries } from '../readmodels'
 
 const paramsCodec = t.type({
   id: t.string,
 })
 
-export const getEntry = (): View => (input) => pipe(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getEntry = (queries: Queries): View => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map((params) => params.id),
