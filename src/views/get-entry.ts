@@ -9,11 +9,15 @@ const paramsCodec = t.type({
   id: t.string,
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getEntry = (queries: Queries): View => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map((params) => params.id),
+  E.flatMapOption(queries.lookupEntry, (id) => ({
+    category: 'not-found' as const,
+    message: 'Entry not found',
+    evidence: { id },
+  })),
   E.map(() => ({
     type: 'Entry',
     data: {

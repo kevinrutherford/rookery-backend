@@ -8,6 +8,7 @@ export const handleEvent = (state: Readmodel) => (event: RecordedEvent<DomainEve
     const current = state.byCollection.get(data.collectionId) ?? []
     current.push(data)
     state.byCollection.set(data.collectionId, current)
+    state.byEntryId.set(data.id, data)
   }
 }
 
