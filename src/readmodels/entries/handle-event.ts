@@ -5,9 +5,9 @@ import { DomainEvent } from '../domain-event'
 export const handleEvent = (state: Readmodel) => (event: RecordedEvent<DomainEvent>): void => {
   if (event.type === 'doi-entered') {
     const data = event.data
-    const current = state.get(data.collectionId) ?? []
+    const current = state.byCollection.get(data.collectionId) ?? []
     current.push(data)
-    state.set(data.collectionId, current)
+    state.byCollection.set(data.collectionId, current)
   }
 }
 

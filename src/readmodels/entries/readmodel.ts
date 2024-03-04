@@ -1,4 +1,7 @@
 import { Entry } from './entry'
 
-export type Readmodel = Map<string, Array<Entry>>
+export type Readmodel = {
+  byCollection: Map<string, Array<Entry>>,
+  byEntryId: Map<string, Entry>,
+}
 

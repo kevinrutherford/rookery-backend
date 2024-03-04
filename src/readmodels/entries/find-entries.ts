@@ -6,7 +6,7 @@ import { Entry } from './entry'
 import { Readmodel } from './readmodel'
 
 export const findEntries = (currentState: Readmodel) => (collectionId: string): ReadonlyArray<Entry> => pipe(
-  currentState,
+  currentState.byCollection,
   RM.lookup(S.Eq)(collectionId),
   O.match(
     () => [],

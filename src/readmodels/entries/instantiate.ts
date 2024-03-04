@@ -5,7 +5,10 @@ import { Readmodel } from './readmodel'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = () => {
-  const currentState: Readmodel = new Map()
+  const currentState: Readmodel = {
+    byCollection: new Map(),
+    byEntryId: new Map(),
+  }
 
   return ({
     handleEvent: handleEvent(currentState),
