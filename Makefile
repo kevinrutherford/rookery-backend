@@ -35,8 +35,8 @@ ci-test: clean $(MK_COMPILED) $(MK_LINTED)
 
 # Production build - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$(MK_IMAGE): $(SOURCES) Dockerfile node_modules
-	docker build --tag $(IMAGE) .
+$(MK_IMAGE): $(SOURCES) prod.Dockerfile node_modules
+	docker build -f prod.Dockerfile --tag $(IMAGE) .
 	@touch $@
 
 preview: $(MK_IMAGE)
