@@ -13,12 +13,15 @@ export type RouteHandlers = {
 export const router = (routeHandlers: RouteHandlers): Router => {
   const r = Router()
 
-  r.get('/ping', routeHandlers.ping)
+  const routes = [
+    { route: '/ping', handler: routeHandlers.ping },
+    { route: '/about', handler: routeHandlers.about },
+    { route: '/collections', handler: routeHandlers.collections },
+    { route: '/collections/:id', handler: routeHandlers.collection },
+    { route: '/entries/:id', handler: routeHandlers.entry },
+  ]
 
-  r.get('/about', routeHandlers.about)
-  r.get('/collections', routeHandlers.collections)
-  r.get('/collections/:id', routeHandlers.collection)
-  r.get('/entries/:id', routeHandlers.entry)
+  routes.forEach((route) => r.get(route.route, route.handler))
 
   return r
 }
