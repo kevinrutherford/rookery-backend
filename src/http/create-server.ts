@@ -10,24 +10,17 @@ import * as L from './logger'
 import { ping } from './ping'
 import { router } from './router'
 import { startServer } from './start-server'
-import { Views } from '../views'
+import { View } from '../views'
 
-export const createHttpServer = (views: Views): void => {
+export const createHttpServer = (views: ReadonlyArray<{ path: string, view: View }>): void => {
   const logger = L.create({
     emit: (s: string) => process.stdout.write(s),
     colour: process.env.NODE_ENV !== 'production',
     level: process.env.LOG_LEVEL ?? 'debug',
   })
 
-  const v = [
-    { path: '/about', view: views.getAbout },
-    { path: '/collections', view: views.getCollections },
-    { path: '/collections/:id', view: views.getCollection },
-    { path: '/entries/:id', view: views.getEntry },
-  ]
-
   const routes = pipe(
-    v,
+    views,
     RA.map((view) => ({ path: view.path, handler: executeView(logger)(view.view) })),
     RA.append({ path: '/ping', handler: ping }),
   )
