@@ -5,13 +5,6 @@ import { getEntry } from './get-entry'
 import { View } from './view'
 import { Queries } from '../readmodels'
 
-export type Views = {
-  getAbout: View,
-  getCollection: View,
-  getEntry: View,
-  getCollections: View,
-}
-
 export const instantiate = (queries: Queries): ReadonlyArray<{ path: string, view: View }> => [
   { path: '/about', view: getAbout() },
   { path: '/collections', view: getCollections(queries) },
