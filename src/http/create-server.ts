@@ -1,12 +1,14 @@
 import { createServer } from 'http'
 import cors from 'cors'
 import express, { json } from 'express'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 import helmet from 'helmet'
 import { executeView } from './execute-view'
 import { logRequest } from './log-request'
 import * as L from './logger'
 import { ping } from './ping'
-import { RouteHandlers, router } from './router'
+import { router } from './router'
 import { startServer } from './start-server'
 import { Views } from '../views'
 
@@ -17,21 +19,18 @@ export const createHttpServer = (views: Views): void => {
     level: process.env.LOG_LEVEL ?? 'debug',
   })
 
-  const routeHandlers: RouteHandlers = {
-    about: executeView(logger)(views.getAbout),
-    collections: executeView(logger)(views.getCollections),
-    collection: executeView(logger)(views.getCollection),
-    entry: executeView(logger)(views.getEntry),
-    ping,
-  }
-
-  const routes = [
-    { path: '/ping', handler: routeHandlers.ping },
-    { path: '/about', handler: routeHandlers.about },
-    { path: '/collections', handler: routeHandlers.collections },
-    { path: '/collections/:id', handler: routeHandlers.collection },
-    { path: '/entries/:id', handler: routeHandlers.entry },
+  const v = [
+    { path: '/about', view: views.getAbout },
+    { path: '/collections', view: views.getCollections },
+    { path: '/collections/:id', view: views.getCollection },
+    { path: '/entries/:id', view: views.getEntry },
   ]
+
+  const routes = pipe(
+    v,
+    RA.map((view) => ({ path: view.path, handler: executeView(logger)(view.view) })),
+    RA.append({ path: '/ping', handler: ping }),
+  )
 
   const server = createServer(express()
     .use(logRequest(logger))
