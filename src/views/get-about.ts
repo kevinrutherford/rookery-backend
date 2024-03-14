@@ -1,6 +1,6 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import { View } from './view'
+import { View } from '../http/index.open'
 
 export const getAbout = (): View => () => pipe(
   {

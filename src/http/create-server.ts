@@ -10,9 +10,9 @@ import * as L from './logger'
 import { ping } from './ping'
 import { router } from './router'
 import { startServer } from './start-server'
-import { View } from '../views'
+import { ViewPath } from './view'
 
-export const createHttpServer = (views: ReadonlyArray<{ path: string, view: View }>): void => {
+export const createHttpServer = (views: ReadonlyArray<ViewPath>): void => {
   const logger = L.create({
     emit: (s: string) => process.stdout.write(s),
     colour: process.env.NODE_ENV !== 'production',

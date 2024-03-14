@@ -4,3 +4,8 @@ import { ErrorOutcome } from './error-outcome'
 
 export type View = (input: unknown) => E.Either<ErrorOutcome, Json>
 
+export type ViewPath = {
+  path: string,
+  view: View,
+}
+
