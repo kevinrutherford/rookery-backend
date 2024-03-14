@@ -25,12 +25,20 @@ export const createHttpServer = (views: Views): void => {
     ping,
   }
 
+  const routes = [
+    { path: '/ping', handler: routeHandlers.ping },
+    { path: '/about', handler: routeHandlers.about },
+    { path: '/collections', handler: routeHandlers.collections },
+    { path: '/collections/:id', handler: routeHandlers.collection },
+    { path: '/entries/:id', handler: routeHandlers.entry },
+  ]
+
   const server = createServer(express()
     .use(logRequest(logger))
     .use(helmet())
     .use(json())
     .use(cors())
-    .use('/', router(routeHandlers)),
+    .use('/', router(routes)),
   )
   server.on('listening', (): void => logger.info('Server running'))
   server.on('close', (): void => logger.info('Server stopping'))
