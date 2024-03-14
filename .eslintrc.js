@@ -21,9 +21,6 @@ module.exports = {
   ],
   root: true,
   rules: {
-    'arrow-parens': 'off',
-    'comma-dangle': ['error', 'always-multiline'],
-    curly: ['error', 'multi-or-nest'],
     '@typescript-eslint/array-type': ['error', { default: 'generic' }],
     '@typescript-eslint/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
     '@typescript-eslint/explicit-module-boundary-types': 'error',
@@ -32,6 +29,9 @@ module.exports = {
     '@typescript-eslint/prefer-nullish-coalescing': ['error'],
     '@typescript-eslint/promise-function-async': ['error'],
     '@typescript-eslint/semi': ['error', 'never'],
+    'arrow-parens': 'off',
+    'comma-dangle': ['error', 'always-multiline'],
+    curly: ['error', 'multi-or-nest'],
     'fp-ts/no-module-imports': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['src/**/*.spec.*'] }],
     'import/no-useless-path-segments': ['error', {
