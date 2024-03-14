@@ -12,9 +12,9 @@ export type Views = {
   getCollections: View,
 }
 
-export const instantiate = (queries: Queries): Views => ({
-  getAbout: getAbout(),
-  getCollection: getCollection(queries),
-  getEntry: getEntry(queries),
-  getCollections: getCollections(queries),
-})
+export const instantiate = (queries: Queries): ReadonlyArray<{ path: string, view: View }> => [
+  { path: '/about', view: getAbout() },
+  { path: '/collections', view: getCollections(queries) },
+  { path: '/collections/:id', view: getCollection(queries) },
+  { path: '/entries/:id', view: getEntry(queries) },
+]
