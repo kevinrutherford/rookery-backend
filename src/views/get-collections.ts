@@ -1,4 +1,4 @@
-import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { View } from '../http/index.open'
 import { Queries } from '../readmodels'
@@ -9,6 +9,6 @@ export const getCollections = (queries: Queries): View => () => pipe(
     type: 'Collections',
     data: collections,
   }),
-  E.right,
+  TE.right,
 )
 

@@ -1,9 +1,8 @@
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
 import { View } from '../http/index.open'
 
-export const getLocalTimeline = (): View => () => pipe(
-  {
+export const getLocalTimeline = (): View => () => {
+  return TE.right({
     type: 'Timeline',
     data: [
       {
@@ -49,7 +48,6 @@ export const getLocalTimeline = (): View => () => pipe(
         content: 'Papers being considered for the bibliography of project CHS.',
       },
     ],
-  },
-  E.right,
-)
+  })
+}
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ErrorOutcome } from './error-outcome'
@@ -19,21 +19,21 @@ const errorToStatus = (code: ErrorOutcome): number => {
 
 type ExecuteView = (logger: Logger) => (view: View) => (req: Request, res: Response) => void
 
-export const executeView: ExecuteView = (logger) => (view) => (req, res) => {
-  pipe(
+export const executeView: ExecuteView = (logger) => (view) => async (req, res) => {
+  await pipe(
     {
       ...req.params,
       ...req.body,
       ...req.query,
     },
     view,
-    E.match(
+    TE.match(
       (error) => {
         logger.debug(error.message, error.evidence)
         res.status(errorToStatus(error)).send()
       },
       (resource) => res.status(StatusCodes.OK).send(resource),
     ),
-  )
+  )()
 }
 

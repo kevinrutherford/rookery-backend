@@ -1,4 +1,5 @@
 import * as E from 'fp-ts/Either'
+import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { validateInput } from './validate-input'
@@ -29,5 +30,6 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
       ),
     },
   })),
+  T.of,
 )
 
