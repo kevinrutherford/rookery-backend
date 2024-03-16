@@ -25,6 +25,6 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => [
   },
   {
     path: '/timelines/local',
-    view: getLocalTimeline(),
+    view: getLocalTimeline(queries),
   },
 ]
