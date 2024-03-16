@@ -9,7 +9,7 @@ import { Queries } from '../readmodels'
 import { DomainEvent } from '../readmodels/domain-event'
 import { TimelineEvent } from '../readmodels/local-timeline/timeline-event'
 
-const toTimelineEvent = (event: DomainEvent): E.Either<ErrorOutcome, TimelineEvent> => {
+const toTimelineEvent = (queries: Queries) => (event: DomainEvent): E.Either<ErrorOutcome, TimelineEvent> => {
   switch (event.type) {
     case 'collection-created':
       return E.right({
@@ -19,12 +19,21 @@ const toTimelineEvent = (event: DomainEvent): E.Either<ErrorOutcome, TimelineEve
         timestamp: event.created,
       })
     case 'doi-entered':
-      return E.right({
-        userHandle: 'you',
-        action: `added a paper to collection ${event.data.collectionId}`,
-        content: event.data.doi,
-        timestamp: event.created,
-      })
+      return pipe(
+        event.data.collectionId,
+        queries.lookupCollection,
+        E.fromOption(() => ({
+          category: 'not-found' as const,
+          message: 'Should not happen: collection not found',
+          evidence: { event },
+        })),
+        E.map((collection) => ({
+          userHandle: 'you',
+          action: `added a paper to collection ${collection.name}`,
+          content: event.data.doi,
+          timestamp: event.created,
+        })),
+      )
     case 'comment-created':
       return E.right({
         userHandle: 'you',
@@ -50,7 +59,7 @@ export const getLocalTimeline = (queries: Queries): View => () => {
     type: 'Timeline',
     data: pipe(
       queries.getLocalTimeline(),
-      RA.map(toTimelineEvent),
+      RA.map(toTimelineEvent(queries)),
       RA.rights,
       RA.sort(byDateDescending),
       RA.map((item) => ({
