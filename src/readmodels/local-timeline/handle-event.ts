@@ -9,7 +9,7 @@ export const handleEvent = (state: Readmodel) => (event: RecordedEvent<DomainEve
         userHandle: 'you',
         action: `created collection ${event.data.name}`,
         content: '',
-        timestamp: event.created.toISOString(),
+        timestamp: event.created,
       })
       return
     case 'doi-entered':
@@ -17,7 +17,7 @@ export const handleEvent = (state: Readmodel) => (event: RecordedEvent<DomainEve
         userHandle: 'you',
         action: `added a paper to collection ${event.data.collectionId}`,
         content: event.data.doi,
-        timestamp: event.created.toISOString(),
+        timestamp: event.created,
       })
       return
     case 'comment-created':
@@ -25,7 +25,7 @@ export const handleEvent = (state: Readmodel) => (event: RecordedEvent<DomainEve
         userHandle: 'you',
         action: 'commented',
         content: event.data.content,
-        timestamp: event.created.toISOString(),
+        timestamp: event.created,
       })
       return
   }
