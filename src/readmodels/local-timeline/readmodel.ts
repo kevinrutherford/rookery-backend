@@ -1,4 +1,4 @@
 import { TimelineEvent } from './timeline-event'
 
-export type Readmodel = ReadonlyArray<TimelineEvent>
+export type Readmodel = Array<TimelineEvent>
 
