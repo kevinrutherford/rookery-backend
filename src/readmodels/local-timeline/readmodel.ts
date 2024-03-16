@@ -1,4 +1,4 @@
-import { TimelineEvent } from './timeline-event'
+import { DomainEvent } from '../domain-event'
 
-export type Readmodel = Array<TimelineEvent>
+export type Readmodel = Array<DomainEvent>
 

@@ -4,6 +4,33 @@ import * as Ord from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 import { Readmodel } from './readmodel'
 import { TimelineEvent } from './timeline-event'
+import { DomainEvent } from '../domain-event'
+
+const toTimelineEvent = (event: DomainEvent): TimelineEvent => {
+  switch (event.type) {
+    case 'collection-created':
+      return {
+        userHandle: 'you',
+        action: `created collection ${event.data.name}`,
+        content: '',
+        timestamp: event.created,
+      }
+    case 'doi-entered':
+      return {
+        userHandle: 'you',
+        action: `added a paper to collection ${event.data.collectionId}`,
+        content: event.data.doi,
+        timestamp: event.created,
+      }
+    case 'comment-created':
+      return {
+        userHandle: 'you',
+        action: 'commented',
+        content: event.data.content,
+        timestamp: event.created,
+      }
+  }
+}
 
 const byDate: Ord.Ord<TimelineEvent> = pipe(
   D.Ord,
@@ -26,6 +53,7 @@ type GetLocalTimeline = (currentState: Readmodel)
 
 export const getLocalTimeline: GetLocalTimeline = (currentState) => () => pipe(
   currentState,
+  A.map(toTimelineEvent),
   A.sort(byDateDescending),
   A.map((item) => ({
     ...item,
