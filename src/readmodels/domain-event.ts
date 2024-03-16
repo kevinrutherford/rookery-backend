@@ -1,4 +1,4 @@
-import { JSONEventType } from '@eventstore/db-client'
+import { JSONEventType, RecordedEvent } from '@eventstore/db-client'
 
 type CollectionCreatedEvent = JSONEventType<'collection-created', {
   id: string,
@@ -20,7 +20,7 @@ type DoiEnteredEvent = JSONEventType<'doi-entered', {
 }>
 
 export type DomainEvent =
-  | CollectionCreatedEvent
-  | CommentCreatedEvent
-  | DoiEnteredEvent
+  | RecordedEvent<CollectionCreatedEvent>
+  | RecordedEvent<CommentCreatedEvent>
+  | RecordedEvent<DoiEnteredEvent>
 

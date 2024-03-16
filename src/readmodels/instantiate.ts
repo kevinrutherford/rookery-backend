@@ -1,4 +1,4 @@
-import { EventStoreDBClient, excludeSystemEvents, RecordedEvent, START } from '@eventstore/db-client'
+import { EventStoreDBClient, excludeSystemEvents, START } from '@eventstore/db-client'
 import * as collections from './collections'
 import * as comments from './comments'
 import { DomainEvent } from './domain-event'
@@ -22,7 +22,7 @@ export const instantiate = () => {
     const event = resolvedEvent.event
     if (!event)
       return
-    const x = event as RecordedEvent<DomainEvent>
+    const x = event as DomainEvent
     r1.handleEvent(x)
     r2.handleEvent(x)
     r3.handleEvent(x)
