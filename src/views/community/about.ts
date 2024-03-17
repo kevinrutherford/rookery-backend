@@ -1,6 +1,6 @@
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
-import { View } from '../http/index.open'
+import { View } from '../../http/index.open'
 
 export const getAbout = (): View => () => pipe(
   {

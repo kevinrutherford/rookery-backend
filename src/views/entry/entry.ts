@@ -2,9 +2,9 @@ import * as E from 'fp-ts/Either'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
-import { validateInput } from './validate-input'
-import { View } from '../http/index.open'
-import { Queries } from '../readmodels'
+import { View } from '../../http/index.open'
+import { Queries } from '../../readmodels'
+import { validateInput } from '../validate-input'
 
 const paramsCodec = t.type({
   id: t.string,

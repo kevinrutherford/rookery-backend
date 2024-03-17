@@ -1,8 +1,8 @@
-import { getAbout } from './get-about'
-import { getCollection } from './get-collection'
-import { getCollections } from './get-collections'
-import { getEntry } from './get-entry'
-import { getLocalTimeline } from './get-local-timeline'
+import { getCollection } from './collection/collection'
+import { getCollections } from './collection/collections'
+import { getAbout } from './community/about'
+import { getEntry } from './entry/entry'
+import { getLocalTimeline } from './timeline/local'
 import { ViewPath } from '../http/index.open'
 import { Queries } from '../readmodels'
 

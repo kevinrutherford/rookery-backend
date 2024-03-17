@@ -4,10 +4,10 @@ import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
-import { ErrorOutcome, View } from '../http/index.open'
-import { Queries } from '../readmodels'
-import { DomainEvent } from '../readmodels/domain-event'
-import { TimelineEvent } from '../readmodels/local-timeline/timeline-event'
+import { ErrorOutcome, View } from '../../http/index.open'
+import { Queries } from '../../readmodels'
+import { DomainEvent } from '../../readmodels/domain-event'
+import { TimelineEvent } from '../../readmodels/local-timeline/timeline-event'
 
 const toTimelineEvent = (queries: Queries) => (event: DomainEvent): E.Either<ErrorOutcome, TimelineEvent> => {
   switch (event.type) {
