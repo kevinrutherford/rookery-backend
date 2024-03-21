@@ -4,26 +4,16 @@ import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
+import { renderCollectionCreated } from './render-collection-created'
+import { TimelineParagraph } from './timeline-paragraph'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { DomainEvent } from '../../readmodels/domain-event'
 
-type TimelineParagraph = {
-  userHandle: string,
-  timestamp: Date,
-  action: string,
-  content: string,
-}
-
 const toTimelineParagraph = (queries: Queries) => (event: DomainEvent): E.Either<ErrorOutcome, TimelineParagraph> => {
   switch (event.type) {
     case 'collection-created':
-      return E.right({
-        userHandle: 'you',
-        action: `created collection ${event.data.name}`,
-        content: '',
-        timestamp: event.created,
-      })
+      return renderCollectionCreated(event)
     case 'doi-entered':
       return pipe(
         event.data.collectionId,
