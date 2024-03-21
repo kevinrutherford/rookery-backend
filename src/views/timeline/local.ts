@@ -7,9 +7,15 @@ import { pipe } from 'fp-ts/function'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { DomainEvent } from '../../readmodels/domain-event'
-import { TimelineEvent } from '../../readmodels/local-timeline/timeline-event'
 
-const toTimelineEvent = (queries: Queries) => (event: DomainEvent): E.Either<ErrorOutcome, TimelineEvent> => {
+type TimelineParagraph = {
+  userHandle: string,
+  timestamp: Date,
+  action: string,
+  content: string,
+}
+
+const toTimelineParagraph = (queries: Queries) => (event: DomainEvent): E.Either<ErrorOutcome, TimelineParagraph> => {
   switch (event.type) {
     case 'collection-created':
       return E.right({
@@ -50,12 +56,12 @@ const toTimelineEvent = (queries: Queries) => (event: DomainEvent): E.Either<Err
   }
 }
 
-const byDate: Ord.Ord<TimelineEvent> = pipe(
+const byDate: Ord.Ord<TimelineParagraph> = pipe(
   D.Ord,
   Ord.contramap((event) => event.timestamp),
 )
 
-const byDateDescending: Ord.Ord<TimelineEvent> = pipe(
+const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
   byDate,
   Ord.reverse,
 )
@@ -65,7 +71,7 @@ export const getLocalTimeline = (queries: Queries): View => () => {
     type: 'Timeline',
     data: pipe(
       queries.getLocalTimeline(),
-      RA.map(toTimelineEvent(queries)),
+      RA.map(toTimelineParagraph(queries)),
       RA.rights,
       RA.sort(byDateDescending),
       RA.map((item) => ({
