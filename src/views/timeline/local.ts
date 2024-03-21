@@ -41,6 +41,12 @@ const toTimelineEvent = (queries: Queries) => (event: DomainEvent): E.Either<Err
         content: event.data.content,
         timestamp: event.created,
       })
+    default:
+      return E.left({
+        category: 'bad-input',
+        message: 'unknown event type',
+        evidence: { event },
+      })
   }
 }
 

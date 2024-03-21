@@ -29,6 +29,7 @@ module.exports = {
     '@typescript-eslint/prefer-nullish-coalescing': ['error'],
     '@typescript-eslint/promise-function-async': ['error'],
     '@typescript-eslint/semi': ['error', 'never'],
+    '@typescript-eslint/switch-exhaustiveness-check': 'error',
     'arrow-parens': 'off',
     'comma-dangle': ['error', 'always-multiline'],
     curly: ['error', 'multi-or-nest'],
