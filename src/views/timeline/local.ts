@@ -5,6 +5,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderCollectionCreated } from './render-collection-created'
+import { renderCommentCreated } from './render-comment-created'
 import { renderDoiEntered } from './render-doi-entered'
 import { TimelineParagraph } from './timeline-paragraph'
 import { ErrorOutcome, View } from '../../http/index.open'
@@ -18,12 +19,7 @@ const toTimelineParagraph = (queries: Queries) => (event: DomainEvent): E.Either
     case 'doi-entered':
       return renderDoiEntered(queries)(event)
     case 'comment-created':
-      return E.right({
-        userHandle: 'you',
-        action: 'commented',
-        content: event.data.content,
-        timestamp: event.created,
-      })
+      return renderCommentCreated(event)
     default:
       return E.left({
         category: 'bad-input',
