@@ -4,6 +4,7 @@ import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
+import { ParagraphRenderer } from './paragraph-renderer'
 import { renderCollectionCreated } from './render-collection-created'
 import { renderCommentCreated } from './render-comment-created'
 import { renderDoiEntered } from './render-doi-entered'
@@ -39,7 +40,8 @@ const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Queries): View => () => pipe(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getLocalTimeline = (queries: Queries, renderers: Map<string, ParagraphRenderer>): View => () => pipe(
   queries.getLocalTimeline(),
   RA.map(toTimelineParagraph(queries)),
   RA.rights,

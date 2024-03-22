@@ -4,10 +4,18 @@ import { getAbout } from './community/about'
 import { getEntries } from './entry/entries'
 import { getEntry } from './entry/entry'
 import { getLocalTimeline } from './timeline/local'
+import { renderCollectionCreated } from './timeline/render-collection-created'
+import { renderCommentCreated } from './timeline/render-comment-created'
+import { renderDoiEntered } from './timeline/render-doi-entered'
 import { ViewPath } from '../http/index.open'
 import { Queries } from '../readmodels'
 
 export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
+  const renderers = new Map([
+    ['collection-created', renderCollectionCreated],
+    ['doi-entered', renderDoiEntered(queries)],
+    ['comment-created', renderCommentCreated],
+  ])
   return [
     {
       path: '/about',
@@ -31,7 +39,7 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
     },
     {
       path: '/timelines/local',
-      view: getLocalTimeline(queries),
+      view: getLocalTimeline(queries, renderers),
     },
   ]
 }
