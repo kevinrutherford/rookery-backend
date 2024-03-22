@@ -7,29 +7,31 @@ import { getLocalTimeline } from './timeline/local'
 import { ViewPath } from '../http/index.open'
 import { Queries } from '../readmodels'
 
-export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => [
-  {
-    path: '/about',
-    view: getAbout(),
-  },
-  {
-    path: '/collections',
-    view: getCollections(queries),
-  },
-  {
-    path: '/collections/:id',
-    view: getCollection(queries),
-  },
-  {
-    path: '/entries',
-    view: getEntries(queries),
-  },
-  {
-    path: '/entries/:id',
-    view: getEntry(queries),
-  },
-  {
-    path: '/timelines/local',
-    view: getLocalTimeline(queries),
-  },
-]
+export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
+  return [
+    {
+      path: '/about',
+      view: getAbout(),
+    },
+    {
+      path: '/collections',
+      view: getCollections(queries),
+    },
+    {
+      path: '/collections/:id',
+      view: getCollection(queries),
+    },
+    {
+      path: '/entries',
+      view: getEntries(queries),
+    },
+    {
+      path: '/entries/:id',
+      view: getEntry(queries),
+    },
+    {
+      path: '/timelines/local',
+      view: getLocalTimeline(queries),
+    },
+  ]
+}

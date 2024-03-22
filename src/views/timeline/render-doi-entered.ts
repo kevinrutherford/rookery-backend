@@ -2,17 +2,14 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { formatValidationErrors } from 'io-ts-reporters'
-import { TimelineParagraph } from './timeline-paragraph'
+import { ParagraphRenderer } from './paragraph-renderer'
 import { ErrorOutcome } from '../../http/index.open'
 import { Queries } from '../../readmodels'
-import { DomainEvent } from '../../readmodels/domain-event'
 
 const DoiEntered = t.type({
   collectionId: t.string,
   doi: t.string,
 })
-
-type ParagraphRenderer = (event: DomainEvent) => E.Either<ErrorOutcome, TimelineParagraph>
 
 export const renderDoiEntered = (queries: Queries): ParagraphRenderer => (event) => pipe(
   event.data,

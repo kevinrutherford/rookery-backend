@@ -2,15 +2,13 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { formatValidationErrors } from 'io-ts-reporters'
-import { TimelineParagraph } from './timeline-paragraph'
-import { ErrorOutcome } from '../../http/index.open'
-import { DomainEvent } from '../../readmodels/domain-event'
+import { ParagraphRenderer } from './paragraph-renderer'
 
 const CollectionCreated = t.type({
   name: t.string,
 })
 
-export const renderCollectionCreated = (event: DomainEvent): E.Either<ErrorOutcome, TimelineParagraph> => pipe(
+export const renderCollectionCreated: ParagraphRenderer = (event) => pipe(
   event.data,
   CollectionCreated.decode,
   E.bimap(
