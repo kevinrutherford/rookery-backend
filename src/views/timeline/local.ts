@@ -5,6 +5,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderCollectionCreated } from './render-collection-created'
+import { renderDoiEntered } from './render-doi-entered'
 import { TimelineParagraph } from './timeline-paragraph'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
@@ -15,21 +16,7 @@ const toTimelineParagraph = (queries: Queries) => (event: DomainEvent): E.Either
     case 'collection-created':
       return renderCollectionCreated(event)
     case 'doi-entered':
-      return pipe(
-        event.data.collectionId,
-        queries.lookupCollection,
-        E.fromOption(() => ({
-          category: 'not-found' as const,
-          message: 'Should not happen: collection not found',
-          evidence: { event },
-        })),
-        E.map((collection) => ({
-          userHandle: 'you',
-          action: `added a paper to collection ${collection.name}`,
-          content: event.data.doi,
-          timestamp: event.created,
-        })),
-      )
+      return renderDoiEntered(queries)(event)
     case 'comment-created':
       return E.right({
         userHandle: 'you',
