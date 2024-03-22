@@ -21,12 +21,6 @@ const toTimelineParagraph = (queries: Queries) => (event: DomainEvent): E.Either
       return renderDoiEntered(queries)(event)
     case 'comment-created':
       return renderCommentCreated(event)
-    default:
-      return E.left({
-        category: 'bad-input',
-        message: 'unknown event type',
-        evidence: { event },
-      })
   }
 }
 
@@ -40,9 +34,9 @@ const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
   Ord.reverse,
 )
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getLocalTimeline = (queries: Queries, renderers: Map<string, ParagraphRenderer>): View => () => pipe(
   queries.getLocalTimeline(),
+  RA.filter((para) => renderers.has(para.type)),
   RA.map(toTimelineParagraph(queries)),
   RA.rights,
   RA.sort(byDateDescending),
