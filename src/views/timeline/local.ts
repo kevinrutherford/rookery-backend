@@ -39,19 +39,18 @@ const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Queries): View => () => {
-  return TE.right({
+export const getLocalTimeline = (queries: Queries): View => () => pipe(
+  queries.getLocalTimeline(),
+  RA.map(toTimelineParagraph(queries)),
+  RA.rights,
+  RA.sort(byDateDescending),
+  RA.map((item) => ({
+    ...item,
+    timestamp: item.timestamp.toISOString(),
+  })),
+  (paragraphs) => TE.right({
     type: 'Timeline',
-    data: pipe(
-      queries.getLocalTimeline(),
-      RA.map(toTimelineParagraph(queries)),
-      RA.rights,
-      RA.sort(byDateDescending),
-      RA.map((item) => ({
-        ...item,
-        timestamp: item.timestamp.toISOString(),
-      })),
-    ),
-  })
-}
+    data: paragraphs,
+  }),
+)
 
