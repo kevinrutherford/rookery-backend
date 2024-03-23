@@ -4,23 +4,43 @@ import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
-import { ParagraphRenderer } from './paragraph-renderer'
-import { renderCollectionCreated } from './render-collection-created'
-import { renderCommentCreated } from './render-comment-created'
-import { renderDoiEntered } from './render-doi-entered'
 import { TimelineParagraph } from './timeline-paragraph'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
-import { DomainEvent } from '../../readmodels/domain-event'
+import { TimelineEvent } from '../../readmodels/local-timeline/readmodel'
 
-const toTimelineParagraph = (queries: Queries) => (event: DomainEvent): E.Either<ErrorOutcome, TimelineParagraph> => {
+const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): E.Either<ErrorOutcome, TimelineParagraph> => {
   switch (event.type) {
     case 'collection-created':
-      return renderCollectionCreated(event)
+      return E.right({
+        userHandle: 'you',
+        action: `created collection ${event.data.name}`,
+        content: '',
+        timestamp: event.created,
+      })
     case 'doi-entered':
-      return renderDoiEntered(queries)(event)
+      return pipe(
+        event.data.collectionId,
+        queries.lookupCollection,
+        E.fromOption(() => ({
+          category: 'not-found',
+          message: 'Should not happen: collection not found',
+          evidence: { event },
+        }) as ErrorOutcome),
+        E.map((collection) => ({
+          userHandle: 'you',
+          action: `added a paper to collection ${collection.name}`,
+          content: event.data.doi,
+          timestamp: event.created,
+        })),
+      )
     case 'comment-created':
-      return renderCommentCreated(event)
+      return E.right({
+        userHandle: 'you',
+        action: 'commented',
+        content: event.data.content,
+        timestamp: event.created,
+      })
   }
 }
 
@@ -34,9 +54,8 @@ const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Queries, renderers: Map<string, ParagraphRenderer>): View => () => pipe(
+export const getLocalTimeline = (queries: Queries): View => () => pipe(
   queries.getLocalTimeline(),
-  RA.filter((para) => renderers.has(para.type)),
   RA.map(toTimelineParagraph(queries)),
   RA.rights,
   RA.sort(byDateDescending),
