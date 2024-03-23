@@ -19,8 +19,18 @@ type DoiEnteredEvent = JSONEventType<'doi-entered', {
   collectionId: string,
 }>
 
+type FrontMatterAdded = JSONEventType<'front-matter-added', {
+  entryId: string,
+  frontMatter: {
+    title: string,
+    abstract: string,
+    authors: ReadonlyArray<string>,
+  },
+}>
+
 export type DomainEvent =
   | RecordedEvent<CollectionCreatedEvent>
   | RecordedEvent<CommentCreatedEvent>
   | RecordedEvent<DoiEnteredEvent>
+  | RecordedEvent<FrontMatterAdded>
 
