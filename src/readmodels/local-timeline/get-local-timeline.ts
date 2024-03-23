@@ -1,4 +1,4 @@
-import { Readmodel } from './readmodel'
+import { Readmodel, TimelineEvent } from './readmodel'
 
-export const getLocalTimeline = (currentState: Readmodel) => (): Readmodel => currentState
+export const getLocalTimeline = (currentState: Readmodel) => (): ReadonlyArray<TimelineEvent> => currentState
 

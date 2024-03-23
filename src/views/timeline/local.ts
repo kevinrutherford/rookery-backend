@@ -7,7 +7,8 @@ import { pipe } from 'fp-ts/function'
 import { TimelineParagraph } from './timeline-paragraph'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
-import { TimelineEvent } from '../../readmodels/local-timeline/readmodel'
+
+type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
 
 const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): E.Either<ErrorOutcome, TimelineParagraph> => {
   switch (event.type) {
