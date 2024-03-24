@@ -1,3 +1,4 @@
+import { sequenceS } from 'fp-ts/Apply'
 import * as D from 'fp-ts/Date'
 import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
@@ -21,12 +22,15 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Opti
       })
     case 'doi-entered':
       return pipe(
-        event.data.collectionId,
-        queries.lookupCollection,
-        O.map((collection) => ({
+        {
+          collection: queries.lookupCollection(event.data.collectionId),
+          entry: queries.lookupEntry(event.data.id),
+        },
+        sequenceS(O.Apply),
+        O.map(({ collection, entry }) => ({
           userHandle: 'you',
           action: `added a paper to collection ${collection.name}`,
-          content: event.data.doi,
+          content: entry.frontMatter ? entry.frontMatter.title : event.data.doi,
           timestamp: event.created,
         })),
       )
