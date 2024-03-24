@@ -1,19 +1,19 @@
 import * as D from 'fp-ts/Date'
-import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { TimelineParagraph } from './timeline-paragraph'
-import { ErrorOutcome, View } from '../../http/index.open'
+import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 
 type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
 
-const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): E.Either<ErrorOutcome, TimelineParagraph> => {
+const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Option<TimelineParagraph> => {
   switch (event.type) {
     case 'collection-created':
-      return E.right({
+      return O.some({
         userHandle: 'you',
         action: `created collection ${event.data.name}`,
         content: '',
@@ -23,12 +23,7 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): E.Eith
       return pipe(
         event.data.collectionId,
         queries.lookupCollection,
-        E.fromOption(() => ({
-          category: 'not-found',
-          message: 'Should not happen: collection not found',
-          evidence: { event },
-        }) as ErrorOutcome),
-        E.map((collection) => ({
+        O.map((collection) => ({
           userHandle: 'you',
           action: `added a paper to collection ${collection.name}`,
           content: event.data.doi,
@@ -36,7 +31,7 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): E.Eith
         })),
       )
     case 'comment-created':
-      return E.right({
+      return O.some({
         userHandle: 'you',
         action: 'commented',
         content: event.data.content,
@@ -58,7 +53,7 @@ const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
 export const getLocalTimeline = (queries: Queries): View => () => pipe(
   queries.getLocalTimeline(),
   RA.map(toTimelineParagraph(queries)),
-  RA.rights,
+  RA.compact,
   RA.sort(byDateDescending),
   RA.map((item) => ({
     ...item,
