@@ -64,7 +64,6 @@ export const getLocalTimeline = (queries: Queries): View => () => pipe(
     timestamp: item.timestamp.toISOString(),
   })),
   (paragraphs) => TE.right({
-    type: 'Timeline',
     data: paragraphs,
   }),
 )

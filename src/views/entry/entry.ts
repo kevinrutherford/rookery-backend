@@ -28,7 +28,7 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
       relationships: {
         collection: {
           type: 'collection',
-          id: 'unknown',
+          id: entry.collectionId,
         },
         work: {
           type: 'work',
