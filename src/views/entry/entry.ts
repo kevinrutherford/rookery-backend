@@ -20,10 +20,21 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
     evidence: { id },
   })),
   E.map((entry) => ({
-    type: 'Entry',
     data: {
-      ...entry,
+      type: 'entry',
+      id: entry.id,
+      attributes: {},
       comments: queries.findComments(entry.id),
+      relationships: {
+        collection: {
+          type: 'collection',
+          id: 'unknown',
+        },
+        work: {
+          type: 'work',
+          id: entry.doi,
+        },
+      },
     },
   })),
   T.of,
