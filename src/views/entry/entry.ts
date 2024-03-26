@@ -23,7 +23,9 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
     data: {
       type: 'entry',
       id: entry.id,
-      attributes: {},
+      attributes: {
+        addedAt: entry.addedAt.toISOString(),
+      },
       comments: queries.findComments(entry.id),
       relationships: {
         collection: {

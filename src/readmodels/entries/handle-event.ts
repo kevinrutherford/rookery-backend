@@ -5,10 +5,14 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
   switch (event.type) {
     case 'doi-entered':
       const data = event.data
+      const entry = {
+        ...data,
+        addedAt: event.created,
+      }
       const current = state.byCollection.get(data.collectionId) ?? []
-      current.push(data)
+      current.push(entry)
       state.byCollection.set(data.collectionId, current)
-      state.byEntryId.set(data.id, data)
+      state.byEntryId.set(data.id, entry)
       return
     case 'front-matter-added':
       const payload = event.data
