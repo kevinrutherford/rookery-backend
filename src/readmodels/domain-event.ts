@@ -15,7 +15,7 @@ type CommentCreatedEvent = JSONEventType<'comment-created', {
 
 type DoiEnteredEvent = JSONEventType<'doi-entered', {
   id: string,
-  doi: string,
+  workId: string,
   collectionId: string,
 }>
 

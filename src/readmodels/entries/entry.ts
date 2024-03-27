@@ -1,6 +1,6 @@
 export type Entry = {
   id: string,
-  doi: string,
+  workId: string,
   collectionId: string,
   addedAt: Date,
   frontMatter?: {

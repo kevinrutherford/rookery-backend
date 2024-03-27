@@ -14,7 +14,7 @@ export const renderEntry = (entry: Entry) => ({
     },
     work: {
       type: 'work',
-      id: entry.doi,
+      id: entry.workId,
     },
   },
 })

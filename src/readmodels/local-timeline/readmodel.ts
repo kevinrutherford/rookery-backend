@@ -24,7 +24,7 @@ type DoiEntered = {
   created: Date,
   data: {
     id: string,
-    doi: string,
+    workId: string,
     collectionId: string,
   },
 }
