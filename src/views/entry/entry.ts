@@ -1,10 +1,26 @@
 import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { validateInput } from '../validate-input'
+
+const renderCollectionResource = (queries: Queries) => (id: string) => pipe(
+  id,
+  queries.lookupCollection,
+  O.map((collection) => ({
+    type: 'collection',
+    id: collection.id,
+    attributes: {
+      description: collection.description,
+      handle: collection.handle,
+      name: collection.name,
+    },
+  })),
+)
 
 const paramsCodec = t.type({
   id: t.string,
@@ -38,6 +54,10 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
         },
       },
     },
+    included: pipe(
+      [renderCollectionResource(queries)(entry.collectionId)],
+      RA.compact,
+    ),
   })),
   T.of,
 )

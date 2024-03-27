@@ -1,4 +1,5 @@
 import * as E from 'fp-ts/Either'
+import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
@@ -27,6 +28,13 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
       entries: pipe(
         collection.id,
         queries.findEntries,
+        RA.map((entry) => ({
+          type: 'entry',
+          id: entry.id,
+          attributes: {
+            addedAt: entry.addedAt.toISOString(),
+          },
+        })),
       ),
     },
   })),
