@@ -4,6 +4,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
+import { renderEntry } from './render-entry'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { validateInput } from '../validate-input'
@@ -37,22 +38,8 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
   })),
   E.map((entry) => ({
     data: {
-      type: 'entry',
-      id: entry.id,
-      attributes: {
-        addedAt: entry.addedAt.toISOString(),
-      },
+      ...renderEntry(entry),
       comments: queries.findComments(entry.id),
-      relationships: {
-        collection: {
-          type: 'collection',
-          id: entry.collectionId,
-        },
-        work: {
-          type: 'work',
-          id: entry.doi,
-        },
-      },
     },
     included: pipe(
       [renderCollectionResource(queries)(entry.collectionId)],

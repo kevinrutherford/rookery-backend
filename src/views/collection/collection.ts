@@ -5,6 +5,7 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
+import { renderEntry } from '../entry/render-entry'
 import { validateInput } from '../validate-input'
 
 const paramsCodec = t.type({
@@ -28,13 +29,7 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
       entries: pipe(
         collection.id,
         queries.findEntries,
-        RA.map((entry) => ({
-          type: 'entry',
-          id: entry.id,
-          attributes: {
-            addedAt: entry.addedAt.toISOString(),
-          },
-        })),
+        RA.map(renderEntry),
       ),
     },
   })),
