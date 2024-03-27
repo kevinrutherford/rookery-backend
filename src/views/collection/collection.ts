@@ -3,6 +3,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
+import { renderCollection } from './render-collection'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { renderEntry } from '../entry/render-entry'
@@ -22,10 +23,8 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
     evidence: { id },
   })),
   E.map((collection) => ({
-    type: 'Collection',
     data: {
-      type: 'Collection',
-      ...collection,
+      ...renderCollection(collection),
       entries: pipe(
         collection.id,
         queries.findEntries,

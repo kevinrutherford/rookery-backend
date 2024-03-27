@@ -7,21 +7,8 @@ import * as t from 'io-ts'
 import { renderEntry } from './render-entry'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
+import { renderCollection } from '../collection/render-collection'
 import { validateInput } from '../validate-input'
-
-const renderCollectionResource = (queries: Queries) => (id: string) => pipe(
-  id,
-  queries.lookupCollection,
-  O.map((collection) => ({
-    type: 'collection',
-    id: collection.id,
-    attributes: {
-      description: collection.description,
-      handle: collection.handle,
-      name: collection.name,
-    },
-  })),
-)
 
 const paramsCodec = t.type({
   id: t.string,
@@ -42,7 +29,13 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
       comments: queries.findComments(entry.id),
     },
     included: pipe(
-      [renderCollectionResource(queries)(entry.collectionId)],
+      [
+        pipe(
+          entry.collectionId,
+          queries.lookupCollection,
+          O.map(renderCollection),
+        ),
+      ],
       RA.compact,
     ),
   })),
