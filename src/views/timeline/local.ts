@@ -30,7 +30,7 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Opti
         O.map(({ collection, entry }) => ({
           userHandle: 'you',
           action: `added a paper to collection ${collection.name}`,
-          content: entry.frontMatter ? entry.frontMatter.title : event.data.doi,
+          content: entry.frontMatter ? entry.frontMatter.title : event.data.workId,
           timestamp: event.created,
         })),
       )
