@@ -11,15 +11,26 @@ import { Queries } from '../../readmodels'
 import { renderCollection } from '../collection/render-collection'
 import { validateInput } from '../validate-input'
 
-const csv = new t.Type<Array<string>, string, unknown>(
+const includes = t.union([
+  t.literal('collection'),
+  t.literal('comments'),
+  t.literal('work'),
+])
+
+type Includes = t.TypeOf<typeof includes>
+
+const csv = new t.Type<ReadonlyArray<Includes>, string, unknown>(
   'CommaSeparatedValueCodec',
-  (input): input is Array<string> =>
-    Array.isArray(input) && input.every((value) => typeof value === 'string'),
+  (input): input is Array<Includes> => (
+    Array.isArray(input)
+    && input.every((value) => typeof value === 'string' && includes.is(value))
+  ),
   (input, context) => pipe(
     t.string.validate(input, context),
-    E.chain((str) => t.success(str.split(','))),
+    E.map((str) => str.split(',')),
+    E.chain(E.traverseArray((v) => includes.validate(v, context))),
   ),
-  (output: Array<string>) => output.join(','),
+  (output: ReadonlyArray<Includes>) => output.join(','),
 )
 
 const paramsCodec = t.type({
