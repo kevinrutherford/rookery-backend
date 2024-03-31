@@ -38,14 +38,15 @@ const paramsCodec = t.type({
   include: optionFromNullable(csv),
 })
 
-export const getEntry = (queries: Queries): View => (input) => pipe(
-  input,
-  validateInput(paramsCodec),
-  E.map((params) => params.id),
-  E.flatMapOption(queries.lookupEntry, (id) => ({
+type Params = t.TypeOf<typeof paramsCodec>
+
+const renderResult = (queries: Queries) => (params: Params) => pipe(
+  params.id,
+  queries.lookupEntry,
+  E.fromOption(() => ({
     category: 'not-found' as const,
     message: 'Entry not found',
-    evidence: { id },
+    evidence: { id: params.id },
   })),
   E.map((entry) => ({
     data: {
@@ -63,6 +64,12 @@ export const getEntry = (queries: Queries): View => (input) => pipe(
       RA.compact,
     ),
   })),
+)
+
+export const getEntry = (queries: Queries): View => (input) => pipe(
+  input,
+  validateInput(paramsCodec),
+  E.chainW(renderResult(queries)),
   T.of,
 )
 
