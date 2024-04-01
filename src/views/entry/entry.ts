@@ -41,6 +41,30 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
+const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<ErrorOutcome, ReadonlyArray<Json>> => {
+  switch (opt) {
+    case 'collection':
+      return pipe(
+        entry.collectionId,
+        queries.lookupCollection,
+        E.fromOption(() => ({
+          category: 'not-found' as const,
+          message: 'Collection not found',
+          evidence: entry,
+        })),
+        E.map((c) => [renderCollection(c)]),
+      )
+    case 'comments':
+      return pipe(
+        entry.id,
+        queries.findComments,
+        E.right,
+      )
+    default:
+      return E.right([])
+  }
+}
+
 const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry: Entry): E.Either<ErrorOutcome, Json> => pipe(
   incl,
   O.match(
@@ -50,22 +74,18 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry
         comments: queries.findComments(entry.id),
       },
     }),
-    () => E.right({
-      data: {
-        ...renderEntry(entry),
-        comments: queries.findComments(entry.id),
-      },
-      included: pipe(
-        [
-          pipe(
-            entry.collectionId,
-            queries.lookupCollection,
-            O.map(renderCollection),
-          ),
-        ],
-        RA.compact,
-      ),
-    }),
+    (incs) => pipe(
+      incs,
+      E.traverseArray(getInc(queries, entry)),
+      E.map(RA.flatten),
+      E.map((i) => ({
+        data: {
+          ...renderEntry(entry),
+          comments: queries.findComments(entry.id),
+        },
+        included: i,
+      })),
+    ),
   ),
 )
 
