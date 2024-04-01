@@ -4,10 +4,11 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
-import { optionFromNullable } from 'io-ts-types'
+import { Json, optionFromNullable } from 'io-ts-types'
 import { renderEntry } from './render-entry'
-import { View } from '../../http/index.open'
+import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
+import { Entry } from '../../readmodels/entries/entry'
 import { renderCollection } from '../collection/render-collection'
 import { validateInput } from '../validate-input'
 
@@ -40,6 +41,34 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
+const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry: Entry): E.Either<ErrorOutcome, Json> => pipe(
+  incl,
+  O.match(
+    () => E.right({
+      data: {
+        ...renderEntry(entry),
+        comments: queries.findComments(entry.id),
+      },
+    }),
+    () => E.right({
+      data: {
+        ...renderEntry(entry),
+        comments: queries.findComments(entry.id),
+      },
+      included: pipe(
+        [
+          pipe(
+            entry.collectionId,
+            queries.lookupCollection,
+            O.map(renderCollection),
+          ),
+        ],
+        RA.compact,
+      ),
+    }),
+  ),
+)
+
 const renderResult = (queries: Queries) => (params: Params) => pipe(
   params.id,
   queries.lookupEntry,
@@ -48,22 +77,7 @@ const renderResult = (queries: Queries) => (params: Params) => pipe(
     message: 'Entry not found',
     evidence: { id: params.id },
   })),
-  E.map((entry) => ({
-    data: {
-      ...renderEntry(entry),
-      comments: queries.findComments(entry.id),
-    },
-    included: pipe(
-      [
-        pipe(
-          entry.collectionId,
-          queries.lookupCollection,
-          O.map(renderCollection),
-        ),
-      ],
-      RA.compact,
-    ),
-  })),
+  E.chain(renderWithIncludes(queries, params.include)),
 )
 
 export const getEntry = (queries: Queries): View => (input) => pipe(
