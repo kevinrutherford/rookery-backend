@@ -50,10 +50,7 @@ const renderComment = (comment: Comment) => ({
   },
   relationships: {
     entry: {
-      data: {
-        type: 'entry',
-        id: comment.entryId,
-      },
+      data: { type: 'entry', id: comment.entryId },
     },
   },
 })
@@ -78,6 +75,16 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
         RA.map(renderComment),
         E.right,
       )
+    case 'work':
+      return E.right([{
+        type: 'work',
+        id: entry.workId,
+        relationships: {
+          entry: {
+            data: { type: 'entry', id: entry.id },
+          },
+        },
+      }])
     default:
       return E.right([])
   }
