@@ -5,10 +5,10 @@ import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { Json, optionFromNullable } from 'io-ts-types'
+import { renderComment } from './render-comment'
 import { renderEntry } from './render-entry'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
-import { Comment } from '../../readmodels/comments/comment'
 import { Entry } from '../../readmodels/entries/entry'
 import { renderCollection } from '../collection/render-collection'
 import { validateInput } from '../validate-input'
@@ -41,19 +41,6 @@ const paramsCodec = t.type({
 })
 
 type Params = t.TypeOf<typeof paramsCodec>
-
-const renderComment = (comment: Comment) => ({
-  type: 'comment',
-  id: comment.id,
-  attributes: {
-    content: comment.content,
-  },
-  relationships: {
-    entry: {
-      data: { type: 'entry', id: comment.entryId },
-    },
-  },
-})
 
 const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<ErrorOutcome, ReadonlyArray<Json>> => {
   switch (opt) {
