@@ -94,20 +94,14 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry
   incl,
   O.match(
     () => E.right({
-      data: {
-        ...renderEntry(entry),
-        comments: queries.findComments(entry.id),
-      },
+      data: renderEntry(entry),
     }),
     (incs) => pipe(
       incs,
       E.traverseArray(getInc(queries, entry)),
       E.map(RA.flatten),
       E.map((i) => ({
-        data: {
-          ...renderEntry(entry),
-          comments: queries.findComments(entry.id),
-        },
+        data: renderEntry(entry),
         included: i,
       })),
     ),
