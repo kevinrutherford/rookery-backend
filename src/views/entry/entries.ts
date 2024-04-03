@@ -7,12 +7,9 @@ import { Queries } from '../../readmodels'
 
 export const getEntries = (queries: Queries): View => () => pipe(
   queries.allEntries(),
+  RA.map(renderEntry),
   (entries) => ({
-    type: 'Entries',
-    data: pipe(
-      entries,
-      RA.map(renderEntry),
-    ),
+    data: entries,
   }),
   TE.right,
 )

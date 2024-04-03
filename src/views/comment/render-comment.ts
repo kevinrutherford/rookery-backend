@@ -1,10 +1,10 @@
 import { Json } from 'io-ts-types'
-import { renderEntryIdentifier } from './render-entry-identifier'
+import { renderCommentIdentifier } from './render-comment-identifier'
 import { Comment } from '../../readmodels/comments/comment'
+import { renderEntryIdentifier } from '../entry/render-entry-identifier'
 
 export const renderComment = (comment: Comment): Json => ({
-  type: 'comment',
-  id: comment.id,
+  ...renderCommentIdentifier(comment.id),
   attributes: {
     content: comment.content,
     createdAt: comment.createdAt.toISOString(),

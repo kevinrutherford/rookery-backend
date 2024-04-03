@@ -4,8 +4,8 @@ import { View } from '../../http/index.open'
 
 export const getAbout = (): View => () => pipe(
   {
-    type: 'About',
     data: {
+      type: 'community',
       community: {
         name: 'Health organisation, policy and economics (HOPE)',
         affiliation: 'Centre for Primary Care and Health Services Research, Manchester University',

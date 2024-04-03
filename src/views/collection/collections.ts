@@ -6,7 +6,6 @@ import { Queries } from '../../readmodels'
 export const getCollections = (queries: Queries): View => () => pipe(
   queries.allCollections(),
   (collections) => ({
-    type: 'Collections',
     data: collections,
   }),
   TE.right,
