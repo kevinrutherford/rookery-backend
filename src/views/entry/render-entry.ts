@@ -1,24 +1,7 @@
+import { renderEntryIdentifier } from './render-entry-identifier'
 import { Entry } from '../../readmodels/entries/entry'
-
-type ResourceIdentifier = {
-  type: string,
-  id: string,
-}
-
-const renderCollectionIdentifier = (id: ResourceIdentifier['id']): ResourceIdentifier => ({
-  type: 'collection',
-  id,
-})
-
-const renderEntryIdentifier = (id: ResourceIdentifier['id']): ResourceIdentifier => ({
-  type: 'entry',
-  id,
-})
-
-const renderWorkIdentifier = (id: ResourceIdentifier['id']): ResourceIdentifier => ({
-  type: 'work',
-  id,
-})
+import { renderCollectionIdentifier } from '../collection/render-collection-identifier'
+import { renderWorkIdentifier } from '../work/render-work-identifier'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const renderEntry = (entry: Entry) => ({
