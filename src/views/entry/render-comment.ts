@@ -1,4 +1,5 @@
 import { Json } from 'io-ts-types'
+import { renderEntryIdentifier } from './render-entry-identifier'
 import { Comment } from '../../readmodels/comments/comment'
 
 export const renderComment = (comment: Comment): Json => ({
@@ -10,7 +11,7 @@ export const renderComment = (comment: Comment): Json => ({
   },
   relationships: {
     entry: {
-      data: { type: 'entry', id: comment.entryId },
+      data: renderEntryIdentifier(comment.entryId),
     },
   },
 })

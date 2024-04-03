@@ -7,11 +7,13 @@ import * as t from 'io-ts'
 import { Json, optionFromNullable } from 'io-ts-types'
 import { renderComment } from './render-comment'
 import { renderEntry } from './render-entry'
+import { renderEntryIdentifier } from './render-entry-identifier'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { Entry } from '../../readmodels/entries/entry'
 import { renderCollection } from '../collection/render-collection'
 import { validateInput } from '../validate-input'
+import { renderWorkIdentifier } from '../work/render-work-identifier'
 
 const includes = t.union([
   t.literal('collection'),
@@ -64,12 +66,9 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
       )
     case 'work':
       return E.right([{
-        type: 'work',
-        id: entry.workId,
+        ...renderWorkIdentifier(entry.workId),
         relationships: {
-          entry: {
-            data: { type: 'entry', id: entry.id },
-          },
+          entry: renderEntryIdentifier(entry.id),
         },
       }])
     default:
