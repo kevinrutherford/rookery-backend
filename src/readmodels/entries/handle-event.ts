@@ -8,17 +8,18 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
       const entry = {
         ...data,
         addedAt: event.created,
+        commentsCount: 0,
       }
       const current = state.byCollection.get(data.collectionId) ?? []
-      current.push({
-        ...entry,
-        commentsCount: 0,
-      })
+      current.push(entry)
       state.byCollection.set(data.collectionId, current)
-      state.byEntryId.set(data.id, {
-        ...entry,
-        commentsCount: 0,
-      })
+      state.byEntryId.set(data.id, entry)
+      return
+    case 'comment-created':
+      const comment = event.data
+      const existingEntry = state.byEntryId.get(comment.entryId)
+      if (existingEntry)
+        existingEntry.commentsCount = existingEntry.commentsCount + 1
       return
     case 'front-matter-added':
       const payload = event.data
