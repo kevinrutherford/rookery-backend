@@ -8,6 +8,7 @@ export const renderEntry = (entry: Entry) => ({
   ...renderEntryIdentifier(entry.id),
   attributes: {
     addedAt: entry.addedAt.toISOString(),
+    commentsCount: entry.commentsCount,
   },
   relationships: {
     collection: renderCollectionIdentifier(entry.collectionId),

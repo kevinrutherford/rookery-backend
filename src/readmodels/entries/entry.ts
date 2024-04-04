@@ -3,6 +3,7 @@ export type Entry = {
   workId: string,
   collectionId: string,
   addedAt: Date,
+  commentsCount: number,
   frontMatter?: {
     title: string,
   },
