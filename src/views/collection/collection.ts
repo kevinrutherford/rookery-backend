@@ -25,12 +25,12 @@ export const getCollection = (queries: Queries): View => (input) => pipe(
   E.map((collection) => ({
     data: {
       ...renderCollection(collection),
-      entries: pipe(
-        collection.id,
-        queries.findEntries,
-        RA.map(renderEntry),
-      ),
     },
+    included: pipe(
+      collection.id,
+      queries.findEntries,
+      RA.map(renderEntry),
+    ),
   })),
   T.of,
 )
