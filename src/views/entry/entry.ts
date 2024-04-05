@@ -12,7 +12,7 @@ import { Entry } from '../../readmodels/entries/entry'
 import { renderCollection } from '../collection/render-collection'
 import { renderComment } from '../comment/render-comment'
 import { validateInput } from '../validate-input'
-import { renderWorkIdentifier } from '../work/render-work-identifier'
+import { renderWork } from '../work/render-work'
 
 const includes = t.union([
   t.literal('collection'),
@@ -64,9 +64,13 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
         E.right,
       )
     case 'work':
-      return E.right([{
-        ...renderWorkIdentifier(entry.workId),
-      }])
+      return pipe(
+        entry.workId,
+        queries.lookupWork,
+        renderWork,
+        (work) => [work],
+        E.right,
+      )
     default:
       return E.right([])
   }
