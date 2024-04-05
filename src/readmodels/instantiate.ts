@@ -4,6 +4,7 @@ import * as comments from './comments'
 import { DomainEvent } from './domain-event'
 import * as entries from './entries'
 import * as localTimeline from './local-timeline'
+import * as works from './works'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = () => {
@@ -17,6 +18,7 @@ export const instantiate = () => {
   const r2 = entries.instantiate()
   const r3 = comments.instantiate()
   const r4 = localTimeline.instantiate()
+  const r5 = works.instantiate()
 
   subscription.on('data', (resolvedEvent) => {
     const event = resolvedEvent.event
@@ -27,6 +29,7 @@ export const instantiate = () => {
     r2.handleEvent(x)
     r3.handleEvent(x)
     r4.handleEvent(x)
+    r5.handleEvent(x)
   })
 
   return ({
@@ -34,6 +37,7 @@ export const instantiate = () => {
     ...r2.queries,
     ...r3.queries,
     ...r4.queries,
+    ...r5.queries,
   })
 }
 
