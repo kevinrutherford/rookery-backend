@@ -6,7 +6,6 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { Json, optionFromNullable } from 'io-ts-types'
 import { renderEntry } from './render-entry'
-import { renderEntryIdentifier } from './render-entry-identifier'
 import { ErrorOutcome, View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 import { Entry } from '../../readmodels/entries/entry'
@@ -67,9 +66,6 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
     case 'work':
       return E.right([{
         ...renderWorkIdentifier(entry.workId),
-        relationships: {
-          entry: renderEntryIdentifier(entry.id),
-        },
       }])
     default:
       return E.right([])
