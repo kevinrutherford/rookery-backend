@@ -1,8 +1,8 @@
 import { renderCollectionIdentifier } from './render-collection-identifier'
 import { Collection } from '../../readmodels/collections/collection'
+import { JsonApiResource } from '../json-api-resource'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const renderCollection = (collection: Collection) => ({
+export const renderCollection = (collection: Collection): JsonApiResource => ({
   ...renderCollectionIdentifier(collection.id),
   attributes: {
     description: collection.description,
