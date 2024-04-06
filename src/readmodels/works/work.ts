@@ -7,7 +7,7 @@ type FrontMatterNotFound = {
 }
 
 type FrontMatterFound = {
-  crossrefStatus: 'not-found',
+  crossrefStatus: 'found',
   title: string,
   abstract: string,
   authors: ReadonlyArray<string>,

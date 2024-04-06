@@ -1,4 +1,5 @@
 import { JSONEventType, RecordedEvent } from '@eventstore/db-client'
+import { Work } from './works/work'
 
 type CollectionCreatedEvent = JSONEventType<'collection-created', {
   id: string,
@@ -19,18 +20,14 @@ type DoiEnteredEvent = JSONEventType<'doi-entered', {
   collectionId: string,
 }>
 
-type FrontMatterAdded = JSONEventType<'front-matter-added', {
-  entryId: string,
-  frontMatter: {
-    title: string,
-    abstract: string,
-    authors: ReadonlyArray<string>,
-  },
+type WorkUpdated = JSONEventType<'work-updated', {
+  workId: string,
+  attributes: Work['frontMatter'],
 }>
 
 export type DomainEvent =
   | RecordedEvent<CollectionCreatedEvent>
   | RecordedEvent<CommentCreatedEvent>
   | RecordedEvent<DoiEnteredEvent>
-  | RecordedEvent<FrontMatterAdded>
+  | RecordedEvent<WorkUpdated>
 

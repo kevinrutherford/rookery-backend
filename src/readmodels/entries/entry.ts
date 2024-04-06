@@ -4,8 +4,5 @@ export type Entry = {
   collectionId: string,
   addedAt: Date,
   commentsCount: number,
-  frontMatter?: {
-    title: string,
-  },
 }
 

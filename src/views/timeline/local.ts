@@ -8,8 +8,19 @@ import { pipe } from 'fp-ts/function'
 import { TimelineParagraph } from './timeline-paragraph'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
+import { Work } from '../../readmodels/works/work'
 
 type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
+
+const titleOf = (work: Work) => {
+  switch (work.frontMatter.crossrefStatus) {
+    case 'not-determined':
+    case 'not-found':
+      return work.id
+    case 'found':
+      return work.frontMatter.title
+  }
+}
 
 const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Option<TimelineParagraph> => {
   switch (event.type) {
@@ -24,13 +35,13 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Opti
       return pipe(
         {
           collection: queries.lookupCollection(event.data.collectionId),
-          entry: queries.lookupEntry(event.data.id),
+          work: O.some(queries.lookupWork(event.data.workId)),
         },
         sequenceS(O.Apply),
-        O.map(({ collection, entry }) => ({
+        O.map(({ collection, work }) => ({
           userHandle: 'you',
-          action: `added a paper to collection ${collection.name}`,
-          content: entry.frontMatter ? entry.frontMatter.title : event.data.workId,
+          action: `added an item to collection ${collection.name}`,
+          content: titleOf(work),
           timestamp: event.created,
         })),
       )

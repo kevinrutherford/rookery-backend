@@ -21,12 +21,6 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
       if (existingEntry)
         existingEntry.commentsCount = existingEntry.commentsCount + 1
       return
-    case 'front-matter-added':
-      const payload = event.data
-      const x = state.byEntryId.get(payload.entryId)
-      if (x)
-        x.frontMatter = payload.frontMatter
-      return
     default:
       return
   }
