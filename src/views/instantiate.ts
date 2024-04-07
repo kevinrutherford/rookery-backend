@@ -4,6 +4,7 @@ import { getAbout } from './community/about'
 import { getEntries } from './entry/entries'
 import { getEntry } from './entry/entry'
 import { getLocalTimeline } from './timeline/local'
+import { getWorks } from './work/works'
 import { ViewPath } from '../http/index.open'
 import { Queries } from '../readmodels'
 
@@ -32,6 +33,10 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
     {
       path: '/timelines/local',
       view: getLocalTimeline(queries),
+    },
+    {
+      path: '/works',
+      view: getWorks(queries),
     },
   ]
 }

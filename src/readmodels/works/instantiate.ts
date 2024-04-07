@@ -1,3 +1,4 @@
+import { allWorks } from './all-works'
 import { handleEvent } from './handle-event'
 import { lookupWork } from './lookup-work'
 import { Readmodel } from './readmodel'
@@ -9,6 +10,7 @@ export const instantiate = () => {
   return ({
     handleEvent: handleEvent(currentState),
     queries: {
+      allWorks: allWorks(currentState),
       lookupWork: lookupWork(currentState),
     },
   })
