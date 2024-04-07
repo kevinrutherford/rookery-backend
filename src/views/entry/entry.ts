@@ -76,9 +76,9 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
   }
 }
 
-const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry: Entry): E.Either<ErrorOutcome, Json> => pipe(
+const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry: Entry) => pipe(
   incl,
-  O.match(
+  O.matchW(
     () => E.right({
       data: renderEntry(entry),
     }),

@@ -4,7 +4,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
-import { Json, optionFromNullable } from 'io-ts-types'
+import { optionFromNullable } from 'io-ts-types'
 import { renderCollection } from './render-collection'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
@@ -63,7 +63,7 @@ const getInc = (queries: Queries, collection: Collection) => (opt: Includes): Re
   }
 }
 
-const renderWithIncludes = (queries: Queries, incl: Params['include']) => (collection: Collection): Json => pipe(
+const renderWithIncludes = (queries: Queries, incl: Params['include']) => (collection: Collection) => pipe(
   incl,
   O.match(
     () => ({
