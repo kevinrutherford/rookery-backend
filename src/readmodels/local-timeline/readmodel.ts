@@ -1,3 +1,5 @@
+import { Work } from '../works/work'
+
 type CollectionCreated = {
   type: 'collection-created',
   created: Date,
@@ -29,10 +31,20 @@ type DoiEntered = {
   },
 }
 
+export type WorkUpdated = {
+  type: 'work-updated',
+  created: Date,
+  data: {
+    workId: string,
+    attributes: Work['frontMatter'],
+  },
+}
+
 export type TimelineEvent =
   | CollectionCreated
   | CommentCreated
   | DoiEntered
+  | WorkUpdated
 
 export type Readmodel = Array<TimelineEvent>
 

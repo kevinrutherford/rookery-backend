@@ -8,6 +8,7 @@ import { pipe } from 'fp-ts/function'
 import { TimelineParagraph } from './timeline-paragraph'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
+import { WorkUpdated } from '../../readmodels/local-timeline/readmodel'
 import { Work } from '../../readmodels/works/work'
 
 type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
@@ -19,6 +20,27 @@ const titleOf = (work: Work) => {
       return work.id
     case 'found':
       return work.frontMatter.title
+  }
+}
+
+const contentForUpdate = (event: WorkUpdated) => {
+  switch (event.data.attributes.crossrefStatus) {
+    case 'not-determined':
+      return O.none
+    case 'not-found':
+      return O.some({
+        userHandle: 'CrossrefBot',
+        action: 'could not find a DOI',
+        content: event.data.workId,
+        timestamp: event.created,
+      })
+    case 'found':
+      return O.some({
+        userHandle: 'CrossrefBot',
+        action: 'found the title of a paper',
+        content: event.data.attributes.title,
+        timestamp: event.created,
+      })
   }
 }
 
@@ -52,6 +74,8 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Opti
         content: event.data.content,
         timestamp: event.created,
       })
+    case 'work-updated':
+      return contentForUpdate(event)
   }
 }
 
