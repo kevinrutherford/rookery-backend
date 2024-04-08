@@ -1,6 +1,7 @@
+import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as TE from 'fp-ts/TaskEither'
+import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
@@ -24,22 +25,27 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-const selectWorks = (queries: Queries) => (params: Params) => pipe(
-  params.filter.crossrefStatus,
+const filterBy = (filter: Params['filter']['crossrefStatus']) => (works: ReadonlyArray<Work>) => pipe(
+  filter,
   O.match(
-    () => queries.allWorks(),
+    () => works,
     (v) => pipe(
-      queries.allWorks(),
+      works,
       RA.filter((w) => w.frontMatter.crossrefStatus === v),
     ),
   ),
 )
 
+const selectWorks = (queries: Queries) => (params: Params) => pipe(
+  queries.allWorks(),
+  filterBy(params.filter.crossrefStatus),
+)
+
 export const getWorks = (queries: Queries): View => (input: unknown) => pipe(
   input,
   validateInput(paramsCodec),
-  TE.fromEither,
-  TE.map(selectWorks(queries)),
-  TE.map(renderResults),
+  E.map(selectWorks(queries)),
+  E.map(renderResults),
+  T.of,
 )
 
