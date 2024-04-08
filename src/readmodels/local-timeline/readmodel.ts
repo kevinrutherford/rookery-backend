@@ -1,6 +1,6 @@
 import { Work } from '../works/work'
 
-type CollectionCreated = {
+export type CollectionCreated = {
   type: 'collection-created',
   created: Date,
   data: {
@@ -11,7 +11,7 @@ type CollectionCreated = {
   },
 }
 
-type CommentCreated = {
+export type CommentCreated = {
   type: 'comment-created',
   created: Date,
   data: {
@@ -21,7 +21,7 @@ type CommentCreated = {
   },
 }
 
-type DoiEntered = {
+export type DoiEntered = {
   type: 'doi-entered',
   created: Date,
   data: {
