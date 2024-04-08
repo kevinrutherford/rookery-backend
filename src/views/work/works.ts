@@ -25,20 +25,17 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-const filterBy = (filter: Params['filter']['crossrefStatus']) => (works: ReadonlyArray<Work>) => pipe(
+const predicateFrom = (filter: Params['filter']['crossrefStatus']) => (work: Work) => pipe(
   filter,
   O.match(
-    () => works,
-    (v) => pipe(
-      works,
-      RA.filter((w) => w.frontMatter.crossrefStatus === v),
-    ),
+    () => true,
+    (v) => work.frontMatter.crossrefStatus === v,
   ),
 )
 
 const selectWorks = (queries: Queries) => (params: Params) => pipe(
   queries.allWorks(),
-  filterBy(params.filter.crossrefStatus),
+  RA.filter(predicateFrom(params.filter.crossrefStatus)),
 )
 
 export const getWorks = (queries: Queries): View => (input: unknown) => pipe(
