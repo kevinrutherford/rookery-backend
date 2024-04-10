@@ -1,5 +1,6 @@
 type FrontMatterNotDetermined = {
   crossrefStatus: 'not-determined',
+  reason: 'never-fetched' | 'response-invalid' | 'response-unavailable',
 }
 
 type FrontMatterNotFound = {

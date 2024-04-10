@@ -14,6 +14,7 @@ export const lookupWork: LookupWork = (currentState) => (id) => pipe(
     id,
     frontMatter: {
       crossrefStatus: 'not-determined' as const,
+      reason: 'never-fetched' as const,
     },
   })),
 )

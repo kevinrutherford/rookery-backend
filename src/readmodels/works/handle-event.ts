@@ -9,6 +9,7 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
         id: event.data.workId,
         frontMatter: {
           crossrefStatus: 'not-determined',
+          reason: 'never-fetched',
         },
       })
     }
