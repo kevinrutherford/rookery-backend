@@ -36,6 +36,7 @@ const predicateFrom = (filter: Params['filter']['crossrefStatus']) => (work: Wor
 const selectWorks = (queries: Queries) => (params: Params) => pipe(
   queries.allWorks(),
   RA.filter(predicateFrom(params.filter.crossrefStatus)),
+  RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
 )
 
 export const getWorks = (queries: Queries): View => (input: unknown) => pipe(
