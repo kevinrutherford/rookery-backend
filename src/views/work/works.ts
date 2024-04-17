@@ -12,9 +12,9 @@ import { Work } from '../../readmodels/works/work'
 import { validateInput } from '../validate-input'
 
 const paramsCodec = t.type({
-  filter: t.type({
-    crossrefStatus: tt.optionFromNullable(t.string),
-  }),
+  filter: tt.optionFromNullable(t.type({
+    crossrefStatus: t.string,
+  })),
 })
 
 type Params = t.TypeOf<typeof paramsCodec>
@@ -25,17 +25,15 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-const predicateFrom = (filter: Params['filter']['crossrefStatus']) => (work: Work) => pipe(
-  filter,
-  O.match(
-    () => true,
-    (v) => work.frontMatter.crossrefStatus === v,
-  ),
-)
-
 const selectWorks = (queries: Queries) => (params: Params) => pipe(
-  queries.allWorks(),
-  RA.filter(predicateFrom(params.filter.crossrefStatus)),
+  params.filter,
+  O.match(
+    () => queries.allWorks(),
+    (filter) => pipe(
+      queries.allWorks(),
+      RA.filter((work) => work.frontMatter.crossrefStatus === filter.crossrefStatus),
+    ),
+  ),
   RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
 )
 
