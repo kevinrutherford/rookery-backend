@@ -7,6 +7,7 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
     if (!existing) {
       state.set(event.data.workId, {
         id: event.data.workId,
+        updatedAt: event.created,
         frontMatter: {
           crossrefStatus: 'not-determined',
           reason: 'never-fetched',
@@ -16,6 +17,7 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
   } else if (event.type === 'work-updated') {
     state.set(event.data.workId, {
       id: event.data.workId,
+      updatedAt: event.created,
       frontMatter: event.data.attributes,
     })
   }

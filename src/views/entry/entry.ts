@@ -67,9 +67,13 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
       return pipe(
         entry.workId,
         queries.lookupWork,
-        renderWork,
-        (work) => [work],
-        E.right,
+        E.fromOption(() => ({
+          category: 'not-found' as const,
+          message: 'Could not find Work!',
+          evidence: { entry },
+        })),
+        E.map(renderWork),
+        E.map((work) => [work]),
       )
     default:
       return E.right([])

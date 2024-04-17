@@ -21,6 +21,7 @@ type FrontMatter =
 
 export type Work = {
   id: string,
+  updatedAt: Date,
   frontMatter: FrontMatter,
 }
 

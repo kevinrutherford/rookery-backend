@@ -5,17 +5,10 @@ import * as S from 'fp-ts/string'
 import { Readmodel } from './readmodel'
 import { Work } from './work'
 
-type LookupWork = (currentState: Readmodel) => (id: string) => Work
+type LookupWork = (currentState: Readmodel) => (id: string) => O.Option<Work>
 
 export const lookupWork: LookupWork = (currentState) => (id) => pipe(
   currentState,
   RM.lookup(S.Eq)(id),
-  O.getOrElseW(() => ({
-    id,
-    frontMatter: {
-      crossrefStatus: 'not-determined' as const,
-      reason: 'never-fetched' as const,
-    },
-  })),
 )
 
