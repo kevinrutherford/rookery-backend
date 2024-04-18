@@ -3,6 +3,7 @@ import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
 import { getEntries } from './entry/entries'
 import { getEntry } from './entry/entry'
+import { getRoot } from './root/root'
 import { getLocalTimeline } from './timeline/local'
 import { getWorks } from './work/works'
 import { ViewPath } from '../http/index.open'
@@ -10,6 +11,10 @@ import { Queries } from '../readmodels'
 
 export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
   return [
+    {
+      path: '/',
+      view: getRoot(),
+    },
     {
       path: '/community',
       view: getCommunity(),
