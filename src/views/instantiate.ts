@@ -13,7 +13,7 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
   return [
     {
       path: '/',
-      view: getRoot(),
+      view: getRoot(queries),
     },
     {
       path: '/community',
