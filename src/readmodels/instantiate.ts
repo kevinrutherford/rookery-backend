@@ -1,6 +1,7 @@
 import { EventStoreDBClient, excludeSystemEvents, START } from '@eventstore/db-client'
 import * as collections from './collections'
 import * as comments from './comments'
+import * as community from './community'
 import { DomainEvent } from './domain-event'
 import * as entries from './entries'
 import * as localTimeline from './local-timeline'
@@ -19,6 +20,7 @@ export const instantiate = () => {
   const r3 = comments.instantiate()
   const r4 = localTimeline.instantiate()
   const r5 = works.instantiate()
+  const r6 = community.instantiate()
 
   subscription.on('data', (resolvedEvent) => {
     const event = resolvedEvent.event
@@ -30,6 +32,7 @@ export const instantiate = () => {
     r3.handleEvent(x)
     r4.handleEvent(x)
     r5.handleEvent(x)
+    r6.handleEvent(x)
   })
 
   return ({
@@ -38,6 +41,7 @@ export const instantiate = () => {
     ...r3.queries,
     ...r4.queries,
     ...r5.queries,
+    ...r6.queries,
   })
 }
 
