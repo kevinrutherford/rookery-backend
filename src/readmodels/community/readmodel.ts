@@ -1,6 +1,6 @@
 import * as O from 'fp-ts/Option'
 
-type Community = {
+export type Community = {
   name: string,
   affiliation: string,
   overview: string,

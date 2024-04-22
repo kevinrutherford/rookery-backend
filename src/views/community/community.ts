@@ -1,22 +1,20 @@
+import * as E from 'fp-ts/Either'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
+import { renderCommunity } from './render-community'
 import { View } from '../../http/index.open'
+import { Queries } from '../../readmodels'
 
-export const getCommunity = (): View => () => pipe(
-  {
-    data: {
-      type: 'community',
-      id: '1',
-      attributes: {
-        name: 'Health organisation, policy and economics (HOPE)',
-        affiliation: 'Centre for Primary Care and Health Services Research, Manchester University',
-        overview: `
-        This interdisciplinary theme focuses upon research which investigates the supply, organisation, management and financing of health and social care services.
-
-Our expertise encompasses rigorous econometric analysis and a wide range of qualitative social scientific methods, including particular experience in the use of ethnographic approaches to understand organisational processes.`,
-      },
-    },
-  },
-  TE.right,
+export const getCommunity = (queries: Queries): View => () => pipe(
+  queries.getCommunity(),
+  E.fromOption(() => ({
+    category: 'not-found' as const,
+    message: 'Community not initialised',
+    evidence: {},
+  })),
+  E.map((community) => ({
+    data: renderCommunity(community),
+  })),
+  TE.fromEither,
 )
 

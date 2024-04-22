@@ -17,7 +17,7 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
     },
     {
       path: '/community',
-      view: getCommunity(),
+      view: getCommunity(queries),
     },
     {
       path: '/collections',
