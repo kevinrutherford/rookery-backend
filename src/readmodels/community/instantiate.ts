@@ -6,6 +6,7 @@ import { Readmodel } from './readmodel'
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = () => {
   const currentState: Readmodel = O.some({
+    id: 'local-community',
     name: 'Health organisation, policy and economics (HOPE)',
     affiliation: 'Centre for Primary Care and Health Services Research, Manchester University',
     overview: `
