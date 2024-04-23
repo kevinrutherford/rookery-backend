@@ -1,6 +1,7 @@
 import { getCollection } from './collection/collection'
 import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
+import { pathToCommunity } from './community/path-to-community'
 import { getEntries } from './entry/entries'
 import { getEntry } from './entry/entry'
 import { getRoot } from './root/root'
@@ -16,7 +17,7 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => {
       view: getRoot(queries),
     },
     {
-      path: '/community',
+      path: pathToCommunity(),
       view: getCommunity(queries),
     },
     {

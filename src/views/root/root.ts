@@ -3,6 +3,7 @@ import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
+import { pathToCommunity } from '../community/path-to-community'
 import { renderCommunityIdentifier } from '../community/render-community-identifier'
 
 export const getRoot = (queries: Queries): View => () => pipe(
@@ -19,7 +20,7 @@ export const getRoot = (queries: Queries): View => () => pipe(
               (c) => renderCommunityIdentifier(c.id),
             ),
           ),
-          links: { related: '/community' },
+          links: { related: pathToCommunity() },
         },
       },
     },
