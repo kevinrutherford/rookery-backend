@@ -1,6 +1,13 @@
 import { JSONEventType, RecordedEvent } from '@eventstore/db-client'
 import { Work } from './works/work'
 
+type CommunityCreatedEvent = JSONEventType<'community-created', {
+  id: string,
+  name: string,
+  affiliation: string,
+  overview: ReadonlyArray<string>,
+}>
+
 type CollectionCreatedEvent = JSONEventType<'collection-created', {
   id: string,
   handle: string,
@@ -26,6 +33,7 @@ type WorkUpdated = JSONEventType<'work-updated', {
 }>
 
 export type DomainEvent =
+  | RecordedEvent<CommunityCreatedEvent>
   | RecordedEvent<CollectionCreatedEvent>
   | RecordedEvent<CommentCreatedEvent>
   | RecordedEvent<DoiEnteredEvent>

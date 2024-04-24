@@ -7,5 +7,7 @@ export type Community = {
   overview: ReadonlyArray<string>,
 }
 
-export type Readmodel = O.Option<Community>
+export type Readmodel = {
+  data: O.Option<Community>,
+}
 

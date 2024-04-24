@@ -1,4 +1,4 @@
 import { Readmodel } from './readmodel'
 
-export const getCommunity = (currentState: Readmodel) => (): Readmodel => currentState
+export const getCommunity = (currentState: Readmodel) => (): Readmodel['data'] => currentState.data
 
