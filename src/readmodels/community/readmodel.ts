@@ -4,7 +4,7 @@ export type Community = {
   id: string,
   name: string,
   affiliation: string,
-  overview: string,
+  overview: ReadonlyArray<string>,
 }
 
 export type Readmodel = O.Option<Community>
