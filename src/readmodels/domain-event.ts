@@ -10,7 +10,6 @@ type CommunityCreatedEvent = JSONEventType<'community-created', {
 
 type CollectionCreatedEvent = JSONEventType<'collection-created', {
   id: string,
-  handle: string,
   name: string,
   description: string,
 }>

@@ -5,7 +5,6 @@ export type CollectionCreated = {
   created: Date,
   data: {
     id: string,
-    handle: string,
     name: string,
     description: string,
   },
