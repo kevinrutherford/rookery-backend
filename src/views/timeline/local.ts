@@ -24,6 +24,8 @@ const toTimelineParagraph = (queries: Queries) => (event: TimelineEvent): O.Opti
       return toCommentCreatedParagraph(event)
     case 'work-updated':
       return toWorkUpdatedParagraph(event)
+    default:
+      return O.none
   }
 }
 

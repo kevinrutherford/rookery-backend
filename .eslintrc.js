@@ -4,6 +4,7 @@ module.exports = {
     es6: true,
   },
   extends: [
+    'airbnb-base',
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
@@ -33,6 +34,7 @@ module.exports = {
     'arrow-parens': 'off',
     'comma-dangle': ['error', 'always-multiline'],
     curly: ['error', 'multi-or-nest'],
+    'default-case': 'off',
     'fp-ts/no-module-imports': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['src/**/*.spec.*'] }],
     'import/no-useless-path-segments': ['error', {
@@ -42,6 +44,7 @@ module.exports = {
       alphabetize: { order: 'asc' },
       groups: ['builtin', 'external', 'internal', 'index', 'sibling', 'parent'],
     }],
+    'import/prefer-default-export': 'off',
     'lines-between-class-members': ['warn', 'always', {
       exceptAfterSingleLine: true,
     }],
@@ -65,6 +68,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'object-shorthand': 'error',
     'padded-blocks': 'off',
+    'prefer-destructuring': 'off',
     semi: ['error', 'never'],
     'sort-imports': ['error', {
       ignoreCase: true,

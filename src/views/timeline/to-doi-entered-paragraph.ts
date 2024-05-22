@@ -6,6 +6,7 @@ import { Queries } from '../../readmodels'
 import { DoiEntered } from '../../readmodels/local-timeline/readmodel'
 import { Work } from '../../readmodels/works/work'
 
+// eslint-disable-next-line consistent-return
 const titleOf = (work: Work) => {
   switch (work.frontMatter.crossrefStatus) {
     case 'not-determined':

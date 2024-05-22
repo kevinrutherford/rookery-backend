@@ -30,8 +30,7 @@ export const createHttpServer = (views: ReadonlyArray<ViewPath>): void => {
     .use(helmet())
     .use(json())
     .use(cors())
-    .use('/', router(routes)),
-  )
+    .use('/', router(routes)))
   server.on('listening', (): void => logger.info('Server running'))
   server.on('close', (): void => logger.info('Server stopping'))
   startServer(logger)(server)

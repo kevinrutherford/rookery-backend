@@ -2,6 +2,7 @@ import * as O from 'fp-ts/Option'
 import { TimelineParagraph } from './timeline-paragraph'
 import { WorkUpdated } from '../../readmodels/local-timeline/readmodel'
 
+// eslint-disable-next-line consistent-return
 export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<TimelineParagraph> => {
   switch (event.data.attributes.crossrefStatus) {
     case 'not-determined':
