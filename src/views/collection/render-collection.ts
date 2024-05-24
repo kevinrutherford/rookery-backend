@@ -6,6 +6,7 @@ export const renderCollection = (collection: Collection): JsonApiResource => ({
   ...renderCollectionIdentifier(collection.id),
   attributes: {
     description: collection.description,
+    isPrivate: false,
     name: collection.name,
   },
 })
