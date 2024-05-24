@@ -14,6 +14,13 @@ type CollectionCreatedEvent = JSONEventType<'collection-created', {
   description: string,
 }>
 
+type CollectionUpdatedEvent = JSONEventType<'collection-updated', {
+  collectionId: string,
+  attributes: {
+    isPrivate: boolean,
+  },
+}>
+
 type CommentCreatedEvent = JSONEventType<'comment-created', {
   id: string,
   entryId: string,
@@ -34,6 +41,7 @@ type WorkUpdated = JSONEventType<'work-updated', {
 export type DomainEvent =
   | RecordedEvent<CommunityCreatedEvent>
   | RecordedEvent<CollectionCreatedEvent>
+  | RecordedEvent<CollectionUpdatedEvent>
   | RecordedEvent<CommentCreatedEvent>
   | RecordedEvent<DoiEnteredEvent>
   | RecordedEvent<WorkUpdated>

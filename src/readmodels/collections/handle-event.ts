@@ -7,6 +7,15 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
       ...event.data,
       isPrivate: false,
     })
+  } else if (event.type === 'collection-updated') {
+    const id = event.data.collectionId
+    const current = state.get(id)
+    if (current) {
+      state.set(id, {
+        ...current,
+        ...event.data.attributes,
+      })
+    }
   }
 }
 
