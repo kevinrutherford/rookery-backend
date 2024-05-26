@@ -2,6 +2,7 @@ import { createServer } from 'http'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import Koa from 'koa'
+import { bearerToken } from 'koa-bearer-token'
 import { executeView } from './execute-view'
 import { logRequest } from './log-request'
 import * as L from './logger'
@@ -30,6 +31,7 @@ export const createHttpServer = (views: ReadonlyArray<ViewPath>): void => {
 
   const app = new Koa()
   app.use(logRequest(logger))
+  app.use(bearerToken())
   app.use(routery.routes())
   app.use(routery.allowedMethods())
   const server = createServer(app.callback())
