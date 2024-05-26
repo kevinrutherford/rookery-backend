@@ -1,14 +1,14 @@
-import { Request, Response, Router } from 'express'
+import Router, { Middleware } from '@koa/router'
 
-type RouteHandler = (req: Request, res: Response) => void
+type RouteHandler = Middleware
 
-type Route = {
+export type Route = {
   path: string,
   handler: RouteHandler,
 }
 
 export const router = (routes: ReadonlyArray<Route>): Router => {
-  const r = Router()
+  const r = new Router()
   routes.forEach((route) => r.get(route.path, route.handler))
   return r
 }

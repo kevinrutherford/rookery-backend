@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Middleware } from '@koa/router'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
@@ -17,22 +17,27 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-type ExecuteView = (logger: Logger) => (view: View) => (req: Request, res: Response) => void
+type ExecuteView = (logger: Logger) => (view: View) => Middleware
 
-export const executeView: ExecuteView = (logger) => (view) => async (req, res) => {
+export const executeView: ExecuteView = (logger) => (view) => async (context) => {
   await pipe(
     {
-      ...req.params,
-      ...req.body,
-      ...req.query,
+      ...context.params,
+      ...context.query,
     },
     view,
     TE.match(
       (error) => {
         logger.debug(error.message, error.evidence)
-        res.status(errorToStatus(error)).send()
+        context.response.status = errorToStatus(error)
+        context.response.type = 'json'
+        context.response.body = { error }
       },
-      (resource) => res.status(StatusCodes.OK).send(resource),
+      (resource) => {
+        context.response.status = StatusCodes.OK
+        context.response.type = 'json'
+        context.response.body = resource
+      },
     ),
   )()
 }

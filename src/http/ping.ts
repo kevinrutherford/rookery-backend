@@ -1,7 +1,12 @@
-import { Request, Response } from 'express'
+import { Middleware } from '@koa/router'
+import { StatusCodes } from 'http-status-codes'
 
-export const ping = (req: Request, res: Response): void => {
-  res.set('Cache-Control', 'no-store, must-revalidate')
-  res.status(200).send('pong')
+export default (): Middleware => async (context, next) => {
+  context.response.headers = {
+    'Cache-Control': 'no-store, must-revalidate',
+  }
+  context.response.status = StatusCodes.OK
+  context.response.body = 'pong'
+  await next()
 }
 
