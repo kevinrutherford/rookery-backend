@@ -24,6 +24,7 @@ export const executeView: ExecuteView = (logger) => (view) => async (context) =>
     {
       ...context.params,
       ...context.query,
+      isAuthenticated: context.request.token === process.env.DEVELOPMENT_BEARER_TOKEN,
     },
     view,
     TE.match(
