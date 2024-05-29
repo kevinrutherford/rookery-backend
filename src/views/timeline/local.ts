@@ -49,7 +49,6 @@ export const getLocalTimeline = (queries: Queries): View => () => pipe(
     timestamp: item.timestamp.toISOString(),
   })),
   RA.map((para) => ({
-    ...para,
     type: 'timeline-paragraph',
     id: `local-${para.timestamp}`,
     attributes: para,
