@@ -11,6 +11,7 @@ export const getRoot = (queries: Queries): View => () => pipe(
     data: {
       type: 'root',
       id: '0',
+      attributes: {},
       relationships: {
         community: {
           data: pipe(
