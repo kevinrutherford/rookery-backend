@@ -4,6 +4,7 @@ import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
+import { renderParagraphResource } from './render-paragraph-resource'
 import { TimelineParagraph } from './timeline-paragraph'
 import { toCollectionCreatedParagraph } from './to-collection-created-paragraph'
 import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
@@ -44,17 +45,10 @@ export const getLocalTimeline = (queries: Queries): View => () => pipe(
   RA.map(toTimelineParagraph(queries)),
   RA.compact,
   RA.sort(byDateDescending),
-  RA.map((item) => ({
-    ...item,
-    timestamp: item.timestamp.toISOString(),
-  })),
-  RA.map((para) => ({
-    type: 'timeline-paragraph',
-    id: `local-${para.timestamp}`,
-    attributes: para,
-  })),
-  (paragraphs) => TE.right({
+  RA.map(renderParagraphResource),
+  (paragraphs) => ({
     data: paragraphs,
   }),
+  TE.right,
 )
 
