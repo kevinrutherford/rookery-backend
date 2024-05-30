@@ -7,7 +7,9 @@ export const handleEvent = (state: Readmodel) => (event: DomainEvent): void => {
     case 'doi-entered':
     case 'comment-created':
     case 'work-updated':
-      state.push(event)
+      state.push({
+        event,
+      })
       break
     default:
   }
