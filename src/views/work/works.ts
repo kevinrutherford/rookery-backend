@@ -37,7 +37,7 @@ const selectWorks = (queries: Queries) => (params: Params) => pipe(
   RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
 )
 
-export const getWorks = (queries: Queries): View => (input: unknown) => pipe(
+export const getWorks = (queries: Queries): View => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map(selectWorks(queries)),

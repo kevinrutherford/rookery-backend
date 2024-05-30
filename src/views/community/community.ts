@@ -5,7 +5,7 @@ import { renderCommunity } from './render-community'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 
-export const getCommunity = (queries: Queries): View => () => pipe(
+export const getCommunity = (queries: Queries): View => () => () => pipe(
   queries.getCommunity(),
   E.fromOption(() => ({
     category: 'not-found' as const,

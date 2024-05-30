@@ -2,6 +2,7 @@ import { Middleware } from '@koa/router'
 import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
+import { ParameterizedContext } from 'koa'
 import { ErrorOutcome } from './error-outcome'
 import { Logger } from './logger'
 import { View } from './view'
@@ -17,6 +18,11 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
+const isAuthenticated = (context: ParameterizedContext) => (
+  context.request.token !== undefined
+  && context.request.token === process.env.DEVELOPMENT_BEARER_TOKEN
+)
+
 type ExecuteView = (logger: Logger) => (view: View) => Middleware
 
 export const executeView: ExecuteView = (logger) => (view) => async (context) => {
@@ -24,9 +30,8 @@ export const executeView: ExecuteView = (logger) => (view) => async (context) =>
     {
       ...context.params,
       ...context.query,
-      isAuthenticated: context.request.token === process.env.DEVELOPMENT_BEARER_TOKEN,
     },
-    view,
+    view(isAuthenticated(context)),
     TE.match(
       (error) => {
         logger.debug(error.message, error.evidence)

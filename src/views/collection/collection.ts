@@ -92,7 +92,7 @@ const renderResult = (queries: Queries) => (params: Params) => pipe(
   E.map(renderWithIncludes(queries, params.include)),
 )
 
-export const getCollection = (queries: Queries): View => (input) => pipe(
+export const getCollection = (queries: Queries): View => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries)),

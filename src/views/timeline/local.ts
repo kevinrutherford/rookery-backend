@@ -40,7 +40,7 @@ const byDateDescending: Ord.Ord<TimelineParagraph> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Queries): View => () => pipe(
+export const getLocalTimeline = (queries: Queries): View => () => () => pipe(
   queries.getLocalTimeline(),
   RA.map(toTimelineParagraph(queries)),
   RA.compact,

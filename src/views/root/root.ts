@@ -6,7 +6,7 @@ import { Queries } from '../../readmodels'
 import { pathToCommunity } from '../community/path-to-community'
 import { renderCommunityIdentifier } from '../community/render-community-identifier'
 
-export const getRoot = (queries: Queries): View => () => pipe(
+export const getRoot = (queries: Queries): View => () => () => pipe(
   {
     data: {
       type: 'root',

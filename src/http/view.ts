@@ -7,7 +7,7 @@ type JsonApiDocument = {
   included?: ReadonlyArray<JsonApiResource>,
 }
 
-export type View = (input: unknown) => TE.TaskEither<ErrorOutcome, JsonApiDocument>
+export type View = (isAuthenticated: boolean) => (input: unknown) => TE.TaskEither<ErrorOutcome, JsonApiDocument>
 
 export type ViewPath = {
   path: string,

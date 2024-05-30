@@ -5,7 +5,7 @@ import { renderEntry } from './render-entry'
 import { View } from '../../http/index.open'
 import { Queries } from '../../readmodels'
 
-export const getEntries = (queries: Queries): View => () => pipe(
+export const getEntries = (queries: Queries): View => () => () => pipe(
   queries.allEntries(),
   RA.map(renderEntry),
   (entries) => ({
