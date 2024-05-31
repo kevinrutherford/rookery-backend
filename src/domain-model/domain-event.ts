@@ -1,48 +1,54 @@
-import { JSONEventType, RecordedEvent } from '@eventstore/db-client'
+import { JSONType } from '@eventstore/db-client'
 import { Work } from './works/work'
 
-type CommunityCreatedEvent = JSONEventType<'community-created', {
+type ESEvent<Type extends string = string, Data extends JSONType = JSONType> = {
+  type: Type;
+  created: Date,
+  data: Data;
+}
+
+type CommunityCreatedEvent = ESEvent<'community-created', {
   id: string,
   name: string,
   affiliation: string,
   overview: ReadonlyArray<string>,
 }>
 
-type CollectionCreatedEvent = JSONEventType<'collection-created', {
+type CollectionCreatedEvent = ESEvent<'collection-created', {
   id: string,
   name: string,
   description: string,
 }>
 
-type CollectionUpdatedEvent = JSONEventType<'collection-updated', {
+type CollectionUpdatedEvent = ESEvent<'collection-updated', {
   collectionId: string,
   attributes: {
     isPrivate: boolean,
   },
 }>
 
-type CommentCreatedEvent = JSONEventType<'comment-created', {
+type CommentCreatedEvent = ESEvent<'comment-created', {
   id: string,
   entryId: string,
   content: string,
 }>
 
-type DoiEnteredEvent = JSONEventType<'doi-entered', {
+type DoiEnteredEvent = ESEvent<'doi-entered', {
   id: string,
   workId: string,
   collectionId: string,
 }>
 
-type WorkUpdated = JSONEventType<'work-updated', {
+type WorkUpdated = ESEvent<'work-updated', {
   workId: string,
   attributes: Work['frontMatter'],
 }>
 
 export type DomainEvent =
-  | RecordedEvent<CommunityCreatedEvent>
-  | RecordedEvent<CollectionCreatedEvent>
-  | RecordedEvent<CollectionUpdatedEvent>
-  | RecordedEvent<CommentCreatedEvent>
-  | RecordedEvent<DoiEnteredEvent>
-  | RecordedEvent<WorkUpdated>
+  | CommunityCreatedEvent
+  | CollectionCreatedEvent
+  | CollectionUpdatedEvent
+  | CommentCreatedEvent
+  | DoiEnteredEvent
+  | WorkUpdated
 

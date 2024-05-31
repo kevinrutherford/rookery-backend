@@ -8,25 +8,16 @@ describe('private collections', () => {
     const collectionId = arbitraryWord()
     const model: Readmodel = []
     handleEvent(model)({
-      streamId: '1',
-      id: arbitraryString(),
       created: arbitraryDate(),
-      isJson: true,
-      revision: BigInt(1),
       type: 'collection-created',
       data: {
         id: collectionId,
         name: arbitraryString(),
         description: arbitraryString(),
       },
-      metadata: undefined,
     })
     handleEvent(model)({
-      streamId: '1',
-      id: arbitraryString(),
       created: arbitraryDate(),
-      isJson: true,
-      revision: BigInt(2),
       type: 'collection-updated',
       data: {
         collectionId,
@@ -34,7 +25,6 @@ describe('private collections', () => {
           isPrivate: true,
         },
       },
-      metadata: undefined,
     })
     const activities = getLocalTimeline(model)(true)
 

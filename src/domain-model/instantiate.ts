@@ -26,7 +26,7 @@ export const instantiate = () => {
     const event = resolvedEvent.event
     if (!event)
       return
-    const x = event as DomainEvent
+    const x = event as unknown as DomainEvent // SMELL: use a codec here?
     r1.handleEvent(x)
     r2.handleEvent(x)
     r3.handleEvent(x)
