@@ -1,5 +1,5 @@
 import { renderCommentIdentifier } from './render-comment-identifier'
-import { Comment } from '../../readmodels/comments/comment'
+import { Comment } from '../../domain-model/comments/comment'
 import { renderEntryIdentifier } from '../entry/render-entry-identifier'
 import { JsonApiResource } from '../json-api-resource'
 

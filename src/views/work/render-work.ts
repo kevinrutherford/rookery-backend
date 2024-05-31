@@ -1,5 +1,5 @@
 import { renderWorkIdentifier } from './render-work-identifier'
-import { Work } from '../../readmodels/works/work'
+import { Work } from '../../domain-model/works/work'
 import { JsonApiResource } from '../json-api-resource'
 
 export const renderWork = (work: Work): JsonApiResource => ({

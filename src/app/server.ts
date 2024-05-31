@@ -1,5 +1,5 @@
+import * as Readmodels from '../domain-model'
 import { createHttpServer } from '../http'
-import * as Readmodels from '../readmodels'
 import * as Views from '../views'
 
 export const makeServer = async (): Promise<void> => {

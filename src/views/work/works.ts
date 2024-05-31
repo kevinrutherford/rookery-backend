@@ -6,9 +6,9 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
 import { renderWork } from './render-work'
+import { Queries } from '../../domain-model'
+import { Work } from '../../domain-model/works/work'
 import { View } from '../../http/index.open'
-import { Queries } from '../../readmodels'
-import { Work } from '../../readmodels/works/work'
 import { validateInput } from '../validate-input'
 
 const paramsCodec = t.type({

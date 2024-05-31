@@ -2,9 +2,9 @@ import { sequenceS } from 'fp-ts/Apply'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { TimelineParagraph } from './timeline-paragraph'
-import { Queries } from '../../readmodels'
-import { DoiEntered } from '../../readmodels/local-timeline/readmodel'
-import { Work } from '../../readmodels/works/work'
+import { Queries } from '../../domain-model'
+import { DoiEntered } from '../../domain-model/local-timeline/readmodel'
+import { Work } from '../../domain-model/works/work'
 
 // eslint-disable-next-line consistent-return
 const titleOf = (work: Work) => {

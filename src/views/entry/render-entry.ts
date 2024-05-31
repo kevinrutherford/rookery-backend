@@ -1,5 +1,5 @@
 import { renderEntryIdentifier } from './render-entry-identifier'
-import { Entry } from '../../readmodels/entries/entry'
+import { Entry } from '../../domain-model/entries/entry'
 import { renderCollectionIdentifier } from '../collection/render-collection-identifier'
 import { JsonApiResource } from '../json-api-resource'
 import { renderWorkIdentifier } from '../work/render-work-identifier'

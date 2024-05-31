@@ -1,5 +1,5 @@
 import { renderCollectionIdentifier } from './render-collection-identifier'
-import { Collection } from '../../readmodels/collections/collection'
+import { Collection } from '../../domain-model/collections/collection'
 import { JsonApiResource } from '../json-api-resource'
 
 export const renderCollection = (collection: Collection): JsonApiResource => ({
