@@ -1,3 +1,4 @@
+COMPILER_CACHE_DIR := build
 DEPCRUISE_CONFIG := .dependency-cruiser.cjs
 GRAPHS_DIR      := graphs
 IMAGE           := kevinrutherford/rookery-views
@@ -10,7 +11,7 @@ SOURCES         := $(shell find src -type f)
 
 depcruise := npx depcruise --config $(DEPCRUISE_CONFIG)
 
-.PHONY: all build-dev ci-* clean clobber dev lint watch-*
+.PHONY: all ci-* clean clobber dev lint watch-*
 
 # Software development - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -69,6 +70,7 @@ $(GRAPHS_DIR):
 
 clean:
 	rm -f $(MK_IMAGE) $(MK_PUBLISHED) $(MK_LINTED)
+	rm -rf $(COMPILER_CACHE_DIR)
 	rm -rf $(GRAPHS_DIR)
 
 clobber: clean
