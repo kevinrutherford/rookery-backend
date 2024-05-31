@@ -3,6 +3,7 @@ import { Work } from '../works/work'
 export type CollectionCreated = {
   type: 'collection-created',
   created: Date,
+  isPrivate: boolean,
   data: {
     id: string,
     name: string,
@@ -13,6 +14,7 @@ export type CollectionCreated = {
 export type CommentCreated = {
   type: 'comment-created',
   created: Date,
+  isPrivate: boolean,
   data: {
     id: string,
     entryId: string,
@@ -23,6 +25,7 @@ export type CommentCreated = {
 export type DoiEntered = {
   type: 'doi-entered',
   created: Date,
+  isPrivate: boolean,
   data: {
     id: string,
     workId: string,
@@ -33,6 +36,7 @@ export type DoiEntered = {
 export type WorkUpdated = {
   type: 'work-updated',
   created: Date,
+  isPrivate: boolean,
   data: {
     workId: string,
     attributes: Work['frontMatter'],
