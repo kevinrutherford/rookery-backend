@@ -1,13 +1,15 @@
 COMPILER_CACHE_DIR := build
 DEPCRUISE_CONFIG := .dependency-cruiser.cjs
-GRAPHS_DIR      := graphs
-IMAGE           := kevinrutherford/rookery-views
+GRAPHS_DIR := graphs
+IMAGE := kevinrutherford/rookery-views
 IMAGE_VERSION := $(shell git describe --tags)
-MK_IMAGE  := .mk-built
-MK_PUBLISHED    := .mk-published
-MK_COMPILED     := .mk-compiled
-MK_LINTED       := .mk-linted
-SOURCES         := $(shell find src -type f)
+MK_IMAGE := .mk-built
+MK_PUBLISHED := .mk-published
+MK_COMPILED := .mk-compiled
+MK_LINTED := .mk-linted
+MK_TESTED := .mk-tested
+SOURCES := $(shell find src -type f)
+TESTS := $(shell find test -type f)
 
 depcruise := npx depcruise --config $(DEPCRUISE_CONFIG)
 
@@ -15,24 +17,31 @@ depcruise := npx depcruise --config $(DEPCRUISE_CONFIG)
 
 # Software development - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-all: $(GRAPHS_DIR)/modules.svg $(GRAPHS_DIR)/arch.svg $(MK_LINTED)
+all: $(MK_TESTED) $(GRAPHS_DIR)/modules.svg $(GRAPHS_DIR)/arch.svg $(MK_LINTED)
 
-watch-compiler: node_modules
-	npx tsc --watch
-
-$(MK_COMPILED): node_modules $(SOURCES) tsconfig.json
+$(MK_COMPILED): node_modules $(SOURCES) $(TESTS) tsconfig.json
 	npx tsc --noEmit
 	@touch $@
 
-$(MK_LINTED): node_modules .eslintrc.js $(SOURCES)
-	npx eslint src --ext .ts
+$(MK_TESTED): node_modules $(SOURCES) $(TESTS) jest.config.js
+	npx jest
+	@touch $@
+
+$(MK_LINTED): node_modules .eslintrc.js $(SOURCES) $(TESTS)
+	npx eslint src test --ext .ts
 	npx ts-unused-exports tsconfig.json --silent --ignoreTestFiles
 	$(depcruise) src
 	@touch $@
 
+watch-compiler: node_modules
+	npx tsc --watch
+
+-watch-tests: node_modules
+	 npx jest --watch
+
 # CI pipeline - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-ci-test: clean $(MK_COMPILED) $(MK_LINTED)
+ci-test: clean $(MK_COMPILED) $(MK_TESTED) $(MK_LINTED)
 
 # Production build - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -69,7 +78,7 @@ $(GRAPHS_DIR):
 # Utilities - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 clean:
-	rm -f $(MK_IMAGE) $(MK_PUBLISHED) $(MK_LINTED)
+	rm -f .mk-*
 	rm -rf $(COMPILER_CACHE_DIR)
 	rm -rf $(GRAPHS_DIR)
 
