@@ -1,33 +1,35 @@
 import { getLocalTimeline } from '../../src/domain-model/local-timeline/get-local-timeline'
 import { handleEvent } from '../../src/domain-model/local-timeline/handle-event'
 import { Readmodel } from '../../src/domain-model/local-timeline/readmodel'
+import { arbitraryDate, arbitraryString, arbitraryWord } from '../helpers'
 
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
+    const collectionId = arbitraryWord()
     const model: Readmodel = []
     handleEvent(model)({
       streamId: '1',
-      id: '1',
-      created: new Date(),
+      id: arbitraryString(),
+      created: arbitraryDate(),
       isJson: true,
       revision: BigInt(1),
       type: 'collection-created',
       data: {
-        id: 'abc',
-        name: 'abc',
-        description: 'abc',
+        id: collectionId,
+        name: arbitraryString(),
+        description: arbitraryString(),
       },
       metadata: undefined,
     })
     handleEvent(model)({
       streamId: '1',
-      id: '1',
-      created: new Date(),
+      id: arbitraryString(),
+      created: arbitraryDate(),
       isJson: true,
       revision: BigInt(2),
       type: 'collection-updated',
       data: {
-        collectionId: 'abc',
+        collectionId,
         attributes: {
           isPrivate: true,
         },
