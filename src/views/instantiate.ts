@@ -6,9 +6,9 @@ import { getEntries } from './entry/entries'
 import { getEntry } from './entry/entry'
 import { getRoot } from './root/root'
 import { getLocalTimeline } from './timeline/local'
+import { ViewPath } from './view'
 import { getWorks } from './work/works'
 import { Queries } from '../domain-model'
-import { ViewPath } from '../http/index.open'
 
 export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => [
   {

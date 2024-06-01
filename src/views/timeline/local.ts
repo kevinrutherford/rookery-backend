@@ -11,7 +11,7 @@ import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Queries } from '../../domain-model'
-import { View } from '../../http/index.open'
+import { View } from '../view'
 
 type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
 

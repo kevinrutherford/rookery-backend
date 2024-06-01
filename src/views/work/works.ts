@@ -8,8 +8,8 @@ import * as tt from 'io-ts-types'
 import { renderWork } from './render-work'
 import { Queries } from '../../domain-model'
 import { Work } from '../../domain-model/works/work'
-import { View } from '../../http/index.open'
 import { validateInput } from '../validate-input'
+import { View } from '../view'
 
 const paramsCodec = t.type({
   filter: tt.optionFromNullable(t.type({

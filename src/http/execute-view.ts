@@ -3,9 +3,8 @@ import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ParameterizedContext } from 'koa'
-import { ErrorOutcome } from './error-outcome'
 import { Logger } from './logger'
-import { View } from './view'
+import { ErrorOutcome, View } from '../views'
 
 const errorToStatus = (code: ErrorOutcome): number => {
   switch (code.category) {
