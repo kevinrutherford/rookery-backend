@@ -39,15 +39,20 @@ export const instantiate = () => {
     handleEvent(event)
   })
 
-  return ({
+  const queries = {
     ...r1.queries,
     ...r2.queries,
     ...r3.queries,
     ...r4.queries,
     ...r5.queries,
     ...r6.queries,
+  }
+
+  return ({
+    queries,
+    handleEvent,
   })
 }
 
-export type Queries = ReturnType<typeof instantiate>
+export type Queries = ReturnType<typeof instantiate>['queries']
 
