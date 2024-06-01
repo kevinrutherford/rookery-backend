@@ -1,29 +1,27 @@
 import * as DomainModel from '../../src/domain-model'
 import { arbitraryDate, arbitraryString, arbitraryWord } from '../helpers'
 
+const mkEvent = (type: string, data: Record<string, unknown>) => ({
+  created: arbitraryDate(),
+  type,
+  data,
+})
+
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
     const domain = DomainModel.instantiate()
-    domain.handleEvent({
-      created: arbitraryDate(),
-      type: 'collection-created',
-      data: {
-        id: collectionId,
-        name: arbitraryString(),
-        description: arbitraryString(),
+    domain.handleEvent(mkEvent('collection-created', {
+      id: collectionId,
+      name: arbitraryString(),
+      description: arbitraryString(),
+    }))
+    domain.handleEvent(mkEvent('collection-updated', {
+      collectionId,
+      attributes: {
+        isPrivate: true,
       },
-    })
-    domain.handleEvent({
-      created: arbitraryDate(),
-      type: 'collection-updated',
-      data: {
-        collectionId,
-        attributes: {
-          isPrivate: true,
-        },
-      },
-    })
+    }))
     const activities = domain.queries.getLocalTimeline(true)
 
     it('all earlier activities remain public', () => {
