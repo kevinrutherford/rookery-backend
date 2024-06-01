@@ -1,48 +1,63 @@
-import { JSONType } from '@eventstore/db-client'
 import { Work } from './works/work'
 
-type ESEvent<Type extends string = string, Data extends JSONType = JSONType> = {
-  type: Type;
+type ESEventBase = {
   created: Date,
-  data: Data;
 }
 
-type CommunityCreatedEvent = ESEvent<'community-created', {
-  id: string,
-  name: string,
-  affiliation: string,
-  overview: ReadonlyArray<string>,
-}>
+type CommunityCreatedEvent = ESEventBase & {
+  type: 'community-created',
+  data: {
+    id: string,
+    name: string,
+    affiliation: string,
+    overview: ReadonlyArray<string>,
+  }
+}
 
-type CollectionCreatedEvent = ESEvent<'collection-created', {
-  id: string,
-  name: string,
-  description: string,
-}>
+type CollectionCreatedEvent = ESEventBase & {
+  type: 'collection-created',
+  data: {
+    id: string,
+    name: string,
+    description: string,
+  }
+}
 
-type CollectionUpdatedEvent = ESEvent<'collection-updated', {
-  collectionId: string,
-  attributes: {
-    isPrivate: boolean,
-  },
-}>
+type CollectionUpdatedEvent = ESEventBase & {
+  type: 'collection-updated',
+  data: {
+    collectionId: string,
+    attributes: {
+      isPrivate: boolean,
+    },
+  }
+}
 
-type CommentCreatedEvent = ESEvent<'comment-created', {
-  id: string,
-  entryId: string,
-  content: string,
-}>
+type CommentCreatedEvent = ESEventBase & {
+  type: 'comment-created',
+  data: {
+    id: string,
+    entryId: string,
+    content: string,
+  }
+}
 
-type DoiEnteredEvent = ESEvent<'doi-entered', {
-  id: string,
-  workId: string,
-  collectionId: string,
-}>
+type DoiEnteredEvent = ESEventBase & {
+  type: 'doi-entered',
+  data: {
+    id: string,
+    workId: string,
+    collectionId: string,
+  }
+}
 
-type WorkUpdated = ESEvent<'work-updated', {
-  workId: string,
-  attributes: Work['frontMatter'],
-}>
+type WorkUpdated = ESEventBase & {
+  type: 'work-updated',
+  data: {
+    workId: string,
+    attributes: Work['frontMatter'],
+  }
+}
 
 export type DomainEvent =
   | CommunityCreatedEvent
