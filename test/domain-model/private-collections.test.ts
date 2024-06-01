@@ -1,13 +1,11 @@
-import { getLocalTimeline } from '../../src/domain-model/local-timeline/get-local-timeline'
-import { handleEvent } from '../../src/domain-model/local-timeline/handle-event'
-import { Readmodel } from '../../src/domain-model/local-timeline/readmodel'
+import * as DomainModel from '../../src/domain-model'
 import { arbitraryDate, arbitraryString, arbitraryWord } from '../helpers'
 
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
-    const model: Readmodel = []
-    handleEvent(model)({
+    const domain = DomainModel.instantiate()
+    domain.handleEvent({
       created: arbitraryDate(),
       type: 'collection-created',
       data: {
@@ -16,7 +14,7 @@ describe('private collections', () => {
         description: arbitraryString(),
       },
     })
-    handleEvent(model)({
+    domain.handleEvent({
       created: arbitraryDate(),
       type: 'collection-updated',
       data: {
@@ -26,7 +24,7 @@ describe('private collections', () => {
         },
       },
     })
-    const activities = getLocalTimeline(model)(true)
+    const activities = domain.queries.getLocalTimeline(true)
 
     it('all earlier activities remain public', () => {
       expect(activities[0].isPrivate).toBe(false)
