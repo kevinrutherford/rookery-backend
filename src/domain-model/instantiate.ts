@@ -1,4 +1,3 @@
-import { EventStoreDBClient, excludeSystemEvents, START } from '@eventstore/db-client'
 import * as collections from './collections'
 import * as comments from './comments'
 import * as community from './community'
@@ -9,11 +8,6 @@ import * as works from './works'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = () => {
-  const client = EventStoreDBClient.connectionString('esdb://eventstore:2113?tls=false&keepAliveTimeout=10000&keepAliveInterval=10000')
-  const subscription = client.subscribeToAll({
-    fromPosition: START,
-    filter: excludeSystemEvents(),
-  })
 
   const r1 = collections.instantiate()
   const r2 = entries.instantiate()
@@ -31,13 +25,6 @@ export const instantiate = () => {
     r5.handleEvent(x)
     r6.handleEvent(x)
   }
-
-  subscription.on('data', (resolvedEvent) => {
-    const event = resolvedEvent.event
-    if (!event)
-      return
-    handleEvent(event)
-  })
 
   const queries = {
     ...r1.queries,
