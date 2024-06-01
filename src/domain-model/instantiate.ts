@@ -16,14 +16,18 @@ export const instantiate = () => {
   const r5 = works.instantiate()
   const r6 = community.instantiate()
 
+  const dispatch = (event: DomainEvent): void => {
+    r1.handleEvent(event)
+    r2.handleEvent(event)
+    r3.handleEvent(event)
+    r4.handleEvent(event)
+    r5.handleEvent(event)
+    r6.handleEvent(event)
+  }
+
   const handleEvent = (event: unknown): void => {
     const x = event as DomainEvent // SMELL: use a codec here?
-    r1.handleEvent(x)
-    r2.handleEvent(x)
-    r3.handleEvent(x)
-    r4.handleEvent(x)
-    r5.handleEvent(x)
-    r6.handleEvent(x)
+    dispatch(x)
   }
 
   const queries = {
