@@ -22,17 +22,21 @@ export const instantiate = () => {
   const r5 = works.instantiate()
   const r6 = community.instantiate()
 
-  subscription.on('data', (resolvedEvent) => {
-    const event = resolvedEvent.event
-    if (!event)
-      return
-    const x = event as unknown as DomainEvent // SMELL: use a codec here?
+  const handleEvent = (event: unknown): void => {
+    const x = event as DomainEvent // SMELL: use a codec here?
     r1.handleEvent(x)
     r2.handleEvent(x)
     r3.handleEvent(x)
     r4.handleEvent(x)
     r5.handleEvent(x)
     r6.handleEvent(x)
+  }
+
+  subscription.on('data', (resolvedEvent) => {
+    const event = resolvedEvent.event
+    if (!event)
+      return
+    handleEvent(event)
   })
 
   return ({
