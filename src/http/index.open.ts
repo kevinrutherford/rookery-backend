@@ -1,3 +1,4 @@
 export { ErrorOutcome } from './error-outcome'
-export { View, ViewPath } from './view'
+export { View } from './view'
+export { ViewPath } from './view-path'
 

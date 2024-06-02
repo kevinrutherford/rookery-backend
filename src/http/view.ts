@@ -4,8 +4,3 @@ import { JsonApiDocument } from '../views/json-api-resource'
 
 export type View = (isAuthenticated: boolean) => (input: unknown) => TE.TaskEither<ErrorOutcome, JsonApiDocument>
 
-export type ViewPath = {
-  path: string,
-  view: View,
-}
-

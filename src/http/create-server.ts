@@ -9,7 +9,7 @@ import * as L from './logger'
 import ping from './ping'
 import { Route, router } from './router'
 import { startServer } from './start-server'
-import { ViewPath } from './view'
+import { ViewPath } from './view-path'
 
 export const createHttpServer = (views: ReadonlyArray<ViewPath>): void => {
   const logger = L.create({
