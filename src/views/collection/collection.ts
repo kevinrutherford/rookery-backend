@@ -8,10 +8,10 @@ import { optionFromNullable } from 'io-ts-types'
 import { renderCollection } from './render-collection'
 import { Queries } from '../../domain-model'
 import { Collection } from '../../domain-model/collections/collection'
-import { View } from '../../http/index.open'
 import { renderEntry } from '../entry/render-entry'
 import { JsonApiResource } from '../json-api-resource'
 import { validateInput } from '../validate-input'
+import { View } from '../view'
 import { renderWork } from '../work/render-work'
 
 const includes = t.union([

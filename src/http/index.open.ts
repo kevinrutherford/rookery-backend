@@ -1,4 +1,4 @@
 export { ErrorOutcome } from './error-outcome'
-export { View } from './view'
+export { QueryHandler } from './query-handler'
 export { ViewPath } from './view-path'
 

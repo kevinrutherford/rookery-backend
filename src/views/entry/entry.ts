@@ -8,10 +8,10 @@ import { Json, optionFromNullable } from 'io-ts-types'
 import { renderEntry } from './render-entry'
 import { Queries } from '../../domain-model'
 import { Entry } from '../../domain-model/entries/entry'
-import { ErrorOutcome, View } from '../../http/index.open'
 import { renderCollection } from '../collection/render-collection'
 import { renderComment } from '../comment/render-comment'
 import { validateInput } from '../validate-input'
+import { ErrorDocument, View } from '../view'
 import { renderWork } from '../work/render-work'
 
 const includes = t.union([
@@ -43,7 +43,7 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
-const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<ErrorOutcome, ReadonlyArray<Json>> => {
+const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<ErrorDocument, ReadonlyArray<Json>> => {
   switch (opt) {
     case 'collection':
       return pipe(

@@ -3,7 +3,7 @@ import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderCollection } from './render-collection'
 import { Queries } from '../../domain-model'
-import { View } from '../../http/index.open'
+import { View } from '../view'
 
 export const getCollections = (queries: Queries): View => (isAuthenticated) => () => pipe(
   queries.allCollections(),

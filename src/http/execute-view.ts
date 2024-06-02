@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes'
 import { ParameterizedContext } from 'koa'
 import { ErrorOutcome } from './error-outcome'
 import { Logger } from './logger'
-import { View } from './view'
+import { QueryHandler } from './query-handler'
 
 const errorToStatus = (code: ErrorOutcome): number => {
   switch (code.category) {
@@ -23,7 +23,7 @@ const isAuthenticated = (context: ParameterizedContext) => (
   && context.request.token === process.env.DEVELOPMENT_BEARER_TOKEN
 )
 
-type ExecuteView = (logger: Logger) => (view: View) => Middleware
+type ExecuteView = (logger: Logger) => (view: QueryHandler) => Middleware
 
 export const executeView: ExecuteView = (logger) => (view) => async (context) => {
   await pipe(
