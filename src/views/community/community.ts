@@ -3,7 +3,7 @@ import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderCommunity } from './render-community'
 import { Queries } from '../../domain-model'
-import { View } from '../view'
+import { View } from '../../http/index.open'
 
 export const getCommunity = (queries: Queries): View => () => () => pipe(
   queries.getCommunity(),

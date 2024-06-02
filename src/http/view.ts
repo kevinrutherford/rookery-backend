@@ -1,11 +1,6 @@
 import * as TE from 'fp-ts/TaskEither'
-import { JsonApiDocument } from './json-api-resource'
-
-export type ErrorOutcome = {
-  category: 'bad-input' | 'not-found',
-  message: string,
-  evidence: Record<string, unknown>,
-}
+import { ErrorOutcome } from './error-outcome'
+import { JsonApiDocument } from '../views/json-api-resource'
 
 export type View = (isAuthenticated: boolean) => (input: unknown) => TE.TaskEither<ErrorOutcome, JsonApiDocument>
 

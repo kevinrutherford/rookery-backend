@@ -226,11 +226,11 @@ module.exports = {
               attributes: { fillcolor: 'white' },
             },
             {
-              criteria: { source: 'app|event-store|http' },
+              criteria: { source: 'app|http' },
               attributes: { fillcolor: '#f8cce0' },
             },
             {
-              criteria: { source: 'domain-model' },
+              criteria: { source: 'readmodel' },
               attributes: { fillcolor: '#b6e4db' },
             },
           ],
@@ -267,11 +267,11 @@ module.exports = {
               attributes: { fillcolor: 'white' },
             },
             {
-              criteria: { source: 'app|event-store|http' },
+              criteria: { source: 'app|http' },
               attributes: { fillcolor: '#f8cce0' },
             },
             {
-              criteria: { source: 'domain-model' },
+              criteria: { source: 'readmodel' },
               attributes: { fillcolor: '#b6e4db' },
             },
           ],
