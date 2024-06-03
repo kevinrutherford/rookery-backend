@@ -1,5 +1,5 @@
 import { Middleware } from 'koa'
-import { Logger } from './logger'
+import { Logger } from '../logger'
 
 export const logRequest = (logger: Logger): Middleware => async (context, next) => {
   const start = Date.now()

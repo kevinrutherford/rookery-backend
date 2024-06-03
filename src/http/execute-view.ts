@@ -4,8 +4,8 @@ import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ParameterizedContext } from 'koa'
 import { ErrorOutcome } from './error-outcome'
-import { Logger } from './logger'
 import { QueryHandler } from './query-handler'
+import { Logger } from '../logger'
 
 const errorToStatus = (code: ErrorOutcome): number => {
   switch (code.category) {
