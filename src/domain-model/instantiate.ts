@@ -8,9 +8,10 @@ import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
+import { Logger } from '../logger'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const instantiate = () => {
+export const instantiate = (logger: Logger) => {
 
   const r1 = collections.instantiate()
   const r2 = entries.instantiate()
@@ -33,7 +34,10 @@ export const instantiate = () => {
     domainEvent.decode,
     E.match(
       (e) => {
-        console.log('>>>>>>>>>>>>>>>', formatValidationErrors(e), new Date().toISOString())
+        logger.warn('Could not parse event -- ignored', {
+          event,
+          errors: formatValidationErrors(e),
+        })
       },
       dispatch,
     ),

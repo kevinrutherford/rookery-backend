@@ -1,4 +1,5 @@
 import * as DomainModel from '../../src/domain-model'
+import * as Logger from '../../src/logger'
 import { arbitraryDate, arbitraryString, arbitraryWord } from '../helpers'
 
 const mkEvent = (type: string, data: Record<string, unknown>) => ({
@@ -10,7 +11,7 @@ const mkEvent = (type: string, data: Record<string, unknown>) => ({
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
-    const domain = DomainModel.instantiate()
+    const domain = DomainModel.instantiate(Logger.instantiate())
     domain.handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),
