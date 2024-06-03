@@ -1,7 +1,10 @@
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import { formatValidationErrors } from 'io-ts-reporters'
 import * as collections from './collections'
 import * as comments from './comments'
 import * as community from './community'
-import { DomainEvent } from './domain-event'
+import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
@@ -25,10 +28,16 @@ export const instantiate = () => {
     r6.handleEvent(event)
   }
 
-  const handleEvent = (event: unknown): void => {
-    const x = event as DomainEvent // SMELL: use a codec here?
-    dispatch(x)
-  }
+  const handleEvent = (event: unknown): void => pipe(
+    event,
+    domainEvent.decode,
+    E.match(
+      (e) => {
+        console.log('>>>>>>>>>>>>>>>', formatValidationErrors(e), new Date().toISOString())
+      },
+      dispatch,
+    ),
+  )
 
   const queries = {
     ...r1.queries,
