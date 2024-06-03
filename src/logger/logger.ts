@@ -99,5 +99,5 @@ const create = (opts: Config): Logger => (
   )
 )
 
-export { Config, create }
+export { create }
 
