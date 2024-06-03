@@ -80,6 +80,8 @@ const workUpdated = t.intersection([esEventBase, t.type({
   }),
 })])
 
+export type FrontMatter = t.TypeOf<typeof workUpdated>['data']['attributes']
+
 export const domainEvent = t.union([
   communityCreatedEvent,
   collectionCreatedEvent,
