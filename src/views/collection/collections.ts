@@ -5,9 +5,9 @@ import { renderCollection } from './render-collection'
 import { Queries } from '../../domain-model'
 import { View } from '../view'
 
-export const getCollections = (queries: Queries): View => (isAuthenticated) => () => pipe(
+export const getCollections = (queries: Queries): View => (clientCan) => () => pipe(
   queries.allCollections(),
-  RA.filter((c) => !c.isPrivate || isAuthenticated),
+  RA.filter((c) => !c.isPrivate || clientCan('browse-private-collections')),
   RA.map(renderCollection),
   (collections) => ({
     data: collections,

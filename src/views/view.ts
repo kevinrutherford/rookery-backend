@@ -4,7 +4,7 @@ import { ErrorOutcome, QueryHandler } from '../http/index.open'
 
 export type ErrorDocument = ErrorOutcome
 
-export type View = (isAuthenticated: Parameters<QueryHandler>[0])
+export type View = (clientCan: Parameters<QueryHandler>[0])
 => (input: unknown)
 => TE.TaskEither<ErrorDocument, JsonApiDocument>
 

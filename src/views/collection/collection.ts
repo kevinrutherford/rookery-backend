@@ -81,7 +81,7 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (colle
   ),
 )
 
-const renderResult = (queries: Queries, isAuthenticated: Parameters<View>[0]) => (params: Params) => pipe(
+const renderResult = (queries: Queries, clientCan: Parameters<View>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.fromOption(() => ({
@@ -90,7 +90,7 @@ const renderResult = (queries: Queries, isAuthenticated: Parameters<View>[0]) =>
     evidence: { id: params.id },
   })),
   E.filterOrElse(
-    (collection) => !collection.isPrivate || isAuthenticated,
+    (collection) => !collection.isPrivate || clientCan('browse-private-collections'),
     () => ({
       category: 'not-found' as const,
       message: 'Collection not found',
