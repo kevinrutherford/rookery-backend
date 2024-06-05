@@ -81,7 +81,7 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (colle
   ),
 )
 
-const renderResult = (queries: Queries, isAuthenticated: boolean) => (params: Params) => pipe(
+const renderResult = (queries: Queries, isAuthenticated: Parameters<View>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.fromOption(() => ({
