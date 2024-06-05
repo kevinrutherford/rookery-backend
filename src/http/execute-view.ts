@@ -4,6 +4,7 @@ import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ErrorOutcome } from './error-outcome'
 import { QueryHandler } from './query-handler'
+import * as Auth from '../auth'
 import { Logger } from '../logger'
 
 const errorToStatus = (code: ErrorOutcome): number => {
@@ -17,20 +18,16 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-const isAuthenticated = (context: string | undefined) => () => (
-  context !== undefined
-  && context === process.env.DEVELOPMENT_BEARER_TOKEN
-)
-
 type ExecuteView = (logger: Logger) => (view: QueryHandler) => Middleware
 
 export const executeView: ExecuteView = (logger) => (view) => async (context) => {
+  const authority = Auth.instantiate(context.request.token)
   await pipe(
     {
       ...context.params,
       ...context.query,
     },
-    view(isAuthenticated(context.request.token)),
+    view(authority),
     TE.match(
       (error) => {
         logger.debug(error.message, error.evidence)
