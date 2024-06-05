@@ -1,4 +1,3 @@
-import { allEntries } from './all-entries'
 import { findEntries } from './find-entries'
 import { handleEvent } from './handle-event'
 import { lookupEntry } from './lookup-entry'
@@ -14,7 +13,6 @@ export const instantiate = () => {
   return ({
     handleEvent: handleEvent(currentState),
     queries: {
-      allEntries: allEntries(currentState),
       findEntries: findEntries(currentState),
       lookupEntry: lookupEntry(currentState),
     },

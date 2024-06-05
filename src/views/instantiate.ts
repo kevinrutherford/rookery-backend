@@ -2,7 +2,6 @@ import { getCollection } from './collection/collection'
 import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
 import { pathToCommunity } from './community/path-to-community'
-import { getEntries } from './entry/entries'
 import { getEntry } from './entry/entry'
 import { getRoot } from './root/root'
 import { getLocalTimeline } from './timeline/local'
@@ -26,10 +25,6 @@ export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => [
   {
     path: '/collections/:id',
     view: getCollection(queries),
-  },
-  {
-    path: '/entries',
-    view: getEntries(queries),
   },
   {
     path: '/entries/:id',
