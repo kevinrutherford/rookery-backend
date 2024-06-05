@@ -81,7 +81,7 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (colle
   ),
 )
 
-const renderResult = (queries: Queries) => (params: Params) => pipe(
+const renderResult = (queries: Queries, isAuthenticated: boolean) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.fromOption(() => ({
@@ -89,13 +89,21 @@ const renderResult = (queries: Queries) => (params: Params) => pipe(
     message: 'Collection not found',
     evidence: { id: params.id },
   })),
+  E.filterOrElse(
+    (collection) => !collection.isPrivate || isAuthenticated,
+    () => ({
+      category: 'not-found' as const,
+      message: 'Collection not found',
+      evidence: { id: params.id },
+    }),
+  ),
   E.map(renderWithIncludes(queries, params.include)),
 )
 
-export const getCollection = (queries: Queries): View => () => (input) => pipe(
+export const getCollection = (queries: Queries): View => (isAuthenticated) => (input) => pipe(
   input,
   validateInput(paramsCodec),
-  E.chainW(renderResult(queries)),
+  E.chainW(renderResult(queries, isAuthenticated)),
   T.of,
 )
 
