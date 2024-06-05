@@ -226,7 +226,7 @@ module.exports = {
               attributes: { fillcolor: 'white' },
             },
             {
-              criteria: { source: 'app|event-store|http|logger' },
+              criteria: { source: 'app|auth|event-store|http|logger' },
               attributes: { fillcolor: '#f8cce0' },
             },
             {
@@ -267,7 +267,7 @@ module.exports = {
               attributes: { fillcolor: 'white' },
             },
             {
-              criteria: { source: 'app|event-store|http|logger' },
+              criteria: { source: 'app|auth|event-store|http|logger' },
               attributes: { fillcolor: '#f8cce0' },
             },
             {
