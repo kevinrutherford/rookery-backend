@@ -17,22 +17,24 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
+const by = (statusParam: Params['filter[crossrefStatus]']) => (work: Work) => pipe(
+  statusParam,
+  O.match(
+    () => true,
+    (filter) => work.frontMatter.crossrefStatus === filter,
+  ),
+)
+
+const selectWorks = (queries: Queries) => (params: Params) => pipe(
+  queries.allWorks(),
+  RA.filter(by(params['filter[crossrefStatus]'])),
+  RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
+)
+
 const renderResults = (works: ReadonlyArray<Work>) => pipe(
   works,
   RA.map(renderWork),
   (resources) => ({ data: resources }),
-)
-
-const selectWorks = (queries: Queries) => (params: Params) => pipe(
-  params['filter[crossrefStatus]'],
-  O.match(
-    () => queries.allWorks(),
-    (filter) => pipe(
-      queries.allWorks(),
-      RA.filter((work) => work.frontMatter.crossrefStatus === filter),
-    ),
-  ),
-  RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
 )
 
 export const getWorks = (queries: Queries): View => () => (input) => pipe(
