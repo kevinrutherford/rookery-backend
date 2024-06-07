@@ -40,5 +40,18 @@ describe('given a Work that has been found on Crossref', () => {
     )()
     expect(response.data).toHaveLength(0)
   })
+
+  it('can be filtered in', async () => {
+    const response = await pipe(
+      {
+        filter: {
+          crossrefStatus: 'found',
+        },
+      },
+      getWorks(domain.queries)(always),
+      TE.getOrElse((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
+    )()
+    expect(response.data).toHaveLength(1)
+  })
 })
 
