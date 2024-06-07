@@ -12,7 +12,7 @@ import { validateInput } from '../validate-input'
 import { View } from '../view'
 
 const paramsCodec = t.type({
-  'filter[crossrefStatus]': tt.optionFromNullable(t.string), // SMELL: needs to be specific literals
+  'filter[crossrefStatus]': tt.optionFromNullable(t.string),
 })
 
 type Params = t.TypeOf<typeof paramsCodec>
