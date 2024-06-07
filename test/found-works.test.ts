@@ -28,7 +28,7 @@ describe('given a Work that has been found on Crossref', () => {
     },
   }))
 
-  it.failing('can be filtered out', async () => {
+  it('can be filtered out', async () => {
     const response = await pipe(
       {
         'filter[crossrefStatus]': 'not-determined',

@@ -12,9 +12,7 @@ import { validateInput } from '../validate-input'
 import { View } from '../view'
 
 const paramsCodec = t.type({
-  filter: tt.optionFromNullable(t.type({
-    crossrefStatus: t.string,
-  })),
+  'filter[crossrefStatus]': tt.optionFromNullable(t.string), // SMELL: needs to be specific literals
 })
 
 type Params = t.TypeOf<typeof paramsCodec>
@@ -26,12 +24,12 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
 )
 
 const selectWorks = (queries: Queries) => (params: Params) => pipe(
-  params.filter,
+  params['filter[crossrefStatus]'],
   O.match(
     () => queries.allWorks(),
     (filter) => pipe(
       queries.allWorks(),
-      RA.filter((work) => work.frontMatter.crossrefStatus === filter.crossrefStatus),
+      RA.filter((work) => work.frontMatter.crossrefStatus === filter),
     ),
   ),
   RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
