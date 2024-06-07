@@ -25,10 +25,14 @@ const by = (statusParam: Params['filter[crossrefStatus]']) => (work: Work) => pi
   ),
 )
 
+const ignoreInvalidCrossrefResponse = (work: Work) => (
+  !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')
+)
+
 const selectWorks = (queries: Queries) => (params: Params) => pipe(
   queries.allWorks(),
   RA.filter(by(params['filter[crossrefStatus]'])),
-  RA.filter((work) => !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')),
+  RA.filter(ignoreInvalidCrossrefResponse),
 )
 
 const renderResults = (works: ReadonlyArray<Work>) => pipe(
