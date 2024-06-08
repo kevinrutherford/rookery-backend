@@ -80,21 +80,19 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (colle
   ),
 )
 
+const renderNotFoundErrorDocument = (collectionId: string) => ({
+  category: 'not-found' as const,
+  message: 'Collection not found',
+  evidence: { collectionId },
+})
+
 const renderResult = (queries: Queries, clientCan: Parameters<View>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
-  E.fromOption(() => ({
-    category: 'not-found' as const,
-    message: 'Collection not found',
-    evidence: { id: params.id },
-  })),
+  E.fromOption(() => renderNotFoundErrorDocument(params.id)),
   E.filterOrElse(
     (collection) => !collection.isPrivate || clientCan('browse-private-collections'),
-    () => ({
-      category: 'not-found' as const,
-      message: 'Collection not found',
-      evidence: { id: params.id },
-    }),
+    () => renderNotFoundErrorDocument(params.id),
   ),
   E.map(renderWithIncludes(queries, params.include)),
 )
