@@ -1,4 +1,4 @@
-import * as TE from 'fp-ts/TaskEither'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { arbitraryDate } from './helpers'
 import { Authority } from '../src/auth/authority'
@@ -28,25 +28,25 @@ describe('given a Work that has been found on Crossref', () => {
     },
   }))
 
-  it('can be filtered out', async () => {
-    const response = await pipe(
+  it('can be filtered out', () => {
+    const response = pipe(
       {
         'filter[crossrefStatus]': 'not-determined',
       },
       getWorks(domain.queries)(always),
-      TE.getOrElse((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
-    )()
+      E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
+    )
     expect(response.data).toHaveLength(0)
   })
 
-  it('can be filtered in', async () => {
-    const response = await pipe(
+  it('can be filtered in', () => {
+    const response = pipe(
       {
         'filter[crossrefStatus]': 'found',
       },
       getWorks(domain.queries)(always),
-      TE.getOrElse((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
-    )()
+      E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
+    )
     expect(response.data).toHaveLength(1)
   })
 })

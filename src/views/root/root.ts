@@ -1,5 +1,5 @@
+import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
-import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { Queries } from '../../domain-model'
 import { pathToCommunity } from '../community/path-to-community'
@@ -26,6 +26,6 @@ export const getRoot = (queries: Queries): View => () => () => pipe(
       },
     },
   },
-  TE.right,
+  E.right,
 )
 

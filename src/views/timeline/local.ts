@@ -1,8 +1,8 @@
 import * as D from 'fp-ts/Date'
+import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderParagraphResource } from './render-paragraph-resource'
 import { TimelineParagraph } from './timeline-paragraph'
@@ -49,6 +49,6 @@ export const getLocalTimeline = (queries: Queries): View => (clientCan) => () =>
   (paragraphs) => ({
     data: paragraphs,
   }),
-  TE.right,
+  E.right,
 )
 

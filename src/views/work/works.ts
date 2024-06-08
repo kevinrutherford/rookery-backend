@@ -1,7 +1,6 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
@@ -46,6 +45,5 @@ export const getWorks = (queries: Queries): View => () => (input) => pipe(
   validateInput(paramsCodec),
   E.map(selectWorks(queries)),
   E.map(renderResults),
-  T.of,
 )
 

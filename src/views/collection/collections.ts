@@ -1,5 +1,5 @@
+import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderCollection } from './render-collection'
 import { Queries } from '../../domain-model'
@@ -12,6 +12,6 @@ export const getCollections = (queries: Queries): View => (clientCan) => () => p
   (collections) => ({
     data: collections,
   }),
-  TE.right,
+  E.right,
 )
 

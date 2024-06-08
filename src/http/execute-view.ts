@@ -1,5 +1,5 @@
 import { Middleware } from '@koa/router'
-import * as TE from 'fp-ts/TaskEither'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ErrorOutcome } from './error-outcome'
@@ -20,15 +20,15 @@ const errorToStatus = (code: ErrorOutcome): number => {
 
 type ExecuteView = (logger: Logger) => (view: QueryHandler) => Middleware
 
-export const executeView: ExecuteView = (logger) => (view) => async (context) => {
+export const executeView: ExecuteView = (logger) => (view) => (context) => {
   const authority = Auth.instantiate(context.request.token)
-  await pipe(
+  pipe(
     {
       ...context.params,
       ...context.query,
     },
     view(authority),
-    TE.match(
+    E.match(
       (error) => {
         logger.debug(error.message, error.evidence)
         context.response.status = errorToStatus(error)
@@ -41,6 +41,6 @@ export const executeView: ExecuteView = (logger) => (view) => async (context) =>
         context.response.body = resource
       },
     ),
-  )()
+  )
 }
 

@@ -1,7 +1,6 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { Json, optionFromNullable } from 'io-ts-types'
@@ -113,6 +112,5 @@ export const getEntry = (queries: Queries): View => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries)),
-  T.of,
 )
 

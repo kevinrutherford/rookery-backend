@@ -1,5 +1,4 @@
 import * as E from 'fp-ts/Either'
-import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { renderCommunity } from './render-community'
 import { Queries } from '../../domain-model'
@@ -15,6 +14,5 @@ export const getCommunity = (queries: Queries): View => () => () => pipe(
   E.map((community) => ({
     data: renderCommunity(community),
   })),
-  TE.fromEither,
 )
 

@@ -1,4 +1,4 @@
-import * as TE from 'fp-ts/TaskEither'
+import * as E from 'fp-ts/Either'
 import { JsonApiDocument } from './json-api-resource'
 import { ErrorOutcome, QueryHandler } from '../http/index.open'
 
@@ -6,5 +6,5 @@ export type ErrorDocument = ErrorOutcome
 
 export type View = (clientCan: Parameters<QueryHandler>[0])
 => (input: unknown)
-=> TE.TaskEither<ErrorDocument, JsonApiDocument>
+=> E.Either<ErrorDocument, JsonApiDocument>
 
