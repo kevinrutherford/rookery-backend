@@ -48,12 +48,14 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
       return pipe(
         entry.collectionId,
         queries.lookupCollection,
-        E.fromOption(() => ({
-          category: 'not-found' as const,
-          message: 'Collection not found',
-          evidence: entry,
-        })),
-        E.map((c) => [renderCollection(c)]),
+        E.bimap(
+          () => ({
+            category: 'not-found' as const,
+            message: 'Collection not found',
+            evidence: entry,
+          }),
+          (c) => [renderCollection(c)],
+        ),
       )
     case 'comments':
       return pipe(

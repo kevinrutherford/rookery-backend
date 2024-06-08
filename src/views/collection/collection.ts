@@ -89,7 +89,7 @@ const renderNotFoundErrorDocument = (collectionId: string) => ({
 const renderResult = (queries: Queries, clientCan: Parameters<View>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
-  E.fromOption(() => renderNotFoundErrorDocument(params.id)),
+  E.mapLeft(() => renderNotFoundErrorDocument(params.id)),
   E.filterOrElse(
     (collection) => !collection.isPrivate || clientCan('browse-private-collections'),
     () => renderNotFoundErrorDocument(params.id),

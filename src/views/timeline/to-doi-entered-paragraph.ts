@@ -19,7 +19,10 @@ const titleOf = (work: Work) => {
 
 export const toDoiEnteredParagraph = (queries: Queries) => (event: DoiEntered): O.Option<TimelineParagraph> => pipe(
   {
-    collection: queries.lookupCollection(event.data.collectionId),
+    collection: pipe(
+      queries.lookupCollection(event.data.collectionId),
+      O.fromEither,
+    ),
     work: queries.lookupWork(event.data.workId),
   },
   sequenceS(O.Apply),
