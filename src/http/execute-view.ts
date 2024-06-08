@@ -2,6 +2,7 @@ import { Middleware } from '@koa/router'
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
+import { allCollections } from './decorate'
 import { ErrorOutcome } from './error-outcome'
 import { ViewPath } from './view-path'
 import * as Auth from '../auth'
@@ -23,12 +24,16 @@ type ExecuteView = (logger: Logger, view: ViewPath['view'], queries: Queries) =>
 
 export const executeView: ExecuteView = (logger, view, queries) => (context) => {
   const authority = Auth.instantiate(context.request.token)
+  const q: Queries = ({
+    ...queries,
+    allCollections: allCollections(queries)(authority),
+  })
   pipe(
     {
       ...context.params,
       ...context.query,
     },
-    view(queries)(authority),
+    view(q)(authority),
     E.match(
       (error) => {
         logger.debug(error.message, error.evidence)
