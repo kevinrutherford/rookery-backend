@@ -6,36 +6,35 @@ import { getEntry } from './entry/entry'
 import { getRoot } from './root/root'
 import { getLocalTimeline } from './timeline/local'
 import { getWorks } from './work/works'
-import { Queries } from '../domain-model'
 import { ViewPath } from '../http/index.open'
 
-export const instantiate = (queries: Queries): ReadonlyArray<ViewPath> => [
+export const instantiate = (): ReadonlyArray<ViewPath> => [
   {
     path: '/',
-    view: getRoot(queries),
+    view: getRoot,
   },
   {
     path: pathToCommunity(),
-    view: getCommunity(queries),
+    view: getCommunity,
   },
   {
     path: '/collections',
-    view: getCollections(queries),
+    view: getCollections,
   },
   {
     path: '/collections/:id',
-    view: getCollection(queries),
+    view: getCollection,
   },
   {
     path: '/entries/:id',
-    view: getEntry(queries),
+    view: getEntry,
   },
   {
     path: '/timelines/local',
-    view: getLocalTimeline(queries),
+    view: getLocalTimeline,
   },
   {
     path: '/works',
-    view: getWorks(queries),
+    view: getWorks,
   },
 ]

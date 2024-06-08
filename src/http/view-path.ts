@@ -1,7 +1,8 @@
 import { QueryHandler } from './query-handler'
+import { Queries } from '../domain-model'
 
 export type ViewPath = {
   path: string,
-  view: QueryHandler,
+  view: (queries: Queries) => QueryHandler,
 }
 

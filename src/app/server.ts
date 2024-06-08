@@ -7,9 +7,9 @@ import * as Views from '../views'
 export const makeServer = async (): Promise<void> => {
   const logger = Logger.instantiate()
   const { queries, handleEvent } = DomainModel.instantiate(logger)
-  const views = Views.instantiate(queries)
+  const views = Views.instantiate()
   EventStore.instantiate(handleEvent)
 
-  createHttpServer(logger, views)
+  createHttpServer(logger, views, queries)
 }
 

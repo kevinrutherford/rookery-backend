@@ -3,8 +3,9 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ErrorOutcome } from './error-outcome'
-import { QueryHandler } from './query-handler'
+import { ViewPath } from './view-path'
 import * as Auth from '../auth'
+import { Queries } from '../domain-model'
 import { Logger } from '../logger'
 
 const errorToStatus = (code: ErrorOutcome): number => {
@@ -18,16 +19,16 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-type ExecuteView = (logger: Logger, view: QueryHandler) => Middleware
+type ExecuteView = (logger: Logger, view: ViewPath['view'], queries: Queries) => Middleware
 
-export const executeView: ExecuteView = (logger, view) => (context) => {
+export const executeView: ExecuteView = (logger, view, queries) => (context) => {
   const authority = Auth.instantiate(context.request.token)
   pipe(
     {
       ...context.params,
       ...context.query,
     },
-    view(authority),
+    view(queries)(authority),
     E.match(
       (error) => {
         logger.debug(error.message, error.evidence)

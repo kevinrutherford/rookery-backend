@@ -9,15 +9,16 @@ import ping from './ping'
 import { Route, router } from './router'
 import { startServer } from './start-server'
 import { ViewPath } from './view-path'
+import { Queries } from '../domain-model'
 import { Logger } from '../logger'
 
-export const createHttpServer = (logger: Logger, views: ReadonlyArray<ViewPath>): void => {
+export const createHttpServer = (logger: Logger, views: ReadonlyArray<ViewPath>, queries: Queries): void => {
 
   const routes = pipe(
     views,
     RA.map((view) => ({
       path: view.path,
-      handler: executeView(logger, view.view),
+      handler: executeView(logger, view.view, queries),
     }) satisfies Route),
     RA.append({ path: '/ping', handler: ping() }),
   )
