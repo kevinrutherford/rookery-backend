@@ -18,9 +18,9 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-type ExecuteView = (logger: Logger) => (view: QueryHandler) => Middleware
+type ExecuteView = (logger: Logger, view: QueryHandler) => Middleware
 
-export const executeView: ExecuteView = (logger) => (view) => (context) => {
+export const executeView: ExecuteView = (logger, view) => (context) => {
   const authority = Auth.instantiate(context.request.token)
   pipe(
     {

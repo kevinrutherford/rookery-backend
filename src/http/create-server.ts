@@ -17,7 +17,7 @@ export const createHttpServer = (logger: Logger, views: ReadonlyArray<ViewPath>)
     views,
     RA.map((view) => ({
       path: view.path,
-      handler: executeView(logger)(view.view),
+      handler: executeView(logger, view.view),
     }) satisfies Route),
     RA.append({ path: '/ping', handler: ping() }),
   )
