@@ -8,6 +8,13 @@ export type Community = {
   overview: ReadonlyArray<string>,
 }
 
+type Collection = {
+  id: string,
+  name: string,
+  description: string,
+  isPrivate: boolean,
+}
+
 export type Comment = {
   id: string,
   entryId: string,
@@ -100,16 +107,10 @@ type Work = {
   frontMatter: FrontMatter,
 }
 
-type Collection = {
-  id: string,
-  name: string,
-  description: string,
-  isPrivate: boolean,
-}
 */
 
 export type Queries = {
-  // allCollections: () => ReadonlyArray<Collection>,
+  allCollections: () => ReadonlyArray<Collection>,
   // allWorks: () => ReadonlyArray<Work>,
   findComments: (entryId: string) => ReadonlyArray<Comment>,
   // findEntries: (collectionId: string) => ReadonlyArray<Entry>,
