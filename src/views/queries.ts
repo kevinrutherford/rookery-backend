@@ -8,6 +8,13 @@ export type Community = {
   overview: ReadonlyArray<string>,
 }
 
+export type Comment = {
+  id: string,
+  entryId: string,
+  content: string,
+  createdAt: Date,
+}
+
 /*
 type FrontMatterNotDetermined = {
   crossrefStatus: 'not-determined',
@@ -87,13 +94,6 @@ type Entry = {
   commentsCount: number,
 }
 
-type Comment = {
-  id: string,
-  entryId: string,
-  content: string,
-  createdAt: Date,
-}
-
 type Work = {
   id: string,
   updatedAt: Date,
@@ -111,7 +111,7 @@ type Collection = {
 export type Queries = {
   // allCollections: () => ReadonlyArray<Collection>,
   // allWorks: () => ReadonlyArray<Work>,
-  // findComments: (entryId: string) => ReadonlyArray<Comment>,
+  findComments: (entryId: string) => ReadonlyArray<Comment>,
   // findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
   // getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
