@@ -3,8 +3,8 @@ import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { TimelineParagraph } from './timeline-paragraph'
 import { Queries } from '../../domain-model'
-import { DoiEntered } from '../../domain-model/local-timeline/readmodel'
 import { Work } from '../../domain-model/works/work'
+import { DoiEntered } from '../queries'
 
 // eslint-disable-next-line consistent-return
 const titleOf = (work: Work) => {

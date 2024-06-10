@@ -1,6 +1,6 @@
 import { Work } from '../works/work'
 
-export type CollectionCreated = {
+type CollectionCreated = {
   type: 'collection-created',
   created: Date,
   isPrivate: boolean,
@@ -11,7 +11,7 @@ export type CollectionCreated = {
   },
 }
 
-export type CommentCreated = {
+type CommentCreated = {
   type: 'comment-created',
   created: Date,
   isPrivate: boolean,
@@ -22,7 +22,7 @@ export type CommentCreated = {
   },
 }
 
-export type DoiEntered = {
+type DoiEntered = {
   type: 'doi-entered',
   created: Date,
   isPrivate: boolean,
