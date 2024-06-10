@@ -15,6 +15,14 @@ type Collection = {
   isPrivate: boolean,
 }
 
+type Entry = {
+  id: string,
+  workId: string,
+  collectionId: string,
+  addedAt: Date,
+  commentsCount: number,
+}
+
 export type Comment = {
   id: string,
   entryId: string,
@@ -93,14 +101,6 @@ type TimelineEvent =
   | DoiEntered
   | WorkUpdated
 
-type Entry = {
-  id: string,
-  workId: string,
-  collectionId: string,
-  addedAt: Date,
-  commentsCount: number,
-}
-
 type Work = {
   id: string,
   updatedAt: Date,
@@ -117,7 +117,7 @@ export type Queries = {
   getCommunity: () => O.Option<Community>,
   // getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
   lookupCollection: (collectionId: string) => E.Either<'not-found', Collection>,
-  // lookupEntry: (collectionId: string) => O.Option<Entry>,
+  lookupEntry: (collectionId: string) => O.Option<Entry>,
   // lookupWork: (id: string) => O.Option<Work>,
 }
 

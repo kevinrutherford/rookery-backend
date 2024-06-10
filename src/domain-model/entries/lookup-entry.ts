@@ -1,15 +1,10 @@
-import * as O from 'fp-ts/Option'
 import * as RM from 'fp-ts/ReadonlyMap'
 import { pipe } from 'fp-ts/function'
 import * as S from 'fp-ts/string'
-import { Entry } from './entry'
 import { Readmodel } from './readmodel'
+import { Queries } from '../../views/queries'
 
-type LookupEntry = (currentState: Readmodel)
-=> (collectionId: string)
-=> O.Option<Entry>
-
-export const lookupEntry: LookupEntry = (currentState) => (entryId) => pipe(
+export const lookupEntry = (currentState: Readmodel): Queries['lookupEntry'] => (entryId) => pipe(
   currentState.byEntryId,
   RM.lookup(S.Eq)(entryId),
 )
