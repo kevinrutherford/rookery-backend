@@ -1,4 +1,4 @@
-// import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 
 export type Community = {
@@ -116,7 +116,7 @@ export type Queries = {
   // findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
   // getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
-  // lookupCollection: (collectionId: string) => E.Either<'not-found', Collection>,
+  lookupCollection: (collectionId: string) => E.Either<'not-found', Collection>,
   // lookupEntry: (collectionId: string) => O.Option<Entry>,
   // lookupWork: (id: string) => O.Option<Work>,
 }
