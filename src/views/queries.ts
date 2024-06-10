@@ -8,14 +8,14 @@ export type Community = {
   overview: ReadonlyArray<string>,
 }
 
-type Collection = {
+export type Collection = {
   id: string,
   name: string,
   description: string,
   isPrivate: boolean,
 }
 
-type Entry = {
+export type Entry = {
   id: string,
   workId: string,
   collectionId: string,
@@ -50,6 +50,12 @@ type FrontMatterFound = {
 type FrontMatter = {
   workId: string,
   attributes: FrontMatterFound | FrontMatterNotFound | FrontMatterNotDetermined,
+}
+
+type Work = {
+  id: string,
+  updatedAt: Date,
+  frontMatter: FrontMatter,
 }
 
 type CollectionCreated = {
@@ -100,12 +106,6 @@ type TimelineEvent =
   | CommentCreated
   | DoiEntered
   | WorkUpdated
-
-type Work = {
-  id: string,
-  updatedAt: Date,
-  frontMatter: FrontMatter,
-}
 
 */
 
