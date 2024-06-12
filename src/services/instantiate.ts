@@ -1,10 +1,10 @@
 import { getCollection } from './collection/collection'
 import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
-import { pathToCommunity } from './community/path-to-community'
 import { getEntry } from './entry/entry'
 import { getRoot } from './root/root'
 import { getLocalTimeline } from './timeline/local'
+import { pathToCommunity } from './ui-links'
 import { getWorks } from './work/works'
 import { ViewPath } from '../http/index.open'
 
