@@ -3,7 +3,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import Koa from 'koa'
 import { bearerToken } from 'koa-bearer-token'
-import { executeView } from './execute-view'
+import { invokeService } from './invoke-service'
 import { logRequest } from './log-request'
 import ping from './ping'
 import { Route, router } from './router'
@@ -18,7 +18,7 @@ export const createHttpServer = (logger: Logger, views: ReadonlyArray<ViewPath>,
     views,
     RA.map((view) => ({
       path: view.path,
-      handler: executeView(logger, view.view, queries),
+      handler: invokeService(logger, view.view, queries),
     }) satisfies Route),
     RA.append({ path: '/ping', handler: ping() }),
   )
