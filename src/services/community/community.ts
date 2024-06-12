@@ -1,6 +1,6 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import { renderCommunity } from './render-community'
+import { renderCommunity } from '../json-api/render-community'
 import { Queries } from '../queries'
 import { View } from '../view'
 

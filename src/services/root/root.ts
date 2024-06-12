@@ -2,7 +2,7 @@ import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { pathToCommunity } from '../community/path-to-community'
-import { renderCommunityIdentifier } from '../community/render-community-identifier'
+import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
 import { Queries } from '../queries'
 import { View } from '../view'
 

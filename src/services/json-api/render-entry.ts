@@ -1,8 +1,8 @@
+import { JsonApiResource } from './json-api-resource'
+import { renderCollectionIdentifier } from './render-collection-identifier'
 import { renderEntryIdentifier } from './render-entry-identifier'
-import { renderCollectionIdentifier } from '../collection/render-collection-identifier'
-import { JsonApiResource } from '../json-api-resource'
+import { renderWorkIdentifier } from './render-work-identifier'
 import { Entry } from '../queries'
-import { renderWorkIdentifier } from '../work/render-work-identifier'
 
 export const renderEntry = (entry: Entry): JsonApiResource => ({
   ...renderEntryIdentifier(entry.id),

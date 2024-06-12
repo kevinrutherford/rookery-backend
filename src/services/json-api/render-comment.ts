@@ -1,6 +1,6 @@
+import { JsonApiResource } from './json-api-resource'
 import { renderCommentIdentifier } from './render-comment-identifier'
-import { renderEntryIdentifier } from '../entry/render-entry-identifier'
-import { JsonApiResource } from '../json-api-resource'
+import { renderEntryIdentifier } from './render-entry-identifier'
 import { Comment } from '../queries'
 
 export const renderComment = (comment: Comment): JsonApiResource => ({

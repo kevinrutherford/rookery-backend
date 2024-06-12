@@ -4,14 +4,14 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
-import { renderCollection } from './render-collection'
 import { Queries } from '../../domain-model'
-import { renderEntry } from '../entry/render-entry'
-import { JsonApiResource } from '../json-api-resource'
+import { JsonApiResource } from '../json-api/json-api-resource'
+import { renderCollection } from '../json-api/render-collection'
+import { renderEntry } from '../json-api/render-entry'
+import { renderWork } from '../json-api/render-work'
 import { Collection } from '../queries'
 import { validateInput } from '../validate-input'
 import { View } from '../view'
-import { renderWork } from '../work/render-work'
 
 const includes = t.union([
   t.literal('entries'),

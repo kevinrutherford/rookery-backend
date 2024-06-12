@@ -1,4 +1,4 @@
-import { ResourceIdentifier } from '../resource-identifier'
+import { ResourceIdentifier } from './resource-identifier'
 
 export const renderCommentIdentifier = (id: ResourceIdentifier['id']): ResourceIdentifier => ({
   type: 'comment',
