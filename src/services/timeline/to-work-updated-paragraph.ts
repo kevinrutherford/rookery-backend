@@ -1,9 +1,9 @@
 import * as O from 'fp-ts/Option'
-import { TimelineParagraph } from './timeline-paragraph'
 import { WorkUpdated } from '../../domain-model/local-timeline/readmodel'
+import { Activity } from '../activity-resource'
 
 // eslint-disable-next-line consistent-return
-export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<TimelineParagraph> => {
+export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<Activity> => {
   switch (event.data.attributes.crossrefStatus) {
     case 'not-determined':
       return O.none

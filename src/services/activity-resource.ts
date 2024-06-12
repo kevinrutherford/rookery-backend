@@ -1,4 +1,4 @@
-export type TimelineParagraph = {
+export type Activity = {
   userHandle: string,
   timestamp: Date,
   action: string,

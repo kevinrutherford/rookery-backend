@@ -1,9 +1,9 @@
 import { sequenceS } from 'fp-ts/Apply'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { TimelineParagraph } from './timeline-paragraph'
 import { Queries } from '../../domain-model'
 import { Work } from '../../domain-model/works/work'
+import { Activity } from '../activity-resource'
 import { DoiEntered } from '../queries'
 
 // eslint-disable-next-line consistent-return
@@ -17,7 +17,7 @@ const titleOf = (work: Work) => {
   }
 }
 
-export const toDoiEnteredParagraph = (queries: Queries) => (event: DoiEntered): O.Option<TimelineParagraph> => pipe(
+export const toDoiEnteredParagraph = (queries: Queries) => (event: DoiEntered): O.Option<Activity> => pipe(
   {
     collection: pipe(
       queries.lookupCollection(event.data.collectionId),

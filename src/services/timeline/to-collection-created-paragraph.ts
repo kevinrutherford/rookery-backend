@@ -1,8 +1,8 @@
 import * as O from 'fp-ts/Option'
-import { TimelineParagraph } from './timeline-paragraph'
+import { Activity } from '../activity-resource'
 import { CollectionCreated } from '../queries'
 
-export const toCollectionCreatedParagraph = (event: CollectionCreated): O.Option<TimelineParagraph> => O.some({
+export const toCollectionCreatedParagraph = (event: CollectionCreated): O.Option<Activity> => O.some({
   userHandle: 'you',
   action: `created collection ${event.data.name}`,
   content: '',
