@@ -1,28 +1,9 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { Collection } from './collection-resource'
-
-export type Community = {
-  id: string,
-  name: string,
-  affiliation: string,
-  overview: ReadonlyArray<string>,
-}
-
-export type Entry = {
-  id: string,
-  workId: string,
-  collectionId: string,
-  addedAt: Date,
-  commentsCount: number,
-}
-
-export type Comment = {
-  id: string,
-  entryId: string,
-  content: string,
-  createdAt: Date,
-}
+import { Comment } from './comment-resource'
+import { Community } from './community-resource'
+import { Entry } from './entry-resource'
 
 /*
 type FrontMatterNotDetermined = {
