@@ -4,7 +4,7 @@ import { arbitraryDate } from './helpers'
 import { Authority } from '../src/auth/authority'
 import * as DomainModel from '../src/domain-model'
 import * as Logger from '../src/logger'
-import { getWorks } from '../src/views/work/works'
+import { getWorks } from '../src/services/work/works'
 
 const mkEvent = (type: string, data: Record<string, unknown>) => ({
   created: arbitraryDate(),

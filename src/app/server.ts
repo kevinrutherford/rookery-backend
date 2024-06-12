@@ -2,7 +2,7 @@ import * as DomainModel from '../domain-model'
 import * as EventStore from '../event-store'
 import { createHttpServer } from '../http'
 import * as Logger from '../logger'
-import * as Views from '../views'
+import * as Views from '../services'
 
 export const makeServer = async (): Promise<void> => {
   const logger = Logger.instantiate()

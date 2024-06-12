@@ -36,7 +36,7 @@ $(MK_LINTED): node_modules .eslintrc.js $(SOURCES) $(TESTS)
 watch-compiler: node_modules
 	npx tsc --watch
 
--watch-tests: node_modules
+watch-tests: node_modules
 	 npx jest --watch
 
 # CI pipeline - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

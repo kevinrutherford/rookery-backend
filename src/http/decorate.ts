@@ -3,7 +3,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { Authority } from '../auth/authority'
 import { Collection } from '../domain-model/collections/collection'
-import { Queries } from '../views/queries'
+import { Queries } from '../services/queries'
 
 export const allCollections = (queries: Queries) => (clientCan: Authority): Queries['allCollections'] => () => pipe(
   queries.allCollections(),
