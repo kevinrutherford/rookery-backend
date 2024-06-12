@@ -222,7 +222,7 @@ module.exports = {
               },
             },
             {
-              criteria: { source: 'views' },
+              criteria: { source: 'services' },
               attributes: { fillcolor: 'white' },
             },
             {
@@ -263,7 +263,7 @@ module.exports = {
               },
             },
             {
-              criteria: { source: 'views' },
+              criteria: { source: 'services' },
               attributes: { fillcolor: 'white' },
             },
             {
