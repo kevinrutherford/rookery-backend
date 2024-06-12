@@ -1,6 +1,6 @@
 import { JsonApiResource } from './json-api-resource'
 import { renderCollectionIdentifier } from './render-collection-identifier'
-import { Collection } from '../queries'
+import { Collection } from '../collection-resource'
 
 export const renderCollection = (collection: Collection): JsonApiResource => ({
   ...renderCollectionIdentifier(collection.id),

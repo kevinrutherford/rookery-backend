@@ -1,18 +1,12 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
+import { Collection } from './collection-resource'
 
 export type Community = {
   id: string,
   name: string,
   affiliation: string,
   overview: ReadonlyArray<string>,
-}
-
-export type Collection = {
-  id: string,
-  name: string,
-  description: string,
-  isPrivate: boolean,
 }
 
 export type Entry = {
