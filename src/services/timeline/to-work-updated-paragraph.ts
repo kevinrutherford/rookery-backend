@@ -1,5 +1,5 @@
 import * as O from 'fp-ts/Option'
-import { WorkUpdated } from '../../domain-model/local-timeline/readmodel'
+import { WorkUpdated } from '../../unrestricted-domain/local-timeline/readmodel'
 import { Activity } from '../activity-resource'
 
 // eslint-disable-next-line consistent-return

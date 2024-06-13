@@ -6,8 +6,8 @@ import { allCollections } from './decorate'
 import { ErrorOutcome } from './error-outcome'
 import { ViewPath } from './view-path'
 import * as Auth from '../auth'
-import { Queries } from '../domain-model'
 import { Logger } from '../logger'
+import { Queries } from '../unrestricted-domain'
 
 const errorToStatus = (code: ErrorOutcome): number => {
   switch (code.category) {

@@ -1,5 +1,5 @@
 import { QueryHandler } from './query-handler'
-import { Queries } from '../domain-model'
+import { Queries } from '../unrestricted-domain'
 
 export type ViewPath = {
   path: string,

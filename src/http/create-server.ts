@@ -9,8 +9,8 @@ import ping from './ping'
 import { Route, router } from './router'
 import { startServer } from './start-server'
 import { ViewPath } from './view-path'
-import { Queries } from '../domain-model'
 import { Logger } from '../logger'
+import { Queries } from '../unrestricted-domain'
 
 export const createHttpServer = (logger: Logger, views: ReadonlyArray<ViewPath>, queries: Queries): void => {
 

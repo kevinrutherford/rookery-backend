@@ -2,9 +2,9 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { arbitraryDate } from './helpers'
 import { Authority } from '../src/auth/authority'
-import * as DomainModel from '../src/domain-model'
 import * as Logger from '../src/logger'
 import { getWorks } from '../src/services/work/works'
+import * as UnrestrictedDomain from '../src/unrestricted-domain'
 
 const mkEvent = (type: string, data: Record<string, unknown>) => ({
   created: arbitraryDate(),
@@ -15,7 +15,7 @@ const mkEvent = (type: string, data: Record<string, unknown>) => ({
 const always: Authority = () => true
 
 describe('given a Work that has been found on Crossref', () => {
-  const domain = DomainModel.instantiate(Logger.instantiate())
+  const domain = UnrestrictedDomain.instantiate(Logger.instantiate())
   domain.handleEvent(mkEvent('work-updated', {
     workId: '10.1126/science.1172133',
     attributes: {

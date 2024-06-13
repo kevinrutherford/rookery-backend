@@ -1,8 +1,8 @@
 import { sequenceS } from 'fp-ts/Apply'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { Queries } from '../../domain-model'
-import { Work } from '../../domain-model/works/work'
+import { Queries } from '../../unrestricted-domain'
+import { Work } from '../../unrestricted-domain/works/work'
 import { Activity } from '../activity-resource'
 import { DoiEntered } from '../queries'
 
