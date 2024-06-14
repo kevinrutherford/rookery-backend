@@ -4,6 +4,7 @@ import { Collection } from './collection-resource'
 import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
+import { Work } from '../unrestricted-domain/works/work' // SMELL
 
 /*
 type FrontMatterNotDetermined = {
@@ -93,6 +94,6 @@ export type Domain = {
   // getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
   lookupCollection: (collectionId: string) => E.Either<'not-found', Collection>,
   lookupEntry: (collectionId: string) => O.Option<Entry>,
-  // lookupWork: (id: string) => O.Option<Work>,
+  lookupWork: (id: string) => O.Option<Work>,
 }
 

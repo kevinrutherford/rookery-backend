@@ -4,7 +4,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { Json, optionFromNullable } from 'io-ts-types'
-import { Queries } from '../../unrestricted-domain'
+import { Domain } from '../domain'
 import { Entry } from '../entry-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
@@ -42,7 +42,7 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
-const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<ErrorDocument, ReadonlyArray<Json>> => {
+const getInc = (queries: Domain, entry: Entry) => (opt: Includes): E.Either<ErrorDocument, ReadonlyArray<Json>> => {
   switch (opt) {
     case 'collection':
       return pipe(
@@ -81,7 +81,7 @@ const getInc = (queries: Queries, entry: Entry) => (opt: Includes): E.Either<Err
   }
 }
 
-const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry: Entry) => pipe(
+const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry: Entry) => pipe(
   incl,
   O.matchW(
     () => E.right({
@@ -99,7 +99,7 @@ const renderWithIncludes = (queries: Queries, incl: Params['include']) => (entry
   ),
 )
 
-const renderResult = (queries: Queries) => (params: Params) => pipe(
+const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupEntry,
   E.fromOption(() => ({
@@ -110,7 +110,7 @@ const renderResult = (queries: Queries) => (params: Params) => pipe(
   E.chain(renderWithIncludes(queries, params.include)),
 )
 
-export const getEntry = (queries: Queries): Service => () => (input) => pipe(
+export const getEntry = (queries: Domain): Service => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries)),
