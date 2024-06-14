@@ -7,8 +7,8 @@ import * as tt from 'io-ts-types'
 import { Queries } from '../../unrestricted-domain'
 import { Work } from '../../unrestricted-domain/works/work'
 import { renderWork } from '../json-api/render-work'
+import { Service } from '../service'
 import { validateInput } from '../validate-input'
-import { View } from '../view'
 
 const paramsCodec = t.type({
   'filter[crossrefStatus]': tt.optionFromNullable(t.string),
@@ -40,7 +40,7 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-export const getWorks = (queries: Queries): View => () => (input) => pipe(
+export const getWorks = (queries: Queries): Service => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map(selectWorks(queries)),

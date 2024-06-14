@@ -3,10 +3,10 @@ import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { Domain } from '../domain'
 import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
+import { Service } from '../service'
 import { pathToCommunity } from '../ui-links'
-import { View } from '../view'
 
-export const getRoot = (queries: Domain): View => () => () => pipe(
+export const getRoot = (queries: Domain): Service => () => () => pipe(
   {
     data: {
       type: 'root',

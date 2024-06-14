@@ -2,7 +2,7 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as PR from 'io-ts/PathReporter'
-import { ErrorDocument } from './view'
+import { ErrorDocument } from './service'
 
 export const validateInput = <A>(codec: t.Decoder<unknown, A>) => (
   input: unknown,

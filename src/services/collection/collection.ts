@@ -10,8 +10,8 @@ import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderEntry } from '../json-api/render-entry'
 import { renderWork } from '../json-api/render-work'
+import { Service } from '../service'
 import { validateInput } from '../validate-input'
-import { View } from '../view'
 
 const includes = t.union([
   t.literal('entries'),
@@ -86,7 +86,7 @@ const renderNotFoundErrorDocument = (collectionId: string) => ({
   evidence: { collectionId },
 })
 
-const renderResult = (queries: Queries, clientCan: Parameters<View>[0]) => (params: Params) => pipe(
+const renderResult = (queries: Queries, clientCan: Parameters<Service>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.mapLeft(() => renderNotFoundErrorDocument(params.id)),
@@ -97,7 +97,7 @@ const renderResult = (queries: Queries, clientCan: Parameters<View>[0]) => (para
   E.map(renderWithIncludes(queries, params.include)),
 )
 
-export const getCollection = (queries: Queries): View => (isAuthenticated) => (input) => pipe(
+export const getCollection = (queries: Queries): Service => (isAuthenticated) => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries, isAuthenticated)),

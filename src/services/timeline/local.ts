@@ -11,7 +11,7 @@ import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Queries } from '../../unrestricted-domain'
 import { Activity } from '../activity-resource'
 import { renderActivityResource } from '../json-api/render-activity-resource'
-import { View } from '../view'
+import { Service } from '../service'
 
 type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
 
@@ -40,7 +40,7 @@ const byDateDescending: Ord.Ord<Activity> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Queries): View => (clientCan) => () => pipe(
+export const getLocalTimeline = (queries: Queries): Service => (clientCan) => () => pipe(
   queries.getLocalTimeline(clientCan('browse-private-collections')),
   RA.map(toTimelineActivity(queries)),
   RA.compact,

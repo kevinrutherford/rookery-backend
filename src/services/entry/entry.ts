@@ -10,8 +10,8 @@ import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
 import { renderWork } from '../json-api/render-work'
+import { ErrorDocument, Service } from '../service'
 import { validateInput } from '../validate-input'
-import { ErrorDocument, View } from '../view'
 
 const includes = t.union([
   t.literal('collection'),
@@ -110,7 +110,7 @@ const renderResult = (queries: Queries) => (params: Params) => pipe(
   E.chain(renderWithIncludes(queries, params.include)),
 )
 
-export const getEntry = (queries: Queries): View => () => (input) => pipe(
+export const getEntry = (queries: Queries): Service => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries)),
