@@ -72,8 +72,6 @@ const frontMatterFound = t.type({
   authors: t.array(t.string),
 })
 
-export type FrontMatterFound = t.TypeOf<typeof frontMatterFound>
-
 const workUpdated = t.intersection([esEventBase, t.type({
   type: t.literal('work-updated'),
   data: t.type({
