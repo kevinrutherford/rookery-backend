@@ -4,7 +4,7 @@ import { pipe } from 'fp-ts/function'
 import { Queries } from '../../unrestricted-domain'
 import { Work } from '../../unrestricted-domain/works/work'
 import { Activity } from '../activity-resource'
-import { DoiEntered } from '../queries'
+import { DoiEntered } from '../domain'
 
 // eslint-disable-next-line consistent-return
 const titleOf = (work: Work) => {

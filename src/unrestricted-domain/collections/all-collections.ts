@@ -1,7 +1,7 @@
 import { Readmodel } from './readmodel'
-import { Queries } from '../../services/queries'
+import { Domain } from '../../services/domain'
 
-export const allCollections = (currentState: Readmodel): Queries['allCollections'] => () => (
+export const allCollections = (currentState: Readmodel): Domain['allCollections'] => () => (
   Array.from(currentState.values())
 )
 

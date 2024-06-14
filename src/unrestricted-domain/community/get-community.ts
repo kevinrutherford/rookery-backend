@@ -1,5 +1,5 @@
 import { Readmodel } from './readmodel'
-import { Queries } from '../../services/queries'
+import { Domain } from '../../services/domain'
 
-export const getCommunity = (currentState: Readmodel): Queries['getCommunity'] => () => currentState.data
+export const getCommunity = (currentState: Readmodel): Domain['getCommunity'] => () => currentState.data
 

@@ -3,9 +3,9 @@ import * as RM from 'fp-ts/ReadonlyMap'
 import { identity, pipe } from 'fp-ts/function'
 import * as S from 'fp-ts/string'
 import { Readmodel } from './readmodel'
-import { Queries } from '../../services/queries'
+import { Domain } from '../../services/domain'
 
-export const findEntries = (currentState: Readmodel): Queries['findEntries'] => (collectionId) => pipe(
+export const findEntries = (currentState: Readmodel): Domain['findEntries'] => (collectionId) => pipe(
   currentState.byCollection,
   RM.lookup(S.Eq)(collectionId),
   O.match(

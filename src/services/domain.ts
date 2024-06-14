@@ -84,7 +84,7 @@ export type DoiEntered = {
   },
 }
 
-export type Queries = {
+export type Domain = {
   allCollections: () => ReadonlyArray<Collection>,
   // allWorks: () => ReadonlyArray<Work>,
   findComments: (entryId: string) => ReadonlyArray<Comment>,
