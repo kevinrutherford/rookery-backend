@@ -4,8 +4,8 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
-import { Queries } from '../../unrestricted-domain'
 import { Work } from '../../unrestricted-domain/works/work'
+import { Domain } from '../domain'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
@@ -28,7 +28,7 @@ const ignoreInvalidCrossrefResponse = (work: Work) => (
   !(work.frontMatter.crossrefStatus === 'not-determined' && work.frontMatter.reason === 'response-invalid')
 )
 
-const selectWorks = (queries: Queries) => (params: Params) => pipe(
+const selectWorks = (queries: Domain) => (params: Params) => pipe(
   queries.allWorks(),
   RA.filter(by(params['filter[crossrefStatus]'])),
   RA.filter(ignoreInvalidCrossrefResponse),
@@ -40,7 +40,7 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-export const getWorks = (queries: Queries): Service => () => (input) => pipe(
+export const getWorks = (queries: Domain): Service => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map(selectWorks(queries)),

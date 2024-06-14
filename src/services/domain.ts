@@ -87,7 +87,7 @@ export type DoiEntered = {
 
 export type Domain = {
   allCollections: () => ReadonlyArray<Collection>,
-  // allWorks: () => ReadonlyArray<Work>,
+  allWorks: () => ReadonlyArray<Work>,
   findComments: (entryId: string) => ReadonlyArray<Comment>,
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
