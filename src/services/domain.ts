@@ -4,6 +4,7 @@ import { Collection } from './collection-resource'
 import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
+import { TimelineEvent } from '../unrestricted-domain/local-timeline/readmodel' // SMELL
 import { Work } from '../unrestricted-domain/works/work' // SMELL
 
 /*
@@ -91,7 +92,7 @@ export type Domain = {
   findComments: (entryId: string) => ReadonlyArray<Comment>,
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
-  // getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
+  getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
   lookupCollection: (collectionId: string) => E.Either<'not-found', Collection>,
   lookupEntry: (collectionId: string) => O.Option<Entry>,
   lookupWork: (id: string) => O.Option<Work>,

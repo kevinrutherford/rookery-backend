@@ -10,12 +10,13 @@ import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Queries } from '../../unrestricted-domain'
 import { Activity } from '../activity-resource'
+import { Domain } from '../domain'
 import { renderActivityResource } from '../json-api/render-activity-resource'
 import { Service } from '../service'
 
 type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
 
-const toTimelineActivity = (queries: Queries) => (event: TimelineEvent): O.Option<Activity> => {
+const toTimelineActivity = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
   switch (event.type) {
     case 'collection-created':
       return toCollectionCreatedParagraph(event)
@@ -40,7 +41,7 @@ const byDateDescending: Ord.Ord<Activity> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Queries): Service => (clientCan) => () => pipe(
+export const getLocalTimeline = (queries: Domain): Service => (clientCan) => () => pipe(
   queries.getLocalTimeline(clientCan('browse-private-collections')),
   RA.map(toTimelineActivity(queries)),
   RA.compact,
