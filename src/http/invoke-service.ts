@@ -20,20 +20,20 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-type InvokeService = (logger: Logger, view: ViewPath['view'], queries: Queries) => Middleware
+type InvokeService = (logger: Logger, view: ViewPath['view'], unrestrictedDomain: Queries) => Middleware
 
-export const invokeService: InvokeService = (logger, view, queries) => (context) => {
+export const invokeService: InvokeService = (logger, view, unrestrictedDomain) => (context) => {
   const authority = Auth.instantiate(context.request.token)
-  const q: Queries = ({
-    ...queries,
-    allCollections: allCollections(queries)(authority),
+  const restrictedDomain: Queries = ({
+    ...unrestrictedDomain,
+    allCollections: allCollections(unrestrictedDomain)(authority),
   })
   pipe(
     {
       ...context.params,
       ...context.query,
     },
-    view(q)(authority),
+    view(restrictedDomain)(authority),
     E.match(
       (error) => {
         logger.debug(error.message, error.evidence)

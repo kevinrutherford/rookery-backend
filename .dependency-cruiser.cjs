@@ -230,7 +230,7 @@ module.exports = {
               attributes: { fillcolor: '#f8cce0' },
             },
             {
-              criteria: { source: 'domain-model' },
+              criteria: { source: 'domain' },
               attributes: { fillcolor: '#b6e4db' },
             },
           ],
@@ -271,7 +271,7 @@ module.exports = {
               attributes: { fillcolor: '#f8cce0' },
             },
             {
-              criteria: { source: 'domain-model' },
+              criteria: { source: 'domain' },
               attributes: { fillcolor: '#b6e4db' },
             },
           ],
