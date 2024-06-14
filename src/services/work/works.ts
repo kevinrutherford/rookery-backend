@@ -4,11 +4,11 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
-import { Work } from '../../unrestricted-domain/works/work'
 import { Domain } from '../domain'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
+import { Work } from '../work-resource'
 
 const paramsCodec = t.type({
   'filter[crossrefStatus]': tt.optionFromNullable(t.string),
