@@ -4,8 +4,8 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
-import { Queries } from '../../unrestricted-domain'
 import { Collection } from '../collection-resource'
+import { Domain } from '../domain'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderEntry } from '../json-api/render-entry'
@@ -41,7 +41,7 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
-const getInc = (queries: Queries, collection: Collection) => (opt: Includes): ReadonlyArray<JsonApiResource> => {
+const getInc = (queries: Domain, collection: Collection) => (opt: Includes): ReadonlyArray<JsonApiResource> => {
   switch (opt) {
     case 'entries':
       return pipe(
@@ -63,7 +63,7 @@ const getInc = (queries: Queries, collection: Collection) => (opt: Includes): Re
   }
 }
 
-const renderWithIncludes = (queries: Queries, incl: Params['include']) => (collection: Collection) => pipe(
+const renderWithIncludes = (queries: Domain, incl: Params['include']) => (collection: Collection) => pipe(
   incl,
   O.match(
     () => ({
@@ -86,7 +86,7 @@ const renderNotFoundErrorDocument = (collectionId: string) => ({
   evidence: { collectionId },
 })
 
-const renderResult = (queries: Queries, clientCan: Parameters<Service>[0]) => (params: Params) => pipe(
+const renderResult = (queries: Domain, clientCan: Parameters<Service>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.mapLeft(() => renderNotFoundErrorDocument(params.id)),
@@ -97,7 +97,7 @@ const renderResult = (queries: Queries, clientCan: Parameters<Service>[0]) => (p
   E.map(renderWithIncludes(queries, params.include)),
 )
 
-export const getCollection = (queries: Queries): Service => (isAuthenticated) => (input) => pipe(
+export const getCollection = (queries: Domain): Service => (isAuthenticated) => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries, isAuthenticated)),
