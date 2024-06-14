@@ -2,12 +2,11 @@ import { Middleware } from '@koa/router'
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
-import { allCollections } from './decorate'
 import { ErrorOutcome } from './error-outcome'
 import { ViewPath } from './view-path'
 import * as Auth from '../auth'
-import { Authority } from '../auth/authority'
 import { Logger } from '../logger'
+import * as RestrictedDomain from '../restricted-domain'
 import { Queries } from '../unrestricted-domain'
 
 const errorToStatus = (code: ErrorOutcome): number => {
@@ -21,16 +20,11 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-const inst = (authority: Authority, unrestrictedDomain: Queries): Queries => ({
-  ...unrestrictedDomain,
-  allCollections: allCollections(unrestrictedDomain)(authority),
-})
-
 type InvokeService = (logger: Logger, view: ViewPath['view'], unrestrictedDomain: Queries) => Middleware
 
 export const invokeService: InvokeService = (logger, view, unrestrictedDomain) => (context) => {
   const authority = Auth.instantiate(context.request.token)
-  const restrictedDomain = inst(authority, unrestrictedDomain)
+  const restrictedDomain = RestrictedDomain.instantiate(authority, unrestrictedDomain)
   pipe(
     {
       ...context.params,
