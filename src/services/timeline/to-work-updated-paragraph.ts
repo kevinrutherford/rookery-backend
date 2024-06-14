@@ -1,6 +1,6 @@
 import * as O from 'fp-ts/Option'
-import { WorkUpdated } from '../../unrestricted-domain/local-timeline/readmodel'
 import { Activity } from '../activity-resource'
+import { WorkUpdated } from '../domain'
 
 // eslint-disable-next-line consistent-return
 export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<Activity> => {

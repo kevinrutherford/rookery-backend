@@ -11,7 +11,7 @@ type FMF = {
   crossrefStatus: 'found',
   title: string,
   abstract: string,
-  authors: ReadonlyArray<string>,
+  authors: Array<string>,
 }
 
 type FrontMatter = FMF | FrontMatterNotFound | FrontMatterNotDetermined

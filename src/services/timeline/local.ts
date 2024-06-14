@@ -8,13 +8,12 @@ import { toCollectionCreatedParagraph } from './to-collection-created-paragraph'
 import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
-import { Queries } from '../../unrestricted-domain'
 import { Activity } from '../activity-resource'
 import { Domain } from '../domain'
 import { renderActivityResource } from '../json-api/render-activity-resource'
 import { Service } from '../service'
 
-type TimelineEvent = ReturnType<Queries['getLocalTimeline']>[number]
+type TimelineEvent = ReturnType<Domain['getLocalTimeline']>[number]
 
 const toTimelineActivity = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
   switch (event.type) {

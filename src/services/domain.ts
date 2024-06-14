@@ -5,31 +5,8 @@ import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
 import { Work } from './work-resource'
-import { TimelineEvent } from '../unrestricted-domain/local-timeline/readmodel' // SMELL
 
-/*
-type FrontMatterNotDetermined = {
-  crossrefStatus: 'not-determined',
-  reason: 'never-fetched' | 'response-invalid' | 'response-unavailable',
-}
-
-type FrontMatterNotFound = {
-  crossrefStatus: 'not-found',
-}
-
-type FrontMatterFound = {
-  crossrefStatus: 'found',
-  title: string,
-  abstract: string,
-  authors: ReadonlyArray<string>,
-}
-
-type FrontMatter = {
-  workId: string,
-  attributes: FrontMatterFound | FrontMatterNotFound | FrontMatterNotDetermined,
-}
-
-type WorkUpdated = {
+export type WorkUpdated = {
   type: 'work-updated',
   created: Date,
   isPrivate: boolean,
@@ -44,8 +21,6 @@ type TimelineEvent =
   | CommentCreated
   | DoiEntered
   | WorkUpdated
-
-*/
 
 export type CollectionCreated = {
   type: 'collection-created',

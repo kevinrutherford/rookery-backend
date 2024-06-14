@@ -33,7 +33,7 @@ type DoiEntered = {
   },
 }
 
-export type WorkUpdated = {
+type WorkUpdated = {
   type: 'work-updated',
   created: Date,
   isPrivate: boolean,
