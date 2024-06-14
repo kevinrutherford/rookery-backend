@@ -7,18 +7,18 @@ import { invokeService } from './invoke-service'
 import { logRequest } from './log-request'
 import ping from './ping'
 import { Route, router } from './router'
+import { ServicePath } from './service-path'
 import { startServer } from './start-server'
-import { ViewPath } from './view-path'
 import { Logger } from '../logger'
 import { Queries } from '../unrestricted-domain'
 
-export const createHttpServer = (logger: Logger, views: ReadonlyArray<ViewPath>, queries: Queries): void => {
+export const createHttpServer = (logger: Logger, servicePaths: ReadonlyArray<ServicePath>, queries: Queries): void => {
 
   const routes = pipe(
-    views,
-    RA.map((view) => ({
-      path: view.path,
-      handler: invokeService(logger, view.view, queries),
+    servicePaths,
+    RA.map((route) => ({
+      path: route.path,
+      handler: invokeService(logger, route.service, queries),
     }) satisfies Route),
     RA.append({ path: '/ping', handler: ping() }),
   )

@@ -6,35 +6,35 @@ import { getRoot } from './root/root'
 import { getLocalTimeline } from './timeline/local'
 import { pathToCommunity } from './ui-links'
 import { getWorks } from './work/works'
-import { ViewPath } from '../http/index.open'
+import { ServicePath } from '../http/index.open'
 
-export const instantiate = (): ReadonlyArray<ViewPath> => [
+export const instantiate = (): ReadonlyArray<ServicePath> => [
   {
     path: '/',
-    view: getRoot,
+    service: getRoot,
   },
   {
     path: pathToCommunity(),
-    view: getCommunity,
+    service: getCommunity,
   },
   {
     path: '/collections',
-    view: getCollections,
+    service: getCollections,
   },
   {
     path: '/collections/:id',
-    view: getCollection,
+    service: getCollection,
   },
   {
     path: '/entries/:id',
-    view: getEntry,
+    service: getEntry,
   },
   {
     path: '/timelines/local',
-    view: getLocalTimeline,
+    service: getLocalTimeline,
   },
   {
     path: '/works',
-    view: getWorks,
+    service: getWorks,
   },
 ]

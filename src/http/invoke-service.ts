@@ -3,7 +3,7 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ErrorOutcome } from './error-outcome'
-import { ViewPath } from './view-path'
+import { ServicePath } from './service-path'
 import * as Auth from '../auth'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
@@ -20,9 +20,9 @@ const errorToStatus = (code: ErrorOutcome): number => {
   }
 }
 
-type InvokeService = (logger: Logger, view: ViewPath['view'], unrestrictedDomain: Queries) => Middleware
+type InvokeService = (logger: Logger, service: ServicePath['service'], unrestrictedDomain: Queries) => Middleware
 
-export const invokeService: InvokeService = (logger, view, unrestrictedDomain) => (context) => {
+export const invokeService: InvokeService = (logger, service, unrestrictedDomain) => (context) => {
   const authority = Auth.instantiate(context.request.token)
   const restrictedDomain = RestrictedDomain.instantiate(authority, unrestrictedDomain)
   pipe(
@@ -30,7 +30,7 @@ export const invokeService: InvokeService = (logger, view, unrestrictedDomain) =
       ...context.params,
       ...context.query,
     },
-    view(restrictedDomain)(authority),
+    service(restrictedDomain)(authority),
     E.match(
       (error) => {
         logger.debug(error.message, error.evidence)
