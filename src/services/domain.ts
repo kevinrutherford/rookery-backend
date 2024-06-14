@@ -4,8 +4,14 @@ import { Collection } from './collection-resource'
 import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
+import { FrontMatter } from '../unrestricted-domain/domain-event'
 import { TimelineEvent } from '../unrestricted-domain/local-timeline/readmodel' // SMELL
-import { Work } from '../unrestricted-domain/works/work' // SMELL
+
+type Work = {
+  id: string,
+  updatedAt: Date,
+  frontMatter: FrontMatter,
+}
 
 /*
 type FrontMatterNotDetermined = {
@@ -27,12 +33,6 @@ type FrontMatterFound = {
 type FrontMatter = {
   workId: string,
   attributes: FrontMatterFound | FrontMatterNotFound | FrontMatterNotDetermined,
-}
-
-type Work = {
-  id: string,
-  updatedAt: Date,
-  frontMatter: FrontMatter,
 }
 
 type WorkUpdated = {
