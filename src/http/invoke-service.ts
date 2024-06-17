@@ -1,6 +1,5 @@
 import { Middleware } from '@koa/router'
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import { ErrorCode } from './error-outcome'
 import { ServicePath } from './service-path'
@@ -27,25 +26,16 @@ type InvokeService = (logger: Logger, service: ServicePath['service'], unrestric
 export const invokeService: InvokeService = (logger, service, unrestrictedDomain) => (context) => {
   const authority = Auth.instantiate(context.request.token)
   const restrictedDomain = RestrictedDomain.instantiate(authority, unrestrictedDomain)
-  pipe(
-    {
-      ...context.params,
-      ...context.query,
-    },
-    service(restrictedDomain)(authority),
-    E.match(
-      (error) => {
-        logger.debug(error.message, error.evidence)
-        context.response.status = errorToStatus(error.category)
-        context.response.type = 'json'
-        context.response.body = { error }
-      },
-      (resource) => {
-        context.response.status = StatusCodes.OK
-        context.response.type = 'json'
-        context.response.body = resource
-      },
-    ),
-  )
+
+  context.response.type = 'json'
+  const response = service(restrictedDomain)(authority)({ ...context.params, ...context.query })
+  if (E.isRight(response)) {
+    context.response.status = StatusCodes.OK
+    context.response.body = response
+  } else {
+    logger.debug(response.left.message, response.left.evidence)
+    context.response.status = errorToStatus(response.left.category)
+    context.response.body = { errors: [response.left] }
+  }
 }
 
