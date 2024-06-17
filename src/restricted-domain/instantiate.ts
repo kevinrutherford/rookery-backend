@@ -5,7 +5,7 @@ import { Queries } from '../unrestricted-domain'
 
 export const instantiate = (authority: Authority, unrestrictedDomain: Queries): Domain => ({
   ...unrestrictedDomain,
-  allCollections: allCollections(unrestrictedDomain)(authority),
-  lookupCollection: lookupCollection(unrestrictedDomain)(authority),
+  allCollections: allCollections(unrestrictedDomain, authority),
+  lookupCollection: lookupCollection(unrestrictedDomain, authority),
 })
 
