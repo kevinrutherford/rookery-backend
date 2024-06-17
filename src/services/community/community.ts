@@ -8,9 +8,9 @@ export const getCommunity = (queries: Domain): Service => () => () => pipe(
   queries.getCommunity(),
   E.fromOption(() => ({
     errors: [{
-      category: 'not-found' as const,
-      message: 'Community not initialised',
-      evidence: {},
+      code: 'not-found' as const,
+      title: 'Community not initialised',
+      meta: {},
     }],
   })),
   E.map((community) => ({

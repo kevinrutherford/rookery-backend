@@ -9,7 +9,7 @@ import * as RestrictedDomain from '../restricted-domain'
 import { Queries } from '../unrestricted-domain'
 
 const errorToStatus = (errors: ErrorOutcome): number => {
-  switch (errors.errors[0].category) {
+  switch (errors.errors[0].code) {
     case 'bad-input':
       return StatusCodes.BAD_REQUEST
     case 'not-found':
@@ -34,10 +34,10 @@ export const invokeService: InvokeService = (logger, service, unrestrictedDomain
     context.response.body = response.right
   } else {
     response.left.errors.forEach((error) => {
-      if (error.category === 'fatal-error')
-        logger.error(error.message, error.evidence)
+      if (error.code === 'fatal-error')
+        logger.error(error.title, error.meta)
       else
-        logger.debug(error.message, error.evidence)
+        logger.debug(error.title, error.meta)
     })
     context.response.status = errorToStatus(response.left)
     context.response.body = response.left

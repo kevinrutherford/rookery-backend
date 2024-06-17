@@ -6,9 +6,9 @@ export type ErrorCode =
 
 export type ErrorOutcome = {
   errors: Array<{
-    category: ErrorCode,
-    message: string,
-    evidence: Record<string, unknown>,
+    code: ErrorCode,
+    title: string,
+    meta: Record<string, unknown>,
   }>,
 }
 

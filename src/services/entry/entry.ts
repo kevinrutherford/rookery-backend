@@ -51,9 +51,9 @@ const getInc = (queries: Domain, entry: Entry) => (opt: Includes): E.Either<Erro
         E.bimap(
           () => ({
             errors: [{
-              category: 'not-found' as const,
-              message: 'Collection not found',
-              evidence: entry,
+              code: 'not-found' as const,
+              title: 'Collection not found',
+              meta: entry,
             }],
           }),
           (c) => [renderCollection(c)],
@@ -72,9 +72,9 @@ const getInc = (queries: Domain, entry: Entry) => (opt: Includes): E.Either<Erro
         queries.lookupWork,
         E.fromOption(() => ({
           errors: [{
-            category: 'not-found' as const,
-            message: 'Could not find Work!',
-            evidence: { entry },
+            code: 'not-found' as const,
+            title: 'Could not find Work!',
+            meta: { entry },
           }],
         })),
         E.map(renderWork),
@@ -108,9 +108,9 @@ const renderResult = (queries: Domain) => (params: Params) => pipe(
   queries.lookupEntry,
   E.fromOption(() => ({
     errors: [{
-      category: 'not-found' as const,
-      message: 'Entry not found',
-      evidence: { id: params.id },
+      code: 'not-found' as const,
+      title: 'Entry not found',
+      meta: { id: params.id },
     }],
   })),
   E.chain(renderWithIncludes(queries, params.include)),

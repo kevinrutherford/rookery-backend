@@ -81,9 +81,9 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (collec
 )
 
 const renderNotFoundErrorDocument = (collectionId: string) => ({
-  category: 'not-found' as const,
-  message: 'Collection not found',
-  evidence: { collectionId },
+  code: 'not-found' as const,
+  title: 'Collection not found',
+  meta: { collectionId },
 })
 
 const renderResult = (queries: Domain) => (params: Params) => pipe(
