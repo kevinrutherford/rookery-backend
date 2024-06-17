@@ -5,8 +5,10 @@ export type ErrorCode =
   | 'fatal-error'
 
 export type ErrorOutcome = {
-  category: ErrorCode,
-  message: string,
-  evidence: Record<string, unknown>,
+  errors: Array<{
+    category: ErrorCode,
+    message: string,
+    evidence: Record<string, unknown>,
+  }>,
 }
 

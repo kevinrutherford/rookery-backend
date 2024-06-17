@@ -1,15 +1,15 @@
 import { Middleware } from '@koa/router'
 import * as E from 'fp-ts/Either'
 import { StatusCodes } from 'http-status-codes'
-import { ErrorCode } from './error-outcome'
+import { ErrorOutcome } from './error-outcome'
 import { ServicePath } from './service-path'
 import * as Auth from '../auth'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
 import { Queries } from '../unrestricted-domain'
 
-const errorToStatus = (code: ErrorCode): number => {
-  switch (code) {
+const errorToStatus = (errors: ErrorOutcome): number => {
+  switch (errors.errors[0].category) {
     case 'bad-input':
       return StatusCodes.BAD_REQUEST
     case 'not-found':
@@ -33,9 +33,14 @@ export const invokeService: InvokeService = (logger, service, unrestrictedDomain
     context.response.status = StatusCodes.OK
     context.response.body = response.right
   } else {
-    logger.debug(response.left.message, response.left.evidence)
-    context.response.status = errorToStatus(response.left.category)
-    context.response.body = { errors: [response.left] }
+    response.left.errors.forEach((error) => {
+      if (error.category === 'fatal-error')
+        logger.error(error.message, error.evidence)
+      else
+        logger.debug(error.message, error.evidence)
+    })
+    context.response.status = errorToStatus(response.left)
+    context.response.body = response.left
   }
 }
 

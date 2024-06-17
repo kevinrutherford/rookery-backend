@@ -7,9 +7,11 @@ import { Service } from '../service'
 export const getCommunity = (queries: Domain): Service => () => () => pipe(
   queries.getCommunity(),
   E.fromOption(() => ({
-    category: 'not-found' as const,
-    message: 'Community not initialised',
-    evidence: {},
+    errors: [{
+      category: 'not-found' as const,
+      message: 'Community not initialised',
+      evidence: {},
+    }],
   })),
   E.map((community) => ({
     data: renderCommunity(community),

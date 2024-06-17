@@ -90,7 +90,9 @@ const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.bimap(
-    () => renderNotFoundErrorDocument(params.id),
+    () => ({
+      errors: [renderNotFoundErrorDocument(params.id)],
+    }),
     renderWithIncludes(queries, params.include),
   ),
 )

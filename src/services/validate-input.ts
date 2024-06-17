@@ -10,11 +10,13 @@ export const validateInput = <A>(codec: t.Decoder<unknown, A>) => (
   input,
   codec.decode,
   E.mapLeft((errors) => ({
-    category: 'bad-input',
-    message: PR.failure(errors).join('\n'),
-    evidence: {
-      input: JSON.stringify(input),
-    },
+    errors: [{
+      category: 'bad-input',
+      message: PR.failure(errors).join('\n'),
+      evidence: {
+        input: JSON.stringify(input),
+      },
+    }],
   })),
 )
 
