@@ -5,7 +5,7 @@ import { Authority } from '../auth/authority'
 import { Queries } from '../unrestricted-domain'
 
 type Response = Json | {
-  errors: Array<{ code: string }>,
+  errors: Array<ErrorOutcome>,
 }
 
 type Service = (clientCan: Authority) => (input: unknown) => E.Either<ErrorOutcome, Response>
