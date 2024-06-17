@@ -86,8 +86,7 @@ const renderNotFoundErrorDocument = (collectionId: string) => ({
   evidence: { collectionId },
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const renderResult = (queries: Domain, clientCan: Parameters<Service>[0]) => (params: Params) => pipe(
+const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.bimap(
@@ -96,9 +95,9 @@ const renderResult = (queries: Domain, clientCan: Parameters<Service>[0]) => (pa
   ),
 )
 
-export const getCollection = (queries: Domain): Service => (isAuthenticated) => (input) => pipe(
+export const getCollection = (queries: Domain): Service => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
-  E.chainW(renderResult(queries, isAuthenticated)),
+  E.chainW(renderResult(queries)),
 )
 
