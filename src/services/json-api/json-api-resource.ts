@@ -1,5 +1,6 @@
 import { Json } from 'fp-ts/Json'
 import { ResourceIdentifier } from './resource-identifier'
+import { ErrorCode } from '../../http/error-outcome'
 
 export type JsonApiResource = ResourceIdentifier & {
   attributes: Json,
@@ -17,7 +18,7 @@ type DataDocument = {
 }
 
 type ErrorDocument = {
-  code: 'not-found' | 'not-authorised' | 'fatal-error',
+  code: ErrorCode,
   title: string,
   detail?: string,
   source?: {
