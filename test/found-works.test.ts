@@ -36,7 +36,7 @@ describe('given a Work that has been found on Crossref', () => {
       getWorks(domain.queries)(always),
       E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
     )
-    expect(response.data).toHaveLength(0)
+    expect('data' in response && response.data).toHaveLength(0)
   })
 
   it('can be filtered in', () => {
@@ -47,7 +47,7 @@ describe('given a Work that has been found on Crossref', () => {
       getWorks(domain.queries)(always),
       E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
     )
-    expect(response.data).toHaveLength(1)
+    expect('data' in response && response.data).toHaveLength(1)
   })
 })
 
