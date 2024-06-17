@@ -86,15 +86,14 @@ const renderNotFoundErrorDocument = (collectionId: string) => ({
   evidence: { collectionId },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const renderResult = (queries: Domain, clientCan: Parameters<Service>[0]) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
-  E.mapLeft(() => renderNotFoundErrorDocument(params.id)),
-  E.filterOrElse(
-    (collection) => !collection.isPrivate || clientCan('browse-private-collections'),
+  E.bimap(
     () => renderNotFoundErrorDocument(params.id),
+    renderWithIncludes(queries, params.include),
   ),
-  E.map(renderWithIncludes(queries, params.include)),
 )
 
 export const getCollection = (queries: Domain): Service => (isAuthenticated) => (input) => pipe(

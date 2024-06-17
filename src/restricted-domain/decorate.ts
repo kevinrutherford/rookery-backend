@@ -9,8 +9,7 @@ export const allCollections = (queries: Domain) => (clientCan: Authority): Domai
   RA.filter((c) => !c.isPrivate || clientCan('browse-private-collections')),
 )
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const lookupCollection = (queries: Domain) => (clientCan: Authority): Domain['lookupCollection'] => (collectionId) => pipe(
+export const lookupCollection = (queries: Domain) => (clientCan: Authority): Domain['lookupCollection'] => (collectionId) => pipe(
   collectionId,
   queries.lookupCollection,
   E.filterOrElseW(
