@@ -31,7 +31,7 @@ export const invokeService: InvokeService = (logger, service, unrestrictedDomain
   const response = service(restrictedDomain)(authority)({ ...context.params, ...context.query })
   if (E.isRight(response)) {
     context.response.status = StatusCodes.OK
-    context.response.body = response
+    context.response.body = response.right
   } else {
     logger.debug(response.left.message, response.left.evidence)
     context.response.status = errorToStatus(response.left.category)
