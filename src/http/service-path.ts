@@ -4,7 +4,11 @@ import { ErrorOutcome } from './error-outcome'
 import { Authority } from '../auth/authority'
 import { Queries } from '../unrestricted-domain'
 
-type Service = (clientCan: Authority) => (input: unknown) => E.Either<ErrorOutcome, Json>
+type Response = Json | {
+  errors: Array<{ code: string }>,
+}
+
+type Service = (clientCan: Authority) => (input: unknown) => E.Either<ErrorOutcome, Response>
 
 export type ServicePath = {
   path: string,
