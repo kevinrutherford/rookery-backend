@@ -55,6 +55,8 @@ export type DoiEntered = {
   },
 }
 
+type DomainError = 'not-found' | 'not-authorised'
+
 export type Domain = {
   allCollections: () => ReadonlyArray<Collection>,
   allWorks: () => ReadonlyArray<Work>,
@@ -62,7 +64,7 @@ export type Domain = {
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
   getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
-  lookupCollection: (collectionId: string) => E.Either<'not-found', Collection>,
+  lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   lookupEntry: (collectionId: string) => O.Option<Entry>,
   lookupWork: (id: string) => O.Option<Work>,
 }
