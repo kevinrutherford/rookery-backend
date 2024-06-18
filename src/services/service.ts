@@ -1,11 +1,11 @@
 import * as E from 'fp-ts/Either'
 import { ErrorOutcome } from './error-outcome'
 import { JsonApiDocument } from './json-api/json-api-resource'
-import { ServicePath } from './service-path'
+import { Authority } from '../auth/authority'
 
 export type ErrorDocument = ErrorOutcome
 
-export type Service = (clientCan: Parameters<ReturnType<ServicePath['service']>>[0])
+export type Service = (clientCan: Authority)
 => (input: unknown)
 => E.Either<ErrorDocument, JsonApiDocument>
 

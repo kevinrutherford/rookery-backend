@@ -9,7 +9,7 @@ import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Activity } from '../activity-resource'
-import { Domain } from '../domain'
+import { Domain } from '../domain/domain'
 import { renderActivityResource } from '../json-api/render-activity-resource'
 import { Service } from '../service'
 

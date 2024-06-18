@@ -2,8 +2,8 @@ import { sequenceS } from 'fp-ts/Apply'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { Activity } from '../activity-resource'
-import { DoiEntered, Domain } from '../domain'
-import { Work } from '../work-resource'
+import { DoiEntered, Domain } from '../domain/domain'
+import { Work } from '../domain/work-resource'
 
 // eslint-disable-next-line consistent-return
 const titleOf = (work: Work) => {

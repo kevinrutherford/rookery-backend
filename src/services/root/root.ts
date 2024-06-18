@@ -1,7 +1,7 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { Domain } from '../domain'
+import { Domain } from '../domain/domain'
 import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
 import { Service } from '../service'
 import { pathToCommunity } from '../ui-links'

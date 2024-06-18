@@ -1,6 +1,6 @@
 import * as O from 'fp-ts/Option'
 import { Activity } from '../activity-resource'
-import { CollectionCreated } from '../domain'
+import { CollectionCreated } from '../domain/domain'
 
 export const toCollectionCreatedParagraph = (event: CollectionCreated): O.Option<Activity> => O.some({
   userHandle: 'you',

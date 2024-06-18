@@ -1,3 +1,3 @@
-export { Domain } from './domain'
-export { Collection } from './collection-resource'
+export { Domain } from './domain/domain'
+export { Collection } from './domain/collection-resource'
 
