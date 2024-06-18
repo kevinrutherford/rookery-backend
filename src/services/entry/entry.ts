@@ -3,14 +3,15 @@ import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
-import { Json, optionFromNullable } from 'io-ts-types'
+import { optionFromNullable } from 'io-ts-types'
 import { Domain } from '../domain/domain'
 import { Entry } from '../domain/entry-resource'
+import { JsonApiErrorsDocument, JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
 import { renderWork } from '../json-api/render-work'
-import { ErrorDocument, Service } from '../service'
+import { Service } from '../service'
 import { validateInput } from '../validate-input'
 
 const includes = t.union([
@@ -42,7 +43,10 @@ const paramsCodec = t.type({
 
 type Params = t.TypeOf<typeof paramsCodec>
 
-const getInc = (queries: Domain, entry: Entry) => (opt: Includes): E.Either<ErrorDocument, ReadonlyArray<Json>> => {
+const getInc = (
+  queries: Domain,
+  entry: Entry,
+) => (opt: Includes): E.Either<JsonApiErrorsDocument, ReadonlyArray<JsonApiResource>> => {
   switch (opt) {
     case 'collection':
       return pipe(
@@ -53,7 +57,10 @@ const getInc = (queries: Domain, entry: Entry) => (opt: Includes): E.Either<Erro
             errors: [{
               code: 'not-found' as const,
               title: 'Collection not found',
-              meta: entry,
+              meta: {
+                entryId: entry.id,
+                collectionId: entry.collectionId,
+              },
             }],
           }),
           (c) => [renderCollection(c)],
@@ -74,7 +81,10 @@ const getInc = (queries: Domain, entry: Entry) => (opt: Includes): E.Either<Erro
           errors: [{
             code: 'not-found' as const,
             title: 'Could not find Work!',
-            meta: { entry },
+            meta: {
+              entryId: entry.id,
+              collectionId: entry.collectionId,
+            },
           }],
         })),
         E.map(renderWork),

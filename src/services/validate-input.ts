@@ -2,11 +2,11 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as PR from 'io-ts/PathReporter'
-import { ErrorDocument } from './service'
+import { JsonApiErrorsDocument } from './json-api/json-api-resource'
 
 export const validateInput = <A>(codec: t.Decoder<unknown, A>) => (
   input: unknown,
-): E.Either<ErrorDocument, A> => pipe(
+): E.Either<JsonApiErrorsDocument, A> => pipe(
   input,
   codec.decode,
   E.mapLeft((errors) => ({

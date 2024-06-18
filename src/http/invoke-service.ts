@@ -5,10 +5,11 @@ import { StatusCodes } from 'http-status-codes'
 import * as Auth from '../auth'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
-import { ErrorOutcome, ServicePath } from '../services'
+import { ServicePath } from '../services'
+import { JsonApiErrorsDocument } from '../services/json-api/json-api-resource'
 import { Queries } from '../unrestricted-domain'
 
-const errorToStatus = (errors: ErrorOutcome): number => {
+const errorToStatus = (errors: JsonApiErrorsDocument): number => {
   switch (errors.errors[0].code) {
     case 'bad-input':
       return StatusCodes.BAD_REQUEST

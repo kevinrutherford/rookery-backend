@@ -12,7 +12,7 @@ export type JsonApiResource = ResourceIdentifier & {
   }>,
 }
 
-type DataDocument = {
+export type JsonApiDataDocument = {
   data: JsonApiResource | ReadonlyArray<JsonApiResource>,
   included?: ReadonlyArray<JsonApiResource>,
 }
@@ -27,9 +27,7 @@ type ErrorDocument = {
   meta?: Record<string, Json>,
 }
 
-type ErrorsDocument = {
+export type JsonApiErrorsDocument = {
   errors: Array<ErrorDocument>,
 }
-
-export type JsonApiDocument = DataDocument | ErrorsDocument
 
