@@ -195,6 +195,7 @@ module.exports = {
     exclude: {
       path: [
         '^.*-spec.ts$',
+        'app',
         'helper',
         '^src/index.ts$',
       ],
