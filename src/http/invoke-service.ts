@@ -4,8 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 import * as Auth from '../auth'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
-import { ErrorOutcome } from '../services/error-outcome'
-import { ServicePath } from '../services/service-path'
+import { ErrorOutcome, ServicePath } from '../services'
 import { Queries } from '../unrestricted-domain'
 
 const errorToStatus = (errors: ErrorOutcome): number => {

@@ -1,6 +1,6 @@
 import { allCollections, lookupCollection } from './decorate'
 import { Authority } from '../auth/authority'
-import { Domain } from '../services/domain'
+import { Domain } from '../services/index.open'
 import { Queries } from '../unrestricted-domain'
 
 export const instantiate = (authority: Authority, unrestrictedDomain: Queries): Domain => ({
