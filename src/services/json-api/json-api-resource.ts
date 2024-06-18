@@ -1,6 +1,5 @@
 import { Json } from 'fp-ts/Json'
 import { ResourceIdentifier } from './resource-identifier'
-import { ErrorCode } from '../error-outcome'
 
 export type JsonApiResource = ResourceIdentifier & {
   attributes: Json,
@@ -16,6 +15,12 @@ export type JsonApiDataDocument = {
   data: JsonApiResource | ReadonlyArray<JsonApiResource>,
   included?: ReadonlyArray<JsonApiResource>,
 }
+
+type ErrorCode =
+  | 'bad-input'
+  | 'not-found'
+  | 'not-authorised'
+  | 'fatal-error'
 
 type ErrorDocument = {
   code: ErrorCode,
