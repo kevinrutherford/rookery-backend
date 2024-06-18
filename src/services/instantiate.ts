@@ -3,10 +3,10 @@ import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
 import { getEntry } from './entry/entry'
 import { getRoot } from './root/root'
+import { ServicePath } from './service-path'
 import { getLocalTimeline } from './timeline/local'
 import { pathToCommunity } from './ui-links'
 import { getWorks } from './work/works'
-import { ServicePath } from '../http/index.open'
 
 export const instantiate = (): ReadonlyArray<ServicePath> => [
   {

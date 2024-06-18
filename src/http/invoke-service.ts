@@ -1,11 +1,11 @@
 import { Middleware } from '@koa/router'
 import * as E from 'fp-ts/Either'
 import { StatusCodes } from 'http-status-codes'
-import { ErrorOutcome } from './error-outcome'
-import { ServicePath } from './service-path'
 import * as Auth from '../auth'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
+import { ErrorOutcome } from '../services/error-outcome'
+import { ServicePath } from '../services/service-path'
 import { Queries } from '../unrestricted-domain'
 
 const errorToStatus = (errors: ErrorOutcome): number => {

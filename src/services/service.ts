@@ -1,6 +1,7 @@
 import * as E from 'fp-ts/Either'
+import { ErrorOutcome } from './error-outcome'
 import { JsonApiDocument } from './json-api/json-api-resource'
-import { ErrorOutcome, ServicePath } from '../http/index.open'
+import { ServicePath } from './service-path'
 
 export type ErrorDocument = ErrorOutcome
 

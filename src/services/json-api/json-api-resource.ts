@@ -1,6 +1,6 @@
 import { Json } from 'fp-ts/Json'
 import { ResourceIdentifier } from './resource-identifier'
-import { ErrorCode } from '../../http/error-outcome'
+import { ErrorCode } from '../error-outcome'
 
 export type JsonApiResource = ResourceIdentifier & {
   attributes: Json,

@@ -7,9 +7,9 @@ import { invokeService } from './invoke-service'
 import { logRequest } from './log-request'
 import ping from './ping'
 import { Route, router } from './router'
-import { ServicePath } from './service-path'
 import { startServer } from './start-server'
 import { Logger } from '../logger'
+import { ServicePath } from '../services/service-path'
 import { Queries } from '../unrestricted-domain'
 
 export const createHttpServer = (logger: Logger, servicePaths: ReadonlyArray<ServicePath>, queries: Queries): void => {
