@@ -9,6 +9,16 @@ import { ServicePath } from '../services'
 import { JsonApiErrorsDocument } from '../services/json-api/json-api-resource'
 import { Queries } from '../unrestricted-domain'
 
+const logErrors = (logger: Logger) => (errors: JsonApiErrorsDocument): JsonApiErrorsDocument => {
+  errors.errors.forEach((error) => {
+    if (error.code === 'fatal-error')
+      logger.error(error.title, error.meta)
+    else
+      logger.debug(error.title, error.meta)
+  })
+  return errors
+}
+
 const errorToStatus = (errors: JsonApiErrorsDocument): number => {
   switch (errors.errors[0].code) {
     case 'bad-input':
@@ -30,19 +40,12 @@ export const invokeService: InvokeService = (logger, service, unrestrictedDomain
 
   const result = pipe(
     service(restrictedDomain)(authority)({ ...context.params, ...context.query }),
+    E.mapLeft(logErrors(logger)),
     E.matchW(
-      (errors) => {
-        errors.errors.forEach((error) => {
-          if (error.code === 'fatal-error')
-            logger.error(error.title, error.meta)
-          else
-            logger.debug(error.title, error.meta)
-        })
-        return ({
-          status: errorToStatus(errors),
-          body: errors,
-        })
-      },
+      (errors) => ({
+        status: errorToStatus(errors),
+        body: errors,
+      }),
       (body) => ({
         status: StatusCodes.OK,
         body,
