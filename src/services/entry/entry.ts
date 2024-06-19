@@ -129,6 +129,6 @@ const renderResult = (queries: Domain) => (params: Params) => pipe(
 export const getEntry = (queries: Domain): Service => () => (input) => pipe(
   input,
   validateInput(paramsCodec),
-  E.chainW(renderResult(queries)),
+  E.chain(renderResult(queries)),
 )
 
