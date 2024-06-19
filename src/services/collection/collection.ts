@@ -9,6 +9,7 @@ import { Domain } from '../domain/domain'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderEntry } from '../json-api/render-entry'
+import { renderError } from '../json-api/render-error'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
@@ -80,19 +81,11 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (collec
   ),
 )
 
-const renderNotFoundErrorDocument = (collectionId: string) => ({
-  code: 'not-found' as const,
-  title: 'Collection not found',
-  meta: { collectionId },
-})
-
 const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupCollection,
   E.bimap(
-    () => ({
-      errors: [renderNotFoundErrorDocument(params.id)],
-    }),
+    () => renderError('not-found', 'Collection not found', { collectionId: params.id }),
     renderWithIncludes(queries, params.include),
   ),
 )

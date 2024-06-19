@@ -6,23 +6,14 @@ import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
 import { Domain } from '../domain/domain'
 import { Entry } from '../domain/entry-resource'
-import {
-  ErrorCode, ErrorDocument, JsonApiErrorsDocument, JsonApiResource,
-} from '../json-api/json-api-resource'
+import { JsonApiErrorsDocument, JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
+import { renderError } from '../json-api/render-error'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
-
-const renderError = (code: ErrorCode, title: string, meta: ErrorDocument['meta']): JsonApiErrorsDocument => ({
-  errors: [{
-    code,
-    title,
-    meta,
-  }],
-})
 
 const includes = t.union([
   t.literal('collection'),
