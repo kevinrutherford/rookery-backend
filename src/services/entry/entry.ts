@@ -6,13 +6,23 @@ import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
 import { Domain } from '../domain/domain'
 import { Entry } from '../domain/entry-resource'
-import { JsonApiErrorsDocument, JsonApiResource } from '../json-api/json-api-resource'
+import {
+  ErrorCode, ErrorDocument, JsonApiErrorsDocument, JsonApiResource,
+} from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
+
+const renderError = (code: ErrorCode, title: string, meta: ErrorDocument['meta']): JsonApiErrorsDocument => ({
+  errors: [{
+    code,
+    title,
+    meta,
+  }],
+})
 
 const includes = t.union([
   t.literal('collection'),
@@ -53,15 +63,9 @@ const getInc = (
         entry.collectionId,
         queries.lookupCollection,
         E.bimap(
-          () => ({
-            errors: [{
-              code: 'not-found' as const,
-              title: 'Collection not found',
-              meta: {
-                entryId: entry.id,
-                collectionId: entry.collectionId,
-              },
-            }],
+          () => renderError('fatal-error', 'Collection associated with Entry not found!', {
+            entryId: entry.id,
+            collectionId: entry.collectionId,
           }),
           (c) => [renderCollection(c)],
         ),
@@ -77,15 +81,9 @@ const getInc = (
       return pipe(
         entry.workId,
         queries.lookupWork,
-        E.fromOption(() => ({
-          errors: [{
-            code: 'not-found' as const,
-            title: 'Could not find Work!',
-            meta: {
-              entryId: entry.id,
-              collectionId: entry.collectionId,
-            },
-          }],
+        E.fromOption(() => renderError('fatal-error', 'Work associated with Entry not found!', {
+          entryId: entry.id,
+          workId: entry.workId,
         })),
         E.map(renderWork),
         E.map((work) => [work]),
@@ -116,13 +114,7 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry:
 const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupEntry,
-  E.fromOption(() => ({
-    errors: [{
-      code: 'not-found' as const,
-      title: 'Entry not found',
-      meta: { id: params.id },
-    }],
-  })),
+  E.fromOption(() => renderError('not-found', 'Entry not found', { id: params.id })),
   E.chain(renderWithIncludes(queries, params.include)),
 )
 

@@ -16,13 +16,13 @@ export type JsonApiDataDocument = {
   included?: ReadonlyArray<JsonApiResource>,
 }
 
-type ErrorCode =
+export type ErrorCode =
   | 'bad-input'
   | 'not-found'
   | 'not-authorised'
   | 'fatal-error'
 
-type ErrorDocument = {
+export type ErrorDocument = {
   code: ErrorCode,
   title: string,
   detail?: string,
