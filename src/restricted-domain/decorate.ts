@@ -22,3 +22,9 @@ export const lookupCollection = (queries: Domain, claims: Authority): Domain['lo
   ),
 )
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const lookupEntry = (queries: Domain, claims: Authority): Domain['lookupEntry'] => (entryId) => pipe(
+  entryId,
+  queries.lookupEntry,
+)
+
