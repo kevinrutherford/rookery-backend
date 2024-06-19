@@ -5,8 +5,7 @@ import { StatusCodes } from 'http-status-codes'
 import * as Auth from '../auth'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
-import { ServicePath } from '../services'
-import { JsonApiErrorsDocument } from '../services/json-api/json-api-resource'
+import { JsonApiErrorsDocument, ServicePath } from '../services'
 import { Queries } from '../unrestricted-domain'
 
 const logErrors = (logger: Logger) => (errors: JsonApiErrorsDocument): JsonApiErrorsDocument => {
