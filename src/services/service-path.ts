@@ -1,8 +1,8 @@
 import { Service } from './service'
-import { Queries } from '../unrestricted-domain'
+import { Domain } from '../domain/index.open'
 
 export type ServicePath = {
   path: string,
-  service: (queries: Queries) => Service,
+  service: (domain: Domain) => Service,
 }
 

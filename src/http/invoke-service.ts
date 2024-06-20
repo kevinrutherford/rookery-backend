@@ -3,10 +3,10 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { StatusCodes } from 'http-status-codes'
 import * as Auth from '../auth'
+import { Domain } from '../domain/index.open'
 import { Logger } from '../logger'
 import * as RestrictedDomain from '../restricted-domain'
 import { JsonApiErrorsDocument, ServicePath } from '../services'
-import { Queries } from '../unrestricted-domain'
 
 const logErrors = (logger: Logger) => (errors: JsonApiErrorsDocument): JsonApiErrorsDocument => {
   errors.errors.forEach((error) => {
@@ -31,7 +31,7 @@ const errorToStatus = (errors: JsonApiErrorsDocument): number => {
   }
 }
 
-type InvokeService = (logger: Logger, service: ServicePath['service'], unrestrictedDomain: Queries) => Middleware
+type InvokeService = (logger: Logger, service: ServicePath['service'], unrestrictedDomain: Domain) => Middleware
 
 export const invokeService: InvokeService = (logger, service, unrestrictedDomain) => (context) => {
   const authority = Auth.instantiate(context.request.token)

@@ -1,2 +1,2 @@
-export { instantiate, Queries } from './instantiate'
+export { instantiate } from './instantiate'
 

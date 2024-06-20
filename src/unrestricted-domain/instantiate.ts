@@ -8,6 +8,7 @@ import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
+import { Domain } from '../domain/index.open'
 import { Logger } from '../logger'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -43,7 +44,7 @@ export const instantiate = (logger: Logger) => {
     ),
   )
 
-  const queries = {
+  const queries: Domain = {
     ...r1.queries,
     ...r2.queries,
     ...r3.queries,
@@ -57,6 +58,4 @@ export const instantiate = (logger: Logger) => {
     handleEvent,
   })
 }
-
-export type Queries = ReturnType<typeof instantiate>['queries']
 
