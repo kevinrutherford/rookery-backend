@@ -65,7 +65,7 @@ export type Domain = {
   getCommunity: () => O.Option<Community>,
   getLocalTimeline: (includePrivateCollectionActivities: boolean) => ReadonlyArray<TimelineEvent>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
-  lookupEntry: (collectionId: string) => O.Option<Entry>,
+  lookupEntry: (collectionId: string) => E.Either<DomainError, Entry>,
   lookupWork: (id: string) => O.Option<Work>,
 }
 

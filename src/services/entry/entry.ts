@@ -105,7 +105,7 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry:
 const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupEntry,
-  E.fromOption(() => renderError('not-found', 'Entry not found', { id: params.id })),
+  E.mapLeft(() => renderError('not-found', 'Entry not found', { id: params.id })),
   E.chain(renderWithIncludes(queries, params.include)),
 )
 
