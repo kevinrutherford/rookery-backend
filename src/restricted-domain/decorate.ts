@@ -2,7 +2,7 @@ import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { Authority } from '../auth/authority'
-import { Collection, Domain, Entry } from '../services/index.open'
+import { Collection, Domain, Entry } from '../domain/index.open'
 
 const clientCanAccessCollection = (clientCan: Authority) => (collection: Collection): boolean => (
   !collection.isPrivate || clientCan('browse-private-collections')

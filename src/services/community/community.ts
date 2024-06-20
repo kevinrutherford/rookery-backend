@@ -1,6 +1,6 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import { Domain } from '../domain/domain'
+import { Domain } from '../../domain/index.open'
 import { renderCommunity } from '../json-api/render-community'
 import { renderError } from '../json-api/render-error'
 import { Service } from '../service'

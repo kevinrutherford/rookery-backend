@@ -211,10 +211,17 @@ module.exports = {
     },
     reporterOptions: {
       dot: {
-        collapsePattern: 'node_modules/(@[^/]+/[^/]+|[^/]+)',
+        collapsePattern: 'domain',
         theme: {
           graph: { rankdir: 'TD' },
           modules: [
+            {
+              criteria: { source: 'src/domain' },
+              attributes: {
+                shape: 'ellipse',
+                fillcolor: '#b6e4db',
+              },
+            },
             {
               criteria: { consolidated: true },
               attributes: {
@@ -256,6 +263,13 @@ module.exports = {
             color: '#888888',
           },
           modules: [
+            {
+              criteria: { source: 'src/domain' },
+              attributes: {
+                shape: 'ellipse',
+                fillcolor: '#b6e4db',
+              },
+            },
             {
               criteria: { consolidated: true },
               attributes: {
