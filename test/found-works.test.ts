@@ -1,8 +1,8 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
+import { dummyReporter } from './dummy-reporter'
 import { mkEvent } from './mk-event'
 import { Authority } from '../src/auth/authority'
-import * as Logger from '../src/logger'
 import { getWorks } from '../src/services/work/works'
 import * as UnrestrictedDomain from '../src/unrestricted-domain'
 
@@ -13,7 +13,7 @@ const mustBeOnTheRight = (
 const always: Authority = () => true
 
 describe('given a Work that has been found on Crossref', () => {
-  const domain = UnrestrictedDomain.instantiate(Logger.instantiate())
+  const domain = UnrestrictedDomain.instantiate(dummyReporter)
   domain.handleEvent(mkEvent('work-updated', {
     workId: '10.1126/science.1172133',
     attributes: {

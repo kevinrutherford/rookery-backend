@@ -1,7 +1,6 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { Errors } from 'io-ts'
-import { formatValidationErrors } from 'io-ts-reporters'
 import * as collections from './collections'
 import * as comments from './comments'
 import * as community from './community'
@@ -10,20 +9,13 @@ import * as entries from './entries'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
 import { Domain } from '../domain/index.open'
-import { Logger } from '../logger'
 
 export type EventHandler = (event: unknown) => void
 
 export type ReportFatalError = (msg: string) => (errors: Errors) => void
 
-const reportParsingError = (logger: Logger): ReportFatalError => (msg) => (errors) => {
-  logger.warn(msg, {
-    errors: formatValidationErrors(errors),
-  })
-}
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const instantiate = (logger: Logger) => {
+export const instantiate = (reportParsingError: ReportFatalError) => {
 
   const r1 = collections.instantiate()
   const r2 = entries.instantiate()
@@ -45,7 +37,7 @@ export const instantiate = (logger: Logger) => {
     event,
     domainEvent.decode,
     E.match(
-      reportParsingError(logger)('Could not parse event from EventStore'),
+      reportParsingError('Could not parse event from EventStore'),
       dispatch,
     ),
   )

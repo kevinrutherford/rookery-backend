@@ -1,12 +1,12 @@
-import * as Logger from '../../src/logger'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
+import { dummyReporter } from '../dummy-reporter'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
-    const domain = UnrestrictedDomain.instantiate(Logger.instantiate())
+    const domain = UnrestrictedDomain.instantiate(dummyReporter)
     domain.handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),
