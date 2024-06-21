@@ -1,15 +1,19 @@
 import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { Errors } from 'io-ts'
 import { allCollections } from './collections/all-collections'
 import { Collection } from './collections/collection'
 import { lookupCollection } from './collections/lookup-collection'
 import * as comments from './comments'
+import { Comment } from './comments/comment'
 import * as community from './community'
 import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
+import { Entry } from './entries/entry'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
+import { Work } from './works/work'
 import { Domain } from '../domain/index.open'
 
 export type EventHandler = (event: unknown) => void
@@ -23,7 +27,13 @@ type DomainModel = {
 
 export const instantiate = (reportParsingError: ReportFatalError): DomainModel => {
   const currentState = {
+    activities: [],
     collections: new Map<string, Collection>(),
+    comments: new Map<string, Array<Comment>>(),
+    community: O.none,
+    entriesByCollection: new Map<string, Array<Entry>>(),
+    entriesByEntryId: new Map<string, Entry>(),
+    works: new Map<string, Work>(),
   }
 
   const h = (state: typeof currentState) => (event: DomainEvent): void => {
