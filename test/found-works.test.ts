@@ -6,6 +6,10 @@ import * as Logger from '../src/logger'
 import { getWorks } from '../src/services/work/works'
 import * as UnrestrictedDomain from '../src/unrestricted-domain'
 
+const mustBeOnTheRight = (
+  E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) })
+)
+
 const always: Authority = () => true
 
 describe('given a Work that has been found on Crossref', () => {
@@ -28,7 +32,7 @@ describe('given a Work that has been found on Crossref', () => {
         'filter[crossrefStatus]': 'not-determined',
       },
       getWorks(domain.queries)(always),
-      E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
+      mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(0)
   })
@@ -39,7 +43,7 @@ describe('given a Work that has been found on Crossref', () => {
         'filter[crossrefStatus]': 'found',
       },
       getWorks(domain.queries)(always),
-      E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) }),
+      mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(1)
   })
