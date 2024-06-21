@@ -27,22 +27,35 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
   }
 
   const h = (state: typeof currentState) => (event: DomainEvent): void => {
-    if (event.type === 'collection-created') {
-      state.collections.set(event.data.id, {
-        ...event.data,
-        isPrivate: false,
-      })
-      return
-    }
-    if (event.type === 'collection-updated') {
-      const id = event.data.collectionId
-      const current = state.collections.get(id)
-      if (current) {
-        state.collections.set(id, {
-          ...current,
-          ...event.data.attributes,
+    switch (event.type) {
+      case 'collection-created':
+      {
+        state.collections.set(event.data.id, {
+          ...event.data,
+          isPrivate: false,
         })
+        break
       }
+      case 'collection-updated':
+      {
+        const id = event.data.collectionId
+        const current = state.collections.get(id)
+        if (current) {
+          state.collections.set(id, {
+            ...current,
+            ...event.data.attributes,
+          })
+        }
+        break
+      }
+      case 'comment-created':
+        break
+      case 'community-created':
+        break
+      case 'doi-entered':
+        break
+      case 'work-updated':
+        break
     }
   }
 
