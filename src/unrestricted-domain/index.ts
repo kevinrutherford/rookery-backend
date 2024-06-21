@@ -1,2 +1,2 @@
-export { EventHandler, instantiate } from './instantiate'
+export { EventHandler, instantiate, ReportFatalError } from './instantiate'
 

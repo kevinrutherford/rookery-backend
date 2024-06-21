@@ -14,7 +14,9 @@ import { Logger } from '../logger'
 
 export type EventHandler = (event: unknown) => void
 
-const reportParsingError = (logger: Logger, msg: string) => (errors: Errors): void => {
+export type ReportFatalError = (msg: string) => (errors: Errors) => void
+
+const reportParsingError = (logger: Logger): ReportFatalError => (msg) => (errors) => {
   logger.warn(msg, {
     errors: formatValidationErrors(errors),
   })
@@ -43,7 +45,7 @@ export const instantiate = (logger: Logger) => {
     event,
     domainEvent.decode,
     E.match(
-      reportParsingError(logger, 'Could not parse event from EventStore'),
+      reportParsingError(logger)('Could not parse event from EventStore'),
       dispatch,
     ),
   )
