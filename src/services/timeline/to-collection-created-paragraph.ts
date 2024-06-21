@@ -3,6 +3,7 @@ import { CollectionCreated } from '../../domain/index.open'
 import { Activity } from '../activity-resource'
 
 export const toCollectionCreatedParagraph = (event: CollectionCreated): O.Option<Activity> => O.some({
+  id: event.id,
   userHandle: 'you',
   action: `created collection ${event.data.name}`,
   content: '',

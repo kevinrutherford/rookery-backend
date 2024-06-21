@@ -9,6 +9,7 @@ export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<Activity> =
       return O.none
     case 'not-found':
       return O.some({
+        id: event.id,
         userHandle: 'CrossrefBot',
         action: 'could not find a DOI',
         content: event.data.workId,
@@ -16,6 +17,7 @@ export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<Activity> =
       })
     case 'found':
       return O.some({
+        id: event.id,
         userHandle: 'CrossrefBot',
         action: 'found the title of a paper',
         content: event.data.attributes.title,

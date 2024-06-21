@@ -2,6 +2,7 @@ import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
 
 const esEventBase = t.type({
+  id: tt.NonEmptyString,
   created: tt.date,
 })
 
@@ -91,5 +92,8 @@ export const domainEvent = t.union([
   workUpdated,
 ])
 
-export type DomainEvent = { created: Date } & t.TypeOf<typeof domainEvent>
+export type DomainEvent = {
+  id: string,
+  created: Date,
+} & t.TypeOf<typeof domainEvent>
 

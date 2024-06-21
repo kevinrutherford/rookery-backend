@@ -8,6 +8,7 @@ import { Work } from './work-resource'
 
 export type WorkUpdated = {
   type: 'work-updated',
+  id: string,
   created: Date,
   isPrivate: boolean,
   data: {
@@ -24,6 +25,7 @@ type Activity =
 
 export type CollectionCreated = {
   type: 'collection-created',
+  id: string,
   created: Date,
   isPrivate: boolean,
   data: {
@@ -35,6 +37,7 @@ export type CollectionCreated = {
 
 export type CommentCreated = {
   type: 'comment-created',
+  id: string,
   created: Date,
   isPrivate: boolean,
   data: {
@@ -46,8 +49,9 @@ export type CommentCreated = {
 
 export type DoiEntered = {
   type: 'doi-entered',
-  created: Date,
-  isPrivate: boolean,
+  id: string, // SMELL: duplicate event properties
+  created: Date, // SMELL: duplicate event properties
+  isPrivate: boolean, // SMELL: duplicate event properties
   data: {
     id: string,
     workId: string,

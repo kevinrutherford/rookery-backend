@@ -4,6 +4,7 @@ import { arbitraryDate, arbitraryString, arbitraryWord } from '../helpers'
 
 const mkEvent = (type: string, data: Record<string, unknown>) => ({
   created: arbitraryDate(),
+  id: arbitraryWord(),
   type,
   data,
 })
