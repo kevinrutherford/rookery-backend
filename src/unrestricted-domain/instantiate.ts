@@ -14,8 +14,12 @@ export type EventHandler = (event: unknown) => void
 
 export type ReportFatalError = (msg: string) => (errors: Errors) => void
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const instantiate = (reportParsingError: ReportFatalError) => {
+type DomainModel = {
+  domain: Domain,
+  handleEvent: EventHandler,
+}
+
+export const instantiate = (reportParsingError: ReportFatalError): DomainModel => {
 
   const r1 = collections.instantiate()
   const r2 = entries.instantiate()
@@ -42,7 +46,7 @@ export const instantiate = (reportParsingError: ReportFatalError) => {
     ),
   )
 
-  const queries: Domain = {
+  const domain: Domain = {
     ...r1.queries,
     ...r2.queries,
     ...r3.queries,
@@ -52,7 +56,7 @@ export const instantiate = (reportParsingError: ReportFatalError) => {
   }
 
   return ({
-    queries,
+    domain,
     handleEvent,
   })
 }

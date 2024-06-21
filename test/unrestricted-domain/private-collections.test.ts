@@ -6,19 +6,19 @@ import { mkEvent } from '../mk-event'
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
-    const domain = UnrestrictedDomain.instantiate(dummyReporter)
-    domain.handleEvent(mkEvent('collection-created', {
+    const { domain, handleEvent } = UnrestrictedDomain.instantiate(dummyReporter)
+    handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))
-    domain.handleEvent(mkEvent('collection-updated', {
+    handleEvent(mkEvent('collection-updated', {
       collectionId,
       attributes: {
         isPrivate: true,
       },
     }))
-    const activities = domain.queries.getLocalTimeline()
+    const activities = domain.getLocalTimeline()
 
     it('all earlier activities remain public', () => {
       expect(activities[0].isPrivate).toBe(false)

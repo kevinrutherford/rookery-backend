@@ -5,13 +5,13 @@ import { mkEvent } from '../mk-event'
 
 describe('doi-entered event', () => {
   describe('when the collection does not exist', () => {
-    const domain = UnrestrictedDomain.instantiate(dummyReporter)
-    domain.handleEvent(mkEvent('doi-entered', {
+    const { domain, handleEvent } = UnrestrictedDomain.instantiate(dummyReporter)
+    handleEvent(mkEvent('doi-entered', {
       id: arbitraryWord(),
       workId: arbitraryWord(),
       collectionId: arbitraryWord(),
     }))
-    const activities = domain.queries.getLocalTimeline()
+    const activities = domain.getLocalTimeline()
 
     it.failing('does not change the domain model', () => {
       expect(activities).toHaveLength(0)

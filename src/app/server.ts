@@ -13,10 +13,10 @@ const reportFatalError = (logger: Logger.Logger): ReportFatalError => (msg) => (
 
 export const makeServer = async (): Promise<void> => {
   const logger = Logger.instantiate()
-  const { queries, handleEvent } = UnrestrictedDomain.instantiate(reportFatalError(logger))
+  const { domain, handleEvent } = UnrestrictedDomain.instantiate(reportFatalError(logger))
   const views = Views.instantiate()
   EventStore.instantiate(handleEvent)
 
-  createHttpServer(logger, views, queries)
+  createHttpServer(logger, views, domain)
 }
 

@@ -13,8 +13,8 @@ const mustBeOnTheRight = (
 const always: Authority = () => true
 
 describe('given a Work that has been found on Crossref', () => {
-  const domain = UnrestrictedDomain.instantiate(dummyReporter)
-  domain.handleEvent(mkEvent('work-updated', {
+  const { domain, handleEvent } = UnrestrictedDomain.instantiate(dummyReporter)
+  handleEvent(mkEvent('work-updated', {
     workId: '10.1126/science.1172133',
     attributes: {
       crossrefStatus: 'found',
@@ -31,7 +31,7 @@ describe('given a Work that has been found on Crossref', () => {
       {
         'filter[crossrefStatus]': 'not-determined',
       },
-      getWorks(domain.queries)(always),
+      getWorks(domain)(always),
       mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(0)
@@ -42,7 +42,7 @@ describe('given a Work that has been found on Crossref', () => {
       {
         'filter[crossrefStatus]': 'found',
       },
-      getWorks(domain.queries)(always),
+      getWorks(domain)(always),
       mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(1)
