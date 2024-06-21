@@ -1,7 +1,9 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { Errors } from 'io-ts'
-import * as collections from './collections'
+import { allCollections } from './collections/all-collections'
+import { Collection } from './collections/collection'
+import { lookupCollection } from './collections/lookup-collection'
 import * as comments from './comments'
 import * as community from './community'
 import { domainEvent, DomainEvent } from './domain-event'
@@ -20,8 +22,28 @@ type DomainModel = {
 }
 
 export const instantiate = (reportParsingError: ReportFatalError): DomainModel => {
+  const currentState = {
+    collections: new Map<string, Collection>(),
+  }
 
-  const r1 = collections.instantiate()
+  const h = (state: typeof currentState['collections']) => (event: DomainEvent): void => {
+    if (event.type === 'collection-created') {
+      state.set(event.data.id, {
+        ...event.data,
+        isPrivate: false,
+      })
+    } else if (event.type === 'collection-updated') {
+      const id = event.data.collectionId
+      const current = state.get(id)
+      if (current) {
+        state.set(id, {
+          ...current,
+          ...event.data.attributes,
+        })
+      }
+    }
+  }
+
   const r2 = entries.instantiate()
   const r3 = comments.instantiate()
   const r4 = localTimeline.instantiate()
@@ -29,7 +51,7 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
   const r6 = community.instantiate()
 
   const dispatch = (event: DomainEvent): void => {
-    r1.handleEvent(event)
+    h(currentState.collections)(event)
     r2.handleEvent(event)
     r3.handleEvent(event)
     r4.handleEvent(event)
@@ -47,7 +69,8 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
   )
 
   const domain: Domain = {
-    ...r1.queries,
+    allCollections: allCollections(currentState.collections),
+    lookupCollection: lookupCollection(currentState.collections),
     ...r2.queries,
     ...r3.queries,
     ...r4.queries,
