@@ -1,17 +1,10 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import { arbitraryDate, arbitraryWord } from './helpers'
+import { mkEvent } from './mk-event'
 import { Authority } from '../src/auth/authority'
 import * as Logger from '../src/logger'
 import { getWorks } from '../src/services/work/works'
 import * as UnrestrictedDomain from '../src/unrestricted-domain'
-
-const mkEvent = (type: string, data: Record<string, unknown>) => ({
-  created: arbitraryDate(),
-  id: arbitraryWord(),
-  type,
-  data,
-})
 
 const always: Authority = () => true
 

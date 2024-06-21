@@ -1,13 +1,7 @@
 import * as Logger from '../../src/logger'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
-import { arbitraryDate, arbitraryString, arbitraryWord } from '../helpers'
-
-const mkEvent = (type: string, data: Record<string, unknown>) => ({
-  created: arbitraryDate(),
-  id: arbitraryWord(),
-  type,
-  data,
-})
+import { arbitraryString, arbitraryWord } from '../helpers'
+import { mkEvent } from '../mk-event'
 
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
