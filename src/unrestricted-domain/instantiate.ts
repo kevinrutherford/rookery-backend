@@ -11,6 +11,8 @@ import * as works from './works'
 import { Domain } from '../domain/index.open'
 import { Logger } from '../logger'
 
+export type EventHandler = (event: unknown) => void
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = (logger: Logger) => {
 
@@ -30,7 +32,7 @@ export const instantiate = (logger: Logger) => {
     r6.handleEvent(event)
   }
 
-  const handleEvent = (event: unknown): void => pipe(
+  const handleEvent: EventHandler = (event) => pipe(
     event,
     domainEvent.decode,
     E.match(
