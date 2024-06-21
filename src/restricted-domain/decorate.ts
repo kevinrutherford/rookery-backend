@@ -12,7 +12,7 @@ const clientCanAccessEntry = (queries: Domain, clientCan: Authority) => (entry: 
   entry.collectionId,
   queries.lookupCollection,
   E.match(
-    () => false, // SMELL: should be a fatal error
+    () => false,
     clientCanAccessCollection(clientCan),
   ),
 )
