@@ -1,5 +1,6 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
+import { Errors } from 'io-ts'
 import { formatValidationErrors } from 'io-ts-reporters'
 import * as collections from './collections'
 import * as comments from './comments'
@@ -12,6 +13,12 @@ import { Domain } from '../domain/index.open'
 import { Logger } from '../logger'
 
 export type EventHandler = (event: unknown) => void
+
+const reportParsingError = (logger: Logger, msg: string) => (errors: Errors): void => {
+  logger.warn(msg, {
+    errors: formatValidationErrors(errors),
+  })
+}
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const instantiate = (logger: Logger) => {
@@ -36,12 +43,7 @@ export const instantiate = (logger: Logger) => {
     event,
     domainEvent.decode,
     E.match(
-      (e) => {
-        logger.warn('Could not parse event -- ignored', {
-          event,
-          errors: formatValidationErrors(e),
-        })
-      },
+      reportParsingError(logger, 'Could not parse event from EventStore'),
       dispatch,
     ),
   )
