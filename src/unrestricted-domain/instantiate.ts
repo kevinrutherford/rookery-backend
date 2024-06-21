@@ -26,17 +26,19 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
     collections: new Map<string, Collection>(),
   }
 
-  const h = (state: typeof currentState['collections']) => (event: DomainEvent): void => {
+  const h = (state: typeof currentState) => (event: DomainEvent): void => {
     if (event.type === 'collection-created') {
-      state.set(event.data.id, {
+      state.collections.set(event.data.id, {
         ...event.data,
         isPrivate: false,
       })
-    } else if (event.type === 'collection-updated') {
+      return
+    }
+    if (event.type === 'collection-updated') {
       const id = event.data.collectionId
-      const current = state.get(id)
+      const current = state.collections.get(id)
       if (current) {
-        state.set(id, {
+        state.collections.set(id, {
           ...current,
           ...event.data.attributes,
         })
@@ -51,7 +53,7 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
   const r6 = community.instantiate()
 
   const dispatch = (event: DomainEvent): void => {
-    h(currentState.collections)(event)
+    h(currentState)(event)
     r2.handleEvent(event)
     r3.handleEvent(event)
     r4.handleEvent(event)
