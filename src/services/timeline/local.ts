@@ -40,8 +40,8 @@ const byDateDescending: Ord.Ord<Activity> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Domain): Service => (clientCan) => () => pipe(
-  queries.getLocalTimeline(clientCan('browse-private-collections')),
+export const getLocalTimeline = (queries: Domain): Service => () => () => pipe(
+  queries.getLocalTimeline(),
   RA.map(toTimelineActivity(queries)),
   RA.compact,
   RA.sort(byDateDescending),

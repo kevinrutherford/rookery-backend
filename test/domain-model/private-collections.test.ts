@@ -23,7 +23,7 @@ describe('private collections', () => {
         isPrivate: true,
       },
     }))
-    const activities = domain.queries.getLocalTimeline(true)
+    const activities = domain.queries.getLocalTimeline()
 
     it('all earlier activities remain public', () => {
       expect(activities[0].isPrivate).toBe(false)
