@@ -16,7 +16,7 @@ export type WorkUpdated = {
   },
 }
 
-type TimelineEvent =
+type Activity =
   | CollectionCreated
   | CommentCreated
   | DoiEntered
@@ -63,7 +63,7 @@ export type Domain = {
   findComments: (entryId: string) => ReadonlyArray<Comment>,
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
-  getLocalTimeline: () => ReadonlyArray<TimelineEvent>,
+  getLocalTimeline: () => ReadonlyArray<Activity>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   lookupEntry: (collectionId: string) => E.Either<DomainError, Entry>,
   lookupWork: (id: string) => O.Option<Work>,
