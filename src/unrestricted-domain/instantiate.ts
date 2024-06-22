@@ -88,6 +88,7 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
     r4.handleEvent(event)
     r5.handleEvent(event)
     r6.handleEvent(event)
+    console.log('Event handled:', event.type)
   }
 
   const handleEvent: EventHandler = (event) => pipe(
