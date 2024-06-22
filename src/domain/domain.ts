@@ -62,7 +62,7 @@ export type DoiEntered = {
 
 type DomainProbe = {
   unexpectedEvents: ReadonlyArray<DomainEvent>,
-  unrecognisedEvents: ReadonlyArray<DomainEvent>,
+  unrecognisedEvents: ReadonlyArray<unknown>,
 }
 
 type DomainError = 'not-found' | 'not-authorised'

@@ -9,7 +9,7 @@ describe('unrecognised event', () => {
     something: arbitraryWord(),
   }))
 
-  it.failing('reports the event as unrecognised', () => {
+  it('reports the event as unrecognised', () => {
     expect(domain.info().unrecognisedEvents).toHaveLength(1)
   })
 })

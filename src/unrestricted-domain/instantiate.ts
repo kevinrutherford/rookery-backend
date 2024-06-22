@@ -13,7 +13,22 @@ import { Entry } from './entries/entry'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
 import { Work } from './works/work'
-import { Comment, Domain } from '../domain/index.open'
+import { Comment, Community, Domain } from '../domain/index.open'
+import { Activity } from '../services/activity-resource'
+
+type Readmodel = {
+  activities: ReadonlyArray<Activity>,
+  collections: Map<string, Collection>,
+  comments: Map<string, Array<Comment>>,
+  community: O.Option<Community>,
+  entriesByCollection: Map<string, Array<Entry>>,
+  entriesByEntryId: Map<string, Entry>,
+  works: Map<string, Work>,
+  info: {
+    unexpectedEvents: Array<DomainEvent>,
+    unrecognisedEvents: Array<unknown>,
+  },
+}
 
 export type EventHandler = (event: unknown) => void
 
@@ -25,7 +40,7 @@ type DomainModel = {
 }
 
 export const instantiate = (observer: DomainObserver): DomainModel => {
-  const currentState = {
+  const currentState: Readmodel = {
     activities: [],
     collections: new Map<string, Collection>(),
     comments: new Map<string, Array<Comment>>(),
@@ -33,6 +48,10 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     entriesByCollection: new Map<string, Array<Entry>>(),
     entriesByEntryId: new Map<string, Entry>(),
     works: new Map<string, Work>(),
+    info: {
+      unexpectedEvents: [],
+      unrecognisedEvents: [],
+    },
   }
 
   const h = (state: typeof currentState) => (event: DomainEvent): void => {
@@ -95,7 +114,10 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     event,
     domainEvent.decode,
     E.match(
-      observer('Could not parse event from EventStore'),
+      () => {
+        observer('Could not parse event from EventStore')
+        currentState.info.unrecognisedEvents.push(event)
+      },
       dispatch,
     ),
   )
@@ -108,10 +130,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     ...r4.queries,
     ...r5.queries,
     ...r6.queries,
-    info: () => ({
-      unexpectedEvents: [],
-      unrecognisedEvents: [],
-    }),
+    info: () => currentState.info,
   }
 
   return ({
