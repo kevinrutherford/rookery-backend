@@ -32,7 +32,7 @@ type Readmodel = {
 
 export type EventHandler = (event: unknown) => void
 
-export type DomainObserver = () => void
+export type DomainObserver = (domain: Domain) => void
 
 type DomainModel = {
   domain: Domain,
@@ -110,6 +110,17 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     r6.handleEvent(event)
   }
 
+  const domain: Domain = {
+    allCollections: allCollections(currentState.collections),
+    lookupCollection: lookupCollection(currentState.collections),
+    ...r2.queries,
+    findComments: findComments(currentState.comments),
+    ...r4.queries,
+    ...r5.queries,
+    ...r6.queries,
+    info: () => currentState.info,
+  }
+
   const handleEvent: EventHandler = (event) => pipe(
     event,
     domainEvent.decode,
@@ -121,20 +132,9 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     ),
     () => {
       currentState.info.eventsCount += 1
-      observer()
+      observer(domain)
     },
   )
-
-  const domain: Domain = {
-    allCollections: allCollections(currentState.collections),
-    lookupCollection: lookupCollection(currentState.collections),
-    ...r2.queries,
-    findComments: findComments(currentState.comments),
-    ...r4.queries,
-    ...r5.queries,
-    ...r6.queries,
-    info: () => currentState.info,
-  }
 
   return ({
     domain,
