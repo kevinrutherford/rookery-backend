@@ -11,10 +11,13 @@ describe('doi-entered event', () => {
       workId: arbitraryWord(),
       collectionId: arbitraryWord(),
     }))
-    const activities = domain.getLocalTimeline()
 
-    it.failing('does not change the domain model', () => {
-      expect(activities).toHaveLength(0)
+    it('does not record the Work', () => {
+      expect(domain.allWorks()).toHaveLength(0)
+    })
+
+    it.failing('does not record the activity', () => {
+      expect(domain.getLocalTimeline()).toHaveLength(0)
     })
 
     it('reports the event as unexpected', () => {
