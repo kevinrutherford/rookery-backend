@@ -17,14 +17,14 @@ import { Comment, Domain } from '../domain/index.open'
 
 export type EventHandler = (event: unknown) => void
 
-export type ReportFatalError = (msg: string) => (errors: Errors) => void
+export type DomainObserver = (msg: string) => (errors: Errors) => void
 
 type DomainModel = {
   domain: Domain,
   handleEvent: EventHandler,
 }
 
-export const instantiate = (reportParsingError: ReportFatalError): DomainModel => {
+export const instantiate = (observer: DomainObserver): DomainModel => {
   const currentState = {
     activities: [],
     collections: new Map<string, Collection>(),
@@ -95,7 +95,7 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
     event,
     domainEvent.decode,
     E.match(
-      reportParsingError('Could not parse event from EventStore'),
+      observer('Could not parse event from EventStore'),
       dispatch,
     ),
   )
@@ -108,6 +108,9 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
     ...r4.queries,
     ...r5.queries,
     ...r6.queries,
+    info: () => ({
+      unexpectedEvents: [],
+    }),
   }
 
   return ({

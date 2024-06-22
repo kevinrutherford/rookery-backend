@@ -5,6 +5,7 @@ import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
 import { Work } from './work-resource'
+import { DomainEvent } from '../unrestricted-domain/domain-event'
 
 export type WorkUpdated = {
   type: 'work-updated',
@@ -59,6 +60,10 @@ export type DoiEntered = {
   },
 }
 
+type DomainProbe = {
+  unexpectedEvents: ReadonlyArray<DomainEvent>,
+}
+
 type DomainError = 'not-found' | 'not-authorised'
 
 export type Domain = {
@@ -71,5 +76,6 @@ export type Domain = {
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   lookupEntry: (collectionId: string) => E.Either<DomainError, Entry>,
   lookupWork: (id: string) => O.Option<Work>,
+  info: () => DomainProbe,
 }
 

@@ -1,0 +1,2 @@
+export { DomainObserver } from './instantiate'
+

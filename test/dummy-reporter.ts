@@ -1,8 +1,8 @@
 import { formatValidationErrors } from 'io-ts-reporters'
 import * as Logger from '../src/logger'
-import { ReportFatalError } from '../src/unrestricted-domain'
+import { DomainObserver } from '../src/unrestricted-domain/index.open'
 
-export const dummyReporter: ReportFatalError = (msg) => (errors) => {
+export const dummyReporter: DomainObserver = (msg) => (errors) => {
   Logger.instantiate().warn(msg, {
     errors: formatValidationErrors(errors),
   })

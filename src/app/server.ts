@@ -4,9 +4,9 @@ import { createHttpServer } from '../http'
 import * as Logger from '../logger'
 import * as Views from '../services'
 import * as UnrestrictedDomain from '../unrestricted-domain'
-import { ReportFatalError } from '../unrestricted-domain'
+import { DomainObserver } from '../unrestricted-domain/index.open'
 
-const reportFatalError = (logger: Logger.Logger): ReportFatalError => (msg) => (errors) => {
+const reportFatalError = (logger: Logger.Logger): DomainObserver => (msg) => (errors) => {
   logger.error(msg, { errors: formatValidationErrors(errors) })
   process.exit(1)
 }

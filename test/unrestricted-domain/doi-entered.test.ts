@@ -16,6 +16,10 @@ describe('doi-entered event', () => {
     it.failing('does not change the domain model', () => {
       expect(activities).toHaveLength(0)
     })
+
+    it.failing('reports the event as unexpected', () => {
+      expect(domain.info().unexpectedEvents).toHaveLength(1)
+    })
   })
 })
 
