@@ -10,7 +10,8 @@ import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
 import { Entry } from './entries/entry'
 import * as localTimeline from './local-timeline'
-import * as works from './works'
+import { allWorks } from './works/all-works'
+import { lookupWork } from './works/lookup-work'
 import { Work } from './works/work'
 import {
   Activity,
@@ -89,22 +90,40 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
       case 'community-created':
         break
       case 'doi-entered':
+      {
+        const existing = currentState.works.get(event.data.workId)
+        if (!existing) {
+          currentState.works.set(event.data.workId, {
+            id: event.data.workId,
+            updatedAt: event.created,
+            frontMatter: {
+              crossrefStatus: 'not-determined',
+              reason: 'never-fetched',
+            },
+          })
+        }
         break
+      }
       case 'work-updated':
+      {
+        currentState.works.set(event.data.workId, {
+          id: event.data.workId,
+          updatedAt: event.created,
+          frontMatter: event.data.attributes,
+        })
         break
+      }
     }
   }
 
   const r2 = entries.instantiate()
   const r4 = localTimeline.instantiate()
-  const r5 = works.instantiate()
   const r6 = community.instantiate()
 
   const dispatch = (event: DomainEvent): void => {
     h(currentState)(event)
     r2.handleEvent(event)
     r4.handleEvent(event)
-    r5.handleEvent(event)
     r6.handleEvent(event)
   }
 
@@ -114,7 +133,8 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     ...r2.queries,
     findComments: findComments(currentState.comments),
     ...r4.queries,
-    ...r5.queries,
+    allWorks: allWorks(currentState.works),
+    lookupWork: lookupWork(currentState.works),
     ...r6.queries,
     info: () => currentState.info,
   }
