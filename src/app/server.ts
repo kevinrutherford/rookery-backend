@@ -1,21 +1,9 @@
-import { Domain } from '../domain/index.open'
+import { reportEvents } from './report-events'
 import * as EventStore from '../event-store'
 import { createHttpServer } from '../http'
 import * as Logger from '../logger'
 import * as Views from '../services'
 import * as UnrestrictedDomain from '../unrestricted-domain'
-import { DomainObserver } from '../unrestricted-domain/index.open'
-
-const reportEvents = (logger: Logger.Logger): DomainObserver => (domain: Domain) => {
-  const info = domain.info()
-  logger.info('Events handled', { count: info.eventsCount })
-  if (info.unexpectedEvents.length > 0)
-    logger.warn('Unexpected events received', { events: info.unexpectedEvents })
-  if (info.unrecognisedEvents.length > 0) {
-    logger.error('Unrecognised event; terminating')
-    process.exit(1)
-  }
-}
 
 export const makeServer = async (): Promise<void> => {
   const logger = Logger.instantiate()
