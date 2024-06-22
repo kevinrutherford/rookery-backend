@@ -91,16 +91,20 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
         break
       case 'doi-entered':
       {
-        const existing = currentState.works.get(event.data.workId)
-        if (!existing) {
-          currentState.works.set(event.data.workId, {
-            id: event.data.workId,
-            updatedAt: event.created,
-            frontMatter: {
-              crossrefStatus: 'not-determined',
-              reason: 'never-fetched',
-            },
-          })
+        if (currentState.collections.get(event.data.collectionId) === undefined)
+          currentState.info.unexpectedEvents.push(event)
+        else {
+          const existing = currentState.works.get(event.data.workId)
+          if (!existing) {
+            currentState.works.set(event.data.workId, {
+              id: event.data.workId,
+              updatedAt: event.created,
+              frontMatter: {
+                crossrefStatus: 'not-determined',
+                reason: 'never-fetched',
+              },
+            })
+          }
         }
         break
       }

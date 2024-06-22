@@ -17,7 +17,7 @@ describe('doi-entered event', () => {
       expect(activities).toHaveLength(0)
     })
 
-    it.failing('reports the event as unexpected', () => {
+    it('reports the event as unexpected', () => {
       expect(domain.info().unexpectedEvents).toHaveLength(1)
     })
   })
