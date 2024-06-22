@@ -25,6 +25,7 @@ type Readmodel = {
   entriesByEntryId: Map<string, Entry>,
   works: Map<string, Work>,
   info: {
+    eventsCount: number,
     unexpectedEvents: Array<DomainEvent>,
     unrecognisedEvents: Array<unknown>,
   },
@@ -49,6 +50,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     entriesByEntryId: new Map<string, Entry>(),
     works: new Map<string, Work>(),
     info: {
+      eventsCount: 0,
       unexpectedEvents: [],
       unrecognisedEvents: [],
     },
@@ -120,6 +122,9 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
       },
       dispatch,
     ),
+    () => {
+      currentState.info.eventsCount += 1
+    },
   )
 
   const domain: Domain = {

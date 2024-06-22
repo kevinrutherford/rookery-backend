@@ -61,6 +61,7 @@ export type DoiEntered = {
 }
 
 type DomainProbe = {
+  eventsCount: number,
   unexpectedEvents: ReadonlyArray<DomainEvent>,
   unrecognisedEvents: ReadonlyArray<unknown>,
 }

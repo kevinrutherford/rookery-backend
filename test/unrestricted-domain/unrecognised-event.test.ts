@@ -12,5 +12,9 @@ describe('unrecognised event', () => {
   it('reports the event as unrecognised', () => {
     expect(domain.info().unrecognisedEvents).toHaveLength(1)
   })
+
+  it('counts the event as processed', () => {
+    expect(domain.info().eventsCount).toBe(1)
+  })
 })
 
