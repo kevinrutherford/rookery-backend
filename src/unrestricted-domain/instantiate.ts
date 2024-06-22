@@ -12,7 +12,9 @@ import { Entry } from './entries/entry'
 import * as localTimeline from './local-timeline'
 import * as works from './works'
 import { Work } from './works/work'
-import { Comment, Community, Domain } from '../domain/index.open'
+import {
+  Comment, Community, Domain, DomainProbe,
+} from '../domain/index.open'
 import { Activity } from '../services/activity-resource'
 
 type Readmodel = {
@@ -23,11 +25,7 @@ type Readmodel = {
   entriesByCollection: Map<string, Array<Entry>>,
   entriesByEntryId: Map<string, Entry>,
   works: Map<string, Work>,
-  info: {
-    eventsCount: number,
-    unexpectedEvents: Array<DomainEvent>,
-    unrecognisedEvents: Array<unknown>,
-  },
+  info: DomainProbe,
 }
 
 export type EventHandler = (event: unknown) => void

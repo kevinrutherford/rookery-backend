@@ -5,7 +5,6 @@ import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
 import { Work } from './work-resource'
-import { DomainEvent } from '../unrestricted-domain/domain-event'
 
 export type WorkUpdated = {
   type: 'work-updated',
@@ -60,10 +59,10 @@ export type DoiEntered = {
   },
 }
 
-type DomainProbe = {
+export type DomainProbe = {
   eventsCount: number,
-  unexpectedEvents: ReadonlyArray<DomainEvent>,
-  unrecognisedEvents: ReadonlyArray<unknown>,
+  unexpectedEvents: Array<Record<string, unknown>>,
+  unrecognisedEvents: Array<unknown>,
 }
 
 type DomainError = 'not-found' | 'not-authorised'

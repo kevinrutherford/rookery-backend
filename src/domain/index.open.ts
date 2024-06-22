@@ -1,4 +1,4 @@
-export { Domain } from './domain'
+export { Domain, DomainProbe } from './domain'
 
 export { Collection } from './collection-resource'
 export { Comment } from './comment-resource'
