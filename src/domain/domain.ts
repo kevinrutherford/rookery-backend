@@ -6,6 +6,9 @@ import { Community } from './community-resource'
 import { Entry } from './entry-resource'
 import { Work } from './work-resource'
 
+/**
+ * @deprecated The domain should expose Activities
+ */
 export type WorkUpdated = {
   type: 'work-updated',
   id: string,
@@ -17,12 +20,18 @@ export type WorkUpdated = {
   },
 }
 
+/**
+ * @deprecated The domain should expose Activities
+ */
 type Activity =
   | CollectionCreated
   | CommentCreated
   | DoiEntered
   | WorkUpdated
 
+/**
+ * @deprecated The domain should expose Activities
+ */
 export type CollectionCreated = {
   type: 'collection-created',
   id: string,
@@ -35,6 +44,9 @@ export type CollectionCreated = {
   },
 }
 
+/**
+ * @deprecated The domain should expose Activities
+ */
 export type CommentCreated = {
   type: 'comment-created',
   id: string,
@@ -47,6 +59,9 @@ export type CommentCreated = {
   },
 }
 
+/**
+ * @deprecated The domain should expose Activities
+ */
 export type DoiEntered = {
   type: 'doi-entered',
   id: string, // SMELL: duplicate event properties

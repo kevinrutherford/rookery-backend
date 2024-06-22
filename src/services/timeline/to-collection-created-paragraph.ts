@@ -1,7 +1,9 @@
 import * as O from 'fp-ts/Option'
-import { CollectionCreated } from '../../domain/index.open'
-import { Activity } from '../activity-resource'
+import { Activity, CollectionCreated } from '../../domain/index.open'
 
+/**
+ * @deprecated This should be done inside the domain
+ */
 export const toCollectionCreatedParagraph = (event: CollectionCreated): O.Option<Activity> => O.some({
   id: event.id,
   userHandle: 'you',

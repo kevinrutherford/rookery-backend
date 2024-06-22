@@ -13,9 +13,9 @@ import * as localTimeline from './local-timeline'
 import * as works from './works'
 import { Work } from './works/work'
 import {
+  Activity,
   Comment, Community, Domain, DomainProbe,
 } from '../domain/index.open'
-import { Activity } from '../services/activity-resource'
 
 type Readmodel = {
   activities: ReadonlyArray<Activity>,

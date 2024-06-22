@@ -1,10 +1,9 @@
 import * as O from 'fp-ts/Option'
-import { WorkUpdated } from '../../domain/index.open'
-import { Activity } from '../activity-resource'
+import { Activity, WorkUpdated } from '../../domain/index.open'
 
 // eslint-disable-next-line consistent-return
 export const toWorkUpdatedParagraph = (event: WorkUpdated): O.Option<Activity> => {
-  switch (event.data.attributes.crossrefStatus) {
+  switch (event.data.attributes.crossrefStatus) { // SMELL: this should be done in the domain
     case 'not-determined':
       return O.none
     case 'not-found':
