@@ -1,4 +1,3 @@
-import { formatValidationErrors } from 'io-ts-reporters'
 import * as EventStore from '../event-store'
 import { createHttpServer } from '../http'
 import * as Logger from '../logger'
@@ -6,9 +5,8 @@ import * as Views from '../services'
 import * as UnrestrictedDomain from '../unrestricted-domain'
 import { DomainObserver } from '../unrestricted-domain/index.open'
 
-const reportFatalError = (logger: Logger.Logger): DomainObserver => (msg) => (errors) => {
-  logger.error(msg, { errors: formatValidationErrors(errors) })
-  process.exit(1)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const reportFatalError = (logger: Logger.Logger): DomainObserver => () => {
 }
 
 export const makeServer = async (): Promise<void> => {

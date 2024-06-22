@@ -1,6 +1,6 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import { dummyReporter } from './dummy-reporter'
+import { defaultTestObserver } from './default-test-observer'
 import { mkEvent } from './mk-event'
 import { Authority } from '../src/auth/authority'
 import { getWorks } from '../src/services/work/works'
@@ -13,7 +13,7 @@ const mustBeOnTheRight = (
 const always: Authority = () => true
 
 describe('given a Work that has been found on Crossref', () => {
-  const { domain, handleEvent } = UnrestrictedDomain.instantiate(dummyReporter)
+  const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
   handleEvent(mkEvent('work-updated', {
     workId: '10.1126/science.1172133',
     attributes: {

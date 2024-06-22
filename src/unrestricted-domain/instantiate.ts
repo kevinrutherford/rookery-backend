@@ -1,7 +1,6 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { Errors } from 'io-ts'
 import { allCollections } from './collections/all-collections'
 import { Collection } from './collections/collection'
 import { lookupCollection } from './collections/lookup-collection'
@@ -33,7 +32,7 @@ type Readmodel = {
 
 export type EventHandler = (event: unknown) => void
 
-export type DomainObserver = (msg: string) => (errors: Errors) => void
+export type DomainObserver = () => void
 
 type DomainModel = {
   domain: Domain,
@@ -109,7 +108,6 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     r4.handleEvent(event)
     r5.handleEvent(event)
     r6.handleEvent(event)
-    console.log('Event handled:', event.type)
   }
 
   const handleEvent: EventHandler = (event) => pipe(
@@ -117,13 +115,13 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     domainEvent.decode,
     E.match(
       () => {
-        observer('Could not parse event from EventStore')
         currentState.info.unrecognisedEvents.push(event)
       },
       dispatch,
     ),
     () => {
       currentState.info.eventsCount += 1
+      observer()
     },
   )
 

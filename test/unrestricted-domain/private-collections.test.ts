@@ -1,12 +1,12 @@
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
-import { dummyReporter } from '../dummy-reporter'
+import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('private collections', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
-    const { domain, handleEvent } = UnrestrictedDomain.instantiate(dummyReporter)
+    const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
     handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),
