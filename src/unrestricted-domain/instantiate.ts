@@ -110,6 +110,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     ...r6.queries,
     info: () => ({
       unexpectedEvents: [],
+      unrecognisedEvents: [],
     }),
   }
 
