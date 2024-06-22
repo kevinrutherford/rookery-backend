@@ -7,7 +7,12 @@ import * as UnrestrictedDomain from '../unrestricted-domain'
 import { DomainObserver } from '../unrestricted-domain/index.open'
 
 const reportEvents = (logger: Logger.Logger): DomainObserver => (domain: Domain) => {
-  logger.info('Events handled', { count: domain.info().eventsCount })
+  const info = domain.info()
+  logger.info('Events handled', { count: info.eventsCount })
+  if (info.unrecognisedEvents.length > 0) {
+    logger.error('Unrecognised event; terminating')
+    process.exit(1)
+  }
 }
 
 export const makeServer = async (): Promise<void> => {
