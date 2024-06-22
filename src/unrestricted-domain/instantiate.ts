@@ -5,8 +5,8 @@ import { Errors } from 'io-ts'
 import { allCollections } from './collections/all-collections'
 import { Collection } from './collections/collection'
 import { lookupCollection } from './collections/lookup-collection'
-import * as comments from './comments'
 import { Comment } from './comments/comment'
+import { findComments } from './comments/find-comments'
 import * as community from './community'
 import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
@@ -59,7 +59,16 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
         break
       }
       case 'comment-created':
+      {
+        const data = event.data
+        const current = state.comments.get(data.entryId) ?? []
+        current.push({
+          ...data,
+          createdAt: event.created,
+        })
+        state.comments.set(data.entryId, current)
         break
+      }
       case 'community-created':
         break
       case 'doi-entered':
@@ -70,7 +79,6 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
   }
 
   const r2 = entries.instantiate()
-  const r3 = comments.instantiate()
   const r4 = localTimeline.instantiate()
   const r5 = works.instantiate()
   const r6 = community.instantiate()
@@ -78,7 +86,6 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
   const dispatch = (event: DomainEvent): void => {
     h(currentState)(event)
     r2.handleEvent(event)
-    r3.handleEvent(event)
     r4.handleEvent(event)
     r5.handleEvent(event)
     r6.handleEvent(event)
@@ -97,7 +104,7 @@ export const instantiate = (reportParsingError: ReportFatalError): DomainModel =
     allCollections: allCollections(currentState.collections),
     lookupCollection: lookupCollection(currentState.collections),
     ...r2.queries,
-    ...r3.queries,
+    findComments: findComments(currentState.comments),
     ...r4.queries,
     ...r5.queries,
     ...r6.queries,
