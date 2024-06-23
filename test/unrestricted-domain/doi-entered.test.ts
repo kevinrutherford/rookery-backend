@@ -6,32 +6,17 @@ import { mkEvent } from '../mk-event'
 describe('doi-entered', () => {
   const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
 
-  describe('when the collection does not exist', () => {
-    handleEvent(mkEvent('doi-entered', {
-      id: arbitraryWord(),
-      workId: arbitraryWord(),
-      collectionId: arbitraryWord(),
-    }))
-
-    it('does not record the Work', () => {
-      expect(domain.allWorks()).toHaveLength(0)
-    })
-
-    it.failing('does not record the activity', () => {
-      expect(domain.getLocalTimeline()).toHaveLength(0)
-    })
-
-    it('reports the event as unexpected', () => {
-      expect(domain.info().unexpectedEvents).toHaveLength(1)
-    })
-  })
-
   describe('when the collection is public', () => {
     const collectionId = arbitraryWord()
     handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),
       description: arbitraryString(),
+    }))
+    handleEvent(mkEvent('doi-entered', {
+      id: arbitraryWord(),
+      workId: arbitraryWord(),
+      collectionId,
     }))
 
     it('records the activity', () => {
