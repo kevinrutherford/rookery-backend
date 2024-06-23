@@ -3,7 +3,7 @@ import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
-describe('doi-entered event', () => {
+describe('doi-entered', () => {
   describe('when the collection does not exist', () => {
     const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
     handleEvent(mkEvent('doi-entered', {

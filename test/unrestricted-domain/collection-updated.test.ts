@@ -3,7 +3,7 @@ import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
-describe('private collections', () => {
+describe('collection-updated', () => {
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
     const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
