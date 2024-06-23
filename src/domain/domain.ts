@@ -90,7 +90,7 @@ export type Domain = {
   getCommunity: () => O.Option<Community>,
   getLocalTimeline: () => ReadonlyArray<Activity>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
-  lookupEntry: (collectionId: string) => E.Either<DomainError, Entry>,
+  lookupEntry: (entryId: string) => E.Either<DomainError, Entry>,
   lookupWork: (id: string) => O.Option<Work>,
   info: () => DomainProbe,
 }

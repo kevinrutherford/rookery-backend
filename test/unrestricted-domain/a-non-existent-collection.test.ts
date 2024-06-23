@@ -1,3 +1,4 @@
+import * as E from 'fp-ts/Either'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
 import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryWord } from '../helpers'
@@ -8,17 +9,23 @@ describe('given a non-existent collection', () => {
   const collectionId = arbitraryWord()
 
   describe('doi-entered', () => {
-    handleEvent(mkEvent('doi-entered', {
-      id: arbitraryWord(),
+    const eventId = arbitraryWord()
+    const event = mkEvent('doi-entered', {
+      id: eventId,
       workId: arbitraryWord(),
       collectionId,
-    }))
+    })
+    handleEvent(event)
 
     it('does not record the Work', () => {
       expect(domain.allWorks()).toHaveLength(0)
     })
 
-    it.failing('does not record the activity', () => {
+    it.failing('does not record the Entry', () => {
+      expect(domain.lookupEntry(eventId)).toStrictEqual(E.left('not-found'))
+    })
+
+    it.failing('does not record the Activity', () => {
       expect(domain.getLocalTimeline()).toHaveLength(0)
     })
 
