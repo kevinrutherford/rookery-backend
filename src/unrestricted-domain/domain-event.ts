@@ -48,6 +48,8 @@ const commentCreatedEvent = t.intersection([esEventBase, t.type({
   }),
 })])
 
+export type CommentCreatedEvent = t.TypeOf<typeof commentCreatedEvent>
+
 const doiEnteredEvent = t.intersection([esEventBase, t.type({
   type: t.literal('doi-entered'),
   data: t.type({
@@ -79,7 +81,7 @@ const frontMatterFound = t.type({
   authors: t.array(t.string),
 })
 
-const workUpdated = t.intersection([esEventBase, t.type({
+const workUpdatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('work-updated'),
   data: t.type({
     workId: t.string,
@@ -87,7 +89,9 @@ const workUpdated = t.intersection([esEventBase, t.type({
   }),
 })])
 
-export type FrontMatter = t.TypeOf<typeof workUpdated>['data']['attributes']
+export type WorkUpdatedEvent = t.TypeOf<typeof workUpdatedEvent>
+
+export type FrontMatter = t.TypeOf<typeof workUpdatedEvent>['data']['attributes']
 
 export const domainEvent = t.union([
   communityCreatedEvent,
@@ -95,7 +99,7 @@ export const domainEvent = t.union([
   collectionUpdatedEvent,
   commentCreatedEvent,
   doiEnteredEvent,
-  workUpdated,
+  workUpdatedEvent,
 ])
 
 export type DomainEvent = {

@@ -13,7 +13,9 @@ import * as localTimeline from './local-timeline'
 import { Readmodel } from './readmodel'
 import { recordCollectionCreated } from './state/record-collection-created'
 import { recordCollectionUpdated } from './state/record-collection-updated'
+import { recordCommentCreated } from './state/record-comment-created'
 import { recordDoiEntered } from './state/record-doi-entered'
+import { recordWorkUpdated } from './state/record-work-updated'
 import { allWorks } from './works/all-works'
 import { lookupWork } from './works/lookup-work'
 import { Work } from './works/work'
@@ -47,36 +49,22 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
   const h = (state: typeof currentState) => (event: DomainEvent): void => {
     switch (event.type) {
       case 'collection-created':
-        recordCollectionCreated(currentState, event)
+        recordCollectionCreated(state, event)
         break
       case 'collection-updated':
-        recordCollectionUpdated(currentState, event)
+        recordCollectionUpdated(state, event)
         break
       case 'comment-created':
-      {
-        const data = event.data
-        const current = state.comments.get(data.entryId) ?? []
-        current.push({
-          ...data,
-          createdAt: event.created,
-        })
-        state.comments.set(data.entryId, current)
+        recordCommentCreated(state, event)
         break
-      }
       case 'community-created':
         break
       case 'doi-entered':
         recordDoiEntered(currentState, event)
         break
       case 'work-updated':
-      {
-        currentState.works.set(event.data.workId, {
-          id: event.data.workId,
-          updatedAt: event.created,
-          frontMatter: event.data.attributes,
-        })
+        recordWorkUpdated(state, event)
         break
-      }
     }
   }
 
