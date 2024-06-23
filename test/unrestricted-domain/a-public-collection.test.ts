@@ -46,7 +46,6 @@ describe('given a public collection', () => {
 
   describe('and one pre-existing Work', () => {
     describe('doi-entered', () => {
-
       beforeEach(() => {
         const collectionId = arbitraryWord()
         h(mkEvent('collection-created', {
@@ -62,6 +61,7 @@ describe('given a public collection', () => {
         h(doiEntered)
         h(doiEntered)
       })
+
       it('does not add a new Work', () => {
         expect(d.allWorks()).toHaveLength(1)
       })
