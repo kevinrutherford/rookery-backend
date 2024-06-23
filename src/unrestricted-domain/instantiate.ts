@@ -12,6 +12,7 @@ import { Entry } from './entries/entry'
 import * as localTimeline from './local-timeline'
 import { Readmodel } from './readmodel'
 import { recordCollectionCreated } from './state/record-collection-created'
+import { recordCollectionUpdated } from './state/record-collection-updated'
 import { recordDoiEntered } from './state/record-doi-entered'
 import { allWorks } from './works/all-works'
 import { lookupWork } from './works/lookup-work'
@@ -49,17 +50,8 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
         recordCollectionCreated(currentState, event)
         break
       case 'collection-updated':
-      {
-        const id = event.data.collectionId
-        const current = state.collections.get(id)
-        if (current) {
-          state.collections.set(id, {
-            ...current,
-            ...event.data.attributes,
-          })
-        }
+        recordCollectionUpdated(currentState, event)
         break
-      }
       case 'comment-created':
       {
         const data = event.data

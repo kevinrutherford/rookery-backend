@@ -37,6 +37,8 @@ const collectionUpdatedEvent = t.intersection([esEventBase, t.type({
   }),
 })])
 
+export type CollectionUpdatedEvent = t.TypeOf<typeof collectionUpdatedEvent>
+
 const commentCreatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('comment-created'),
   data: t.type({
