@@ -4,9 +4,10 @@ import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('collection-updated', () => {
+  const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+
   describe('when a public collection becomes private', () => {
     const collectionId = arbitraryWord()
-    const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
     handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),

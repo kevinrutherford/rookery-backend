@@ -1,11 +1,12 @@
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
 import { defaultTestObserver } from '../default-test-observer'
-import { arbitraryWord } from '../helpers'
+import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('doi-entered', () => {
+  const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+
   describe('when the collection does not exist', () => {
-    const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
     handleEvent(mkEvent('doi-entered', {
       id: arbitraryWord(),
       workId: arbitraryWord(),
@@ -23,6 +24,23 @@ describe('doi-entered', () => {
     it('reports the event as unexpected', () => {
       expect(domain.info().unexpectedEvents).toHaveLength(1)
     })
+  })
+
+  describe('when the collection is public', () => {
+    const collectionId = arbitraryWord()
+    handleEvent(mkEvent('collection-created', {
+      id: collectionId,
+      name: arbitraryString(),
+      description: arbitraryString(),
+    }))
+
+    it('records the activity', () => {
+      expect(domain.getLocalTimeline()).toHaveLength(2)
+    })
+  })
+
+  describe('when the collection is private', () => {
+    it.todo('does not record the activity')
   })
 })
 
