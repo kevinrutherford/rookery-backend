@@ -53,6 +53,8 @@ const doiEnteredEvent = t.intersection([esEventBase, t.type({
   }),
 })])
 
+export type DoiEnteredEvent = t.TypeOf<typeof doiEnteredEvent>
+
 const frontMatterNotDetermined = t.type({
   crossrefStatus: t.literal('not-determined'),
   reason: t.union([

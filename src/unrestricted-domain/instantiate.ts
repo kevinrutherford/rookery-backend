@@ -10,24 +10,12 @@ import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
 import { Entry } from './entries/entry'
 import * as localTimeline from './local-timeline'
+import { Readmodel } from './readmodel'
+import { recordDoiEntered } from './state/record-doi-entered'
 import { allWorks } from './works/all-works'
 import { lookupWork } from './works/lookup-work'
 import { Work } from './works/work'
-import {
-  Activity,
-  Comment, Community, Domain, DomainProbe,
-} from '../domain/index.open'
-
-type Readmodel = {
-  activities: ReadonlyArray<Activity>,
-  collections: Map<string, Collection>,
-  comments: Map<string, Array<Comment>>,
-  community: O.Option<Community>,
-  entriesByCollection: Map<string, Array<Entry>>,
-  entriesByEntryId: Map<string, Entry>,
-  works: Map<string, Work>,
-  info: DomainProbe,
-}
+import { Comment, Domain } from '../domain/index.open'
 
 export type EventHandler = (event: unknown) => void
 
@@ -90,24 +78,8 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
       case 'community-created':
         break
       case 'doi-entered':
-      {
-        if (currentState.collections.get(event.data.collectionId) === undefined)
-          currentState.info.unexpectedEvents.push(event)
-        else {
-          const existing = currentState.works.get(event.data.workId)
-          if (!existing) {
-            currentState.works.set(event.data.workId, {
-              id: event.data.workId,
-              updatedAt: event.created,
-              frontMatter: {
-                crossrefStatus: 'not-determined',
-                reason: 'never-fetched',
-              },
-            })
-          }
-        }
+        recordDoiEntered(currentState, event)
         break
-      }
       case 'work-updated':
       {
         currentState.works.set(event.data.workId, {
