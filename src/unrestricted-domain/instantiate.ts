@@ -5,7 +5,7 @@ import { allCollections } from './collections/all-collections'
 import { Collection } from './collections/collection'
 import { lookupCollection } from './collections/lookup-collection'
 import { findComments } from './comments/find-comments'
-import * as community from './community'
+import { getCommunity } from './community/get-community'
 import { domainEvent, DomainEvent } from './domain-event'
 import * as entries from './entries'
 import { Entry } from './entries/entry'
@@ -14,6 +14,7 @@ import { Readmodel } from './readmodel'
 import { recordCollectionCreated } from './state/record-collection-created'
 import { recordCollectionUpdated } from './state/record-collection-updated'
 import { recordCommentCreated } from './state/record-comment-created'
+import { recordCommunityCreated } from './state/record-community-created'
 import { recordDoiEntered } from './state/record-doi-entered'
 import { recordWorkUpdated } from './state/record-work-updated'
 import { allWorks } from './works/all-works'
@@ -58,6 +59,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
         recordCommentCreated(state, event)
         break
       case 'community-created':
+        recordCommunityCreated(state, event)
         break
       case 'doi-entered':
         recordDoiEntered(currentState, event)
@@ -70,24 +72,22 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
 
   const r2 = entries.instantiate()
   const r4 = localTimeline.instantiate()
-  const r6 = community.instantiate()
 
   const dispatch = (event: DomainEvent): void => {
     h(currentState)(event)
     r2.handleEvent(event)
     r4.handleEvent(event)
-    r6.handleEvent(event)
   }
 
   const domain: Domain = {
     allCollections: allCollections(currentState.collections),
+    getCommunity: getCommunity(currentState),
     lookupCollection: lookupCollection(currentState.collections),
     ...r2.queries,
     findComments: findComments(currentState.comments),
     ...r4.queries,
     allWorks: allWorks(currentState.works),
     lookupWork: lookupWork(currentState.works),
-    ...r6.queries,
     info: () => currentState.info,
   }
 
