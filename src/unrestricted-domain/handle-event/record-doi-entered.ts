@@ -2,7 +2,8 @@ import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
 export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void => {
-  if (state.collections.get(event.data.collectionId) === undefined) {
+  const collection = state.collections.get(event.data.collectionId)
+  if (collection === undefined) {
     state.info.unexpectedEvents.push(event)
     return
   }
@@ -32,7 +33,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   state.activities.push({
     event: {
       ...event,
-      isPrivate: false,
+      isPrivate: collection.isPrivate,
     },
   })
 }

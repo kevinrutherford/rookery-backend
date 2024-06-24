@@ -61,7 +61,7 @@ describe('collection-updated', () => {
       expect(activities[1].isPrivate).toBe(false)
     })
 
-    it.failing('subsequent activities are private', () => {
+    it('subsequent activities are private', () => {
       expect(activities[2].isPrivate).toBe(true)
     })
   })
@@ -81,7 +81,7 @@ describe('collection-updated', () => {
       expect(activities).toHaveLength(4)
     })
 
-    it.failing('all activities during the private period remain private', () => {
+    it('all activities during the private period remain private', () => {
       expect(activities[2].isPrivate).toBe(true)
     })
 
