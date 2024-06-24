@@ -67,7 +67,7 @@ node_modules: package.json
 	@touch $@
 
 $(GRAPHS_DIR)/modules.svg: $(SOURCES) $(GRAPHS_DIR) node_modules $(DEPCRUISE_CONFIG)
-	$(depcruise) --validate -T dot --collapse 3 src | dot -Tsvg > $@
+	$(depcruise) --validate -T dot src | dot -Tsvg > $@
 
 $(GRAPHS_DIR)/arch.svg: $(SOURCES) $(GRAPHS_DIR) node_modules $(DEPCRUISE_CONFIG)
 	$(depcruise) -T archi --collapse 2 src | dot -Tsvg > $@

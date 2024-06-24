@@ -211,9 +211,8 @@ module.exports = {
     },
     reporterOptions: {
       dot: {
-        collapsePattern: 'domain',
         theme: {
-          graph: { rankdir: 'TD' },
+          graph: { rankdir: 'LR' },
           modules: [
             {
               criteria: { source: 'src/domain' },
