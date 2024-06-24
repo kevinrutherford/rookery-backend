@@ -1,5 +1,5 @@
 import { WorkUpdatedEvent } from '../domain-event'
-import { Readmodel } from '../readmodel'
+import { Readmodel } from '../state/readmodel'
 
 export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): void => {
   state.works.set(event.data.workId, {

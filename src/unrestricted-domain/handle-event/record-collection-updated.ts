@@ -1,5 +1,5 @@
 import { CollectionUpdatedEvent } from '../domain-event'
-import { Readmodel } from '../readmodel'
+import { Readmodel } from '../state/readmodel'
 
 export const recordCollectionUpdated = (state: Readmodel, event: CollectionUpdatedEvent): void => {
   const id = event.data.collectionId

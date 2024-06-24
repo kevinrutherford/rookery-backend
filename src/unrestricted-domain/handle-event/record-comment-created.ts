@@ -1,5 +1,5 @@
 import { CommentCreatedEvent } from '../domain-event'
-import { Readmodel } from '../readmodel'
+import { Readmodel } from '../state/readmodel'
 
 export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEvent): void => {
   const comment = event.data

@@ -1,11 +1,9 @@
 import * as O from 'fp-ts/Option'
-import { Collection } from './collections/collection'
-import { Entry } from './entries/entry'
-import { TimelineEvent } from './local-timeline/readmodel'
-import { Work } from './works/work'
-import {
-  Comment, Community, DomainProbe,
-} from '../domain/index.open'
+import { Collection } from './collection'
+import { Entry } from './entry'
+import { TimelineEvent } from './timeline-event'
+import { Work } from './work'
+import { Comment, Community, DomainProbe } from '../../domain/index.open'
 
 export type Readmodel = {
   activities: Array<{ event: TimelineEvent }>,

@@ -1,9 +1,6 @@
 import * as E from 'fp-ts/Either'
-import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { Collection } from './collections/collection'
 import { domainEvent, DomainEvent } from './domain-event'
-import { Entry } from './entries/entry'
 import { recordCollectionCreated } from './handle-event/record-collection-created'
 import { recordCollectionUpdated } from './handle-event/record-collection-updated'
 import { recordCommentCreated } from './handle-event/record-comment-created'
@@ -11,9 +8,8 @@ import { recordCommunityCreated } from './handle-event/record-community-created'
 import { recordDoiEntered } from './handle-event/record-doi-entered'
 import { recordWorkUpdated } from './handle-event/record-work-updated'
 import * as Queries from './queries'
-import { Readmodel } from './readmodel'
-import { Work } from './works/work'
-import { Comment, Domain } from '../domain/index.open'
+import * as State from './state'
+import { Domain } from '../domain/index.open'
 
 export type EventHandler = (event: unknown) => void
 
@@ -25,20 +21,7 @@ type DomainModel = {
 }
 
 export const instantiate = (observer: DomainObserver): DomainModel => {
-  const currentState: Readmodel = {
-    activities: [],
-    collections: new Map<string, Collection>(),
-    comments: new Map<string, Array<Comment>>(),
-    community: O.none,
-    entriesByCollection: new Map<string, Array<Entry>>(),
-    entriesByEntryId: new Map<string, Entry>(),
-    works: new Map<string, Work>(),
-    info: {
-      eventsCount: 0,
-      unexpectedEvents: [],
-      unrecognisedEvents: [],
-    },
-  }
+  const currentState = State.instantiate()
 
   const dispatch = (state: typeof currentState) => (event: DomainEvent): void => {
     switch (event.type) {

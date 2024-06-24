@@ -8,7 +8,7 @@ import { lookupCollection } from './lookup-collection'
 import { lookupEntry } from './lookup-entry'
 import { lookupWork } from './lookup-work'
 import { Domain } from '../../domain/index.open'
-import { Readmodel } from '../readmodel'
+import { Readmodel } from '../state/readmodel'
 
 export const instantiate = (currentState: Readmodel): Domain => ({
   allCollections: allCollections(currentState),

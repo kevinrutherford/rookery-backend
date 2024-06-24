@@ -1,5 +1,5 @@
 import { DoiEnteredEvent } from '../domain-event'
-import { Readmodel } from '../readmodel'
+import { Readmodel } from '../state/readmodel'
 
 export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void => {
   if (state.collections.get(event.data.collectionId) === undefined) {

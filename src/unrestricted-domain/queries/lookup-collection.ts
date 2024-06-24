@@ -3,7 +3,7 @@ import * as RM from 'fp-ts/ReadonlyMap'
 import { pipe } from 'fp-ts/function'
 import * as S from 'fp-ts/string'
 import { Domain } from '../../domain/index.open'
-import { Readmodel } from '../readmodel'
+import { Readmodel } from '../state/readmodel'
 
 export const lookupCollection = (currentState: Readmodel): Domain['lookupCollection'] => (collectionId) => pipe(
   currentState.collections,

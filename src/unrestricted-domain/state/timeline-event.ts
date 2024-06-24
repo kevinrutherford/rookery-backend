@@ -1,4 +1,4 @@
-import { Work } from '../works/work'
+import { Work } from './work'
 
 type CollectionCreated = {
   type: 'collection-created',
