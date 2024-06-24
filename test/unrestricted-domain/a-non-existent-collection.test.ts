@@ -5,7 +5,7 @@ import { arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('given a non-existent collection', () => {
-  const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+  const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
   const collectionId = arbitraryWord()
 
   describe('doi-entered', () => {
@@ -18,19 +18,19 @@ describe('given a non-existent collection', () => {
     handleEvent(event)
 
     it('does not record the Work', () => {
-      expect(domain.allWorks()).toHaveLength(0)
+      expect(queries.allWorks()).toHaveLength(0)
     })
 
     it('does not record the Entry', () => {
-      expect(domain.lookupEntry(eventId)).toStrictEqual(E.left('not-found'))
+      expect(queries.lookupEntry(eventId)).toStrictEqual(E.left('not-found'))
     })
 
     it('does not record the Activity', () => {
-      expect(domain.getLocalTimeline()).toHaveLength(0)
+      expect(queries.getLocalTimeline()).toHaveLength(0)
     })
 
     it('reports the event as unexpected', () => {
-      expect(domain.info().unexpectedEvents).toHaveLength(1)
+      expect(queries.info().unexpectedEvents).toHaveLength(1)
     })
   })
 

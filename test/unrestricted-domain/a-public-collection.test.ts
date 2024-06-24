@@ -11,8 +11,8 @@ describe('given a public collection', () => {
   let h: UnrestrictedDomain.EventHandler
 
   beforeEach(() => {
-    const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
-    d = domain
+    const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+    d = queries
     h = handleEvent
   })
 

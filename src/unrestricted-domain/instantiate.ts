@@ -16,7 +16,7 @@ export type EventHandler = (event: unknown) => void
 export type DomainObserver = (domain: Domain) => void
 
 type DomainModel = {
-  domain: Domain,
+  queries: Domain,
   handleEvent: EventHandler,
 }
 
@@ -46,7 +46,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     }
   }
 
-  const domain = Queries.instantiate(currentState)
+  const queries = Queries.instantiate(currentState)
 
   const handleEvent: EventHandler = (event) => pipe(
     event,
@@ -59,12 +59,12 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     ),
     () => {
       currentState.info.eventsCount += 1
-      observer(domain)
+      observer(queries)
     },
   )
 
   return ({
-    domain,
+    queries,
     handleEvent,
   })
 }

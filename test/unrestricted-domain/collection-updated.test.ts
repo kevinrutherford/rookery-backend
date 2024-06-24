@@ -4,14 +4,19 @@ import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('collection-updated', () => {
-  const { domain, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+  const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+  const collectionId = arbitraryWord()
 
   describe('when a public collection becomes private', () => {
-    const collectionId = arbitraryWord()
     handleEvent(mkEvent('collection-created', {
       id: collectionId,
       name: arbitraryString(),
       description: arbitraryString(),
+    }))
+    handleEvent(mkEvent('doi-entered', {
+      id: arbitraryWord(),
+      workId: arbitraryWord(),
+      collectionId,
     }))
     handleEvent(mkEvent('collection-updated', {
       collectionId,
@@ -19,19 +24,16 @@ describe('collection-updated', () => {
         isPrivate: true,
       },
     }))
-    const activities = domain.getLocalTimeline()
+    const activities = queries.getLocalTimeline()
 
     it('all earlier activities remain public', () => {
       expect(activities[0].isPrivate).toBe(false)
+      expect(activities[1].isPrivate).toBe(false)
     })
-
-    it.todo('all future activities are private')
   })
 
   describe('when a private collection becomes public', () => {
-    it.todo('all earlier activities remain private')
-
-    it.todo('all future activities are public')
+    it.todo('all private activities remain private')
   })
 })
 

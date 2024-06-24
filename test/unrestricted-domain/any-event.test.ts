@@ -4,7 +4,7 @@ import { mkEvent } from '../mk-event'
 
 describe('any event', () => {
   const observer = jest.fn()
-  const { domain, handleEvent } = UnrestrictedDomain.instantiate(observer)
+  const { queries, handleEvent } = UnrestrictedDomain.instantiate(observer)
 
   beforeEach(() => {
     handleEvent(mkEvent('doi-entered', {
@@ -15,7 +15,7 @@ describe('any event', () => {
   })
 
   it('counts the event as processed', () => {
-    expect(domain.info().eventsCount).toBe(1)
+    expect(queries.info().eventsCount).toBe(1)
   })
 
   it('invokes the observer, to inform it about the state change', () => {

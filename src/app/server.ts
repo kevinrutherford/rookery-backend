@@ -7,10 +7,10 @@ import * as UnrestrictedDomain from '../unrestricted-domain'
 
 export const makeServer = async (): Promise<void> => {
   const logger = Logger.instantiate()
-  const { domain, handleEvent } = UnrestrictedDomain.instantiate(reportEvents(logger))
+  const { queries, handleEvent } = UnrestrictedDomain.instantiate(reportEvents(logger))
   const views = Views.instantiate()
   EventStore.instantiate(handleEvent)
 
-  createHttpServer(logger, views, domain)
+  createHttpServer(logger, views, queries)
 }
 
