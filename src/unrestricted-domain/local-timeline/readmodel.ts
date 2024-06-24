@@ -53,7 +53,3 @@ export type TimelineEvent =
   | DoiEntered
   | WorkUpdated
 
-export type Readmodel = Array<{
-  event: TimelineEvent,
-}>
-

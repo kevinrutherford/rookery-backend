@@ -21,11 +21,11 @@ describe('given a non-existent collection', () => {
       expect(domain.allWorks()).toHaveLength(0)
     })
 
-    it.failing('does not record the Entry', () => {
+    it('does not record the Entry', () => {
       expect(domain.lookupEntry(eventId)).toStrictEqual(E.left('not-found'))
     })
 
-    it.failing('does not record the Activity', () => {
+    it('does not record the Activity', () => {
       expect(domain.getLocalTimeline()).toHaveLength(0)
     })
 

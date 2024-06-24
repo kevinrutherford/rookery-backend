@@ -2,11 +2,11 @@ import * as E from 'fp-ts/Either'
 import * as RM from 'fp-ts/ReadonlyMap'
 import { pipe } from 'fp-ts/function'
 import * as S from 'fp-ts/string'
-import { Readmodel } from './readmodel'
 import { Domain } from '../../domain/index.open'
+import { Readmodel } from '../readmodel'
 
 export const lookupEntry = (currentState: Readmodel): Domain['lookupEntry'] => (entryId) => pipe(
-  currentState.byEntryId,
+  currentState.entriesByEntryId,
   RM.lookup(S.Eq)(entryId),
   E.fromOption(() => 'not-found' as const),
 )

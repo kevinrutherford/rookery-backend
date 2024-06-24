@@ -7,5 +7,12 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
     updatedAt: event.created,
     frontMatter: event.data.attributes,
   })
+
+  state.activities.push({
+    event: {
+      ...event,
+      isPrivate: false,
+    },
+  })
 }
 

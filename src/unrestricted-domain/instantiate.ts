@@ -7,9 +7,10 @@ import { lookupCollection } from './collections/lookup-collection'
 import { findComments } from './comments/find-comments'
 import { getCommunity } from './community/get-community'
 import { domainEvent, DomainEvent } from './domain-event'
-import * as entries from './entries'
 import { Entry } from './entries/entry'
-import * as localTimeline from './local-timeline'
+import { findEntries } from './entries/find-entries'
+import { lookupEntry } from './entries/lookup-entry'
+import { getLocalTimeline } from './local-timeline/get-local-timeline'
 import { Readmodel } from './readmodel'
 import { recordCollectionCreated } from './state/record-collection-created'
 import { recordCollectionUpdated } from './state/record-collection-updated'
@@ -70,22 +71,18 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     }
   }
 
-  const r2 = entries.instantiate()
-  const r4 = localTimeline.instantiate()
-
   const dispatch = (event: DomainEvent): void => {
     h(currentState)(event)
-    r2.handleEvent(event)
-    r4.handleEvent(event)
   }
 
   const domain: Domain = {
     allCollections: allCollections(currentState.collections),
     getCommunity: getCommunity(currentState),
     lookupCollection: lookupCollection(currentState.collections),
-    ...r2.queries,
     findComments: findComments(currentState.comments),
-    ...r4.queries,
+    findEntries: findEntries(currentState),
+    lookupEntry: lookupEntry(currentState),
+    getLocalTimeline: getLocalTimeline(currentState),
     allWorks: allWorks(currentState.works),
     lookupWork: lookupWork(currentState.works),
     info: () => currentState.info,

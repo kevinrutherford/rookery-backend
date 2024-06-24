@@ -2,12 +2,24 @@ import { CommentCreatedEvent } from '../domain-event'
 import { Readmodel } from '../readmodel'
 
 export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEvent): void => {
-  const data = event.data
-  const current = state.comments.get(data.entryId) ?? []
+  const comment = event.data
+  const current = state.comments.get(comment.entryId) ?? []
   current.push({
-    ...data,
+    ...comment,
     createdAt: event.created,
   })
-  state.comments.set(data.entryId, current)
+  state.comments.set(comment.entryId, current)
+
+  const existingEntry = state.entriesByEntryId.get(comment.entryId)
+  if (existingEntry)
+    existingEntry.commentsCount += 1 // SMELL: is this really necessary now we have a unified readmodel?
+  // SMELL: If there's no entry, this event is unexpected
+
+  state.activities.push({
+    event: {
+      ...event,
+      isPrivate: false,
+    },
+  })
 }
 
