@@ -1,5 +1,5 @@
-import { Readmodel } from './readmodel'
 import { Work } from './work'
+import { Readmodel } from '../readmodel'
 
-export const allWorks = (currentState: Readmodel) => (): ReadonlyArray<Work> => Array.from(currentState.values())
+export const allWorks = (currentState: Readmodel) => (): ReadonlyArray<Work> => Array.from(currentState.works.values())
 

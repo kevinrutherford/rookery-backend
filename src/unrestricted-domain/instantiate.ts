@@ -76,16 +76,16 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
   }
 
   const domain: Domain = {
-    allCollections: allCollections(currentState.collections),
-    getCommunity: getCommunity(currentState),
-    lookupCollection: lookupCollection(currentState.collections),
-    findComments: findComments(currentState.comments),
+    allCollections: allCollections(currentState),
+    allWorks: allWorks(currentState),
+    findComments: findComments(currentState),
     findEntries: findEntries(currentState),
-    lookupEntry: lookupEntry(currentState),
+    getCommunity: getCommunity(currentState),
     getLocalTimeline: getLocalTimeline(currentState),
-    allWorks: allWorks(currentState.works),
-    lookupWork: lookupWork(currentState.works),
     info: () => currentState.info,
+    lookupCollection: lookupCollection(currentState),
+    lookupEntry: lookupEntry(currentState),
+    lookupWork: lookupWork(currentState),
   }
 
   const handleEvent: EventHandler = (event) => pipe(
