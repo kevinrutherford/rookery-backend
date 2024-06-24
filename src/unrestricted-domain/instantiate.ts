@@ -4,15 +4,7 @@ import { pipe } from 'fp-ts/function'
 import { Collection } from './collections/collection'
 import { domainEvent, DomainEvent } from './domain-event'
 import { Entry } from './entries/entry'
-import { allCollections } from './queries/all-collections'
-import { allWorks } from './queries/all-works'
-import { findComments } from './queries/find-comments'
-import { findEntries } from './queries/find-entries'
-import { getCommunity } from './queries/get-community'
-import { getLocalTimeline } from './queries/get-local-timeline'
-import { lookupCollection } from './queries/lookup-collection'
-import { lookupEntry } from './queries/lookup-entry'
-import { lookupWork } from './queries/lookup-work'
+import * as Queries from './queries'
 import { Readmodel } from './readmodel'
 import { recordCollectionCreated } from './state/record-collection-created'
 import { recordCollectionUpdated } from './state/record-collection-updated'
@@ -71,18 +63,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     }
   }
 
-  const domain: Domain = {
-    allCollections: allCollections(currentState),
-    allWorks: allWorks(currentState),
-    findComments: findComments(currentState),
-    findEntries: findEntries(currentState),
-    getCommunity: getCommunity(currentState),
-    getLocalTimeline: getLocalTimeline(currentState),
-    info: () => currentState.info,
-    lookupCollection: lookupCollection(currentState),
-    lookupEntry: lookupEntry(currentState),
-    lookupWork: lookupWork(currentState),
-  }
+  const domain = Queries.instantiate(currentState)
 
   const handleEvent: EventHandler = (event) => pipe(
     event,
