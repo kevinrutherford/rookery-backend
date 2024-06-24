@@ -5,7 +5,9 @@ import { Activity } from '../../domain/index.open'
 export const renderActivityResource = (activity: Activity): JsonApiResource => ({
   ...renderActivityIdentifier(activity.id),
   attributes: {
-    ...activity,
+    userHandle: activity.userHandle,
+    action: activity.action,
+    content: activity.content,
     timestamp: activity.timestamp.toISOString(),
   },
 })
