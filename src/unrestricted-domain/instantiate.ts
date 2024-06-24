@@ -1,16 +1,18 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { allCollections } from './collections/all-collections'
 import { Collection } from './collections/collection'
-import { lookupCollection } from './collections/lookup-collection'
-import { findComments } from './comments/find-comments'
-import { getCommunity } from './community/get-community'
 import { domainEvent, DomainEvent } from './domain-event'
 import { Entry } from './entries/entry'
-import { findEntries } from './entries/find-entries'
-import { lookupEntry } from './entries/lookup-entry'
-import { getLocalTimeline } from './local-timeline/get-local-timeline'
+import { allCollections } from './queries/all-collections'
+import { allWorks } from './queries/all-works'
+import { findComments } from './queries/find-comments'
+import { findEntries } from './queries/find-entries'
+import { getCommunity } from './queries/get-community'
+import { getLocalTimeline } from './queries/get-local-timeline'
+import { lookupCollection } from './queries/lookup-collection'
+import { lookupEntry } from './queries/lookup-entry'
+import { lookupWork } from './queries/lookup-work'
 import { Readmodel } from './readmodel'
 import { recordCollectionCreated } from './state/record-collection-created'
 import { recordCollectionUpdated } from './state/record-collection-updated'
@@ -18,8 +20,6 @@ import { recordCommentCreated } from './state/record-comment-created'
 import { recordCommunityCreated } from './state/record-community-created'
 import { recordDoiEntered } from './state/record-doi-entered'
 import { recordWorkUpdated } from './state/record-work-updated'
-import { allWorks } from './works/all-works'
-import { lookupWork } from './works/lookup-work'
 import { Work } from './works/work'
 import { Comment, Domain } from '../domain/index.open'
 
@@ -48,7 +48,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
     },
   }
 
-  const h = (state: typeof currentState) => (event: DomainEvent): void => {
+  const dispatch = (state: typeof currentState) => (event: DomainEvent): void => {
     switch (event.type) {
       case 'collection-created':
         recordCollectionCreated(state, event)
@@ -63,16 +63,12 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
         recordCommunityCreated(state, event)
         break
       case 'doi-entered':
-        recordDoiEntered(currentState, event)
+        recordDoiEntered(state, event)
         break
       case 'work-updated':
         recordWorkUpdated(state, event)
         break
     }
-  }
-
-  const dispatch = (event: DomainEvent): void => {
-    h(currentState)(event)
   }
 
   const domain: Domain = {
@@ -95,7 +91,7 @@ export const instantiate = (observer: DomainObserver): DomainModel => {
       () => {
         currentState.info.unrecognisedEvents.push(event)
       },
-      dispatch,
+      dispatch(currentState),
     ),
     () => {
       currentState.info.eventsCount += 1

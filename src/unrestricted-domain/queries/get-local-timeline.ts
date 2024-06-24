@@ -1,6 +1,6 @@
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
-import { TimelineEvent } from './readmodel'
+import { TimelineEvent } from '../local-timeline/readmodel'
 import { Readmodel } from '../readmodel'
 
 type GLT = (currentState: Readmodel) => () => ReadonlyArray<TimelineEvent>
