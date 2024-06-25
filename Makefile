@@ -13,11 +13,11 @@ TESTS := $(shell find test -type f)
 
 depcruise := npx depcruise --config $(DEPCRUISE_CONFIG)
 
-.PHONY: all ci-* clean clobber dev lint watch-*
+.PHONY: all ci-* clean clobber dev diagrams lint watch-*
 
 # Software development - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-all: $(MK_TESTED) $(GRAPHS_DIR)/modules.svg $(GRAPHS_DIR)/arch.svg $(MK_LINTED)
+all: diagrams $(MK_TESTED) $(MK_LINTED)
 
 $(MK_COMPILED): node_modules $(SOURCES) $(TESTS) tsconfig.json
 	npx tsc --noEmit
@@ -65,6 +65,11 @@ git-status-clean:
 node_modules: package.json
 	npm install
 	@touch $@
+
+diagrams: $(GRAPHS_DIR)/modules.svg $(GRAPHS_DIR)/components.svg $(GRAPHS_DIR)/arch.svg
+
+$(GRAPHS_DIR)/components.svg: $(SOURCES) $(GRAPHS_DIR) node_modules $(DEPCRUISE_CONFIG)
+	$(depcruise) --validate -T dot --collapse 3 src | dot -Tsvg > $@
 
 $(GRAPHS_DIR)/modules.svg: $(SOURCES) $(GRAPHS_DIR) node_modules $(DEPCRUISE_CONFIG)
 	$(depcruise) --validate -T dot src | dot -Tsvg > $@

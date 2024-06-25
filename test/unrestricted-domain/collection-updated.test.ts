@@ -71,7 +71,7 @@ describe('collection-updated', () => {
 
     beforeEach(() => {
       becomePrivate()
-      addEntry()
+      addEntry() // SMELL: need to test all kinds of activity
       becomePublic()
       addEntry()
       activities = domain.queries.getLocalTimeline()
