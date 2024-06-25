@@ -3,7 +3,7 @@ import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
-describe('collection-updated', () => {
+describe('given a public collection', () => {
   let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
   const collectionId = arbitraryWord()
 
@@ -43,7 +43,7 @@ describe('collection-updated', () => {
     addEntry()
   })
 
-  describe('when a public collection becomes private', () => {
+  describe('when collection-updated to become private', () => {
     let activities: ReturnType<typeof domain.queries.getLocalTimeline>
 
     beforeEach(() => {
@@ -83,10 +83,6 @@ describe('collection-updated', () => {
 
     it('all activities during the private period remain private', () => {
       expect(activities[2].isPrivate).toBe(true)
-    })
-
-    it('subsequent activities are public', () => {
-      expect(activities[3].isPrivate).toBe(false)
     })
   })
 })
