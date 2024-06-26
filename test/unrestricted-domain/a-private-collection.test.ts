@@ -6,11 +6,13 @@ import { mkEvent } from '../mk-event'
 describe('given a private collection', () => {
   let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
   const collectionId = arbitraryWord()
+  const entryId = arbitraryWord()
+  const workId = arbitraryWord()
 
   const addEntry = () => {
     domain.handleEvent(mkEvent('doi-entered', {
-      id: arbitraryWord(),
-      workId: arbitraryWord(),
+      id: entryId,
+      workId,
       collectionId,
     }))
   }
@@ -47,14 +49,13 @@ describe('given a private collection', () => {
   })
 
   describe('with an entry', () => {
+    let activities: ReturnType<typeof domain.queries.getLocalTimeline>
 
     beforeEach(() => {
-      addEntry() // SMELL: need to test all kinds of activity
+      addEntry()
     })
 
     describe('when collection-updated to become public', () => {
-      let activities: ReturnType<typeof domain.queries.getLocalTimeline>
-
       const becomePublic = () => {
         domain.handleEvent(mkEvent('collection-updated', {
           collectionId,
@@ -69,7 +70,7 @@ describe('given a private collection', () => {
         activities = domain.queries.getLocalTimeline()
       })
 
-      it('all activities are in the timeline', () => {
+      it('no new activity is recorded', () => {
         expect(activities).toHaveLength(2)
       })
 
@@ -77,6 +78,7 @@ describe('given a private collection', () => {
         expect(activities[1].isPrivate).toBe(true)
       })
     })
+
   })
 
 })

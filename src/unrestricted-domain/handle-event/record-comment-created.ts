@@ -3,7 +3,7 @@ import { Readmodel } from '../state/readmodel'
 
 export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEvent): void => {
   const comment = event.data
-  const current = state.comments.get(comment.entryId) ?? []
+  const current = state.comments.get(comment.entryId) ?? [] // SMELL: could be stored on the entry
   current.push({
     ...comment,
     createdAt: event.created,
