@@ -1,8 +1,8 @@
 import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
+import { clientCanSeeActivity } from './client-can-see-activity'
 import { Authority } from '../auth/authority'
-import { Activity } from '../domain/domain'
 import { Collection, Domain, Entry } from '../domain/index.open'
 
 const clientCanAccessCollection = (clientCan: Authority) => (collection: Collection): boolean => (
@@ -17,9 +17,6 @@ const clientCanAccessEntry = (queries: Domain, clientCan: Authority) => (entry: 
     clientCanAccessCollection(clientCan),
   ),
 )
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const clientCanSeeActivity = (claims: Authority) => (activity: Activity): boolean => true
 
 export const allCollections = (queries: Domain, claims: Authority): Domain['allCollections'] => () => pipe(
   queries.allCollections(),
