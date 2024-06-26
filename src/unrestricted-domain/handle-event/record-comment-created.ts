@@ -8,6 +8,11 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
     state.info.unexpectedEvents.push(event)
     return
   }
+  const collection = state.collections.get(entry.collectionId)
+  if (collection === undefined) {
+    state.info.unexpectedEvents.push(event)
+    return
+  }
   const current = state.comments.get(comment.entryId) ?? [] // SMELL: could be stored on the entry
   current.push({
     ...comment,
@@ -20,7 +25,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
   state.activities.push({
     event: {
       ...event,
-      isPrivate: false,
+      isPrivate: collection.isPrivate,
     },
   })
 }

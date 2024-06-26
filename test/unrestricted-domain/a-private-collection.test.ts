@@ -94,7 +94,7 @@ describe('given a private collection', () => {
         expect(activities).toHaveLength(3)
       })
 
-      it.failing('records the commenting activity as private', () => {
+      it('records the commenting activity as private', () => {
         expect(activities[2].isPrivate).toBe(true)
       })
     })
