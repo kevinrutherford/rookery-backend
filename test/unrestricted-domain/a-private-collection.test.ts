@@ -79,6 +79,25 @@ describe('given a private collection', () => {
       })
     })
 
+    describe('when comment-created on the entry', () => {
+
+      beforeEach(() => {
+        domain.handleEvent(mkEvent('comment-created', {
+          id: arbitraryWord(),
+          entryId,
+          content: arbitraryString(),
+        }))
+        activities = domain.queries.getLocalTimeline()
+      })
+
+      it('a new activity is recorded', () => {
+        expect(activities).toHaveLength(3)
+      })
+
+      it.failing('records the commenting activity as private', () => {
+        expect(activities[2].isPrivate).toBe(true)
+      })
+    })
   })
 
 })
