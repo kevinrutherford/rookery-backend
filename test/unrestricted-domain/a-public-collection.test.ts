@@ -16,8 +16,8 @@ describe('given a public collection', () => {
     h = handleEvent
   })
 
-  describe('and no Works', () => {
-    describe('doi-entered', () => {
+  describe('that has no entries', () => {
+    describe('when doi-entered', () => {
       beforeEach(() => {
         const collectionId = arbitraryWord()
         h(mkEvent('collection-created', {
@@ -33,8 +33,12 @@ describe('given a public collection', () => {
         h(doiEntered)
       })
 
-      it('records the activity', () => {
+      it('records a new activity', () => {
         expect(d.getLocalTimeline()).toHaveLength(2)
+      })
+
+      it('records the activity as public', () => {
+        expect(d.getLocalTimeline()[1].isPrivate).toBe(false)
       })
 
       it('records the new Work', () => {
@@ -44,8 +48,8 @@ describe('given a public collection', () => {
     })
   })
 
-  describe('and one pre-existing Work', () => {
-    describe('doi-entered', () => {
+  describe('that has one entry', () => {
+    describe('when doi-entered', () => {
       beforeEach(() => {
         const collectionId = arbitraryWord()
         h(mkEvent('collection-created', {
