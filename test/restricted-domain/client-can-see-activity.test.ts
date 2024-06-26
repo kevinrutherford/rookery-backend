@@ -1,4 +1,15 @@
+import * as RestrictedDomain from '../../src/restricted-domain'
+import * as UnrestrictedDomain from '../../src/unrestricted-domain'
+import { defaultTestObserver } from '../default-test-observer'
+import { arbitraryString, arbitraryWord } from '../helpers'
+import { mkEvent } from '../mk-event'
+
 describe('given a client with no privileges', () => {
+  const claims = () => false
+  const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
+  const restrictedQueries = RestrictedDomain.instantiate(claims, unrestrictedDomain.queries)
+  const handleEvent = unrestrictedDomain.handleEvent
+
   describe('when community-created', () => {
     it.todo('the activity is visible')
   })
@@ -12,7 +23,25 @@ describe('given a client with no privileges', () => {
   })
 
   describe('when doi-entered (in a public collection)', () => {
-    it.todo('the activity is visible')
+    const collectionId = arbitraryWord()
+
+    beforeEach(() => {
+      handleEvent(mkEvent('collection-created', {
+        id: collectionId,
+        name: arbitraryString(),
+        description: arbitraryString(),
+      }))
+      handleEvent(mkEvent('doi-entered', {
+        id: arbitraryWord(),
+        workId: arbitraryWord(),
+        collectionId,
+      }))
+    })
+
+    it('the activity is visible', () => {
+      const activities = restrictedQueries.getLocalTimeline()
+      expect(activities).toHaveLength(2)
+    })
   })
 
   describe('when doi-entered (in a private collection)', () => {
