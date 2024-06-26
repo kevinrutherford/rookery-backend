@@ -1,10 +1,9 @@
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
-import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('unrecognised event', () => {
-  const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+  const { queries, handleEvent } = UnrestrictedDomain.instantiate(() => {})
   handleEvent(mkEvent('garbage', {
     something: arbitraryWord(),
   }))
