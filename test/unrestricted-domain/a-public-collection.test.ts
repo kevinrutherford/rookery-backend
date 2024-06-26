@@ -5,6 +5,7 @@ import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('given a public collection', () => {
+  const collectionId = arbitraryWord()
   const workId = arbitraryWord()
 
   let d: Domain
@@ -14,17 +15,16 @@ describe('given a public collection', () => {
     const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
     d = queries
     h = handleEvent
+    h(mkEvent('collection-created', {
+      id: collectionId,
+      name: arbitraryString(),
+      description: arbitraryString(),
+    }))
   })
 
   describe('that has no entries', () => {
     describe('when doi-entered', () => {
       beforeEach(() => {
-        const collectionId = arbitraryWord()
-        h(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
         const doiEntered = mkEvent('doi-entered', {
           id: arbitraryWord(),
           workId,
@@ -46,24 +46,50 @@ describe('given a public collection', () => {
         expect(d.allWorks()[0].id).toStrictEqual(workId)
       })
     })
+
+    describe('when comment-created', () => {
+      beforeEach(() => {
+        h(mkEvent('comment-created', {
+          id: arbitraryWord(),
+          entryId: arbitraryWord(),
+          content: arbitraryString(),
+        }))
+      })
+
+      it.failing('records an unexpected event', () => {
+        expect(d.info().unexpectedEvents).toHaveLength(1)
+      })
+
+      it.failing('does not record a new activity', () => {
+        expect(d.getLocalTimeline()).toHaveLength(1)
+      })
+    })
   })
 
   describe('that has one entry', () => {
-    describe('when doi-entered', () => {
+    beforeEach(() => {
+      h(mkEvent('doi-entered', {
+        id: arbitraryWord(),
+        workId,
+        collectionId,
+      }))
+    })
+
+    it('there are two public activities in the timeline', () => {
+      expect(d.getLocalTimeline()).toHaveLength(2)
+    })
+
+    describe('when doi-entered for the same Work', () => {
       beforeEach(() => {
-        const collectionId = arbitraryWord()
-        h(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
-        const doiEntered = mkEvent('doi-entered', {
+        h(mkEvent('doi-entered', {
           id: arbitraryWord(),
           workId,
           collectionId,
-        })
-        h(doiEntered)
-        h(doiEntered)
+        }))
+      })
+
+      it.failing('does not record a new activity', () => {
+        expect(d.getLocalTimeline()).toHaveLength(2)
       })
 
       it('does not add a new Work', () => {
