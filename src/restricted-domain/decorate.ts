@@ -2,6 +2,7 @@ import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { Authority } from '../auth/authority'
+import { Activity } from '../domain/domain'
 import { Collection, Domain, Entry } from '../domain/index.open'
 
 const clientCanAccessCollection = (clientCan: Authority) => (collection: Collection): boolean => (
@@ -17,6 +18,9 @@ const clientCanAccessEntry = (queries: Domain, clientCan: Authority) => (entry: 
   ),
 )
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const clientCanSeeActivity = (claims: Authority) => (activity: Activity): boolean => true
+
 export const allCollections = (queries: Domain, claims: Authority): Domain['allCollections'] => () => pipe(
   queries.allCollections(),
   RA.filter(clientCanAccessCollection(claims)),
@@ -25,6 +29,7 @@ export const allCollections = (queries: Domain, claims: Authority): Domain['allC
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(
   queries.getLocalTimeline(),
+  RA.filter(clientCanSeeActivity(claims)),
 )
 
 export const lookupCollection = (queries: Domain, claims: Authority): Domain['lookupCollection'] => (collectionId) => pipe(

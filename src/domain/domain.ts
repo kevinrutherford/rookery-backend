@@ -23,7 +23,7 @@ export type WorkUpdated = {
 /**
  * @deprecated The domain should expose Activities
  */
-type Activity =
+export type Activity =
   | CollectionCreated
   | CommentCreated
   | DoiEntered
