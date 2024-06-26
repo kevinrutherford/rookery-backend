@@ -22,6 +22,11 @@ export const allCollections = (queries: Domain, claims: Authority): Domain['allC
   RA.filter(clientCanAccessCollection(claims)),
 )
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(
+  queries.getLocalTimeline(),
+)
+
 export const lookupCollection = (queries: Domain, claims: Authority): Domain['lookupCollection'] => (collectionId) => pipe(
   collectionId,
   queries.lookupCollection,
