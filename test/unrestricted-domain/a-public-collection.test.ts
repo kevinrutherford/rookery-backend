@@ -56,11 +56,11 @@ describe('given a public collection', () => {
         }))
       })
 
-      it.failing('records an unexpected event', () => {
+      it('records an unexpected event', () => {
         expect(d.info().unexpectedEvents).toHaveLength(1)
       })
 
-      it.failing('does not record a new activity', () => {
+      it('does not record a new activity', () => {
         expect(d.getLocalTimeline()).toHaveLength(1)
       })
     })
