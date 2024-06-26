@@ -67,9 +67,11 @@ describe('given a public collection', () => {
   })
 
   describe('that has one entry', () => {
+    const entryId = arbitraryWord()
+
     beforeEach(() => {
       h(mkEvent('doi-entered', {
-        id: arbitraryWord(),
+        id: entryId,
         workId,
         collectionId,
       }))
@@ -94,6 +96,26 @@ describe('given a public collection', () => {
 
       it('does not add a new Work', () => {
         expect(d.allWorks()).toHaveLength(1)
+      })
+    })
+
+    describe('when comment-created on the entry', () => {
+
+      beforeEach(() => {
+        h(mkEvent('comment-created', {
+          id: arbitraryWord(),
+          entryId,
+          content: arbitraryString(),
+        }))
+      })
+
+      it('a new activity is recorded', () => {
+        expect(d.getLocalTimeline()).toHaveLength(3)
+        expect(d.getLocalTimeline()[2].type).toBe('comment-created')
+      })
+
+      it('records the commenting activity as private', () => {
+        expect(d.getLocalTimeline()[2].isPrivate).toBe(false)
       })
     })
   })

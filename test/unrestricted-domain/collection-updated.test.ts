@@ -52,7 +52,7 @@ describe('given a public collection', () => {
       activities = domain.queries.getLocalTimeline()
     })
 
-    it('all activities are in the timeline', () => {
+    it('no new activity is recorded', () => {
       expect(activities).toHaveLength(3)
     })
 
