@@ -73,7 +73,32 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when doi-entered (in a private collection)', () => {
-      it.todo('the activity is not visible')
+      const collectionId = arbitraryWord()
+
+      beforeEach(() => {
+        handleEvent(mkEvent('collection-created', {
+          id: collectionId,
+          name: arbitraryString(),
+          description: arbitraryString(),
+        }))
+        handleEvent(mkEvent('collection-updated', {
+          collectionId,
+          attributes: {
+            isPrivate: true,
+          },
+        }))
+        handleEvent(mkEvent('doi-entered', {
+          id: arbitraryWord(),
+          workId: arbitraryWord(),
+          collectionId,
+        }))
+      })
+
+      it.failing('the activity is not visible', () => {
+        const activities = restrictedQueries.getLocalTimeline()
+        expect(activities).toHaveLength(1)
+        // SMELL: check details of the activity
+      })
     })
 
     describe('when comment-created (in a public collection)', () => {
