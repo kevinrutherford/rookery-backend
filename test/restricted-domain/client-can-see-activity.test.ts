@@ -94,7 +94,7 @@ describe('client-can-see-activity', () => {
         }))
       })
 
-      it.failing('the activity is not visible', () => {
+      it('the activity is not visible', () => {
         const activities = restrictedQueries.getLocalTimeline()
         expect(activities).toHaveLength(1)
         // SMELL: check details of the activity
@@ -139,16 +139,16 @@ describe('client-can-see-activity', () => {
           name: arbitraryString(),
           description: arbitraryString(),
         }))
+        handleEvent(mkEvent('doi-entered', {
+          id: entryId,
+          workId: arbitraryWord(),
+          collectionId,
+        }))
         handleEvent(mkEvent('collection-updated', {
           collectionId,
           attributes: {
             isPrivate: true,
           },
-        }))
-        handleEvent(mkEvent('doi-entered', {
-          id: entryId,
-          workId: arbitraryWord(),
-          collectionId,
         }))
         handleEvent(mkEvent('comment-created', {
           id: arbitraryWord(),
