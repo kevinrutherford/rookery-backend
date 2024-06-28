@@ -102,11 +102,65 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when comment-created (in a public collection)', () => {
-      it.todo('the activity is visible')
+      const collectionId = arbitraryWord()
+      const entryId = arbitraryWord()
+
+      beforeEach(() => {
+        handleEvent(mkEvent('collection-created', {
+          id: collectionId,
+          name: arbitraryString(),
+          description: arbitraryString(),
+        }))
+        handleEvent(mkEvent('doi-entered', {
+          id: entryId,
+          workId: arbitraryWord(),
+          collectionId,
+        }))
+        handleEvent(mkEvent('comment-created', {
+          id: arbitraryWord(),
+          entryId,
+          content: arbitraryString(),
+        }))
+      })
+
+      it('the activity is visible', () => {
+        expect(restrictedQueries.getLocalTimeline()).toHaveLength(3)
+        // SMELL: check details of the activity
+      })
     })
 
     describe('when comment-created (in a private collection)', () => {
-      it.todo('the activity is not visible')
+      const collectionId = arbitraryWord()
+      const entryId = arbitraryWord()
+
+      beforeEach(() => {
+        handleEvent(mkEvent('collection-created', {
+          id: collectionId,
+          name: arbitraryString(),
+          description: arbitraryString(),
+        }))
+        handleEvent(mkEvent('collection-updated', {
+          collectionId,
+          attributes: {
+            isPrivate: true,
+          },
+        }))
+        handleEvent(mkEvent('doi-entered', {
+          id: entryId,
+          workId: arbitraryWord(),
+          collectionId,
+        }))
+        handleEvent(mkEvent('comment-created', {
+          id: arbitraryWord(),
+          entryId,
+          content: arbitraryString(),
+        }))
+      })
+
+      it.failing('the activity is not visible', () => {
+        expect(restrictedQueries.getLocalTimeline()).toHaveLength(2)
+        // SMELL: check details of the activity
+      })
     })
 
     describe('when work-updated', () => {
