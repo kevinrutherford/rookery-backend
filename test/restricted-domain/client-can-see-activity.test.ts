@@ -6,6 +6,51 @@ import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
+type State = {
+  handleEvent: UnrestrictedDomain.EventHandler,
+  collectionId?: string,
+  entryId?: string,
+}
+
+const createCollection = (state: State): State => {
+  const collectionId = arbitraryWord()
+  state.handleEvent(mkEvent('collection-created', {
+    id: collectionId,
+    name: arbitraryString(),
+    description: arbitraryString(),
+  }))
+  return { ...state, collectionId }
+}
+
+const addEntry = (state: State): State => {
+  const entryId = arbitraryWord()
+  state.handleEvent(mkEvent('doi-entered', {
+    id: entryId,
+    workId: arbitraryWord(),
+    collectionId: state.collectionId,
+  }))
+  return { ...state, entryId }
+}
+
+const becomePrivate = (state: State): State => {
+  state.handleEvent(mkEvent('collection-updated', {
+    collectionId: state.collectionId,
+    attributes: {
+      isPrivate: true,
+    },
+  }))
+  return state
+}
+
+const addComment = (state: State): State => {
+  state.handleEvent(mkEvent('comment-created', {
+    id: arbitraryWord(),
+    entryId: state.entryId,
+    content: arbitraryString(),
+  }))
+  return state
+}
+
 describe('client-can-see-activity', () => {
   let handleEvent: UnrestrictedDomain.EventHandler
   let unrestrictedQueries: Domain
@@ -131,55 +176,13 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when comment-created (in a private collection)', () => {
-      type State = {
-        collectionId: string,
-        entryId?: string,
-      }
-
-      const createCollection = () => {
-        const collectionId = arbitraryWord()
-        handleEvent(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
-        return {
-          collectionId,
-        }
-      }
-
-      const addEntry = (state: State): State => {
-        const entryId = arbitraryWord()
-        handleEvent(mkEvent('doi-entered', {
-          id: entryId,
-          workId: arbitraryWord(),
-          collectionId: state.collectionId,
-        }))
-        return { ...state, entryId }
-      }
-
-      const becomePrivate = (state: State): State => {
-        handleEvent(mkEvent('collection-updated', {
-          collectionId: state.collectionId,
-          attributes: {
-            isPrivate: true,
-          },
-        }))
-        return state
-      }
-
-      const addComment = (state: State): State => {
-        handleEvent(mkEvent('comment-created', {
-          id: arbitraryWord(),
-          entryId: state.entryId,
-          content: arbitraryString(),
-        }))
-        return state
-      }
 
       beforeEach(() => {
         pipe(
-          createCollection(),
+          {
+            handleEvent,
+          },
+          createCollection,
           addEntry,
           becomePrivate,
           addComment,
