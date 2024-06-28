@@ -1,3 +1,4 @@
+import { pipe } from 'fp-ts/function'
 import { Domain } from '../../src/domain/index.open'
 import * as RestrictedDomain from '../../src/restricted-domain'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
@@ -130,31 +131,59 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when comment-created (in a private collection)', () => {
-      const collectionId = arbitraryWord()
-      const entryId = arbitraryWord()
+      type State = {
+        collectionId: string,
+        entryId?: string,
+      }
 
-      beforeEach(() => {
+      const createCollection = () => {
+        const collectionId = arbitraryWord()
         handleEvent(mkEvent('collection-created', {
           id: collectionId,
           name: arbitraryString(),
           description: arbitraryString(),
         }))
+        return {
+          collectionId,
+        }
+      }
+
+      const addEntry = (state: State): State => {
+        const entryId = arbitraryWord()
         handleEvent(mkEvent('doi-entered', {
           id: entryId,
           workId: arbitraryWord(),
-          collectionId,
+          collectionId: state.collectionId,
         }))
+        return { ...state, entryId }
+      }
+
+      const becomePrivate = (state: State): State => {
         handleEvent(mkEvent('collection-updated', {
-          collectionId,
+          collectionId: state.collectionId,
           attributes: {
             isPrivate: true,
           },
         }))
+        return state
+      }
+
+      const addComment = (state: State): State => {
         handleEvent(mkEvent('comment-created', {
           id: arbitraryWord(),
-          entryId,
+          entryId: state.entryId,
           content: arbitraryString(),
         }))
+        return state
+      }
+
+      beforeEach(() => {
+        pipe(
+          createCollection(),
+          addEntry,
+          becomePrivate,
+          addComment,
+        )
       })
 
       it('the activity is not visible', () => {
