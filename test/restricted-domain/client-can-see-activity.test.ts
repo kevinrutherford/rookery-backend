@@ -157,7 +157,7 @@ describe('client-can-see-activity', () => {
         }))
       })
 
-      it.failing('the activity is not visible', () => {
+      it('the activity is not visible', () => {
         expect(restrictedQueries.getLocalTimeline()).toHaveLength(2)
         // SMELL: check details of the activity
       })
