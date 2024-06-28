@@ -74,19 +74,15 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when collection-created (public)', () => {
-      const collectionId = arbitraryWord()
-
       beforeEach(() => {
-        handleEvent(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
+        pipe(
+          { handleEvent },
+          createCollection,
+        )
       })
 
       it('the activity is visible', () => {
-        const activities = restrictedQueries.getLocalTimeline()
-        expect(activities).toHaveLength(1)
+        expect(restrictedQueries.getLocalTimeline()).toHaveLength(1)
         // SMELL: check details of the activity
       })
     })
@@ -96,77 +92,44 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when doi-entered (in a public collection)', () => {
-      const collectionId = arbitraryWord()
-
       beforeEach(() => {
-        handleEvent(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
-        handleEvent(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId: arbitraryWord(),
-          collectionId,
-        }))
+        pipe(
+          { handleEvent },
+          createCollection,
+          addEntry,
+        )
       })
 
       it('the activity is visible', () => {
-        const activities = restrictedQueries.getLocalTimeline()
-        expect(activities).toHaveLength(2)
+        expect(restrictedQueries.getLocalTimeline()).toHaveLength(2)
         // SMELL: check details of the second activity
       })
     })
 
     describe('when doi-entered (in a private collection)', () => {
-      const collectionId = arbitraryWord()
-
       beforeEach(() => {
-        handleEvent(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
-        handleEvent(mkEvent('collection-updated', {
-          collectionId,
-          attributes: {
-            isPrivate: true,
-          },
-        }))
-        handleEvent(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId: arbitraryWord(),
-          collectionId,
-        }))
+        pipe(
+          { handleEvent },
+          createCollection,
+          becomePrivate,
+          addEntry,
+        )
       })
 
       it('the activity is not visible', () => {
-        const activities = restrictedQueries.getLocalTimeline()
-        expect(activities).toHaveLength(1)
+        expect(restrictedQueries.getLocalTimeline()).toHaveLength(1)
         // SMELL: check details of the activity
       })
     })
 
     describe('when comment-created (in a public collection)', () => {
-      const collectionId = arbitraryWord()
-      const entryId = arbitraryWord()
-
       beforeEach(() => {
-        handleEvent(mkEvent('collection-created', {
-          id: collectionId,
-          name: arbitraryString(),
-          description: arbitraryString(),
-        }))
-        handleEvent(mkEvent('doi-entered', {
-          id: entryId,
-          workId: arbitraryWord(),
-          collectionId,
-        }))
-        handleEvent(mkEvent('comment-created', {
-          id: arbitraryWord(),
-          entryId,
-          content: arbitraryString(),
-        }))
+        pipe(
+          { handleEvent },
+          createCollection,
+          addEntry,
+          addComment,
+        )
       })
 
       it('the activity is visible', () => {
@@ -176,12 +139,9 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when comment-created (in a private collection)', () => {
-
       beforeEach(() => {
         pipe(
-          {
-            handleEvent,
-          },
+          { handleEvent },
           createCollection,
           addEntry,
           becomePrivate,
