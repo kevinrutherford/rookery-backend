@@ -12,7 +12,9 @@ type State = {
   entryId?: string,
 }
 
-const createCollection = (state: State): State => {
+type StateModifier = (state: State) => State
+
+const createCollection: StateModifier = (state) => {
   const collectionId = arbitraryWord()
   state.handleEvent(mkEvent('collection-created', {
     id: collectionId,
@@ -22,7 +24,7 @@ const createCollection = (state: State): State => {
   return { ...state, collectionId }
 }
 
-const addEntry = (state: State): State => {
+const addEntry: StateModifier = (state) => {
   const entryId = arbitraryWord()
   state.handleEvent(mkEvent('doi-entered', {
     id: entryId,
@@ -32,7 +34,7 @@ const addEntry = (state: State): State => {
   return { ...state, entryId }
 }
 
-const becomePrivate = (state: State): State => {
+const becomePrivate: StateModifier = (state) => {
   state.handleEvent(mkEvent('collection-updated', {
     collectionId: state.collectionId,
     attributes: {
@@ -42,7 +44,7 @@ const becomePrivate = (state: State): State => {
   return state
 }
 
-const addComment = (state: State): State => {
+const addComment: StateModifier = (state) => {
   state.handleEvent(mkEvent('comment-created', {
     id: arbitraryWord(),
     entryId: state.entryId,
@@ -92,17 +94,14 @@ describe('client-can-see-activity', () => {
     })
 
     describe('when doi-entered (in a public collection)', () => {
-      beforeEach(() => {
-        pipe(
+      it('the activity is visible', () => {
+        const initialState = pipe(
           { handleEvent },
           createCollection,
-          addEntry,
         )
-      })
-
-      it('the activity is visible', () => {
-        expect(restrictedQueries.getLocalTimeline()).toHaveLength(2)
-        // SMELL: check details of the second activity
+        const initialActivityCount = restrictedQueries.getLocalTimeline().length
+        addEntry(initialState)
+        expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(1)
       })
     })
 
