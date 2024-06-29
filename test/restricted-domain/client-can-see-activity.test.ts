@@ -1,4 +1,4 @@
-import { pipe } from 'fp-ts/function'
+import { flow, pipe } from 'fp-ts/function'
 import { Domain } from '../../src/domain/index.open'
 import * as RestrictedDomain from '../../src/restricted-domain'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
@@ -14,7 +14,7 @@ type State = {
 
 type StateModifier = (state: State) => State
 
-const createCollection: StateModifier = (state) => {
+const emptyCollection: StateModifier = (state) => {
   const collectionId = arbitraryWord()
   state.handleEvent(mkEvent('collection-created', {
     id: collectionId,
@@ -53,6 +53,10 @@ const addComment: StateModifier = (state) => {
   return state
 }
 
+const emptyPrivateCollection = flow(emptyCollection, becomePrivate)
+const publicCollectionWithEntry = flow(emptyCollection, addEntry)
+const privateCollectionWithEntry = flow(publicCollectionWithEntry, becomePrivate)
+
 describe('client-can-see-activity', () => {
   let handleEvent: UnrestrictedDomain.EventHandler
   let unrestrictedQueries: Domain
@@ -79,7 +83,7 @@ describe('client-can-see-activity', () => {
       beforeEach(() => {
         pipe(
           { handleEvent },
-          createCollection,
+          emptyCollection,
         )
       })
 
@@ -93,64 +97,17 @@ describe('client-can-see-activity', () => {
       it.todo('the activity is not visible')
     })
 
-    describe('when doi-entered (in a public collection)', () => {
-      it('the activity is visible', () => {
-        const initialState = pipe(
-          { handleEvent },
-          createCollection,
-        )
+    describe.each([
+      [emptyCollection, addEntry, 1],
+      [emptyPrivateCollection, addEntry, 0],
+      [publicCollectionWithEntry, addComment, 1],
+      [privateCollectionWithEntry, addComment, 0],
+    ])('when doi-entered (in a public collection)', (setup: StateModifier, event: StateModifier, activitiesAdded: number) => {
+      it(`the activity is ${activitiesAdded === 0 ? 'not ' : ''}visible`, () => {
+        const initialState = setup({ handleEvent })
         const initialActivityCount = restrictedQueries.getLocalTimeline().length
-        addEntry(initialState)
-        expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(1)
-      })
-    })
-
-    describe('when doi-entered (in a private collection)', () => {
-      beforeEach(() => {
-        pipe(
-          { handleEvent },
-          createCollection,
-          becomePrivate,
-          addEntry,
-        )
-      })
-
-      it('the activity is not visible', () => {
-        expect(restrictedQueries.getLocalTimeline()).toHaveLength(1)
-        // SMELL: check details of the activity
-      })
-    })
-
-    describe('when comment-created (in a public collection)', () => {
-      beforeEach(() => {
-        pipe(
-          { handleEvent },
-          createCollection,
-          addEntry,
-          addComment,
-        )
-      })
-
-      it('the activity is visible', () => {
-        expect(restrictedQueries.getLocalTimeline()).toHaveLength(3)
-        // SMELL: check details of the activity
-      })
-    })
-
-    describe('when comment-created (in a private collection)', () => {
-      beforeEach(() => {
-        pipe(
-          { handleEvent },
-          createCollection,
-          addEntry,
-          becomePrivate,
-          addComment,
-        )
-      })
-
-      it('the activity is not visible', () => {
-        expect(restrictedQueries.getLocalTimeline()).toHaveLength(2)
-        // SMELL: check details of the activity
+        event(initialState)
+        expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(activitiesAdded)
       })
     })
 
