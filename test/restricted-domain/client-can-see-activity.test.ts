@@ -1,4 +1,5 @@
 import { flow, identity } from 'fp-ts/function'
+import { Authority } from '../../src/auth/authority'
 import { Domain } from '../../src/domain/index.open'
 import * as RestrictedDomain from '../../src/restricted-domain'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
@@ -59,25 +60,13 @@ const emptyPrivateCollection = flow(emptyCollection, becomePrivate)
 const publicCollectionWithEntry = flow(emptyCollection, addEntry)
 const privateCollectionWithEntry = flow(publicCollectionWithEntry, becomePrivate)
 
+type Example = [setup: StateModifier, event: StateModifier, activitiesAdded: number]
+type Examples = ReadonlyArray<Example>
+
 describe('client-can-see-activity', () => {
-  let handleEvent: UnrestrictedDomain.EventHandler
-  let unrestrictedQueries: Domain
-  let restrictedQueries: Domain
 
-  beforeEach(() => {
-    const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
-    handleEvent = unrestrictedDomain.handleEvent
-    unrestrictedQueries = unrestrictedDomain.queries
-  })
-
-  describe('given a client with no privileges', () => {
-    const claims = () => false
-
-    beforeEach(() => {
-      restrictedQueries = RestrictedDomain.instantiate(claims, unrestrictedQueries)
-    })
-
-    it.each([
+  describe.each([
+    [() => false, [
       // [emptyDatabase, createCommunity, 1],
       [emptyDatabase, createCollection, 1],
       // [emptyDatabase, createPrivateCollection, 0],
@@ -85,15 +74,24 @@ describe('client-can-see-activity', () => {
       [emptyPrivateCollection, addEntry, 0],
       [publicCollectionWithEntry, addComment, 1],
       [privateCollectionWithEntry, addComment, 0],
-    ])('the timeline is updated correctly', (setup: StateModifier, event: StateModifier, activitiesAdded: number) => {
+      // [emptyDatabase, updateWork, 0],
+    ] satisfies Examples],
+  ])('client-can-see-activity', (claims: Authority, examples: Examples) => {
+    let handleEvent: UnrestrictedDomain.EventHandler
+    let unrestrictedQueries: Domain
+
+    beforeEach(() => {
+      const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
+      handleEvent = unrestrictedDomain.handleEvent
+      unrestrictedQueries = unrestrictedDomain.queries
+    })
+
+    it.each(examples)('the timeline is updated correctly', (setup: StateModifier, event: StateModifier, activitiesAdded: number) => {
+      const restrictedQueries = RestrictedDomain.instantiate(claims, unrestrictedQueries)
       const initialState = setup({ handleEvent })
       const initialActivityCount = restrictedQueries.getLocalTimeline().length
       event(initialState)
       expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(activitiesAdded)
-    })
-
-    describe('when work-updated', () => {
-      it.todo('the activity is not visible')
     })
   })
 
