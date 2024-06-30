@@ -15,7 +15,14 @@ type State = {
 
 type StateModifier = (state: State) => State
 
-const createCollection: StateModifier = (state) => {
+type Action = {
+  description: string,
+  act: StateModifier,
+}
+
+const createCollection: Action = {
+  description: 'collection-created',
+  act: (state) => {
   const collectionId = arbitraryWord()
   state.handleEvent(mkEvent('collection-created', {
     id: collectionId,
@@ -23,9 +30,12 @@ const createCollection: StateModifier = (state) => {
     description: arbitraryString(),
   }))
   return { ...state, collectionId }
-}
+},
+  }
 
-const addEntry: StateModifier = (state) => {
+const addEntry: Action = {
+  description: 'doi-entered',
+  act: (state) => {
   const entryId = arbitraryWord()
   state.handleEvent(mkEvent('doi-entered', {
     id: entryId,
@@ -33,9 +43,12 @@ const addEntry: StateModifier = (state) => {
     collectionId: state.collectionId,
   }))
   return { ...state, entryId }
-}
+},
+  }
 
-const becomePrivate: StateModifier = (state) => {
+const becomePrivate: Action = {
+  description: 'collection-updated to become private',
+  act: (state) => {
   state.handleEvent(mkEvent('collection-updated', {
     collectionId: state.collectionId,
     attributes: {
@@ -43,16 +56,20 @@ const becomePrivate: StateModifier = (state) => {
     },
   }))
   return state
-}
+},
+  }
 
-const addComment: StateModifier = (state) => {
+const addComment: Action = {
+  description: 'comment-added',
+  act: (state) => {
   state.handleEvent(mkEvent('comment-created', {
     id: arbitraryWord(),
     entryId: state.entryId,
     content: arbitraryString(),
   }))
   return state
-}
+},
+  }
 
 type Scenario = {
   description: string,
@@ -66,25 +83,25 @@ const emptyDatabase: Scenario = {
 
 const emptyCollection: Scenario = {
   description: 'an empty public collection',
-  setup: createCollection,
+  setup: createCollection.act,
 }
 
 const emptyPrivateCollection: Scenario = {
   description: 'an empty privae collection',
-  setup: flow(emptyCollection.setup, becomePrivate),
+  setup: flow(emptyCollection.setup, becomePrivate.act),
 }
 
 const publicCollectionWithEntry: Scenario = {
   description: 'an entry in a public collection',
-  setup: flow(emptyCollection.setup, addEntry),
+  setup: flow(emptyCollection.setup, addEntry.act),
 }
 
 const privateCollectionWithEntry: Scenario = {
   description: 'an entry in a private collection',
-  setup: flow(publicCollectionWithEntry.setup, becomePrivate),
+  setup: flow(publicCollectionWithEntry.setup, becomePrivate.act),
 }
 
-type Example = [scenario: Scenario, event: StateModifier, activitiesAdded: number]
+type Example = [scenario: Scenario, event: Action, activitiesAdded: number]
 type Examples = ReadonlyArray<Example>
 
 type Client = {
@@ -142,7 +159,7 @@ describe.each([
   let handleEvent: UnrestrictedDomain.EventHandler
   let unrestrictedQueries: Domain
 
-  describe.each(examples)(`given a client who ${client.description}`, (scenario: Scenario, event: StateModifier, activitiesAdded: number) => {
+  describe.each(examples)(`given a client who ${client.description}`, (scenario: Scenario, action: Action, activitiesAdded: number) => {
     describe(`and ${scenario.description}`, () => {
 
       beforeEach(() => {
@@ -151,11 +168,11 @@ describe.each([
         unrestrictedQueries = unrestrictedDomain.queries
       })
 
-      it(`the activity is ${activitiesAdded === 0 ? 'not ' : ''}visible`, () => {
+      it(`when ${action.description}, the activity is ${activitiesAdded === 0 ? 'not ' : ''}visible`, () => {
         const restrictedQueries = RestrictedDomain.instantiate(client.claims, unrestrictedQueries)
         const initialState = scenario.setup({ handleEvent })
         const initialActivityCount = restrictedQueries.getLocalTimeline().length
-        event(initialState)
+        action.act(initialState)
         expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(activitiesAdded)
       })
     })
