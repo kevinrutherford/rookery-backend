@@ -1,12 +1,13 @@
 import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
+import { clientCanAccessCollection } from './client-can-access-collection'
 import { clientCanSeeActivity } from './client-can-see-activity'
 import { Authority } from '../auth/authority'
 import { Collection, Domain, Entry } from '../domain/index.open'
 
-const clientCanAccessCollection = (clientCan: Authority) => (collection: Collection): boolean => (
-  !collection.isPrivate || clientCan('browse-private-collections')
+const collectionIsAccessible = (clientCan: Authority) => (collection: Collection): boolean => (
+  clientCanAccessCollection(clientCan)(collection.isPrivate)
 )
 
 const clientCanAccessEntry = (queries: Domain, clientCan: Authority) => (entry: Entry): boolean => pipe(
@@ -14,16 +15,15 @@ const clientCanAccessEntry = (queries: Domain, clientCan: Authority) => (entry: 
   queries.lookupCollection,
   E.match(
     () => false,
-    clientCanAccessCollection(clientCan),
+    collectionIsAccessible(clientCan),
   ),
 )
 
 export const allCollections = (queries: Domain, claims: Authority): Domain['allCollections'] => () => pipe(
   queries.allCollections(),
-  RA.filter(clientCanAccessCollection(claims)),
+  RA.filter(collectionIsAccessible(claims)),
 )
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(
   queries.getLocalTimeline(),
   RA.filter(clientCanSeeActivity(claims)),
@@ -33,7 +33,7 @@ export const lookupCollection = (queries: Domain, claims: Authority): Domain['lo
   collectionId,
   queries.lookupCollection,
   E.filterOrElseW(
-    clientCanAccessCollection(claims),
+    collectionIsAccessible(claims),
     () => 'not-authorised' as const,
   ),
 )

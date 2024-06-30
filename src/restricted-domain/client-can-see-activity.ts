@@ -1,3 +1,4 @@
+import { clientCanAccessCollection } from './client-can-access-collection'
 import { Authority } from '../auth/authority'
 import { Activity } from '../domain/domain'
 
@@ -5,9 +6,9 @@ import { Activity } from '../domain/domain'
 export const clientCanSeeActivity = (claims: Authority) => (activity: Activity): boolean => {
   switch (activity.type) {
     case 'comment-created':
-      return !activity.isPrivate || claims('browse-private-collections')
+      return clientCanAccessCollection(claims)(activity.isPrivate)
     case 'doi-entered':
-      return !activity.isPrivate || claims('browse-private-collections')
+      return clientCanAccessCollection(claims)(activity.isPrivate)
     default:
       return true
   }
