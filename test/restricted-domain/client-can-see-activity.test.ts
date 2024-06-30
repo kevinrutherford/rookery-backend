@@ -63,10 +63,13 @@ const privateCollectionWithEntry = flow(publicCollectionWithEntry, becomePrivate
 type Example = [setup: StateModifier, event: StateModifier, activitiesAdded: number]
 type Examples = ReadonlyArray<Example>
 
+const noPrivileges: Authority = () => false
+const canBrowsePrivateCollections:Authority = (requiredScope) => requiredScope === 'browse-private-collections'
+
 describe('client-can-see-activity', () => {
 
   describe.each([
-    [() => false, [
+    [noPrivileges, [
       // [emptyDatabase, createCommunity, 1],
       [emptyDatabase, createCollection, 1],
       // [emptyDatabase, createPrivateCollection, 0],
@@ -74,6 +77,16 @@ describe('client-can-see-activity', () => {
       [emptyPrivateCollection, addEntry, 0],
       [publicCollectionWithEntry, addComment, 1],
       [privateCollectionWithEntry, addComment, 0],
+      // [emptyDatabase, updateWork, 0],
+    ] satisfies Examples],
+    [canBrowsePrivateCollections, [
+      // [emptyDatabase, createCommunity, 1],
+      [emptyDatabase, createCollection, 1],
+      // [emptyDatabase, createPrivateCollection, 1],
+      [emptyCollection, addEntry, 1],
+      // [emptyPrivateCollection, addEntry, 1],
+      [publicCollectionWithEntry, addComment, 1],
+      // [privateCollectionWithEntry, addComment, 1],
       // [emptyDatabase, updateWork, 0],
     ] satisfies Examples],
   ])('client-can-see-activity', (claims: Authority, examples: Examples) => {
@@ -92,40 +105,6 @@ describe('client-can-see-activity', () => {
       const initialActivityCount = restrictedQueries.getLocalTimeline().length
       event(initialState)
       expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(activitiesAdded)
-    })
-  })
-
-  describe('given a client with browse-private-collections privilege', () => {
-    describe('when community-created', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when collection-created (public)', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when collection-created (private)', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when doi-entered (in a public collection)', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when doi-entered (in a private collection)', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when comment-created (in a public collection)', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when comment-created (in a private collection)', () => {
-      it.todo('the activity is visible')
-    })
-
-    describe('when work-updated', () => {
-      it.todo('the activity is not visible')
     })
   })
 

@@ -1,4 +1,4 @@
-export type Authority = (scope: 'browse-private-collections') => boolean
+export type Authority = (requiredScope: string) => boolean
 
 export const instantiate = (context: string | undefined): Authority => () => (
   context !== undefined
