@@ -23,53 +23,53 @@ type Action = {
 const createCollection: Action = {
   description: 'collection-created',
   act: (state) => {
-  const collectionId = arbitraryWord()
-  state.handleEvent(mkEvent('collection-created', {
-    id: collectionId,
-    name: arbitraryString(),
-    description: arbitraryString(),
-  }))
-  return { ...state, collectionId }
-},
-  }
+    const collectionId = arbitraryWord()
+    state.handleEvent(mkEvent('collection-created', {
+      id: collectionId,
+      name: arbitraryString(),
+      description: arbitraryString(),
+    }))
+    return { ...state, collectionId }
+  },
+}
 
 const addEntry: Action = {
   description: 'doi-entered',
   act: (state) => {
-  const entryId = arbitraryWord()
-  state.handleEvent(mkEvent('doi-entered', {
-    id: entryId,
-    workId: arbitraryWord(),
-    collectionId: state.collectionId,
-  }))
-  return { ...state, entryId }
-},
-  }
+    const entryId = arbitraryWord()
+    state.handleEvent(mkEvent('doi-entered', {
+      id: entryId,
+      workId: arbitraryWord(),
+      collectionId: state.collectionId,
+    }))
+    return { ...state, entryId }
+  },
+}
 
 const becomePrivate: Action = {
   description: 'collection-updated to become private',
   act: (state) => {
-  state.handleEvent(mkEvent('collection-updated', {
-    collectionId: state.collectionId,
-    attributes: {
-      isPrivate: true,
-    },
-  }))
-  return state
-},
-  }
+    state.handleEvent(mkEvent('collection-updated', {
+      collectionId: state.collectionId,
+      attributes: {
+        isPrivate: true,
+      },
+    }))
+    return state
+  },
+}
 
 const addComment: Action = {
   description: 'comment-added',
   act: (state) => {
-  state.handleEvent(mkEvent('comment-created', {
-    id: arbitraryWord(),
-    entryId: state.entryId,
-    content: arbitraryString(),
-  }))
-  return state
-},
-  }
+    state.handleEvent(mkEvent('comment-created', {
+      id: arbitraryWord(),
+      entryId: state.entryId,
+      content: arbitraryString(),
+    }))
+    return state
+  },
+}
 
 type Scenario = {
   description: string,
@@ -140,9 +140,9 @@ describe.each([
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 1],
     [emptyCollection, addEntry, 1],
-    // [emptyPrivateCollection, addEntry, 1],
+    [emptyPrivateCollection, addEntry, 1],
     [publicCollectionWithEntry, addComment, 1],
-    // [privateCollectionWithEntry, addComment, 1],
+    [privateCollectionWithEntry, addComment, 1],
     // [emptyDatabase, updateWork, 0],
   ] satisfies Examples],
   [canReceiveWorkUpdates, [

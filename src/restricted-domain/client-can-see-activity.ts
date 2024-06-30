@@ -5,9 +5,9 @@ import { Activity } from '../domain/domain'
 export const clientCanSeeActivity = (claims: Authority) => (activity: Activity): boolean => {
   switch (activity.type) {
     case 'comment-created':
-      return !activity.isPrivate
+      return !activity.isPrivate || claims('browse-private-collections')
     case 'doi-entered':
-      return !activity.isPrivate
+      return !activity.isPrivate || claims('browse-private-collections')
     default:
       return true
   }
