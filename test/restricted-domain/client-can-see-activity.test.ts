@@ -63,44 +63,60 @@ const privateCollectionWithEntry = flow(publicCollectionWithEntry, becomePrivate
 type Example = [setup: StateModifier, event: StateModifier, activitiesAdded: number]
 type Examples = ReadonlyArray<Example>
 
-const noPrivileges: Authority = () => false
-const canBrowsePrivateCollections:Authority = (requiredScope) => requiredScope === 'browse-private-collections'
-const canReceiveWorkUpdates:Authority = (requiredScope) => requiredScope === 'receive-work-updates'
+type Client = {
+  description: string,
+  claims: Authority,
+}
 
-describe('client-can-see-activity', () => {
+const noPrivileges: Client = {
+  description: 'has no privileges',
+  claims: () => false,
+}
 
-  describe.each([
-    [noPrivileges, [
-      // [emptyDatabase, createCommunity, 1],
-      [emptyDatabase, createCollection, 1],
-      // [emptyDatabase, createPrivateCollection, 0],
-      [emptyCollection, addEntry, 1],
-      [emptyPrivateCollection, addEntry, 0],
-      [publicCollectionWithEntry, addComment, 1],
-      [privateCollectionWithEntry, addComment, 0],
-      // [emptyDatabase, updateWork, 0],
-    ] satisfies Examples],
-    [canBrowsePrivateCollections, [
-      // [emptyDatabase, createCommunity, 1],
-      [emptyDatabase, createCollection, 1],
-      // [emptyDatabase, createPrivateCollection, 1],
-      [emptyCollection, addEntry, 1],
-      // [emptyPrivateCollection, addEntry, 1],
-      [publicCollectionWithEntry, addComment, 1],
-      // [privateCollectionWithEntry, addComment, 1],
-      // [emptyDatabase, updateWork, 0],
-    ] satisfies Examples],
-    [canReceiveWorkUpdates, [
-      // [emptyDatabase, createCommunity, 1],
-      [emptyDatabase, createCollection, 1],
-      // [emptyDatabase, createPrivateCollection, 0],
-      [emptyCollection, addEntry, 1],
-      [emptyPrivateCollection, addEntry, 0],
-      [publicCollectionWithEntry, addComment, 1],
-      [privateCollectionWithEntry, addComment, 0],
-      // [emptyDatabase, updateWork, 1],
-    ] satisfies Examples],
-  ])('client-can-see-activity', (claims: Authority, examples: Examples) => {
+const canBrowsePrivateCollections: Client = {
+  description: 'can browse private collections',
+  claims: (requiredScope) => requiredScope === 'browse-private-collections',
+}
+
+const canReceiveWorkUpdates: Client = {
+  description: 'can receive work updates',
+  claims: (requiredScope) => requiredScope === 'receive-work-updates',
+}
+
+describe.each([
+  [noPrivileges, [
+    // [emptyDatabase, createCommunity, 1],
+    [emptyDatabase, createCollection, 1],
+    // [emptyDatabase, createPrivateCollection, 0],
+    [emptyCollection, addEntry, 1],
+    [emptyPrivateCollection, addEntry, 0],
+    [publicCollectionWithEntry, addComment, 1],
+    [privateCollectionWithEntry, addComment, 0],
+    // [emptyDatabase, updateWork, 0],
+  ] satisfies Examples],
+  [canBrowsePrivateCollections, [
+    // [emptyDatabase, createCommunity, 1],
+    [emptyDatabase, createCollection, 1],
+    // [emptyDatabase, createPrivateCollection, 1],
+    [emptyCollection, addEntry, 1],
+    // [emptyPrivateCollection, addEntry, 1],
+    [publicCollectionWithEntry, addComment, 1],
+    // [privateCollectionWithEntry, addComment, 1],
+    // [emptyDatabase, updateWork, 0],
+  ] satisfies Examples],
+  [canReceiveWorkUpdates, [
+    // [emptyDatabase, createCommunity, 1],
+    [emptyDatabase, createCollection, 1],
+    // [emptyDatabase, createPrivateCollection, 0],
+    [emptyCollection, addEntry, 1],
+    [emptyPrivateCollection, addEntry, 0],
+    [publicCollectionWithEntry, addComment, 1],
+    [privateCollectionWithEntry, addComment, 0],
+    // [emptyDatabase, updateWork, 1],
+  ] satisfies Examples],
+])('client-can-see-activity', (client: Client, examples: Examples) => {
+
+  describe(`given a client who ${client.description}`, () => {
     let handleEvent: UnrestrictedDomain.EventHandler
     let unrestrictedQueries: Domain
 
@@ -111,7 +127,7 @@ describe('client-can-see-activity', () => {
     })
 
     it.each(examples)('the timeline is updated correctly', (setup: StateModifier, event: StateModifier, activitiesAdded: number) => {
-      const restrictedQueries = RestrictedDomain.instantiate(claims, unrestrictedQueries)
+      const restrictedQueries = RestrictedDomain.instantiate(client.claims, unrestrictedQueries)
       const initialState = setup({ handleEvent })
       const initialActivityCount = restrictedQueries.getLocalTimeline().length
       event(initialState)
