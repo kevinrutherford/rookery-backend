@@ -54,13 +54,37 @@ const addComment: StateModifier = (state) => {
   return state
 }
 
-const emptyDatabase = identity
-const emptyCollection = createCollection
-const emptyPrivateCollection = flow(emptyCollection, becomePrivate)
-const publicCollectionWithEntry = flow(emptyCollection, addEntry)
-const privateCollectionWithEntry = flow(publicCollectionWithEntry, becomePrivate)
+type Scenario = {
+  description: string,
+  setup: StateModifier,
+}
 
-type Example = [setup: StateModifier, event: StateModifier, activitiesAdded: number]
+const emptyDatabase: Scenario = {
+  description: 'an empty community',
+  setup: identity,
+}
+
+const emptyCollection: Scenario = {
+  description: 'an empty public collection',
+  setup: createCollection,
+}
+
+const emptyPrivateCollection: Scenario = {
+  description: 'an empty privae collection',
+  setup: flow(emptyCollection.setup, becomePrivate),
+}
+
+const publicCollectionWithEntry: Scenario = {
+  description: 'an entry in a public collection',
+  setup: flow(emptyCollection.setup, addEntry),
+}
+
+const privateCollectionWithEntry: Scenario = {
+  description: 'an entry in a private collection',
+  setup: flow(publicCollectionWithEntry.setup, becomePrivate),
+}
+
+type Example = [scenario: Scenario, event: StateModifier, activitiesAdded: number]
 type Examples = ReadonlyArray<Example>
 
 type Client = {
@@ -115,23 +139,25 @@ describe.each([
     // [emptyDatabase, updateWork, 1],
   ] satisfies Examples],
 ])('client-can-see-activity', (client: Client, examples: Examples) => {
+  let handleEvent: UnrestrictedDomain.EventHandler
+  let unrestrictedQueries: Domain
 
-  describe(`given a client who ${client.description}`, () => {
-    let handleEvent: UnrestrictedDomain.EventHandler
-    let unrestrictedQueries: Domain
+  describe.each(examples)(`given a client who ${client.description}`, (scenario: Scenario, event: StateModifier, activitiesAdded: number) => {
+    describe(`and ${scenario.description}`, () => {
 
-    beforeEach(() => {
-      const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
-      handleEvent = unrestrictedDomain.handleEvent
-      unrestrictedQueries = unrestrictedDomain.queries
-    })
+      beforeEach(() => {
+        const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
+        handleEvent = unrestrictedDomain.handleEvent
+        unrestrictedQueries = unrestrictedDomain.queries
+      })
 
-    it.each(examples)('the timeline is updated correctly', (setup: StateModifier, event: StateModifier, activitiesAdded: number) => {
-      const restrictedQueries = RestrictedDomain.instantiate(client.claims, unrestrictedQueries)
-      const initialState = setup({ handleEvent })
-      const initialActivityCount = restrictedQueries.getLocalTimeline().length
-      event(initialState)
-      expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(activitiesAdded)
+      it(`the activity is ${activitiesAdded === 0 ? 'not ' : ''}visible`, () => {
+        const restrictedQueries = RestrictedDomain.instantiate(client.claims, unrestrictedQueries)
+        const initialState = scenario.setup({ handleEvent })
+        const initialActivityCount = restrictedQueries.getLocalTimeline().length
+        event(initialState)
+        expect(restrictedQueries.getLocalTimeline().length - initialActivityCount).toBe(activitiesAdded)
+      })
     })
   })
 })
