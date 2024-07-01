@@ -24,11 +24,8 @@ type DoiEntered = {
   created: Date,
   actor: string,
   occurredWithinPrivateCollection: boolean,
-  data: {
-    id: string,
-    workId: string,
-    collectionId: string,
-  },
+  workId: string,
+  collectionId: string,
 }
 
 type WorkUpdated = {

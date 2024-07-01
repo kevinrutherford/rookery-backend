@@ -16,21 +16,21 @@ const titleOf = (work: Work) => {
   }
 }
 
-export const toDoiEnteredParagraph = (queries: Domain) => (event: DoiEntered): O.Option<Activity> => pipe(
+export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered): O.Option<Activity> => pipe(
   {
     collection: pipe(
-      queries.lookupCollection(event.data.collectionId),
+      queries.lookupCollection(activity.collectionId),
       O.fromEither,
     ),
-    work: queries.lookupWork(event.data.workId),
+    work: queries.lookupWork(activity.workId),
   },
   sequenceS(O.Apply),
   O.map(({ collection, work }) => ({
-    id: event.id,
+    id: activity.id,
     actor: 'you',
     action: `added an item to collection ${collection.name}`,
     content: titleOf(work),
-    timestamp: event.created,
+    timestamp: activity.created,
   })),
 )
 

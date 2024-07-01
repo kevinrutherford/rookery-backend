@@ -43,11 +43,8 @@ export type CommentCreated = ActivityBase & {
  */
 export type DoiEntered = ActivityBase & {
   type: 'doi-entered',
-  data: {
-    id: string,
-    workId: string,
-    collectionId: string,
-  },
+  workId: string,
+  collectionId: string,
 }
 
 /**

@@ -31,9 +31,13 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   state.entriesByEntryId.set(data.id, entry)
 
   state.activities.push({
-    ...event,
+    type: event.type,
+    id: event.id,
+    created: event.created,
     actor: 'you',
     occurredWithinPrivateCollection: collection.isPrivate,
+    collectionId: event.data.collectionId,
+    workId: event.data.workId,
   })
 }
 
