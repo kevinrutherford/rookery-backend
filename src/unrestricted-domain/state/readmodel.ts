@@ -6,7 +6,7 @@ import { Work } from './work'
 import { Comment, Community, DomainProbe } from '../../domain/index.open'
 
 export type Readmodel = {
-  activities: Array<{ event: TimelineEvent }>,
+  activities: Array<TimelineEvent>,
   collections: Map<string, Collection>,
   comments: Map<string, Array<Comment>>,
   community: O.Option<Community>,

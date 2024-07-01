@@ -23,10 +23,8 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
   entry.commentsCount += 1 // SMELL: is this really necessary now we have a unified readmodel?
 
   state.activities.push({
-    event: {
-      ...event,
-      occurredWithinPrivateCollection: collection.isPrivate,
-    },
+    ...event,
+    occurredWithinPrivateCollection: collection.isPrivate,
   })
 }
 
