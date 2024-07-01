@@ -119,9 +119,9 @@ const canBrowsePrivateCollections: Client = {
   claims: (requiredScope) => requiredScope === 'browse-private-collections',
 }
 
-const canReceiveWorkUpdates: Client = {
-  description: 'can receive work updates',
-  claims: (requiredScope) => requiredScope === 'receive-work-updates',
+const canBrowseWorks: Client = {
+  description: 'can browse works',
+  claims: (requiredScope) => requiredScope === 'browse-works',
 }
 
 describe.each([
@@ -145,7 +145,7 @@ describe.each([
     [privateCollectionWithEntry, addComment, 1],
     // [emptyDatabase, updateWork, 0],
   ] satisfies Examples],
-  [canReceiveWorkUpdates, [
+  [canBrowseWorks, [
     // [emptyDatabase, createCommunity, 1],
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 0],
