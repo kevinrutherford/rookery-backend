@@ -15,11 +15,7 @@ type CommentCreated = {
   created: Date,
   actor: string,
   occurredWithinPrivateCollection: boolean,
-  data: {
-    id: string,
-    entryId: string,
-    content: string,
-  },
+  content: string,
 }
 
 type DoiEntered = {

@@ -35,11 +35,7 @@ export type CollectionCreated = ActivityBase & {
  */
 export type CommentCreated = ActivityBase & {
   type: 'comment-created',
-  data: {
-    id: string,
-    entryId: string,
-    content: string,
-  },
+  content: string,
 }
 
 /**
