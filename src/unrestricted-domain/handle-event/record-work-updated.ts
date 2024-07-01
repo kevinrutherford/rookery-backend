@@ -8,11 +8,13 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
     frontMatter: event.data.attributes,
   })
 
-  state.activities.push({
-    event: {
-      ...event,
-      occurredWithinPrivateCollection: false,
-    },
-  })
+  if (event.data.attributes.crossrefStatus !== 'not-determined') {
+    state.activities.push({
+      event: {
+        ...event,
+        occurredWithinPrivateCollection: false,
+      },
+    })
+  }
 }
 
