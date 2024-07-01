@@ -57,12 +57,12 @@ describe('given a public collection', () => {
     })
 
     it('all activities during the public period remain public', () => {
-      expect(activities[0].isPrivate).toBe(false)
-      expect(activities[1].isPrivate).toBe(false)
+      expect('isPrivate' in activities[0] && activities[0].isPrivate).toBe(false)
+      expect('isPrivate' in activities[1] && activities[1].isPrivate).toBe(false)
     })
 
     it('subsequent activities are private', () => {
-      expect(activities[2].isPrivate).toBe(true)
+      expect('isPrivate' in activities[2] && activities[2].isPrivate).toBe(true)
     })
   })
 
@@ -82,7 +82,7 @@ describe('given a public collection', () => {
     })
 
     it('all activities during the private period remain private', () => {
-      expect(activities[2].isPrivate).toBe(true)
+      expect('isPrivate' in activities[2] && activities[2].isPrivate).toBe(true)
     })
   })
 })
