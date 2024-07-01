@@ -18,6 +18,7 @@ export type Activity =
 type ActivityBase = {
   id: string,
   created: Date,
+  actor: string,
   occurredWithinPrivateCollection: boolean,
 }
 
@@ -26,6 +27,7 @@ type ActivityBase = {
  */
 export type CollectionCreated = ActivityBase & {
   type: 'collection-created',
+  actor: string,
   data: {
     id: string,
     name: string,

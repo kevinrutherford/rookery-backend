@@ -32,6 +32,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
 
   state.activities.push({
     ...event,
+    actor: 'you',
     occurredWithinPrivateCollection: collection.isPrivate,
   })
 }

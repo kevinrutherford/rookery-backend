@@ -4,6 +4,7 @@ type CollectionCreated = {
   type: 'collection-created',
   id: string,
   created: Date,
+  actor: string,
   occurredWithinPrivateCollection: boolean,
   data: {
     id: string,
@@ -16,6 +17,7 @@ type CommentCreated = {
   type: 'comment-created',
   id: string,
   created: Date,
+  actor: string,
   occurredWithinPrivateCollection: boolean,
   data: {
     id: string,
@@ -28,6 +30,7 @@ type DoiEntered = {
   type: 'doi-entered',
   id: string,
   created: Date,
+  actor: string,
   occurredWithinPrivateCollection: boolean,
   data: {
     id: string,
@@ -40,6 +43,7 @@ type WorkUpdated = {
   type: 'work-updated',
   id: string, // SMELL -- duplicated domain object types
   created: Date,
+  actor: string,
   occurredWithinPrivateCollection: boolean,
   data: {
     workId: string,

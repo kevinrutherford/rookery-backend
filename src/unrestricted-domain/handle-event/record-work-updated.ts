@@ -11,6 +11,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
   if (event.data.attributes.crossrefStatus !== 'not-determined') {
     state.activities.push({
       ...event,
+      actor: 'CrossrefBot',
       occurredWithinPrivateCollection: false,
     })
   }

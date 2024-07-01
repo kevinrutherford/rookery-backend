@@ -8,6 +8,7 @@ export const recordCollectionCreated = (state: Readmodel, event: CollectionCreat
   })
   state.activities.push({
     ...event,
+    actor: 'you',
     occurredWithinPrivateCollection: false,
   })
 }

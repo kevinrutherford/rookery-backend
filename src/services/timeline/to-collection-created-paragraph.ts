@@ -4,11 +4,11 @@ import { Activity, CollectionCreated } from '../../domain/index.open'
 /**
  * @deprecated This should be done inside the domain
  */
-export const toCollectionCreatedParagraph = (event: CollectionCreated): O.Option<Activity> => O.some({
-  id: event.id,
-  userHandle: 'you',
-  action: `created collection ${event.data.name}`,
+export const toCollectionCreatedParagraph = (activity: CollectionCreated): O.Option<Activity> => O.some({
+  id: activity.id,
+  userHandle: activity.actor,
+  action: `created collection ${activity.data.name}`,
   content: '',
-  timestamp: event.created,
+  timestamp: activity.created,
 })
 
