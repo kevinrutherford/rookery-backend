@@ -71,6 +71,22 @@ const addComment: Action = {
   },
 }
 
+const workFound: Action = {
+  description: 'work found',
+  act: (state) => {
+    state.handleEvent(mkEvent('work-updated', {
+      workId: arbitraryWord(),
+      attributes: {
+        crossrefStatus: 'found',
+        title: arbitraryString(),
+        abstract: arbitraryString(),
+        authors: [arbitraryString(), arbitraryString()],
+      },
+    }))
+    return state
+  },
+}
+
 type Scenario = {
   description: string,
   setup: StateModifier,
@@ -87,7 +103,7 @@ const emptyCollection: Scenario = {
 }
 
 const emptyPrivateCollection: Scenario = {
-  description: 'an empty privae collection',
+  description: 'an empty private collection',
   setup: flow(emptyCollection.setup, becomePrivate.act),
 }
 
@@ -133,7 +149,7 @@ describe.each([
     [emptyPrivateCollection, addEntry, 0],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 0],
-    // [emptyDatabase, updateWork, 0],
+    // [emptyDatabase, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
     // [emptyDatabase, createCommunity, 1],
@@ -143,7 +159,7 @@ describe.each([
     [emptyPrivateCollection, addEntry, 1],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 1],
-    // [emptyDatabase, updateWork, 0],
+    // [emptyDatabase, workFound, 0],
   ] satisfies Examples],
   [canBrowseWorks, [
     // [emptyDatabase, createCommunity, 1],
@@ -153,7 +169,7 @@ describe.each([
     [emptyPrivateCollection, addEntry, 0],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 0],
-    // [emptyDatabase, updateWork, 1],
+    [emptyDatabase, workFound, 1],
   ] satisfies Examples],
 ])('client-can-see-activity', (client: Client, examples: Examples) => {
   let handleEvent: UnrestrictedDomain.EventHandler
