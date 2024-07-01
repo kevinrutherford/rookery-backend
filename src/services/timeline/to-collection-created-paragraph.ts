@@ -6,8 +6,8 @@ import { Activity, CollectionCreated } from '../../domain/index.open'
  */
 export const toCollectionCreatedParagraph = (activity: CollectionCreated): O.Option<Activity> => O.some({
   id: activity.id,
-  userHandle: activity.actor,
-  action: `created collection ${activity.data.name}`,
+  actor: activity.actor,
+  action: `created collection ${activity.name}`,
   content: '',
   timestamp: activity.created,
 })

@@ -6,11 +6,7 @@ type CollectionCreated = {
   created: Date,
   actor: string,
   occurredWithinPrivateCollection: boolean,
-  data: {
-    id: string,
-    name: string,
-    description: string,
-  },
+  name: string,
 }
 
 type CommentCreated = {

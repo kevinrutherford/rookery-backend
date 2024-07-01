@@ -1,6 +1,6 @@
 export type Activity = {
   id: string,
-  userHandle: string,
+  actor: string,
   timestamp: Date,
   action: string,
   content: string,

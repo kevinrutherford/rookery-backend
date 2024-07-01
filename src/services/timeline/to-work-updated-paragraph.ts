@@ -9,7 +9,7 @@ export const toWorkUpdatedParagraph = (activity: WorkUpdated): O.Option<Activity
     case 'not-found':
       return O.some({
         id: activity.id,
-        userHandle: activity.actor,
+        actor: activity.actor,
         action: 'could not find a DOI',
         content: activity.data.workId,
         timestamp: activity.created,
@@ -17,7 +17,7 @@ export const toWorkUpdatedParagraph = (activity: WorkUpdated): O.Option<Activity
     case 'found':
       return O.some({
         id: activity.id,
-        userHandle: activity.actor,
+        actor: activity.actor,
         action: 'found the title of a paper',
         content: activity.data.attributes.title,
         timestamp: activity.created,

@@ -27,12 +27,7 @@ type ActivityBase = {
  */
 export type CollectionCreated = ActivityBase & {
   type: 'collection-created',
-  actor: string,
-  data: {
-    id: string,
-    name: string,
-    description: string,
-  },
+  name: string,
 }
 
 /**
