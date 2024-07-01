@@ -87,7 +87,7 @@ const emptyCollection: Scenario = {
 }
 
 const emptyPrivateCollection: Scenario = {
-  description: 'an empty private collection',
+  description: 'an empty privae collection',
   setup: flow(emptyCollection.setup, becomePrivate.act),
 }
 

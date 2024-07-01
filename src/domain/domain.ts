@@ -13,6 +13,7 @@ export type WorkUpdated = {
   type: 'work-updated',
   id: string,
   created: Date,
+  isPrivate: boolean,
   data: {
     workId: string,
     attributes: Work['frontMatter'],

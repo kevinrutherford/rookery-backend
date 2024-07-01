@@ -44,7 +44,7 @@ describe('given a private collection', () => {
     it('the activity is recorded as private', () => {
       const activities = domain.queries.getLocalTimeline()
       expect(activities).toHaveLength(2)
-      expect('isPrivate' in activities[1] && activities[1].isPrivate).toBe(true)
+      expect(activities[1].isPrivate).toBe(true)
     })
   })
 
@@ -75,7 +75,7 @@ describe('given a private collection', () => {
       })
 
       it('all activities during the private period remain private', () => {
-        expect('isPrivate' in activities[1] && activities[1].isPrivate).toBe(true)
+        expect(activities[1].isPrivate).toBe(true)
       })
     })
 
@@ -95,7 +95,7 @@ describe('given a private collection', () => {
       })
 
       it('records the commenting activity as private', () => {
-        expect('isPrivate' in activities[2] && activities[2].isPrivate).toBe(true)
+        expect(activities[2].isPrivate).toBe(true)
       })
     })
   })
