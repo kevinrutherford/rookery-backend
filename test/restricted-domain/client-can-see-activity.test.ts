@@ -149,7 +149,7 @@ describe.each([
     [emptyPrivateCollection, addEntry, 0],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 0],
-    // [emptyDatabase, workFound, 0],
+    [emptyDatabase, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
     // [emptyDatabase, createCommunity, 1],
@@ -159,7 +159,7 @@ describe.each([
     [emptyPrivateCollection, addEntry, 1],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 1],
-    // [emptyDatabase, workFound, 0],
+    [emptyDatabase, workFound, 0],
   ] satisfies Examples],
   [canBrowseWorks, [
     // [emptyDatabase, createCommunity, 1],

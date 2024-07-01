@@ -9,6 +9,8 @@ export const clientCanSeeActivity = (claims: Authority) => (activity: Activity):
       return clientCanAccessCollection(claims)(activity.occurredWithinPrivateCollection)
     case 'doi-entered':
       return clientCanAccessCollection(claims)(activity.occurredWithinPrivateCollection)
+    case 'work-updated':
+      return claims('browse-works')
     default:
       return true
   }
