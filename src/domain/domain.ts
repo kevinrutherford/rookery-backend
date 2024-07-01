@@ -9,34 +9,23 @@ import { Work } from './work-resource'
 /**
  * @deprecated The domain should expose Activities
  */
-export type WorkUpdated = {
-  type: 'work-updated',
-  id: string,
-  created: Date,
-  isPrivate: boolean,
-  data: {
-    workId: string,
-    attributes: Work['frontMatter'],
-  },
-}
-
-/**
- * @deprecated The domain should expose Activities
- */
 export type Activity =
   | CollectionCreated
   | CommentCreated
   | DoiEntered
   | WorkUpdated
 
+type ActivityBase = {
+  id: string,
+  created: Date,
+  occurredWithinPrivateCollection: boolean,
+}
+
 /**
  * @deprecated The domain should expose Activities
  */
-export type CollectionCreated = {
+export type CollectionCreated = ActivityBase & {
   type: 'collection-created',
-  id: string,
-  created: Date,
-  isPrivate: boolean,
   data: {
     id: string,
     name: string,
@@ -47,11 +36,8 @@ export type CollectionCreated = {
 /**
  * @deprecated The domain should expose Activities
  */
-export type CommentCreated = {
+export type CommentCreated = ActivityBase & {
   type: 'comment-created',
-  id: string,
-  created: Date,
-  isPrivate: boolean,
   data: {
     id: string,
     entryId: string,
@@ -62,15 +48,23 @@ export type CommentCreated = {
 /**
  * @deprecated The domain should expose Activities
  */
-export type DoiEntered = {
+export type DoiEntered = ActivityBase & {
   type: 'doi-entered',
-  id: string, // SMELL: duplicate event properties
-  created: Date, // SMELL: duplicate event properties
-  isPrivate: boolean, // SMELL: duplicate event properties
   data: {
     id: string,
     workId: string,
     collectionId: string,
+  },
+}
+
+/**
+ * @deprecated The domain should expose Activities
+ */
+export type WorkUpdated = ActivityBase & {
+  type: 'work-updated',
+  data: {
+    workId: string,
+    attributes: Work['frontMatter'],
   },
 }
 

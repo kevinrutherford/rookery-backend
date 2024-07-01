@@ -38,7 +38,7 @@ describe('given a public collection', () => {
       })
 
       it('records the activity as public', () => {
-        expect(d.getLocalTimeline()[1].isPrivate).toBe(false)
+        expect(d.getLocalTimeline()[1].occurredWithinPrivateCollection).toBe(false)
       })
 
       it('records the new Work', () => {
@@ -115,7 +115,7 @@ describe('given a public collection', () => {
       })
 
       it('records the commenting activity as private', () => {
-        expect(d.getLocalTimeline()[2].isPrivate).toBe(false)
+        expect(d.getLocalTimeline()[2].occurredWithinPrivateCollection).toBe(false)
       })
     })
   })

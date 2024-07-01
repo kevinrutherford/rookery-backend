@@ -6,9 +6,9 @@ import { Activity } from '../domain/domain'
 export const clientCanSeeActivity = (claims: Authority) => (activity: Activity): boolean => {
   switch (activity.type) {
     case 'comment-created':
-      return clientCanAccessCollection(claims)(activity.isPrivate)
+      return clientCanAccessCollection(claims)(activity.occurredWithinPrivateCollection)
     case 'doi-entered':
-      return clientCanAccessCollection(claims)(activity.isPrivate)
+      return clientCanAccessCollection(claims)(activity.occurredWithinPrivateCollection)
     default:
       return true
   }

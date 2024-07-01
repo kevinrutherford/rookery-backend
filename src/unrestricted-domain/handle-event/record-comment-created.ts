@@ -25,7 +25,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
   state.activities.push({
     event: {
       ...event,
-      isPrivate: collection.isPrivate,
+      occurredWithinPrivateCollection: collection.isPrivate,
     },
   })
 }

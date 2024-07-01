@@ -11,7 +11,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
   state.activities.push({
     event: {
       ...event,
-      isPrivate: false,
+      occurredWithinPrivateCollection: false,
     },
   })
 }
