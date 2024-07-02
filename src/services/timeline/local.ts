@@ -9,12 +9,12 @@ import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Activity, Domain } from '../../domain/index.open'
-import { renderActivityResource } from '../json-api/render-activity-resource'
+import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
 type TimelineEvent = ReturnType<Domain['getLocalTimeline']>[number]
 
-const toTimelineActivity = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
+const toTimelineUpdate = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
   switch (event.type) {
     case 'collection-created':
       return toCollectionCreatedParagraph(event)
@@ -41,10 +41,10 @@ const byDateDescending: Ord.Ord<Activity> = pipe(
 
 export const getLocalTimeline = (queries: Domain): Service => () => () => pipe(
   queries.getLocalTimeline(),
-  RA.map(toTimelineActivity(queries)),
+  RA.map(toTimelineUpdate(queries)),
   RA.compact,
   RA.sort(byDateDescending),
-  RA.map(renderActivityResource),
+  RA.map(renderUpdateResource),
   (paragraphs) => ({
     data: paragraphs,
   }),
