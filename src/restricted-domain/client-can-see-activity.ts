@@ -1,9 +1,9 @@
 import { clientCanAccessCollection } from './client-can-access-collection'
 import { Authority } from '../auth/authority'
-import { Activity } from '../domain/domain'
+import { Update } from '../domain/domain'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const clientCanSeeActivity = (claims: Authority) => (activity: Activity): boolean => {
+export const clientCanSeeActivity = (claims: Authority) => (activity: Update): boolean => {
   switch (activity.type) {
     case 'comment-created':
       return clientCanAccessCollection(claims)(activity.occurredWithinPrivateCollection)

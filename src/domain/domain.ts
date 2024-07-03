@@ -6,60 +6,42 @@ import { Community } from './community-resource'
 import { Entry } from './entry-resource'
 import { Work } from './work-resource'
 
-/**
- * @deprecated The domain should expose Activities
- */
-export type Activity =
+export type Update =
   | CommunityCreated
   | CollectionCreated
   | CommentCreated
   | DoiEntered
   | WorkUpdated
 
-type ActivityBase = {
+type UpdateCommonAttributes = {
   id: string,
   created: Date,
   actor: string,
   occurredWithinPrivateCollection: boolean,
 }
 
-/**
- * @deprecated The domain should expose Activities
- */
-export type CommunityCreated = ActivityBase & {
+export type CommunityCreated = UpdateCommonAttributes & {
   type: 'community-created',
   communityId: string,
 }
 
-/**
- * @deprecated The domain should expose Activities
- */
-export type CollectionCreated = ActivityBase & {
+export type CollectionCreated = UpdateCommonAttributes & {
   type: 'collection-created',
   name: string,
 }
 
-/**
- * @deprecated The domain should expose Activities
- */
-export type CommentCreated = ActivityBase & {
+export type CommentCreated = UpdateCommonAttributes & {
   type: 'comment-created',
   content: string,
 }
 
-/**
- * @deprecated The domain should expose Activities
- */
-export type DoiEntered = ActivityBase & {
+export type DoiEntered = UpdateCommonAttributes & {
   type: 'doi-entered',
   workId: string,
   collectionId: string,
 }
 
-/**
- * @deprecated The domain should expose Activities
- */
-export type WorkUpdated = ActivityBase & {
+export type WorkUpdated = UpdateCommonAttributes & {
   type: 'work-updated',
   data: {
     workId: string,
@@ -81,7 +63,7 @@ export type Domain = {
   findComments: (entryId: string) => ReadonlyArray<Comment>,
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
-  getLocalTimeline: () => ReadonlyArray<Activity>,
+  getLocalTimeline: () => ReadonlyArray<Update>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   lookupEntry: (entryId: string) => E.Either<DomainError, Entry>,
   lookupWork: (id: string) => O.Option<Work>,
