@@ -48,8 +48,9 @@ export const getLocalTimeline = (queries: Domain): Service => () => () => pipe(
   RA.compact,
   RA.sort(byDateDescending),
   RA.map(renderUpdateResource),
-  (paragraphs) => ({
-    data: paragraphs,
+  (updates) => ({
+    data: updates,
+    included: [],
   }),
   E.right,
 )
