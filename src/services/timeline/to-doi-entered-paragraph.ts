@@ -26,6 +26,7 @@ export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered)
   },
   sequenceS(O.Apply),
   O.map(({ collection, work }) => ({
+    type: 'activity',
     id: activity.id,
     actor: 'you',
     action: `added an item to collection ${collection.name}`,

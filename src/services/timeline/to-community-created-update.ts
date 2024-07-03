@@ -3,6 +3,7 @@ import { CommunityCreated } from '../../domain/domain'
 import { Activity } from '../../domain/index.open'
 
 export const toCommunityCreatedUpdate = (activity: CommunityCreated): O.Option<Activity> => O.some({
+  type: 'activity',
   id: activity.id,
   actor: activity.actor,
   action: `created this community ${activity.name}`,

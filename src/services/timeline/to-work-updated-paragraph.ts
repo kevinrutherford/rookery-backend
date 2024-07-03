@@ -8,6 +8,7 @@ export const toWorkUpdatedParagraph = (activity: WorkUpdated): O.Option<Activity
       return O.none
     case 'not-found':
       return O.some({
+        type: 'activity',
         id: activity.id,
         actor: activity.actor,
         action: 'could not find a DOI',
@@ -16,6 +17,7 @@ export const toWorkUpdatedParagraph = (activity: WorkUpdated): O.Option<Activity
       })
     case 'found':
       return O.some({
+        type: 'activity',
         id: activity.id,
         actor: activity.actor,
         action: 'found the title of a paper',
