@@ -7,7 +7,6 @@ type CommunityCreated = {
   actor: string,
   communityId: string,
   occurredWithinPrivateCollection: boolean,
-  name: string,
 }
 
 type CollectionCreated = {

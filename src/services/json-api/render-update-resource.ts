@@ -11,7 +11,6 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
         id: update.id,
         attributes: {
           actor: update.actor,
-          action: update.action,
           summary: update.summary,
           occurred_at: update.occurred_at.toISOString(),
         },

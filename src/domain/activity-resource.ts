@@ -4,7 +4,6 @@ type CommunityCreatedUpdate = {
   actor: string,
   occurred_at: Date,
   communityId: string,
-  action: string,
   summary: string,
 }
 

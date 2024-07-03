@@ -11,7 +11,6 @@ export const recordCommunityCreated = (state: Readmodel, event: CommunityCreated
     actor: 'you',
     communityId: event.data.id,
     occurredWithinPrivateCollection: false,
-    name: event.data.name,
   })
 }
 
