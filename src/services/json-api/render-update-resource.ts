@@ -8,7 +8,7 @@ export const renderUpdateResource = (activity: Activity): JsonApiResource => ({
     actor: activity.actor,
     action: activity.action,
     content: activity.content,
-    timestamp: activity.occurred_at.toISOString(),
+    occurred_at: activity.occurred_at.toISOString(),
   },
 })
 
