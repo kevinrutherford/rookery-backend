@@ -4,5 +4,13 @@ import { Readmodel } from '../state/readmodel'
 
 export const recordCommunityCreated = (state: Readmodel, event: CommunityCreatedEvent): void => {
   state.community = O.some(event.data)
+  state.activities.push({
+    type: event.type,
+    id: event.id,
+    created: event.created,
+    actor: 'you',
+    occurredWithinPrivateCollection: false,
+    name: event.data.name,
+  })
 }
 

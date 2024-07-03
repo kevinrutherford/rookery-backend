@@ -1,5 +1,14 @@
 import { Work } from './work'
 
+type CommunityCreated = {
+  type: 'community-created',
+  id: string,
+  created: Date,
+  actor: string,
+  occurredWithinPrivateCollection: boolean,
+  name: string,
+}
+
 type CollectionCreated = {
   type: 'collection-created',
   id: string,
@@ -41,6 +50,7 @@ type WorkUpdated = {
 }
 
 export type TimelineEvent =
+  | CommunityCreated
   | CollectionCreated
   | CommentCreated
   | DoiEntered

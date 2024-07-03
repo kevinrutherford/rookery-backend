@@ -6,6 +6,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { toCollectionCreatedParagraph } from './to-collection-created-paragraph'
 import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
+import { toCommunityCreatedParagraph } from './to-community-created-paragraph'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Activity, Domain } from '../../domain/index.open'
@@ -16,6 +17,8 @@ type TimelineEvent = ReturnType<Domain['getLocalTimeline']>[number]
 
 const toTimelineUpdate = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
   switch (event.type) {
+    case 'community-created':
+      return toCommunityCreatedParagraph(event)
     case 'collection-created':
       return toCollectionCreatedParagraph(event)
     case 'doi-entered':

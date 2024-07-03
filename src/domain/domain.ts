@@ -10,6 +10,7 @@ import { Work } from './work-resource'
  * @deprecated The domain should expose Activities
  */
 export type Activity =
+  | CommunityCreated
   | CollectionCreated
   | CommentCreated
   | DoiEntered
@@ -20,6 +21,14 @@ type ActivityBase = {
   created: Date,
   actor: string,
   occurredWithinPrivateCollection: boolean,
+}
+
+/**
+ * @deprecated The domain should expose Activities
+ */
+export type CommunityCreated = ActivityBase & {
+  type: 'community-created',
+  name: string,
 }
 
 /**
