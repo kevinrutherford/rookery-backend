@@ -10,6 +10,7 @@ import { toCommunityCreatedUpdate } from './to-community-created-update'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Activity, Domain } from '../../domain/index.open'
+import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
@@ -50,7 +51,13 @@ export const getLocalTimeline = (queries: Domain): Service => () => () => pipe(
   RA.map(renderUpdateResource),
   (updates) => ({
     data: updates,
-    included: [],
+    included: pipe(
+      queries.getCommunity(),
+      O.match(
+        () => [],
+        (community) => [renderCommunity(community)],
+      ),
+    ),
   }),
   E.right,
 )
