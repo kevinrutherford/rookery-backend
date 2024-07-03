@@ -7,6 +7,6 @@ export const toCommentCreatedParagraph = (event: CommentCreated): O.Option<Activ
   actor: 'you',
   action: 'commented',
   content: event.content,
-  timestamp: event.created,
+  occurred_at: event.created,
 })
 

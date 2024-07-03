@@ -12,7 +12,7 @@ export const toWorkUpdatedParagraph = (activity: WorkUpdated): O.Option<Activity
         actor: activity.actor,
         action: 'could not find a DOI',
         content: activity.data.workId,
-        timestamp: activity.created,
+        occurred_at: activity.created,
       })
     case 'found':
       return O.some({
@@ -20,7 +20,7 @@ export const toWorkUpdatedParagraph = (activity: WorkUpdated): O.Option<Activity
         actor: activity.actor,
         action: 'found the title of a paper',
         content: activity.data.attributes.title,
-        timestamp: activity.created,
+        occurred_at: activity.created,
       })
   }
 }

@@ -30,7 +30,7 @@ export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered)
     actor: 'you',
     action: `added an item to collection ${collection.name}`,
     content: titleOf(work),
-    timestamp: activity.created,
+    occurred_at: activity.created,
   })),
 )
 

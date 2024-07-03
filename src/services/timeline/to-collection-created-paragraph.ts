@@ -9,6 +9,6 @@ export const toCollectionCreatedParagraph = (activity: CollectionCreated): O.Opt
   actor: activity.actor,
   action: `created collection ${activity.name}`,
   content: '',
-  timestamp: activity.created,
+  occurred_at: activity.created,
 })
 

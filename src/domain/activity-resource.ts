@@ -1,7 +1,7 @@
 export type Activity = {
   id: string,
   actor: string,
-  timestamp: Date,
+  occurred_at: Date,
   action: string,
   content: string,
 }
