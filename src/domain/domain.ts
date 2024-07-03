@@ -21,7 +21,7 @@ type UpdateCommonAttributes = {
 }
 
 export type CommunityCreated = UpdateCommonAttributes & {
-  type: 'community-created',
+  type: 'update:community-created',
   communityId: string,
 }
 

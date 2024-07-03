@@ -1,7 +1,7 @@
 import { Work } from './work'
 
 type CommunityCreated = {
-  type: 'community-created',
+  type: 'update:community-created',
   id: string,
   created: Date,
   actor: string,

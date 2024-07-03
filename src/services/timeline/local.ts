@@ -18,7 +18,7 @@ type TimelineEvent = ReturnType<Domain['getLocalTimeline']>[number]
 
 const toTimelineUpdate = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
   switch (event.type) {
-    case 'community-created':
+    case 'update:community-created':
       return toCommunityCreatedUpdate(event)
     case 'collection-created':
       return toCollectionCreatedParagraph(event)
