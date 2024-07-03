@@ -1,13 +1,5 @@
 import { Work } from './work'
-
-type CommunityCreated = {
-  type: 'update:community-created',
-  id: string,
-  created: Date,
-  actor: string,
-  communityId: string,
-  occurredWithinPrivateCollection: boolean,
-}
+import { CommunityCreated } from '../../domain/domain'
 
 type CollectionCreated = {
   type: 'collection-created',
