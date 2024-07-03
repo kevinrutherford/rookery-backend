@@ -7,6 +7,7 @@ export const toCommunityCreatedUpdate = (activity: CommunityCreated): O.Option<A
   id: activity.id,
   actor: activity.actor,
   action: `created this community ${activity.name}`,
+  communityId: activity.communityId,
   summary: 'community created',
   occurred_at: activity.created,
 })

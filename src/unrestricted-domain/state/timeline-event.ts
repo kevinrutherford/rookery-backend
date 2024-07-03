@@ -5,6 +5,7 @@ type CommunityCreated = {
   id: string,
   created: Date,
   actor: string,
+  communityId: string,
   occurredWithinPrivateCollection: boolean,
   name: string,
 }

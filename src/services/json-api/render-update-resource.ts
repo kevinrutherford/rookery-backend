@@ -1,31 +1,32 @@
 import { JsonApiResource } from './json-api-resource'
+import { renderCommunityIdentifier } from './render-community-identifier'
 import { renderUpdateIdentifier } from './render-update-identifier'
 import { Activity } from '../../domain/index.open'
 
-export const renderUpdateResource = (activity: Activity): JsonApiResource => {
-  switch (activity.type) {
+export const renderUpdateResource = (update: Activity): JsonApiResource => {
+  switch (update.type) {
     case 'update:community-created':
       return ({
-        type: activity.type,
-        id: activity.id,
+        type: update.type,
+        id: update.id,
         attributes: {
-          actor: activity.actor,
-          action: activity.action,
-          summary: activity.summary,
-          occurred_at: activity.occurred_at.toISOString(),
+          actor: update.actor,
+          action: update.action,
+          summary: update.summary,
+          occurred_at: update.occurred_at.toISOString(),
         },
         relationships: {
-          community: { data: { type: 'community', id: 'xxx' } },
+          community: { data: renderCommunityIdentifier(update.communityId) },
         },
       })
     default:
       return ({
-        ...renderUpdateIdentifier(activity.id),
+        ...renderUpdateIdentifier(update.id),
         attributes: {
-          actor: activity.actor,
-          action: activity.action,
-          content: activity.content,
-          occurred_at: activity.occurred_at.toISOString(),
+          actor: update.actor,
+          action: update.action,
+          content: update.content,
+          occurred_at: update.occurred_at.toISOString(),
         },
       })
   }

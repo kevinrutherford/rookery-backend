@@ -29,6 +29,7 @@ type ActivityBase = {
 export type CommunityCreated = ActivityBase & {
   type: 'community-created',
   name: string,
+  communityId: string,
 }
 
 /**

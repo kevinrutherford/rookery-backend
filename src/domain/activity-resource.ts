@@ -3,6 +3,7 @@ type CommunityCreatedUpdate = {
   id: string,
   actor: string,
   occurred_at: Date,
+  communityId: string,
   action: string,
   summary: string,
 }
