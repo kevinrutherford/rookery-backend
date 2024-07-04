@@ -1,14 +1,5 @@
 import { Work } from './work'
-import { CollectionCreated, CommunityCreated } from '../../domain/domain'
-
-type CommentCreated = {
-  type: 'comment-created',
-  id: string,
-  created: Date,
-  actor: string,
-  occurredWithinPrivateCollection: boolean,
-  content: string,
-}
+import { CollectionCreated, CommentCreated, CommunityCreated } from '../../domain/domain'
 
 type DoiEntered = {
   type: 'doi-entered',
