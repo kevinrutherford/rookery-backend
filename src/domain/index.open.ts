@@ -11,6 +11,7 @@ export {
   CollectionCreated,
   CommentCreated,
   DoiEntered,
+  Update,
   WorkUpdated,
 } from './domain'
 

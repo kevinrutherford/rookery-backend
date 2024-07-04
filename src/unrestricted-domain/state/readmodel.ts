@@ -2,8 +2,9 @@ import * as O from 'fp-ts/Option'
 import { Collection } from './collection'
 import { Entry } from './entry'
 import { Work } from './work'
-import { Update } from '../../domain/domain'
-import { Comment, Community, DomainProbe } from '../../domain/index.open'
+import {
+  Comment, Community, DomainProbe, Update,
+} from '../../domain/index.open'
 
 export type Readmodel = {
   activities: Array<Update>,

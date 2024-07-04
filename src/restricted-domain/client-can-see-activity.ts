@@ -1,6 +1,6 @@
 import { clientCanAccessCollection } from './client-can-access-collection'
 import { Authority } from '../auth/authority'
-import { Update } from '../domain/domain'
+import { Update } from '../domain/index.open'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const clientCanSeeActivity = (claims: Authority) => (activity: Update): boolean => {
