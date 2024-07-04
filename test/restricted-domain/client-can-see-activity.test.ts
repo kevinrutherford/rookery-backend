@@ -20,6 +20,20 @@ type Action = {
   act: StateModifier,
 }
 
+const createCommunity: Action = {
+  description: 'community-created',
+  act: (state) => {
+    const id = arbitraryWord()
+    state.handleEvent(mkEvent('community-created', {
+      id,
+      name: arbitraryString(),
+      affiliation: arbitraryString(),
+      overview: [arbitraryString()],
+    }))
+    return { ...state }
+  },
+}
+
 const createCollection: Action = {
   description: 'collection-created',
   act: (state) => {
@@ -142,7 +156,7 @@ const canBrowseWorks: Client = {
 
 describe.each([
   [noPrivileges, [
-    // [emptyDatabase, createCommunity, 1],
+    [emptyDatabase, createCommunity, 1],
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 0],
     [emptyCollection, addEntry, 1],
@@ -152,7 +166,7 @@ describe.each([
     [emptyDatabase, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
-    // [emptyDatabase, createCommunity, 1],
+    [emptyDatabase, createCommunity, 1],
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 1],
     [emptyCollection, addEntry, 1],
@@ -162,7 +176,7 @@ describe.each([
     [emptyDatabase, workFound, 0],
   ] satisfies Examples],
   [canBrowseWorks, [
-    // [emptyDatabase, createCommunity, 1],
+    [emptyDatabase, createCommunity, 1],
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 0],
     [emptyCollection, addEntry, 1],
