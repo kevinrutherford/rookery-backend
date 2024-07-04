@@ -1,12 +1,12 @@
 import * as O from 'fp-ts/Option'
 import { Collection } from './collection'
 import { Entry } from './entry'
-import { TimelineEvent } from './timeline-event'
 import { Work } from './work'
+import { Update } from '../../domain/domain'
 import { Comment, Community, DomainProbe } from '../../domain/index.open'
 
 export type Readmodel = {
-  activities: Array<TimelineEvent>,
+  activities: Array<Update>,
   collections: Map<string, Collection>,
   comments: Map<string, Array<Comment>>,
   community: O.Option<Community>,
