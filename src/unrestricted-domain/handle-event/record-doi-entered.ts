@@ -7,8 +7,8 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     state.info.unexpectedEvents.push(event)
     return
   }
-  const existing = state.works.get(event.data.workId)
-  if (!existing) {
+  const existingWork = state.works.get(event.data.workId)
+  if (!existingWork) {
     state.works.set(event.data.workId, {
       id: event.data.workId,
       updatedAt: event.created,

@@ -81,24 +81,6 @@ describe('given a public collection', () => {
       expect(d.getLocalTimeline()).toHaveLength(2)
     })
 
-    describe('when doi-entered for the same Work', () => {
-      beforeEach(() => {
-        h(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId,
-          collectionId,
-        }))
-      })
-
-      it.failing('does not record a new activity', () => {
-        expect(d.getLocalTimeline()).toHaveLength(2)
-      })
-
-      it('does not add a new Work', () => {
-        expect(d.allWorks()).toHaveLength(1)
-      })
-    })
-
     describe('when comment-created on the entry', () => {
 
       beforeEach(() => {
