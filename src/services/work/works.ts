@@ -44,7 +44,7 @@ export const getWorks = (queries: Domain): Service => (clientCan) => (input) => 
   input,
   validateInput(paramsCodec),
   E.filterOrElseW(
-    () => clientCan('browse-works'),
+    () => clientCan('browse-works'), // SMELL -- privilege duplicated
     () => ({
       errors: [{
         code: 'not-authorised',
