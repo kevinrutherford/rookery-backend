@@ -5,6 +5,7 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import * as tt from 'io-ts-types'
 import { Domain, Work } from '../../domain/index.open'
+import { ErrorDocument } from '../json-api/json-api-resource'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
@@ -39,9 +40,18 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-export const getWorks = (queries: Domain): Service => () => (input) => pipe(
+export const getWorks = (queries: Domain): Service => (clientCan) => (input) => pipe(
   input,
   validateInput(paramsCodec),
+  E.filterOrElseW(
+    () => clientCan('browse-works'),
+    () => ({
+      errors: [{
+        code: 'not-authorised',
+        title: 'You must be logged in',
+      } satisfies ErrorDocument],
+    }),
+  ),
   E.map(selectWorks(queries)),
   E.map(renderResults),
 )
