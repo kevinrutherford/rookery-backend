@@ -1,4 +1,4 @@
-import { FrontMatterFound } from '../../domain/update-resource'
+import { FrontMatterFound, WorkNotFound } from '../../domain/update-resource'
 import { WorkUpdatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -23,10 +23,13 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
     } satisfies FrontMatterFound)
   } else if (event.data.attributes.crossrefStatus === 'not-found') {
     state.activities.push({
-      ...event,
-      actor: 'CrossrefBot', // SMELL -- duplicated
+      type: 'update:work-not-found',
+      id: event.id,
+      created: event.created,
+      actor: 'CrossrefBot',
       occurredWithinPrivateCollection: false,
-    })
+      workId: event.data.workId,
+    } satisfies WorkNotFound)
   }
 }
 

@@ -46,7 +46,7 @@ export type FrontMatterFound = UpdateCommonAttributes & {
 }
 
 export type WorkNotFound = UpdateCommonAttributes & {
-  type: 'front-matter-found',
+  type: 'update:work-not-found',
   workId: string,
 }
 
