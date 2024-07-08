@@ -172,7 +172,7 @@ describe.each([
     // [publicCollectionWithEntry, workFound, 1],
     // [privateCollectionWithEntry, workFound, 1],
   ] satisfies Examples],
-])('client-can-see-activity', (client: Client, examples: Examples) => {
+])('client-can-see-update', (client: Client, examples: Examples) => {
   let handleEvent: UnrestrictedDomain.EventHandler
   let unrestrictedQueries: Domain
 

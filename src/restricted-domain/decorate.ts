@@ -2,7 +2,7 @@ import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { clientCanAccessCollection } from './client-can-access-collection'
-import { clientCanSeeActivity } from './client-can-see-activity'
+import { clientCanSeeUpdate } from './client-can-see-update'
 import { Authority } from '../auth/authority'
 import { Collection, Domain, Entry } from '../domain/index.open'
 
@@ -26,7 +26,7 @@ export const allCollections = (queries: Domain, claims: Authority): Domain['allC
 
 export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(
   queries.getLocalTimeline(),
-  RA.filter(clientCanSeeActivity(claims)),
+  RA.filter(clientCanSeeUpdate(claims)),
 )
 
 export const lookupCollection = (queries: Domain, claims: Authority): Domain['lookupCollection'] => (collectionId) => pipe(
