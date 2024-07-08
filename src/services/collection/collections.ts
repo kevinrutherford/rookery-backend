@@ -5,7 +5,7 @@ import { Domain } from '../../domain/index.open'
 import { renderCollection } from '../json-api/render-collection'
 import { Service } from '../service'
 
-export const getCollections = (queries: Domain): Service => () => () => pipe(
+export const getCollections = (queries: Domain): Service => () => pipe(
   queries.allCollections(),
   RA.map(renderCollection),
   (collections) => ({

@@ -39,7 +39,7 @@ const renderResults = (works: ReadonlyArray<Work>) => pipe(
   (resources) => ({ data: resources }),
 )
 
-export const getWorks = (queries: Domain): Service => () => (input) => pipe(
+export const getWorks = (queries: Domain): Service => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.map(selectWorks(queries)),

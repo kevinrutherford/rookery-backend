@@ -89,7 +89,7 @@ const renderResult = (queries: Domain) => (params: Params) => pipe(
   ),
 )
 
-export const getCollection = (queries: Domain): Service => () => (input) => pipe(
+export const getCollection = (queries: Domain): Service => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chainW(renderResult(queries)),

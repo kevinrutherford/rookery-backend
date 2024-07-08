@@ -108,7 +108,7 @@ const renderResult = (queries: Domain) => (params: Params) => pipe(
   E.chain(renderWithIncludes(queries, params.include)),
 )
 
-export const getEntry = (queries: Domain): Service => () => (input) => pipe(
+export const getEntry = (queries: Domain): Service => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chain(renderResult(queries)),

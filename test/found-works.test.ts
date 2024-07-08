@@ -2,15 +2,12 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { defaultTestObserver } from './default-test-observer'
 import { mkEvent } from './mk-event'
-import { Authority } from '../src/auth/authority'
 import { getWorks } from '../src/services/work/works'
 import * as UnrestrictedDomain from '../src/unrestricted-domain'
 
 const mustBeOnTheRight = (
   E.getOrElseW((errors) => { throw new Error(`should not happen: ${JSON.stringify(errors)}`) })
 )
-
-const always: Authority = () => true
 
 describe('given a Work that has been found on Crossref', () => {
   const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
@@ -31,7 +28,7 @@ describe('given a Work that has been found on Crossref', () => {
       {
         'filter[crossrefStatus]': 'not-determined',
       },
-      getWorks(queries)(always),
+      getWorks(queries),
       mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(0)
@@ -42,7 +39,7 @@ describe('given a Work that has been found on Crossref', () => {
       {
         'filter[crossrefStatus]': 'found',
       },
-      getWorks(queries)(always),
+      getWorks(queries),
       mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(1)

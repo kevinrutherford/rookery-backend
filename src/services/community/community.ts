@@ -5,7 +5,7 @@ import { renderCommunity } from '../json-api/render-community'
 import { renderError } from '../json-api/render-error'
 import { Service } from '../service'
 
-export const getCommunity = (queries: Domain): Service => () => () => pipe(
+export const getCommunity = (queries: Domain): Service => () => pipe(
   queries.getCommunity(),
   E.fromOption(() => renderError('not-found', 'Community not initialised', {})),
   E.map((community) => ({

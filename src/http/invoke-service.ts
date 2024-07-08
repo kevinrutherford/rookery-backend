@@ -38,7 +38,7 @@ export const invokeService: InvokeService = (logger, service, unrestrictedDomain
   const restrictedDomain = RestrictedDomain.instantiate(authority, unrestrictedDomain)
 
   const result = pipe(
-    service(restrictedDomain)(authority)({ ...context.params, ...context.query }),
+    service(restrictedDomain)({ ...context.params, ...context.query }),
     E.mapLeft(logErrors(logger)),
     E.matchW(
       (errors) => ({

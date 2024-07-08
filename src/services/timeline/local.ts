@@ -43,7 +43,7 @@ const byDateDescending: Ord.Ord<Activity> = pipe(
   Ord.reverse,
 )
 
-export const getLocalTimeline = (queries: Domain): Service => () => () => pipe(
+export const getLocalTimeline = (queries: Domain): Service => () => pipe(
   queries.getLocalTimeline(),
   RA.map(toTimelineUpdate(queries)),
   RA.compact,
