@@ -7,13 +7,14 @@ import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const canBrowsePrivateCollections: Authority = () => true
 const cannotBrowsePrivateCollections: Authority = () => false
 
 describe('visibility of works', () => {
+  const workId = arbitraryWord()
   let handleEvent: UnrestrictedDomain.EventHandler
   let unrestrictedQueries: Domain
+  let restrictedQueries: Domain
 
   beforeEach(() => {
     const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
@@ -45,8 +46,6 @@ describe('visibility of works', () => {
     })
 
     describe('and a Work entered only in the public collection', () => {
-      const workId = arbitraryWord()
-
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
           id: arbitraryWord(),
@@ -56,8 +55,6 @@ describe('visibility of works', () => {
       })
 
       describe('the work is visible to an unauthenticated client', () => {
-        let restrictedQueries: Domain
-
         beforeEach(() => {
           restrictedQueries = RestrictedDomain.instantiate(cannotBrowsePrivateCollections, unrestrictedQueries)
         })
@@ -73,30 +70,69 @@ describe('visibility of works', () => {
     })
 
     describe('and a Work entered only in the private collection', () => {
+      beforeEach(() => {
+        handleEvent(mkEvent('doi-entered', {
+          id: arbitraryWord(),
+          workId,
+          collectionId: privateCollectionId,
+        }))
+      })
+
       describe('the work is visible to an authenticated client', () => {
         beforeEach(() => {
+          restrictedQueries = RestrictedDomain.instantiate(canBrowsePrivateCollections, unrestrictedQueries)
         })
 
-        it.todo('via /works')
-        it.todo('via /works/:id')
+        it('in the list of all works', () => {
+          expect(restrictedQueries.allWorks()).toHaveLength(1)
+        })
+
+        it('when looked up', () => {
+          expect(E.isRight(restrictedQueries.lookupWork(workId))).toBe(true)
+        })
       })
 
       describe('the work is not visible to an unauthenticated client', () => {
         beforeEach(() => {
+          restrictedQueries = RestrictedDomain.instantiate(cannotBrowsePrivateCollections, unrestrictedQueries)
         })
 
-        it.todo('via /works')
-        it.todo('via /works/:id')
+        it.failing('in the list of all works', () => {
+          expect(restrictedQueries.allWorks()).toHaveLength(0)
+        })
+
+        it.failing('when looked up', () => {
+          expect(E.isLeft(restrictedQueries.lookupWork(workId))).toBe(true)
+        })
       })
     })
 
     describe('and a Work entered in both collections', () => {
+      beforeEach(() => {
+        handleEvent(mkEvent('doi-entered', {
+          id: arbitraryWord(),
+          workId,
+          collectionId: publicCollectionId,
+        }))
+        handleEvent(mkEvent('doi-entered', {
+          id: arbitraryWord(),
+          workId,
+          collectionId: privateCollectionId,
+        }))
+      })
+
       describe('the work is visible to an unauthenticated client', () => {
         beforeEach(() => {
+          restrictedQueries = RestrictedDomain.instantiate(cannotBrowsePrivateCollections, unrestrictedQueries)
         })
 
-        it.todo('via /works')
-        it.todo('via /works/:id')
+        it('in the list of all works', () => {
+          expect(restrictedQueries.allWorks()).toHaveLength(1)
+        })
+
+        it('when looked up', () => {
+          expect(E.isRight(restrictedQueries.lookupWork(workId))).toBe(true)
+        })
       })
     })
   })
