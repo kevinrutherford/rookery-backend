@@ -24,7 +24,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
   } else if (event.data.attributes.crossrefStatus === 'not-found') {
     state.activities.push({
       ...event,
-      actor: 'CrossrefBot',
+      actor: 'CrossrefBot', // SMELL -- duplicated
       occurredWithinPrivateCollection: false,
     })
   }
