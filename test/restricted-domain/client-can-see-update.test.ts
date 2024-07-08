@@ -158,8 +158,8 @@ describe.each([
     [emptyPrivateCollection, addEntry, 0],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 0],
-    // [publicCollectionWithEntry, workFound, 1],
-    [privateCollectionWithEntry, workFound, 0],
+    [publicCollectionWithEntry, workFound, 1],
+    // [privateCollectionWithEntry, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
     [emptyDatabase, createCommunity, 1],
@@ -169,8 +169,8 @@ describe.each([
     [emptyPrivateCollection, addEntry, 1],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 1],
-    // [publicCollectionWithEntry, workFound, 1],
-    // [privateCollectionWithEntry, workFound, 1],
+    [publicCollectionWithEntry, workFound, 1],
+    [privateCollectionWithEntry, workFound, 1],
   ] satisfies Examples],
 ])('client-can-see-update', (client: Client, examples: Examples) => {
   let handleEvent: UnrestrictedDomain.EventHandler
