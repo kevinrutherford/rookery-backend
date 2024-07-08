@@ -11,6 +11,7 @@ type State = {
   handleEvent: UnrestrictedDomain.EventHandler,
   collectionId?: string,
   entryId?: string,
+  workId?: string,
 }
 
 type StateModifier = (state: State) => State
@@ -51,12 +52,13 @@ const addEntry: Action = {
   description: 'doi-entered',
   act: (state) => {
     const entryId = arbitraryWord()
+    const workId = arbitraryWord()
     state.handleEvent(mkEvent('doi-entered', {
       id: entryId,
-      workId: arbitraryWord(),
+      workId,
       collectionId: state.collectionId,
     }))
-    return { ...state, entryId }
+    return { ...state, entryId, workId }
   },
 }
 
@@ -89,7 +91,7 @@ const workFound: Action = {
   description: 'work found',
   act: (state) => {
     state.handleEvent(mkEvent('work-updated', {
-      workId: arbitraryWord(),
+      workId: state.workId,
       attributes: {
         crossrefStatus: 'found',
         title: arbitraryString(),
@@ -159,7 +161,7 @@ describe.each([
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 0],
     [publicCollectionWithEntry, workFound, 1],
-    // [privateCollectionWithEntry, workFound, 0],
+    [privateCollectionWithEntry, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
     [emptyDatabase, createCommunity, 1],

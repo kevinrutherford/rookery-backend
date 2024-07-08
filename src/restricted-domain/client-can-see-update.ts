@@ -16,7 +16,7 @@ export const clientCanSeeUpdate = (claims: Authority, queries: Domain) => (updat
         update.workId,
         queries.collectionsContainingWork,
         RA.filter((collection) => !collection.isPrivate),
-        (collections) => collections.length > 0,
+        RA.isNonEmpty,
       )
     default:
       return true

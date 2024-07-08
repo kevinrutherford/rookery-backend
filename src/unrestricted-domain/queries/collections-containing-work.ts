@@ -4,11 +4,14 @@ import { Domain } from '../../domain/index.open'
 import { Collection } from '../state/collection'
 import { Readmodel } from '../state/readmodel'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const containsWork = (workId: string) => (collection: Collection): boolean => true
+const containsWork = (workId: string, currentState: Readmodel) => (collection: Collection): boolean => pipe(
+  currentState.entriesByCollection.get(collection.id) ?? [],
+  RA.filter((entry) => entry.workId === workId),
+  RA.isNonEmpty,
+)
 
 export const collectionsContainingWork = (currentState: Readmodel): Domain['collectionsContainingWork'] => (workId) => pipe(
   Array.from(currentState.collections.values()),
-  RA.filter(containsWork(workId)),
+  RA.filter(containsWork(workId, currentState)),
 )
 
