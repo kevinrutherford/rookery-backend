@@ -26,7 +26,7 @@ export const allCollections = (queries: Domain, claims: Authority): Domain['allC
 
 export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(
   queries.getLocalTimeline(),
-  RA.filter(clientCanSeeUpdate(claims)),
+  RA.filter(clientCanSeeUpdate(claims, queries)),
 )
 
 export const lookupCollection = (queries: Domain, claims: Authority): Domain['lookupCollection'] => (collectionId) => pipe(
