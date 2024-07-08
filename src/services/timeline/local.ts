@@ -8,6 +8,7 @@ import { toCollectionCreatedParagraph } from './to-collection-created-paragraph'
 import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
 import { toCommunityCreatedUpdate } from './to-community-created-update'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
+import { toFrontMatterFoundParagraph } from './to-front-matter-found-paragraph'
 import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Activity, Domain } from '../../domain/index.open'
 import { renderCommunity } from '../json-api/render-community'
@@ -26,6 +27,8 @@ const toTimelineUpdate = (queries: Domain) => (event: TimelineEvent): O.Option<A
       return toDoiEnteredParagraph(queries)(event)
     case 'comment-created':
       return toCommentCreatedParagraph(event)
+    case 'update:front-matter-found':
+      return toFrontMatterFoundParagraph(event)
     case 'work-updated':
       return toWorkUpdatedParagraph(event)
     default:
