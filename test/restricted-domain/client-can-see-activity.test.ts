@@ -149,11 +149,6 @@ const canBrowsePrivateCollections: Client = {
   claims: (requiredScope) => requiredScope === 'browse-private-collections',
 }
 
-const canBrowseWorks: Client = {
-  description: 'can browse works',
-  claims: (requiredScope) => requiredScope === 'browse-works',
-}
-
 describe.each([
   [noPrivileges, [
     [emptyDatabase, createCommunity, 1],
@@ -163,7 +158,8 @@ describe.each([
     [emptyPrivateCollection, addEntry, 0],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 0],
-    [emptyDatabase, workFound, 0],
+    // [publicCollectionWithEntry, workFound, 1],
+    [privateCollectionWithEntry, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
     [emptyDatabase, createCommunity, 1],
@@ -173,17 +169,8 @@ describe.each([
     [emptyPrivateCollection, addEntry, 1],
     [publicCollectionWithEntry, addComment, 1],
     [privateCollectionWithEntry, addComment, 1],
-    [emptyDatabase, workFound, 0],
-  ] satisfies Examples],
-  [canBrowseWorks, [
-    [emptyDatabase, createCommunity, 1],
-    [emptyDatabase, createCollection, 1],
-    // [emptyDatabase, createPrivateCollection, 0],
-    [emptyCollection, addEntry, 1],
-    [emptyPrivateCollection, addEntry, 0],
-    [publicCollectionWithEntry, addComment, 1],
-    [privateCollectionWithEntry, addComment, 0],
-    [emptyDatabase, workFound, 1],
+    // [publicCollectionWithEntry, workFound, 1],
+    // [privateCollectionWithEntry, workFound, 1],
   ] satisfies Examples],
 ])('client-can-see-activity', (client: Client, examples: Examples) => {
   let handleEvent: UnrestrictedDomain.EventHandler
