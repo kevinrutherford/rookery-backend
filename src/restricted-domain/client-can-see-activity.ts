@@ -2,7 +2,6 @@ import { clientCanAccessCollection } from './client-can-access-collection'
 import { Authority } from '../auth/authority'
 import { Update } from '../domain/index.open'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const clientCanSeeActivity = (claims: Authority) => (activity: Update): boolean => {
   switch (activity.type) {
     case 'comment-created':
@@ -10,7 +9,7 @@ export const clientCanSeeActivity = (claims: Authority) => (activity: Update): b
     case 'doi-entered':
       return clientCanAccessCollection(claims)(activity.occurredWithinPrivateCollection)
     case 'update:front-matter-found':
-    case 'work-updated':
+    case 'update:work-not-found':
       return claims('browse-works')
     default:
       return true

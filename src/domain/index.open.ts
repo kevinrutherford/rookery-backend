@@ -15,6 +15,5 @@ export {
   FrontMatterFound,
   Update,
   WorkNotFound,
-  WorkUpdated,
 } from './update-resource'
 

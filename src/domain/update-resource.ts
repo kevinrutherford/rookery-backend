@@ -1,5 +1,3 @@
-import { Work } from './work-resource'
-
 export type Update =
   | CommunityCreated
   | CollectionCreated
@@ -7,7 +5,6 @@ export type Update =
   | DoiEntered
   | FrontMatterFound
   | WorkNotFound
-  | WorkUpdated
 
 type UpdateCommonAttributes = {
   id: string,
@@ -48,13 +45,5 @@ export type FrontMatterFound = UpdateCommonAttributes & {
 export type WorkNotFound = UpdateCommonAttributes & {
   type: 'update:work-not-found',
   workId: string,
-}
-
-export type WorkUpdated = UpdateCommonAttributes & {
-  type: 'work-updated',
-  data: {
-    workId: string,
-    attributes: Work['frontMatter'],
-  },
 }
 

@@ -10,7 +10,6 @@ import { toCommunityCreatedUpdate } from './to-community-created-update'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toFrontMatterFoundParagraph } from './to-front-matter-found-paragraph'
 import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
-import { toWorkUpdatedParagraph } from './to-work-updated-paragraph'
 import { Activity, Domain } from '../../domain/index.open'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
@@ -18,22 +17,20 @@ import { Service } from '../service'
 
 type TimelineEvent = ReturnType<Domain['getLocalTimeline']>[number]
 
-const toTimelineUpdate = (queries: Domain) => (event: TimelineEvent): O.Option<Activity> => {
-  switch (event.type) {
+const toTimelineUpdate = (queries: Domain) => (update: TimelineEvent): O.Option<Activity> => {
+  switch (update.type) {
     case 'update:community-created':
-      return toCommunityCreatedUpdate(event)
+      return toCommunityCreatedUpdate(update)
     case 'collection-created':
-      return toCollectionCreatedParagraph(event)
+      return toCollectionCreatedParagraph(update)
     case 'doi-entered':
-      return toDoiEnteredParagraph(queries)(event)
+      return toDoiEnteredParagraph(queries)(update)
     case 'comment-created':
-      return toCommentCreatedParagraph(event)
+      return toCommentCreatedParagraph(update)
     case 'update:front-matter-found':
-      return toFrontMatterFoundParagraph(event)
+      return toFrontMatterFoundParagraph(update)
     case 'update:work-not-found':
-      return toWorkNotFoundParagraph(event)
-    case 'work-updated':
-      return toWorkUpdatedParagraph(event)
+      return toWorkNotFoundParagraph(update)
     default:
       return O.none
   }
