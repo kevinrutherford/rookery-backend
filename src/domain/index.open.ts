@@ -10,8 +10,9 @@ export { Work } from './work-resource'
 export {
   CollectionCreated,
   CommentCreated,
+  CommunityCreated,
   DoiEntered,
   Update,
   WorkUpdated,
-} from './domain'
+} from './update-resource'
 
