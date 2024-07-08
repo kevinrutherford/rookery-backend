@@ -11,6 +11,8 @@ export type Update =
   | CollectionCreated
   | CommentCreated
   | DoiEntered
+  | FrontMatterFound
+  | WorkNotFound
   | WorkUpdated
 
 type UpdateCommonAttributes = {
@@ -39,6 +41,19 @@ export type DoiEntered = UpdateCommonAttributes & {
   type: 'doi-entered',
   workId: string,
   collectionId: string,
+}
+
+export type FrontMatterFound = UpdateCommonAttributes & {
+  type: 'front-matter-found',
+  workId: string,
+  title: string, // SMELL -- these 3 attributes form a DataClump
+  abstract: string, // SMELL -- these 3 attributes form a DataClump
+  authors: Array<string>, // SMELL -- these 3 attributes form a DataClump
+}
+
+export type WorkNotFound = UpdateCommonAttributes & {
+  type: 'front-matter-found',
+  workId: string,
 }
 
 export type WorkUpdated = UpdateCommonAttributes & {
