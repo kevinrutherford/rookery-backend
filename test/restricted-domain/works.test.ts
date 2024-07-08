@@ -21,35 +21,53 @@ describe('visibility of works', () => {
   })
 
   describe('given a public collection and a private collection', () => {
+    const publicCollectionId = arbitraryWord()
+    const privateCollectionId = arbitraryWord()
+
+    beforeEach(() => {
+      handleEvent(mkEvent('collection-created', {
+        id: publicCollectionId,
+        name: arbitraryString(),
+        description: arbitraryString(),
+      }))
+      handleEvent(mkEvent('collection-created', {
+        id: privateCollectionId,
+        name: arbitraryString(),
+        description: arbitraryString(),
+      }))
+      handleEvent(mkEvent('collection-updated', {
+        collectionId: privateCollectionId,
+        attributes: {
+          isPrivate: true,
+        },
+      }))
+    })
+
     describe('and a Work entered only in the public collection', () => {
+      const workId = arbitraryWord()
+
+      beforeEach(() => {
+        handleEvent(mkEvent('doi-entered', {
+          id: arbitraryWord(),
+          workId,
+          collectionId: publicCollectionId,
+        }))
+      })
+
       describe('the work is visible to an unauthenticated client', () => {
-        const publicCollectionId = arbitraryWord()
-        const privateCollectionId = arbitraryWord()
         let restrictedQueries: Domain
 
         beforeEach(() => {
           restrictedQueries = RestrictedDomain.instantiate(cannotBrowsePrivateCollections, unrestrictedQueries)
-          handleEvent(mkEvent('collection-created', {
-            id: publicCollectionId,
-            name: arbitraryString(),
-            description: arbitraryString(),
-          }))
-          handleEvent(mkEvent('collection-created', {
-            id: privateCollectionId,
-            name: arbitraryString(),
-            description: arbitraryString(),
-          }))
-          handleEvent(mkEvent('doi-entered', {
-            id: arbitraryWord(),
-            workId: arbitraryWord(),
-            collectionId: publicCollectionId,
-          }))
         })
 
-        it('via /works', () => {
+        it('in the list of all works', () => {
           expect(restrictedQueries.allWorks()).toHaveLength(1)
         })
-        it.todo('via /works/:id')
+
+        // it('when looked up', () => {
+        // expect(E.isRight(restrictedQueries.lookupWork(workId))).toBe(true)
+        // })
       })
     })
 
