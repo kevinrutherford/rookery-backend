@@ -1,4 +1,5 @@
 import { sequenceS } from 'fp-ts/Apply'
+import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import {
@@ -18,13 +19,11 @@ const titleOf = (work: Work) => {
 
 export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered): O.Option<Activity> => pipe(
   {
-    collection: pipe(
-      queries.lookupCollection(activity.collectionId),
-      O.fromEither,
-    ),
+    collection: queries.lookupCollection(activity.collectionId),
     work: queries.lookupWork(activity.workId),
   },
-  sequenceS(O.Apply),
+  sequenceS(E.Apply),
+  O.fromEither,
   O.map(({ collection, work }) => ({
     type: 'activity',
     id: activity.id,

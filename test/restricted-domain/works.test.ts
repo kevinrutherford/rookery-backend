@@ -1,3 +1,4 @@
+import * as E from 'fp-ts/Either'
 import { Authority } from '../../src/auth/authority'
 import { Domain } from '../../src/domain/domain'
 import * as RestrictedDomain from '../../src/restricted-domain'
@@ -65,9 +66,9 @@ describe('visibility of works', () => {
           expect(restrictedQueries.allWorks()).toHaveLength(1)
         })
 
-        // it('when looked up', () => {
-        // expect(E.isRight(restrictedQueries.lookupWork(workId))).toBe(true)
-        // })
+        it('when looked up', () => {
+          expect(E.isRight(restrictedQueries.lookupWork(workId))).toBe(true)
+        })
       })
     })
 

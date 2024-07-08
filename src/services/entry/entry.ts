@@ -71,11 +71,14 @@ const getInc = (
       return pipe(
         entry.workId,
         queries.lookupWork,
-        E.fromOption(() => renderError('fatal-error', 'Work associated with Entry not found!', {
-          entryId: entry.id,
-          workId: entry.workId,
-        })),
-        E.map(renderWork),
+        E.bimap(
+          (err) => renderError('fatal-error', 'Work associated with Entry not found!', {
+            entryId: entry.id,
+            workId: entry.workId,
+            err,
+          }),
+          renderWork,
+        ),
         E.map((work) => [work]),
       )
     default:

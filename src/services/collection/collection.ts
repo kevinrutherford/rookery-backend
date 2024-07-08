@@ -55,7 +55,7 @@ const getInc = (queries: Domain, collection: Collection) => (opt: Includes): Rea
         queries.findEntries,
         RA.map((entry) => entry.workId),
         RA.map(queries.lookupWork),
-        RA.compact,
+        RA.rights,
         RA.map(renderWork),
       )
     default:

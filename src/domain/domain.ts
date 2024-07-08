@@ -66,7 +66,7 @@ export type Domain = {
   getLocalTimeline: () => ReadonlyArray<Update>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   lookupEntry: (entryId: string) => E.Either<DomainError, Entry>,
-  lookupWork: (id: string) => O.Option<Work>,
+  lookupWork: (id: string) => E.Either<DomainError, Work>,
   info: () => DomainProbe,
 }
 
