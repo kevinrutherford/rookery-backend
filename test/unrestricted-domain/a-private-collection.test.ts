@@ -11,8 +11,8 @@ describe('given a private collection', () => {
 
   const addEntry = () => {
     domain.handleEvent(mkEvent('doi-entered', {
-      id: entryId,
-      workId,
+      entryId,
+      doi: workId,
       collectionId,
     }))
   }

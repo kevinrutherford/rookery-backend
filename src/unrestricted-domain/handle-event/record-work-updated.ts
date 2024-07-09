@@ -3,8 +3,13 @@ import { WorkUpdatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
 export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): void => {
+  const currentWork = state.works.get(event.data.workId)
+  if (currentWork === undefined) {
+    state.info.unexpectedEvents.push(event)
+    return
+  }
   state.works.set(event.data.workId, {
-    id: event.data.workId,
+    ...currentWork,
     updatedAt: event.created,
     frontMatter: event.data.attributes,
   })

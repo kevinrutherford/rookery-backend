@@ -26,8 +26,8 @@ describe('given a public collection', () => {
     describe('when doi-entered', () => {
       beforeEach(() => {
         const doiEntered = mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId,
+          entryId: arbitraryWord(),
+          doi: workId,
           collectionId,
         })
         h(doiEntered)
@@ -71,8 +71,8 @@ describe('given a public collection', () => {
 
     beforeEach(() => {
       h(mkEvent('doi-entered', {
-        id: entryId,
-        workId,
+        entryId,
+        doi: workId,
         collectionId,
       }))
     })

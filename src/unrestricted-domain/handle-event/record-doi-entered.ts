@@ -1,3 +1,4 @@
+import { Entry } from '../../domain/index.open'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -7,10 +8,12 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     state.info.unexpectedEvents.push(event)
     return
   }
-  const existingWork = state.works.get(event.data.workId)
+  const workId = encodeURIComponent(event.data.doi)
+  const existingWork = state.works.get(workId)
   if (!existingWork) {
-    state.works.set(event.data.workId, {
-      id: event.data.workId,
+    state.works.set(workId, {
+      id: workId,
+      doi: event.data.doi,
       updatedAt: event.created,
       frontMatter: {
         crossrefStatus: 'not-determined',
@@ -20,15 +23,17 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   }
 
   const data = event.data
-  const entry = {
-    ...data,
+  const entry: Entry = {
+    id: event.data.entryId,
+    collectionId: event.data.collectionId,
+    workId,
     addedAt: event.created,
     commentsCount: 0,
   }
   const current = state.entriesByCollection.get(data.collectionId) ?? []
   current.push(entry)
   state.entriesByCollection.set(data.collectionId, current)
-  state.entriesByEntryId.set(data.id, entry)
+  state.entriesByEntryId.set(data.entryId, entry)
 
   state.activities.push({
     type: event.type,
@@ -37,7 +42,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     actor: 'you',
     occurredWithinPrivateCollection: collection.isPrivate,
     collectionId: event.data.collectionId,
-    workId: event.data.workId,
+    workId,
   })
 }
 

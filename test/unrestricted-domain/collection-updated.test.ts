@@ -9,8 +9,8 @@ describe('given a public collection', () => {
 
   const addEntry = () => {
     domain.handleEvent(mkEvent('doi-entered', {
-      id: arbitraryWord(),
-      workId: arbitraryWord(),
+      entryId: arbitraryWord(),
+      doi: arbitraryWord(),
       collectionId,
     }))
   }

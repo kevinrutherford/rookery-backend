@@ -55,8 +55,8 @@ export type CommentCreatedEvent = t.TypeOf<typeof commentCreatedEvent>
 const doiEnteredEvent = t.intersection([esEventBase, t.type({
   type: t.literal('doi-entered'),
   data: t.type({
-    id: t.string,
-    workId: t.string,
+    entryId: t.string,
+    doi: t.string,
     collectionId: t.string,
   }),
 })])

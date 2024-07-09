@@ -54,8 +54,8 @@ const addEntry: Action = {
     const entryId = arbitraryWord()
     const workId = arbitraryWord()
     state.handleEvent(mkEvent('doi-entered', {
-      id: entryId,
-      workId,
+      entryId,
+      doi: workId,
       collectionId: state.collectionId,
     }))
     return { ...state, entryId, workId }

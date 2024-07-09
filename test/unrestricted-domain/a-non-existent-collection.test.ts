@@ -9,10 +9,10 @@ describe('given a non-existent collection', () => {
   const collectionId = arbitraryWord()
 
   describe('doi-entered', () => {
-    const eventId = arbitraryWord()
+    const entryId = arbitraryWord()
     const event = mkEvent('doi-entered', {
-      id: eventId,
-      workId: arbitraryWord(),
+      entryId,
+      doi: arbitraryWord(),
       collectionId,
     })
     handleEvent(event)
@@ -22,7 +22,7 @@ describe('given a non-existent collection', () => {
     })
 
     it('does not record the Entry', () => {
-      expect(queries.lookupEntry(eventId)).toStrictEqual(E.left('not-found'))
+      expect(queries.lookupEntry(entryId)).toStrictEqual(E.left('not-found'))
     })
 
     it('does not record the Activity', () => {

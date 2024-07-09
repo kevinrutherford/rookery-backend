@@ -48,8 +48,8 @@ describe('visibility of works', () => {
     describe('and a Work entered only in the public collection', () => {
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId,
+          entryId: arbitraryWord(),
+          doi: workId,
           collectionId: publicCollectionId,
         }))
       })
@@ -72,8 +72,8 @@ describe('visibility of works', () => {
     describe('and a Work entered only in the private collection', () => {
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId,
+          entryId: arbitraryWord(),
+          doi: workId,
           collectionId: privateCollectionId,
         }))
       })
@@ -110,13 +110,13 @@ describe('visibility of works', () => {
     describe('and a Work entered in both collections', () => {
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId,
+          entryId: arbitraryWord(),
+          doi: workId,
           collectionId: publicCollectionId,
         }))
         handleEvent(mkEvent('doi-entered', {
-          id: arbitraryWord(),
-          workId,
+          entryId: arbitraryWord(),
+          doi: workId,
           collectionId: privateCollectionId,
         }))
       })
