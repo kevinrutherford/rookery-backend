@@ -5,6 +5,7 @@ import { Work } from '../../domain/index.open'
 export const renderWork = (work: Work): JsonApiResource => ({
   ...renderWorkIdentifier(work.id),
   attributes: {
+    doi: work.doi,
     ...work.frontMatter,
     updatedAt: work.updatedAt.toISOString(),
   },
