@@ -1,6 +1,7 @@
 import { JsonApiResource } from './json-api-resource'
 import { renderCommunityIdentifier } from './render-community-identifier'
 import { renderUpdateIdentifier } from './render-update-identifier'
+import { renderWorkIdentifier } from './render-work-identifier'
 import { Activity } from '../../domain/index.open'
 
 export const renderUpdateResource = (update: Activity): JsonApiResource => {
@@ -15,6 +16,18 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
         },
         relationships: {
           community: { data: renderCommunityIdentifier(update.communityId) },
+        },
+      })
+    case 'update:work-not-found':
+      return ({
+        type: update.type,
+        id: update.id,
+        attributes: {
+          actor: update.actor, // SMELL -- should be an included resource
+          occurred_at: update.occurred_at.toISOString(),
+        },
+        relationships: {
+          work: { data: renderWorkIdentifier(update.workId) },
         },
       })
     default:
