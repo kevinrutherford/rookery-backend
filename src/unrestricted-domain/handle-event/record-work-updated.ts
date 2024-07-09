@@ -1,4 +1,4 @@
-import { FrontMatterFound, WorkNotFound } from '../../domain/update-resource'
+import { FrontMatterFound, WorkNotFound } from '../../domain/index.open'
 import { WorkUpdatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
