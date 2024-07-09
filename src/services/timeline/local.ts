@@ -28,7 +28,7 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
     case 'update:front-matter-found':
       return toFrontMatterFoundParagraph(update)
     case 'update:work-not-found':
-      return toWorkNotFoundParagraph(update)
+      return toWorkNotFoundParagraph(queries, update)
     default:
       return {
         data: O.none,
