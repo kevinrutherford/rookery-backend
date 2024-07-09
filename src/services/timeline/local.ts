@@ -10,14 +10,12 @@ import { toCommunityCreatedUpdate } from './to-community-created-update'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toFrontMatterFoundParagraph } from './to-front-matter-found-paragraph'
 import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
-import { Activity, Domain } from '../../domain/index.open'
+import { Activity, Domain, Update } from '../../domain/index.open'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
-type TimelineEvent = ReturnType<Domain['getLocalTimeline']>[number]
-
-const toTimelineUpdate = (queries: Domain) => (update: TimelineEvent): O.Option<Activity> => {
+const toTimelineUpdate = (queries: Domain) => (update: Update): O.Option<Activity> => {
   switch (update.type) {
     case 'update:community-created':
       return toCommunityCreatedUpdate(update)
@@ -36,21 +34,21 @@ const toTimelineUpdate = (queries: Domain) => (update: TimelineEvent): O.Option<
   }
 }
 
-const byDate: Ord.Ord<Activity> = pipe(
+const byDate: Ord.Ord<Update> = pipe(
   D.Ord,
-  Ord.contramap((event) => event.occurred_at),
+  Ord.contramap((update) => update.created),
 )
 
-const byDateDescending: Ord.Ord<Activity> = pipe(
+const byDateDescending: Ord.Ord<Update> = pipe(
   byDate,
   Ord.reverse,
 )
 
 export const getLocalTimeline = (queries: Domain): Service => () => pipe(
   queries.getLocalTimeline(),
+  RA.sort(byDateDescending),
   RA.map(toTimelineUpdate(queries)),
   RA.compact,
-  RA.sort(byDateDescending),
   RA.map(renderUpdateResource),
   (updates) => ({
     data: updates,
