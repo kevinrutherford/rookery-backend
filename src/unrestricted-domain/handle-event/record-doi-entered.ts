@@ -8,7 +8,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     state.info.unexpectedEvents.push(event)
     return
   }
-  const workId = encodeURIComponent(event.data.doi)
+  const workId = event.data.doi
   const existingWork = state.works.get(workId)
   if (!existingWork) {
     state.works.set(workId, {

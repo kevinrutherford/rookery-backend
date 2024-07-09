@@ -7,18 +7,8 @@ import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
 
-const urlEncodedString = new t.Type(
-  'urlEncodedString',
-  (input: unknown): input is string => typeof input === 'string',
-  (u, c) => pipe(
-    t.string.validate(u, c),
-    E.map((s) => decodeURIComponent(s)),
-  ),
-  (s) => encodeURIComponent(s),
-)
-
 const paramsCodec = t.type({
-  id: urlEncodedString,
+  id: t.string,
 })
 
 export const getWork = (queries: Domain): Service => (input) => pipe(
