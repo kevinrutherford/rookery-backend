@@ -4,20 +4,20 @@ import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
+import { renderCommunityCreatedUpdate } from './render-community-created-update'
 import { toCollectionCreatedParagraph } from './to-collection-created-paragraph'
 import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
-import { toCommunityCreatedUpdate } from './to-community-created-update'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toFrontMatterFoundParagraph } from './to-front-matter-found-paragraph'
 import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
-import { Activity, Domain, Update } from '../../domain/index.open'
+import { Domain, Update } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
 type UpdateWithIncludes = {
-  data: O.Option<Activity>,
+  data: O.Option<JsonApiResource>,
   included: ReadonlyArray<JsonApiResource>,
 }
 
@@ -25,7 +25,11 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
   switch (update.type) {
     case 'update:community-created':
       return {
-        data: toCommunityCreatedUpdate(update),
+        data: pipe(
+          update,
+          renderCommunityCreatedUpdate,
+          O.map(renderUpdateResource),
+        ),
         included: pipe(
           queries.getCommunity(),
           O.match(
@@ -36,27 +40,47 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
       }
     case 'collection-created':
       return {
-        data: toCollectionCreatedParagraph(update),
+        data: pipe(
+          update,
+          toCollectionCreatedParagraph,
+          O.map(renderUpdateResource),
+        ),
         included: [],
       }
     case 'doi-entered':
       return {
-        data: toDoiEnteredParagraph(queries)(update),
+        data: pipe(
+          update,
+          toDoiEnteredParagraph(queries),
+          O.map(renderUpdateResource),
+        ),
         included: [],
       }
     case 'comment-created':
       return {
-        data: toCommentCreatedParagraph(update),
+        data: pipe(
+          update,
+          toCommentCreatedParagraph,
+          O.map(renderUpdateResource),
+        ),
         included: [],
       }
     case 'update:front-matter-found':
       return {
-        data: toFrontMatterFoundParagraph(update),
+        data: pipe(
+          update,
+          toFrontMatterFoundParagraph,
+          O.map(renderUpdateResource),
+        ),
         included: [],
       }
     case 'update:work-not-found':
       return {
-        data: toWorkNotFoundParagraph(update),
+        data: pipe(
+          update,
+          toWorkNotFoundParagraph,
+          O.map(renderUpdateResource),
+        ),
         included: [],
       }
     default:
@@ -86,8 +110,8 @@ const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiT
   para.data,
   O.match(
     () => memo,
-    (update) => ({
-      data: [...memo.data, renderUpdateResource(update)],
+    (resource) => ({
+      data: [...memo.data, resource],
       included: [...memo.included, ...para.included],
     }),
   ),
