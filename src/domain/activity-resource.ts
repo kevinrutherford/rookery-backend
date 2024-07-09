@@ -6,7 +6,7 @@ type CommunityCreatedUpdate = {
   communityId: string,
 }
 
-type WorkNotFoundUpdate = {
+export type WorkNotFoundUpdate = {
   type: 'update:work-not-found',
   id: string,
   actor: string,
@@ -26,5 +26,4 @@ type ClassicActivity = {
 export type Activity =
   | ClassicActivity
   | CommunityCreatedUpdate
-  | WorkNotFoundUpdate
 
