@@ -13,38 +13,16 @@ import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
-import { renderCommunity } from '../json-api/render-community'
-import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
 const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithIncludes => {
-  switch (update.type) {
+  switch (update.type) { // SMELL -- duplicated switch? consider driving all copies from data
     case 'update:community-created':
-      return {
-        data: pipe(
-          update,
-          renderCommunityCreatedUpdate,
-          O.map(renderUpdateResource),
-        ),
-        included: pipe(
-          queries.getCommunity(),
-          O.match(
-            () => [],
-            (community) => [renderCommunity(community)],
-          ),
-        ),
-      }
+      return renderCommunityCreatedUpdate(queries, update)
     case 'collection-created':
       return toCollectionCreatedParagraph(update)
     case 'doi-entered':
-      return {
-        data: pipe(
-          update,
-          toDoiEnteredParagraph(queries),
-          O.map(renderUpdateResource),
-        ),
-        included: [],
-      }
+      return toDoiEnteredParagraph(queries)(update)
     case 'comment-created':
       return toCommentCreatedParagraph(update)
     case 'update:front-matter-found':

@@ -2,9 +2,9 @@ import { sequenceS } from 'fp-ts/Apply'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import {
-  Activity, DoiEntered, Domain, Work,
-} from '../../domain/index.open'
+import { UpdateWithIncludes } from './update-with-includes'
+import { DoiEntered, Domain, Work } from '../../domain/index.open'
+import { renderUpdateResource } from '../json-api/render-update-resource'
 
 // eslint-disable-next-line consistent-return
 const titleOf = (work: Work) => {
@@ -17,20 +17,24 @@ const titleOf = (work: Work) => {
   }
 }
 
-export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered): O.Option<Activity> => pipe(
-  {
-    collection: queries.lookupCollection(activity.collectionId),
-    work: queries.lookupWork(activity.workId),
-  },
-  sequenceS(E.Apply),
-  O.fromEither,
-  O.map(({ collection, work }) => ({
-    type: 'activity',
-    id: activity.id,
-    actor: 'you',
-    action: `added an item to collection ${collection.name}`,
-    content: titleOf(work),
-    occurred_at: activity.created,
-  })),
-)
+export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered): UpdateWithIncludes => ({
+  data: pipe(
+    {
+      collection: queries.lookupCollection(activity.collectionId),
+      work: queries.lookupWork(activity.workId),
+    },
+    sequenceS(E.Apply),
+    O.fromEither,
+    O.map(({ collection, work }) => ({
+      type: 'activity' as const,
+      id: activity.id,
+      actor: 'you',
+      action: `added an item to collection ${collection.name}`,
+      content: titleOf(work),
+      occurred_at: activity.created,
+    })),
+    O.map(renderUpdateResource),
+  ),
+  included: [],
+})
 
