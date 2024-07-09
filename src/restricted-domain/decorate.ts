@@ -3,11 +3,18 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { clientCanAccessCollection } from './client-can-access-collection'
 import { clientCanSeeUpdate } from './client-can-see-update'
+import { workIsEnteredInSomePublicCollection } from './work-is-entered-in-some-public-collection'
 import { Authority } from '../auth/authority'
-import { Collection, Domain, Entry } from '../domain/index.open'
+import {
+  Collection, Domain, Entry, Work,
+} from '../domain/index.open'
 
 const collectionIsAccessible = (clientCan: Authority) => (collection: Collection): boolean => (
   clientCanAccessCollection(clientCan)(collection.isPrivate)
+)
+
+const workIsAccessible = (clientCan: Authority, queries: Domain) => (work: Work): boolean => (
+  clientCan('browse-private-collections') || workIsEnteredInSomePublicCollection(queries)(work.id)
 )
 
 const clientCanAccessEntry = (queries: Domain, clientCan: Authority) => (entry: Entry): boolean => pipe(
@@ -26,6 +33,7 @@ export const allCollections = (queries: Domain, claims: Authority): Domain['allC
 
 export const allWorks = (queries: Domain, claims: Authority): Domain['allWorks'] => () => pipe(
   queries.allWorks(),
+  RA.filter(workIsAccessible(claims, queries)),
 )
 
 export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(

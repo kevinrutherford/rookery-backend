@@ -97,7 +97,7 @@ describe('visibility of works', () => {
           restrictedQueries = RestrictedDomain.instantiate(cannotBrowsePrivateCollections, unrestrictedQueries)
         })
 
-        it.failing('in the list of all works', () => {
+        it('in the list of all works', () => {
           expect(restrictedQueries.allWorks()).toHaveLength(0)
         })
 
