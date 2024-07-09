@@ -16,17 +16,23 @@ import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
-type Paragraph = {
+type UpdateWithIncludes = {
   data: O.Option<Activity>,
   included: ReadonlyArray<JsonApiResource>,
 }
 
-const toTimelineUpdate = (queries: Domain) => (update: Update): Paragraph => {
+const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithIncludes => {
   switch (update.type) {
     case 'update:community-created':
       return {
         data: toCommunityCreatedUpdate(update),
-        included: [],
+        included: pipe(
+          queries.getCommunity(),
+          O.match(
+            () => [],
+            (community) => [renderCommunity(community)],
+          ),
+        ),
       }
     case 'collection-created':
       return {
@@ -71,23 +77,27 @@ const byDateDescending: Ord.Ord<Update> = pipe(
   Ord.reverse,
 )
 
+type JsonApiTimeline = {
+  data: ReadonlyArray<JsonApiResource>,
+  included: ReadonlyArray<JsonApiResource>,
+}
+
+const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiTimeline => pipe(
+  para.data,
+  O.match(
+    () => memo,
+    (update) => ({
+      data: [...memo.data, renderUpdateResource(update)],
+      included: [...memo.included, ...para.included],
+    }),
+  ),
+)
+
 export const getLocalTimeline = (queries: Domain): Service => () => pipe(
   queries.getLocalTimeline(),
   RA.sort(byDateDescending),
   RA.map(toTimelineUpdate(queries)),
-  RA.map((para) => para.data),
-  RA.compact,
-  RA.map(renderUpdateResource),
-  (updates) => ({
-    data: updates,
-    included: pipe(
-      queries.getCommunity(),
-      O.match(
-        () => [],
-        (community) => [renderCommunity(community)],
-      ),
-    ),
-  }),
+  RA.reduce({ data: [], included: [] }, appendUpdate),
   E.right,
 )
 
