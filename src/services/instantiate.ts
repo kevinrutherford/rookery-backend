@@ -6,6 +6,7 @@ import { getRoot } from './root/root'
 import { ServicePath } from './service-path'
 import { getLocalTimeline } from './timeline/local'
 import { pathToCommunity } from './ui-links'
+import { getWork } from './work/work'
 import { getWorks } from './work/works'
 
 export const instantiate = (): ReadonlyArray<ServicePath> => [
@@ -36,5 +37,9 @@ export const instantiate = (): ReadonlyArray<ServicePath> => [
   {
     path: '/works',
     service: getWorks,
+  },
+  {
+    path: '/works/:id',
+    service: getWork,
   },
 ]
