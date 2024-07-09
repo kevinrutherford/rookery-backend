@@ -1,13 +1,22 @@
 import * as O from 'fp-ts/Option'
-import { Activity, CommentCreated } from '../../domain/index.open'
+import { pipe } from 'fp-ts/function'
+import { UpdateWithIncludes } from './update-with-includes'
+import { CommentCreated } from '../../domain/index.open'
+import { renderUpdateResource } from '../json-api/render-update-resource'
 
-// SMELL: this should be done in the domain
-export const toCommentCreatedParagraph = (event: CommentCreated): O.Option<Activity> => O.some({
-  type: 'activity',
-  id: event.id,
-  actor: 'you',
-  action: 'commented',
-  content: event.content,
-  occurred_at: event.created,
+export const toCommentCreatedParagraph = (event: CommentCreated): UpdateWithIncludes => ({
+  data: pipe(
+    {
+      type: 'activity',
+      id: event.id,
+      actor: 'you',
+      action: 'commented',
+      content: event.content,
+      occurred_at: event.created,
+    },
+    renderUpdateResource,
+    O.some,
+  ),
+  included: [],
 })
 

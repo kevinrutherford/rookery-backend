@@ -10,16 +10,12 @@ import { toCommentCreatedParagraph } from './to-comment-created-paragraph'
 import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toFrontMatterFoundParagraph } from './to-front-matter-found-paragraph'
 import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
+import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
-
-type UpdateWithIncludes = {
-  data: O.Option<JsonApiResource>,
-  included: ReadonlyArray<JsonApiResource>,
-}
 
 const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithIncludes => {
   switch (update.type) {
@@ -39,14 +35,7 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
         ),
       }
     case 'collection-created':
-      return {
-        data: pipe(
-          update,
-          toCollectionCreatedParagraph,
-          O.map(renderUpdateResource),
-        ),
-        included: [],
-      }
+      return toCollectionCreatedParagraph(update)
     case 'doi-entered':
       return {
         data: pipe(
@@ -57,32 +46,11 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
         included: [],
       }
     case 'comment-created':
-      return {
-        data: pipe(
-          update,
-          toCommentCreatedParagraph,
-          O.map(renderUpdateResource),
-        ),
-        included: [],
-      }
+      return toCommentCreatedParagraph(update)
     case 'update:front-matter-found':
-      return {
-        data: pipe(
-          update,
-          toFrontMatterFoundParagraph,
-          O.map(renderUpdateResource),
-        ),
-        included: [],
-      }
+      return toFrontMatterFoundParagraph(update)
     case 'update:work-not-found':
-      return {
-        data: pipe(
-          update,
-          toWorkNotFoundParagraph,
-          O.map(renderUpdateResource),
-        ),
-        included: [],
-      }
+      return toWorkNotFoundParagraph(update)
     default:
       return {
         data: O.none,

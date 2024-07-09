@@ -1,13 +1,22 @@
 import * as O from 'fp-ts/Option'
-import { Activity, FrontMatterFound } from '../../domain/index.open'
+import { pipe } from 'fp-ts/function'
+import { UpdateWithIncludes } from './update-with-includes'
+import { FrontMatterFound } from '../../domain/index.open'
+import { renderUpdateResource } from '../json-api/render-update-resource'
 
-// eslint-disable-next-line consistent-return
-export const toFrontMatterFoundParagraph = (update: FrontMatterFound): O.Option<Activity> => O.some({
-  type: 'activity',
-  id: update.id,
-  actor: update.actor,
-  action: 'found the title of a paper',
-  content: update.title, // SMELL -- the Work should be linked via a relationship
-  occurred_at: update.created,
+export const toFrontMatterFoundParagraph = (update: FrontMatterFound): UpdateWithIncludes => ({
+  data: pipe(
+    {
+      type: 'activity',
+      id: update.id,
+      actor: update.actor,
+      action: 'found the title of a paper',
+      content: update.title, // SMELL -- the Work should be linked via a relationship
+      occurred_at: update.created,
+    },
+    renderUpdateResource,
+    O.some,
+  ),
+  included: [],
 })
 
