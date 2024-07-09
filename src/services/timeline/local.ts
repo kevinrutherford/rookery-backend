@@ -11,26 +11,53 @@ import { toDoiEnteredParagraph } from './to-doi-entered-paragraph'
 import { toFrontMatterFoundParagraph } from './to-front-matter-found-paragraph'
 import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
 import { Activity, Domain, Update } from '../../domain/index.open'
+import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { Service } from '../service'
 
-const toTimelineUpdate = (queries: Domain) => (update: Update): O.Option<Activity> => {
+type Paragraph = {
+  data: O.Option<Activity>,
+  included: ReadonlyArray<JsonApiResource>,
+}
+
+const toTimelineUpdate = (queries: Domain) => (update: Update): Paragraph => {
   switch (update.type) {
     case 'update:community-created':
-      return toCommunityCreatedUpdate(update)
+      return {
+        data: toCommunityCreatedUpdate(update),
+        included: [],
+      }
     case 'collection-created':
-      return toCollectionCreatedParagraph(update)
+      return {
+        data: toCollectionCreatedParagraph(update),
+        included: [],
+      }
     case 'doi-entered':
-      return toDoiEnteredParagraph(queries)(update)
+      return {
+        data: toDoiEnteredParagraph(queries)(update),
+        included: [],
+      }
     case 'comment-created':
-      return toCommentCreatedParagraph(update)
+      return {
+        data: toCommentCreatedParagraph(update),
+        included: [],
+      }
     case 'update:front-matter-found':
-      return toFrontMatterFoundParagraph(update)
+      return {
+        data: toFrontMatterFoundParagraph(update),
+        included: [],
+      }
     case 'update:work-not-found':
-      return toWorkNotFoundParagraph(update)
+      return {
+        data: toWorkNotFoundParagraph(update),
+        included: [],
+      }
     default:
-      return O.none
+      return {
+        data: O.none,
+        included: [],
+      }
   }
 }
 
@@ -48,6 +75,7 @@ export const getLocalTimeline = (queries: Domain): Service => () => pipe(
   queries.getLocalTimeline(),
   RA.sort(byDateDescending),
   RA.map(toTimelineUpdate(queries)),
+  RA.map((para) => para.data),
   RA.compact,
   RA.map(renderUpdateResource),
   (updates) => ({
