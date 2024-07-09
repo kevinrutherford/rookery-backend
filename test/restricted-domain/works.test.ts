@@ -101,7 +101,7 @@ describe('visibility of works', () => {
           expect(restrictedQueries.allWorks()).toHaveLength(0)
         })
 
-        it.failing('when looked up', () => {
+        it('when looked up', () => {
           expect(E.isLeft(restrictedQueries.lookupWork(workId))).toBe(true)
         })
       })

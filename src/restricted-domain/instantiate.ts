@@ -1,5 +1,10 @@
 import {
-  allCollections, allWorks, getLocalTimeline, lookupCollection, lookupEntry,
+  allCollections,
+  allWorks,
+  getLocalTimeline,
+  lookupCollection,
+  lookupEntry,
+  lookupWork,
 } from './decorate'
 import { Authority } from '../auth/authority'
 import { Domain } from '../domain/index.open'
@@ -11,5 +16,6 @@ export const instantiate = (authority: Authority, unrestrictedDomain: Domain): D
   getLocalTimeline: getLocalTimeline(unrestrictedDomain, authority),
   lookupCollection: lookupCollection(unrestrictedDomain, authority),
   lookupEntry: lookupEntry(unrestrictedDomain, authority),
+  lookupWork: lookupWork(unrestrictedDomain, authority),
 })
 
