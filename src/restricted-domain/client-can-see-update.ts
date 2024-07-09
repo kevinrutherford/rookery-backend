@@ -1,5 +1,4 @@
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
+import { workIsEnteredInSomePublicCollection } from './work-is-entered-in-some-public-collection'
 import { Authority } from '../auth/authority'
 import { Domain, Update } from '../domain/index.open'
 
@@ -12,12 +11,7 @@ export const clientCanSeeUpdate = (claims: Authority, queries: Domain) => (updat
       return !(update.occurredWithinPrivateCollection)
     case 'update:front-matter-found':
     case 'update:work-not-found':
-      return pipe(
-        update.workId,
-        queries.collectionsContainingWork,
-        RA.filter((collection) => !collection.isPrivate),
-        RA.isNonEmpty,
-      )
+      return workIsEnteredInSomePublicCollection(queries)(update.workId)
     default:
       return true
   }

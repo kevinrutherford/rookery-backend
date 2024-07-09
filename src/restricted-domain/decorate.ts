@@ -24,6 +24,10 @@ export const allCollections = (queries: Domain, claims: Authority): Domain['allC
   RA.filter(collectionIsAccessible(claims)),
 )
 
+export const allWorks = (queries: Domain, claims: Authority): Domain['allWorks'] => () => pipe(
+  queries.allWorks(),
+)
+
 export const getLocalTimeline = (queries: Domain, claims: Authority): Domain['getLocalTimeline'] => () => pipe(
   queries.getLocalTimeline(),
   RA.filter(clientCanSeeUpdate(claims, queries)),
