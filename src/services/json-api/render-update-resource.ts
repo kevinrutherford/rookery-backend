@@ -1,4 +1,5 @@
 import { JsonApiResource } from './json-api-resource'
+import { renderAccountIdentifier } from './render-account-identifier'
 import { renderCommunityIdentifier } from './render-community-identifier'
 import { renderUpdateIdentifier } from './render-update-identifier'
 import { Activity } from '../../domain/index.open'
@@ -14,6 +15,7 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
           occurred_at: update.occurred_at.toISOString(),
         },
         relationships: {
+          actor: { data: renderAccountIdentifier(update.actor) },
           community: { data: renderCommunityIdentifier(update.communityId) },
         },
       })
@@ -25,6 +27,9 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
           action: update.action,
           content: update.content,
           occurred_at: update.occurred_at.toISOString(),
+        },
+        relationships: {
+          actor: { data: renderAccountIdentifier(update.actor) },
         },
       })
   }
