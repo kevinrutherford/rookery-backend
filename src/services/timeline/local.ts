@@ -1,5 +1,6 @@
 import * as D from 'fp-ts/Date'
 import * as E from 'fp-ts/Either'
+import * as Eq from 'fp-ts/Eq'
 import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
@@ -47,6 +48,10 @@ const byDateDescending: Ord.Ord<Update> = pipe(
   Ord.reverse,
 )
 
+const jsonApiEq = Eq.fromEquals((a: JsonApiResource, b: JsonApiResource) => (
+  (a.type === b.type && a.id === b.id)
+))
+
 type JsonApiTimeline = {
   data: ReadonlyArray<JsonApiResource>,
   included: ReadonlyArray<JsonApiResource>,
@@ -58,7 +63,10 @@ const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiT
     () => memo,
     (resource) => ({
       data: [...memo.data, resource],
-      included: [...memo.included, ...para.included],
+      included: pipe(
+        [...memo.included, ...para.included],
+        RA.uniq(jsonApiEq),
+      ),
     }),
   ),
 )
