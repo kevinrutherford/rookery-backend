@@ -20,7 +20,7 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
     case 'update:community-created':
       return renderCommunityCreatedUpdate(queries, update)
     case 'collection-created':
-      return toCollectionCreatedParagraph(update)
+      return toCollectionCreatedParagraph(queries, update)
     case 'doi-entered':
       return toDoiEnteredParagraph(queries)(update)
     case 'comment-created':
