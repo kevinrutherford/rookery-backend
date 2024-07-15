@@ -1,12 +1,13 @@
 import * as E from 'fp-ts/Either'
+import * as RM from 'fp-ts/ReadonlyMap'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/string'
 import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const lookupAccount = (currentState: Readmodel): Domain['lookupAccount'] => (accountId) => E.right({
-  id: accountId,
-  username: 'DonnaBramwell',
-  displayName: 'Donna Bramwell',
-  avatarUrl: 'https://assets.website-files.com/6278ea240c19526063fea7fb/629384b3aefd5da66f82e759_DB.PNG',
-})
+export const lookupAccount = (currentState: Readmodel): Domain['lookupAccount'] => (accountId) => pipe(
+  currentState.accounts,
+  RM.lookup(S.Eq)(accountId),
+  E.fromOption(() => 'not-found'),
+)
 
