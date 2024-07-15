@@ -1,7 +1,9 @@
 import { sequenceS } from 'fp-ts/Apply'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
+import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
+import { includeAccount } from './include-account'
 import { UpdateWithIncludes } from './update-with-includes'
 import { DoiEntered, Domain, Work } from '../../domain/index.open'
 import { renderUpdateResource } from '../json-api/render-update-resource'
@@ -28,13 +30,18 @@ export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered)
     O.map(({ collection, work }) => ({
       type: 'activity' as const,
       id: activity.id,
-      accountId: 'you',
+      accountId: activity.actor,
       action: `added an item to collection ${collection.name}`,
       content: titleOf(work),
       occurred_at: activity.created,
     })),
     O.map(renderUpdateResource),
   ),
-  included: [],
+  included: pipe(
+    [
+      includeAccount(queries, activity.actor),
+    ],
+    RA.compact,
+  ),
 })
 

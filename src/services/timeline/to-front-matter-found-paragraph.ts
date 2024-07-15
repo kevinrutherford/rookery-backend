@@ -1,10 +1,12 @@
 import * as O from 'fp-ts/Option'
+import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
+import { includeAccount } from './include-account'
 import { UpdateWithIncludes } from './update-with-includes'
-import { FrontMatterFound } from '../../domain/index.open'
+import { Domain, FrontMatterFound } from '../../domain/index.open'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 
-export const toFrontMatterFoundParagraph = (update: FrontMatterFound): UpdateWithIncludes => ({
+export const toFrontMatterFoundParagraph = (queries: Domain, update: FrontMatterFound): UpdateWithIncludes => ({
   data: pipe(
     {
       type: 'activity',
@@ -17,6 +19,11 @@ export const toFrontMatterFoundParagraph = (update: FrontMatterFound): UpdateWit
     renderUpdateResource,
     O.some,
   ),
-  included: [],
+  included: pipe(
+    [
+      includeAccount(queries, update.actor),
+    ],
+    RA.compact,
+  ),
 })
 

@@ -25,9 +25,9 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
     case 'doi-entered':
       return toDoiEnteredParagraph(queries)(update)
     case 'comment-created':
-      return toCommentCreatedParagraph(update)
+      return toCommentCreatedParagraph(queries, update)
     case 'update:front-matter-found':
-      return toFrontMatterFoundParagraph(update)
+      return toFrontMatterFoundParagraph(queries, update)
     case 'update:work-not-found':
       return toWorkNotFoundParagraph(queries, update)
     default:
