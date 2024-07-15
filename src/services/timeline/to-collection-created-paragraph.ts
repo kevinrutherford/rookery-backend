@@ -9,7 +9,7 @@ export const toCollectionCreatedParagraph = (activity: CollectionCreated): Updat
     {
       type: 'activity',
       id: activity.id,
-      actor: activity.actor,
+      accountId: activity.actor,
       action: `created collection ${activity.name}`,
       content: '',
       occurred_at: activity.created,

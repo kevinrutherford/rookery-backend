@@ -9,7 +9,7 @@ export const toCommentCreatedParagraph = (event: CommentCreated): UpdateWithIncl
     {
       type: 'activity',
       id: event.id,
-      actor: 'you',
+      accountId: 'you',
       action: 'commented',
       content: event.content,
       occurred_at: event.created,

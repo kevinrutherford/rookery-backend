@@ -10,7 +10,7 @@ export const renderCommunityCreatedUpdate = (queries: Domain, activity: Communit
     {
       type: 'update:community-created',
       id: activity.id,
-      actor: activity.actor,
+      accountId: activity.actor,
       communityId: activity.communityId,
       occurred_at: activity.created,
     },

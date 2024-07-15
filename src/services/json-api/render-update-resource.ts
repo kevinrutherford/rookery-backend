@@ -11,11 +11,11 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
         type: update.type,
         id: update.id,
         attributes: {
-          actor: update.actor, // SMELL -- should be an included resource
+          actor: update.accountId, // SMELL -- should be an included resource
           occurred_at: update.occurred_at.toISOString(),
         },
         relationships: {
-          actor: { data: renderAccountIdentifier(update.actor) },
+          actor: { data: renderAccountIdentifier(update.accountId) },
           community: { data: renderCommunityIdentifier(update.communityId) },
         },
       })
@@ -23,13 +23,13 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
       return ({
         ...renderUpdateIdentifier(update.id),
         attributes: {
-          actor: update.actor, // SMELL -- should be an included resource
+          actor: update.accountId, // SMELL -- should be an included resource
           action: update.action,
           content: update.content,
           occurred_at: update.occurred_at.toISOString(),
         },
         relationships: {
-          actor: { data: renderAccountIdentifier(update.actor) },
+          actor: { data: renderAccountIdentifier(update.accountId) },
         },
       })
   }

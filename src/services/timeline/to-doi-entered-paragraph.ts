@@ -28,7 +28,7 @@ export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered)
     O.map(({ collection, work }) => ({
       type: 'activity' as const,
       id: activity.id,
-      actor: 'you',
+      accountId: 'you',
       action: `added an item to collection ${collection.name}`,
       content: titleOf(work),
       occurred_at: activity.created,

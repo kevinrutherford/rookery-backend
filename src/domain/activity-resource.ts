@@ -1,7 +1,7 @@
 type CommunityCreatedUpdate = {
   type: 'update:community-created',
   id: string,
-  actor: string,
+  accountId: string,
   occurred_at: Date,
   communityId: string,
 }
@@ -9,7 +9,7 @@ type CommunityCreatedUpdate = {
 type ClassicActivity = {
   type: 'activity',
   id: string,
-  actor: string,
+  accountId: string,
   occurred_at: Date,
   action: string,
   content: string,
