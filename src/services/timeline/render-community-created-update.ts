@@ -6,6 +6,16 @@ import { CommunityCreated, Domain } from '../../domain/index.open'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 
+const includeActor = (id: string) => O.some({
+  type: 'account',
+  id,
+  attributes: {
+    username: 'DonnaBramwell',
+    display_name: 'Donna Bramwell',
+    avatar_url: 'https://assets.website-files.com/6278ea240c19526063fea7fb/629384b3aefd5da66f82e759_DB.PNG',
+  },
+})
+
 const includeCommunity = (queries: Domain) => pipe(
   queries.getCommunity(),
   O.map(renderCommunity),
@@ -25,6 +35,7 @@ export const renderCommunityCreatedUpdate = (queries: Domain, activity: Communit
   ),
   included: pipe(
     [
+      includeActor(activity.actor),
       includeCommunity(queries),
     ],
     RA.compact,
