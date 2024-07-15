@@ -7,7 +7,6 @@ export const renderWorkNotFoundUpdateResource = (update: WorkNotFound): JsonApiR
   type: update.type,
   id: update.id,
   attributes: {
-    actor: update.actor, // SMELL -- should be an included resource
     occurred_at: update.created.toISOString(),
   },
   relationships: {
