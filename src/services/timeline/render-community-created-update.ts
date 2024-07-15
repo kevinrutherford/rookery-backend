@@ -1,9 +1,15 @@
 import * as O from 'fp-ts/Option'
+import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { UpdateWithIncludes } from './update-with-includes'
 import { CommunityCreated, Domain } from '../../domain/index.open'
 import { renderCommunity } from '../json-api/render-community'
 import { renderUpdateResource } from '../json-api/render-update-resource'
+
+const includeCommunity = (queries: Domain) => pipe(
+  queries.getCommunity(),
+  O.map(renderCommunity),
+)
 
 export const renderCommunityCreatedUpdate = (queries: Domain, activity: CommunityCreated): UpdateWithIncludes => ({
   data: pipe(
@@ -18,11 +24,10 @@ export const renderCommunityCreatedUpdate = (queries: Domain, activity: Communit
     O.some,
   ),
   included: pipe(
-    queries.getCommunity(),
-    O.match(
-      () => [],
-      (community) => [renderCommunity(community)],
-    ),
+    [
+      includeCommunity(queries),
+    ],
+    RA.compact,
   ),
 })
 
