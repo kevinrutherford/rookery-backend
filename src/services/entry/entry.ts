@@ -5,7 +5,8 @@ import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
 import { Domain, Entry } from '../../domain/index.open'
-import { JsonApiErrorsDocument, JsonApiResource } from '../json-api/json-api-resource'
+import { JsonApiResource } from '../json-api/json-api-resource'
+import { renderAccount } from '../json-api/render-account'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
@@ -17,6 +18,7 @@ import { validateInput } from '../validate-input'
 const includes = t.union([
   t.literal('collection'),
   t.literal('comments'),
+  t.literal('comments.author'),
   t.literal('work'),
 ])
 
@@ -46,17 +48,14 @@ type Params = t.TypeOf<typeof paramsCodec>
 const getInc = (
   queries: Domain,
   entry: Entry,
-) => (opt: Includes): E.Either<JsonApiErrorsDocument, ReadonlyArray<JsonApiResource>> => {
+) => (opt: Includes): ReadonlyArray<JsonApiResource> => {
   switch (opt) {
     case 'collection':
       return pipe(
         entry.collectionId,
         queries.lookupCollection,
-        E.bimap(
-          () => renderError('fatal-error', 'Collection associated with Entry not found!', {
-            entryId: entry.id,
-            collectionId: entry.collectionId,
-          }),
+        E.match(
+          () => [],
           (c) => [renderCollection(c)],
         ),
       )
@@ -65,41 +64,43 @@ const getInc = (
         entry.id,
         queries.findComments,
         RA.map(renderComment),
-        E.right,
+      )
+    case 'comments.author':
+      return pipe(
+        entry.id,
+        queries.findComments,
+        RA.map((comment) => comment.authorId),
+        RA.map(queries.lookupAccount),
+        RA.rights,
+        RA.map(renderAccount),
       )
     case 'work':
       return pipe(
         entry.workId,
         queries.lookupWork,
-        E.bimap(
-          (err) => renderError('fatal-error', 'Work associated with Entry not found!', {
-            entryId: entry.id,
-            workId: entry.workId,
-            err,
-          }),
-          renderWork,
+        E.match(
+          () => [],
+          (work) => [renderWork(work)],
         ),
-        E.map((work) => [work]),
       )
     default:
-      return E.right([])
+      return []
   }
 }
 
 const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry: Entry) => pipe(
   incl,
   O.matchW(
-    () => E.right({
+    () => ({
       data: renderEntry(entry),
     }),
     (incs) => pipe(
       incs,
-      E.traverseArray(getInc(queries, entry)),
-      E.map(RA.flatten),
-      E.map((i) => ({
+      RA.chain(getInc(queries, entry)),
+      (i) => ({
         data: renderEntry(entry),
         included: i,
-      })),
+      }),
     ),
   ),
 )
@@ -107,8 +108,10 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry:
 const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
   queries.lookupEntry,
-  E.mapLeft(() => renderError('not-found', 'Entry not found', { id: params.id })),
-  E.chain(renderWithIncludes(queries, params.include)),
+  E.bimap(
+    () => renderError('not-found', 'Entry not found', { id: params.id }),
+    renderWithIncludes(queries, params.include),
+  ),
 )
 
 export const getEntry = (queries: Domain): Service => (input) => pipe(
