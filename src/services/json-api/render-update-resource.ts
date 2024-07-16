@@ -6,6 +6,18 @@ import { Activity } from '../../domain/index.open'
 
 export const renderUpdateResource = (update: Activity): JsonApiResource => {
   switch (update.type) {
+    case 'update:comment-created':
+      return ({
+        type: update.type,
+        id: update.id,
+        attributes: {
+          content: update.content,
+          occurred_at: update.occurred_at.toISOString(),
+        },
+        relationships: {
+          actor: { data: renderAccountIdentifier(update.accountId) },
+        },
+      })
     case 'update:community-created':
       return ({
         type: update.type,
