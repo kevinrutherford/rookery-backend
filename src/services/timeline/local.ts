@@ -1,6 +1,5 @@
 import * as D from 'fp-ts/Date'
 import * as E from 'fp-ts/Either'
-import * as Eq from 'fp-ts/Eq'
 import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
@@ -14,6 +13,7 @@ import { toWorkNotFoundParagraph } from './to-work-not-found-paragraph'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
+import { resourceEq } from '../json-api/resource-eq'
 import { Service } from '../service'
 
 const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithIncludes => {
@@ -48,10 +48,6 @@ const byDateDescending: Ord.Ord<Update> = pipe(
   Ord.reverse,
 )
 
-const jsonApiEq = Eq.fromEquals((a: JsonApiResource, b: JsonApiResource) => (
-  (a.type === b.type && a.id === b.id)
-))
-
 type JsonApiTimeline = {
   data: ReadonlyArray<JsonApiResource>,
   included: ReadonlyArray<JsonApiResource>,
@@ -65,7 +61,7 @@ const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiT
       data: [...memo.data, resource],
       included: pipe(
         [...memo.included, ...para.included],
-        RA.uniq(jsonApiEq),
+        RA.uniq(resourceEq),
       ),
     }),
   ),

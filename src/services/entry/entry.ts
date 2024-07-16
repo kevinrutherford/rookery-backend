@@ -12,6 +12,7 @@ import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
 import { renderError } from '../json-api/render-error'
 import { renderWork } from '../json-api/render-work'
+import { resourceEq } from '../json-api/resource-eq'
 import { Service } from '../service'
 import { validateInput } from '../validate-input'
 
@@ -97,6 +98,7 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry:
     (incs) => pipe(
       incs,
       RA.chain(getInc(queries, entry)),
+      RA.uniq(resourceEq),
       (i) => ({
         data: renderEntry(entry),
         included: i,
