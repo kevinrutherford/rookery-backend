@@ -10,7 +10,7 @@ export const recordCollectionCreated = (state: Readmodel, event: CollectionCreat
     type: event.type,
     id: event.id,
     created: event.created,
-    actor: 'you',
+    actorId: 'you',
     occurredWithinPrivateCollection: false,
     name: event.data.name,
   })

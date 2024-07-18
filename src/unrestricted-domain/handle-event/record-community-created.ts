@@ -8,7 +8,7 @@ export const recordCommunityCreated = (state: Readmodel, event: CommunityCreated
     type: 'update:community-created',
     id: event.id,
     created: event.created,
-    actor: 'you',
+    actorId: 'you',
     communityId: event.data.id,
     occurredWithinPrivateCollection: false,
   })

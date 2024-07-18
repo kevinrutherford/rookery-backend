@@ -30,7 +30,7 @@ export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered)
     O.map(({ collection, work }) => ({
       type: 'activity' as const,
       id: activity.id,
-      accountId: activity.actor,
+      accountId: activity.actorId,
       action: `added an item to collection ${collection.name}`,
       content: titleOf(work),
       occurred_at: activity.created,
@@ -39,7 +39,7 @@ export const toDoiEnteredParagraph = (queries: Domain) => (activity: DoiEntered)
   ),
   included: pipe(
     [
-      includeAccount(queries, activity.actor),
+      includeAccount(queries, activity.actorId),
     ],
     RA.compact,
   ),

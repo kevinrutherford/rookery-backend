@@ -23,7 +23,7 @@ export const toWorkNotFoundParagraph = (queries: Domain, update: WorkNotFound): 
   included: pipe(
     [
       includeWork(queries, update.workId),
-      includeAccount(queries, update.actor),
+      includeAccount(queries, update.actorId),
     ],
     RA.compact,
   ),

@@ -11,7 +11,7 @@ export const toFrontMatterFoundParagraph = (queries: Domain, update: FrontMatter
     {
       type: 'activity',
       id: update.id,
-      accountId: update.actor,
+      accountId: update.actorId,
       action: 'found the title of a paper',
       content: update.title, // SMELL -- the Work should be linked via a relationship
       occurred_at: update.created,
@@ -21,7 +21,7 @@ export const toFrontMatterFoundParagraph = (queries: Domain, update: FrontMatter
   ),
   included: pipe(
     [
-      includeAccount(queries, update.actor),
+      includeAccount(queries, update.actorId),
     ],
     RA.compact,
   ),

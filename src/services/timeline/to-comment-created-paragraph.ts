@@ -22,7 +22,7 @@ export const toCommentCreatedParagraph = (queries: Domain, activity: CommentCrea
   ),
   included: pipe(
     [
-      includeAccount(queries, activity.actor),
+      includeAccount(queries, activity.actorId),
       includeEntry(queries, activity.entryId),
     ],
     RA.compact,

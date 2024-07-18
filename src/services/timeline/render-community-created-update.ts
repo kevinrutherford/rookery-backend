@@ -17,7 +17,7 @@ export const renderCommunityCreatedUpdate = (queries: Domain, activity: Communit
     {
       type: 'update:community-created',
       id: activity.id,
-      accountId: activity.actor,
+      accountId: activity.actorId,
       communityId: activity.communityId,
       occurred_at: activity.created,
     },
@@ -26,7 +26,7 @@ export const renderCommunityCreatedUpdate = (queries: Domain, activity: Communit
   ),
   included: pipe(
     [
-      includeAccount(queries, activity.actor),
+      includeAccount(queries, activity.actorId),
       includeCommunity(queries),
     ],
     RA.compact,

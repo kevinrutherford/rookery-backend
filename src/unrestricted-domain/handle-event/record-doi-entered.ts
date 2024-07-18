@@ -39,7 +39,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     type: event.type,
     id: event.id,
     created: event.created,
-    actor: 'you',
+    actorId: 'you',
     occurredWithinPrivateCollection: collection.isPrivate,
     collectionId: event.data.collectionId,
     workId,

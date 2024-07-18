@@ -19,7 +19,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
       type: 'update:front-matter-found',
       id: event.id,
       created: event.created,
-      actor: 'CrossrefBot',
+      actorId: 'CrossrefBot',
       occurredWithinPrivateCollection: false,
       workId: event.data.workId,
       title: event.data.attributes.title, // SMELL -- maybe not needed if the Work is via a relationship?
@@ -31,7 +31,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
       type: 'update:work-not-found',
       id: event.id,
       created: event.created,
-      actor: 'CrossrefBot',
+      actorId: 'CrossrefBot',
       occurredWithinPrivateCollection: false,
       workId: event.data.workId,
     } satisfies WorkNotFound)

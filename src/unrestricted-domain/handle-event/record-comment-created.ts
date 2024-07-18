@@ -27,7 +27,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
     type: event.type,
     id: event.id,
     created: event.created,
-    actor: 'you',
+    actorId: 'you',
     occurredWithinPrivateCollection: collection.isPrivate,
     content: event.data.content,
     entryId: comment.entryId,

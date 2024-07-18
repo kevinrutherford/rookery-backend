@@ -11,7 +11,7 @@ export const toCollectionCreatedParagraph = (queries: Domain, activity: Collecti
     {
       type: 'activity',
       id: activity.id,
-      accountId: activity.actor,
+      accountId: activity.actorId,
       action: `created collection ${activity.name}`,
       content: '',
       occurred_at: activity.created,
@@ -21,7 +21,7 @@ export const toCollectionCreatedParagraph = (queries: Domain, activity: Collecti
   ),
   included: pipe(
     [
-      includeAccount(queries, activity.actor),
+      includeAccount(queries, activity.actorId),
     ],
     RA.compact,
   ),

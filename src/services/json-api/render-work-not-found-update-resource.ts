@@ -10,7 +10,7 @@ export const renderWorkNotFoundUpdateResource = (update: WorkNotFound): JsonApiR
     occurred_at: update.created.toISOString(),
   },
   relationships: {
-    actor: { data: renderAccountIdentifier(update.actor) }, // SMELL -- duplicated with other update renderer(s)
+    actor: { data: renderAccountIdentifier(update.actorId) }, // SMELL -- duplicated with other update renderer(s)
     work: { data: renderWorkIdentifier(update.workId) },
   },
 })

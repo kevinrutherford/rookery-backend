@@ -9,7 +9,7 @@ export type Update =
 type UpdateCommonAttributes = {
   id: string,
   created: Date,
-  actor: string,
+  actorId: string,
   occurredWithinPrivateCollection: boolean,
 }
 
