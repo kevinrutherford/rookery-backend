@@ -9,16 +9,18 @@ import { renderUpdateResource } from '../json-api/render-update-resource'
 
 export const toCommentCreatedParagraph = (queries: Domain, activity: CommentCreated): UpdateWithIncludes => ({
   data: pipe(
-    {
+    activity.entryId,
+    queries.lookupEntry,
+    O.fromEither,
+    O.map((entry) => renderUpdateResource({
       type: 'update:comment-created',
       id: activity.id,
       accountId: 'you',
       content: activity.content,
       entryId: activity.entryId,
+      workId: entry.workId,
       occurred_at: activity.created,
-    },
-    renderUpdateResource,
-    O.some,
+    })),
   ),
   included: pipe(
     [

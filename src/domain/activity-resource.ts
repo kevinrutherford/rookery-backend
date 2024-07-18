@@ -5,6 +5,7 @@ type CommentCreatedUpdate = {
   occurred_at: Date,
   content: string,
   entryId: string,
+  workId: string,
 }
 
 type CommunityCreatedUpdate = {
