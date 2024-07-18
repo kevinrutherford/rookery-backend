@@ -30,6 +30,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
     actor: 'you',
     occurredWithinPrivateCollection: collection.isPrivate,
     content: event.data.content,
+    entryId: comment.entryId,
   })
 }
 

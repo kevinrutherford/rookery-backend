@@ -13,6 +13,7 @@ export const toCommentCreatedParagraph = (queries: Domain, activity: CommentCrea
       id: activity.id,
       accountId: 'you',
       content: activity.content,
+      entryId: activity.entryId,
       occurred_at: activity.created,
     },
     renderUpdateResource,

@@ -1,6 +1,7 @@
 import { JsonApiResource } from './json-api-resource'
 import { renderAccountIdentifier } from './render-account-identifier'
 import { renderCommunityIdentifier } from './render-community-identifier'
+import { renderEntryIdentifier } from './render-entry-identifier'
 import { renderUpdateIdentifier } from './render-update-identifier'
 import { Activity } from '../../domain/index.open'
 
@@ -16,6 +17,7 @@ export const renderUpdateResource = (update: Activity): JsonApiResource => {
         },
         relationships: {
           actor: { data: renderAccountIdentifier(update.accountId) },
+          entry: { data: renderEntryIdentifier(update.entryId) },
         },
       })
     case 'update:community-created':
