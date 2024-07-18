@@ -27,6 +27,7 @@ export type CommentCreated = UpdateCommonAttributes & {
   type: 'comment-created',
   content: string,
   entryId: string,
+  workId: string,
 }
 
 export type DoiEntered = UpdateCommonAttributes & {

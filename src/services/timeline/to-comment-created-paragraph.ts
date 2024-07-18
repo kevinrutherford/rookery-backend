@@ -6,6 +6,7 @@ import { includeEntry } from './include-entry'
 import { UpdateWithIncludes } from './update-with-includes'
 import { CommentCreated, Domain } from '../../domain/index.open'
 import { renderUpdateResource } from '../json-api/render-update-resource'
+import {includeWork} from './include-work'
 
 export const toCommentCreatedParagraph = (queries: Domain, activity: CommentCreated): UpdateWithIncludes => ({
   data: pipe(
@@ -26,6 +27,7 @@ export const toCommentCreatedParagraph = (queries: Domain, activity: CommentCrea
     [
       includeAccount(queries, activity.actorId),
       includeEntry(queries, activity.entryId),
+      includeWork(queries, activity.workId),
     ],
     RA.compact,
   ),
