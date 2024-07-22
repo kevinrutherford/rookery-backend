@@ -13,6 +13,7 @@ const communityCreatedEvent = t.intersection([esEventBase, t.type({
     name: t.string,
     affiliation: t.string,
     overview: t.array(t.string),
+    theme: t.string,
   }),
 })])
 

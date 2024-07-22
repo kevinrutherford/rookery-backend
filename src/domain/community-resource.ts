@@ -3,5 +3,6 @@ export type Community = {
   name: string,
   affiliation: string,
   overview: ReadonlyArray<string>,
+  theme: string,
 }
 
