@@ -9,10 +9,7 @@ export { Entry } from './entry-resource'
 export { Work } from './work-resource'
 
 export {
-  CollectionCreated,
   CommentCreated,
-  CommunityCreated,
-  DoiEntered,
   FrontMatterFound,
   Update,
   WorkNotFound,

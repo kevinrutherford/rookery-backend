@@ -13,12 +13,12 @@ type UpdateCommonAttributes = {
   occurredWithinPrivateCollection: boolean,
 }
 
-export type CommunityCreated = UpdateCommonAttributes & {
+type CommunityCreated = UpdateCommonAttributes & {
   type: 'update:community-created',
   communityId: string,
 }
 
-export type CollectionCreated = UpdateCommonAttributes & {
+type CollectionCreated = UpdateCommonAttributes & {
   type: 'collection-created',
   name: string,
 }
@@ -30,7 +30,7 @@ export type CommentCreated = UpdateCommonAttributes & {
   workId: string,
 }
 
-export type DoiEntered = UpdateCommonAttributes & {
+type DoiEntered = UpdateCommonAttributes & {
   type: 'doi-entered',
   workId: string,
   collectionId: string,
