@@ -33,7 +33,7 @@ const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiT
     (resource) => ({
       data: [...memo.data, resource],
       included: pipe(
-        [...memo.included, ...para.included],
+        [...memo.included, ...RA.compact(para.included)],
         RA.uniq(resourceEq),
       ),
     }),

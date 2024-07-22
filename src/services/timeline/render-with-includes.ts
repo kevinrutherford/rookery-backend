@@ -1,7 +1,6 @@
 import { sequenceS } from 'fp-ts/Apply'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
-import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { includeAccount } from './include-account'
 import { includeCommunity } from './include-community'
@@ -39,13 +38,10 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           renderUpdateResource,
           O.some,
         ),
-        included: pipe(
-          [
-            includeAccount(queries, update.actorId),
-            includeCommunity(queries),
-          ],
-          RA.compact,
-        ),
+        included: [
+          includeAccount(queries, update.actorId),
+          includeCommunity(queries),
+        ],
       })
     case 'collection-created':
       return ({
@@ -61,12 +57,9 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           renderUpdateResource,
           O.some,
         ),
-        included: pipe(
-          [
-            includeAccount(queries, update.actorId),
-          ],
-          RA.compact,
-        ),
+        included: [
+          includeAccount(queries, update.actorId),
+        ],
       })
     case 'doi-entered':
       return ({
@@ -87,24 +80,18 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           })),
           O.map(renderUpdateResource),
         ),
-        included: pipe(
-          [
-            includeAccount(queries, update.actorId),
-          ],
-          RA.compact,
-        ),
+        included: [
+          includeAccount(queries, update.actorId),
+        ],
       })
     case 'update:comment-created':
       return ({
         data: O.some(renderCommentCreatedUpdateResource(update)),
-        included: pipe(
-          [
-            includeAccount(queries, update.actorId),
-            includeEntry(queries, update.entryId),
-            includeWork(queries, update.workId),
-          ],
-          RA.compact,
-        ),
+        included: [
+          includeAccount(queries, update.actorId),
+          includeEntry(queries, update.entryId),
+          includeWork(queries, update.workId),
+        ],
       })
     case 'update:front-matter-found':
       return ({
@@ -120,12 +107,9 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           renderUpdateResource,
           O.some,
         ),
-        included: pipe(
-          [
-            includeAccount(queries, update.actorId),
-          ],
-          RA.compact,
-        ),
+        included: [
+          includeAccount(queries, update.actorId),
+        ],
       })
     case 'update:work-not-found':
       return ({
@@ -134,13 +118,10 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           renderWorkNotFoundUpdateResource,
           O.some,
         ),
-        included: pipe(
-          [
-            includeWork(queries, update.workId),
-            includeAccount(queries, update.actorId),
-          ],
-          RA.compact,
-        ),
+        included: [
+          includeWork(queries, update.workId),
+          includeAccount(queries, update.actorId),
+        ],
       })
     default:
       return {
