@@ -8,17 +8,13 @@ import { UpdateWithIncludes } from './update-with-includes'
 import { CommentCreated, Domain } from '../../domain/index.open'
 import { renderCommentCreatedUpdateResource } from '../json-api/render-comment-created-update-resource'
 
-export const toCommentCreatedParagraph = (queries: Domain, activity: CommentCreated): UpdateWithIncludes => ({
-  data: pipe(
-    activity,
-    renderCommentCreatedUpdateResource,
-    O.some,
-  ),
+export const toCommentCreatedParagraph = (queries: Domain, update: CommentCreated): UpdateWithIncludes => ({
+  data: O.some(renderCommentCreatedUpdateResource(update)),
   included: pipe(
     [
-      includeAccount(queries, activity.actorId),
-      includeEntry(queries, activity.entryId),
-      includeWork(queries, activity.workId),
+      includeAccount(queries, update.actorId),
+      includeEntry(queries, update.entryId),
+      includeWork(queries, update.workId),
     ],
     RA.compact,
   ),

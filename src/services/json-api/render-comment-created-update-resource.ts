@@ -8,7 +8,6 @@ export const renderCommentCreatedUpdateResource = (update: CommentCreated): Json
   type: update.type,
   id: update.id,
   attributes: {
-    content: update.content, // SMELL -- shouldn't be needed now
     occurred_at: update.created.toISOString(),
   },
   relationships: {
