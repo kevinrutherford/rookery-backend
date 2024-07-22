@@ -16,7 +16,7 @@ import { JsonApiResource } from '../json-api/json-api-resource'
 import { resourceEq } from '../json-api/resource-eq'
 import { Service } from '../service'
 
-const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithIncludes => {
+const renderWithIncludes = (queries: Domain) => (update: Update): UpdateWithIncludes => {
   switch (update.type) { // SMELL -- duplicated switch? consider driving all copies from data
     case 'update:community-created':
       return renderCommunityCreatedUpdate(queries, update)
@@ -24,7 +24,7 @@ const toTimelineUpdate = (queries: Domain) => (update: Update): UpdateWithInclud
       return toCollectionCreatedParagraph(queries, update)
     case 'doi-entered':
       return toDoiEnteredParagraph(queries)(update)
-    case 'comment-created':
+    case 'update:comment-created':
       return toCommentCreatedParagraph(queries, update)
     case 'update:front-matter-found':
       return toFrontMatterFoundParagraph(queries, update)
@@ -70,7 +70,7 @@ const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiT
 export const getLocalTimeline = (queries: Domain): Service => () => pipe(
   queries.getLocalTimeline(),
   RA.sort(byDateDescending),
-  RA.map(toTimelineUpdate(queries)),
+  RA.map(renderWithIncludes(queries)),
   RA.reduce({ data: [], included: [] }, appendUpdate),
   E.right,
 )

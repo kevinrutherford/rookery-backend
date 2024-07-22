@@ -6,7 +6,7 @@ export const clientCanSeeUpdate = (claims: Authority, queries: Domain) => (updat
   if (claims('browse-private-collections'))
     return true
   switch (update.type) {
-    case 'comment-created':
+    case 'update:comment-created':
     case 'doi-entered':
       return !(update.occurredWithinPrivateCollection)
     case 'update:front-matter-found':
