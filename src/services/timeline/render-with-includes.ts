@@ -113,14 +113,10 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
       })
     case 'update:work-not-found':
       return ({
-        data: pipe(
-          update,
-          renderWorkNotFoundUpdateResource,
-          O.some,
-        ),
+        data: O.some(renderWorkNotFoundUpdateResource(update)),
         included: [
-          includeWork(queries, update.workId),
           includeAccount(queries, update.actorId),
+          includeWork(queries, update.workId),
         ],
       })
     default:
