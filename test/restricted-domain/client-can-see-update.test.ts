@@ -30,6 +30,7 @@ const createCommunity: Action = {
       name: arbitraryString(),
       affiliation: arbitraryString(),
       overview: [arbitraryString()],
+      theme: 'slate',
     }))
     return { ...state }
   },
