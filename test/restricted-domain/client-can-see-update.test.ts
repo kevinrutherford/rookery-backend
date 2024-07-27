@@ -27,6 +27,7 @@ const createCommunity: Action = {
     const id = arbitraryWord()
     state.handleEvent(mkEvent('community-created', {
       id,
+      actorId: arbitraryString(),
       name: arbitraryString(),
       affiliation: arbitraryString(),
       overview: [arbitraryString()],
@@ -42,6 +43,7 @@ const createCollection: Action = {
     const collectionId = arbitraryWord()
     state.handleEvent(mkEvent('collection-created', {
       id: collectionId,
+      actorId: arbitraryString(),
       name: arbitraryString(),
       description: arbitraryString(),
     }))
@@ -55,6 +57,7 @@ const addEntry: Action = {
     const entryId = arbitraryWord()
     const workId = arbitraryWord()
     state.handleEvent(mkEvent('doi-entered', {
+      actorId: arbitraryString(),
       entryId,
       doi: workId,
       collectionId: state.collectionId,
@@ -67,6 +70,7 @@ const becomePrivate: Action = {
   description: 'collection-updated to become private',
   act: (state) => {
     state.handleEvent(mkEvent('collection-updated', {
+      actorId: arbitraryString(),
       collectionId: state.collectionId,
       attributes: {
         isPrivate: true,
@@ -81,6 +85,7 @@ const addComment: Action = {
   act: (state) => {
     state.handleEvent(mkEvent('comment-created', {
       id: arbitraryWord(),
+      actorId: arbitraryString(),
       entryId: state.entryId,
       content: arbitraryString(),
     }))
@@ -92,6 +97,7 @@ const workFound: Action = {
   description: 'work found',
   act: (state) => {
     state.handleEvent(mkEvent('work-updated', {
+      actorId: arbitraryString(),
       workId: state.workId,
       attributes: {
         crossrefStatus: 'found',

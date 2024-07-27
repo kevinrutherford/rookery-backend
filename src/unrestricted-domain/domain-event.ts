@@ -10,6 +10,7 @@ const communityCreatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('community-created'),
   data: t.type({
     id: t.string,
+    actorId: t.string,
     name: t.string,
     affiliation: t.string,
     overview: t.array(t.string),
@@ -23,6 +24,7 @@ const collectionCreatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('collection-created'),
   data: t.type({
     id: t.string,
+    actorId: t.string,
     name: t.string,
     description: t.string,
   }),
@@ -33,6 +35,7 @@ export type CollectionCreatedEvent = t.TypeOf<typeof collectionCreatedEvent>
 const collectionUpdatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('collection-updated'),
   data: t.type({
+    actorId: t.string,
     collectionId: t.string,
     attributes: t.type({
       isPrivate: t.boolean,
@@ -46,6 +49,7 @@ const commentCreatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('comment-created'),
   data: t.type({
     id: t.string,
+    actorId: t.string,
     entryId: t.string,
     content: t.string,
   }),
@@ -56,6 +60,7 @@ export type CommentCreatedEvent = t.TypeOf<typeof commentCreatedEvent>
 const doiEnteredEvent = t.intersection([esEventBase, t.type({
   type: t.literal('doi-entered'),
   data: t.type({
+    actorId: t.string,
     entryId: t.string,
     doi: t.string,
     collectionId: t.string,
@@ -87,6 +92,7 @@ const frontMatterFound = t.type({
 const workUpdatedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('work-updated'),
   data: t.type({
+    actorId: t.string,
     workId: t.string,
     attributes: t.union([frontMatterFound, frontMatterNotFound, frontMatterNotDetermined]),
   }),

@@ -9,6 +9,7 @@ describe('given a public collection', () => {
 
   const addEntry = () => {
     domain.handleEvent(mkEvent('doi-entered', {
+      actorId: arbitraryString(),
       entryId: arbitraryWord(),
       doi: arbitraryWord(),
       collectionId,
@@ -17,6 +18,7 @@ describe('given a public collection', () => {
 
   const becomePrivate = () => {
     domain.handleEvent(mkEvent('collection-updated', {
+      actorId: arbitraryString(),
       collectionId,
       attributes: {
         isPrivate: true,
@@ -26,6 +28,7 @@ describe('given a public collection', () => {
 
   const becomePublic = () => {
     domain.handleEvent(mkEvent('collection-updated', {
+      actorId: arbitraryString(),
       collectionId,
       attributes: {
         isPrivate: false,
@@ -37,6 +40,7 @@ describe('given a public collection', () => {
     domain = UnrestrictedDomain.instantiate(defaultTestObserver)
     domain.handleEvent(mkEvent('collection-created', {
       id: collectionId,
+      actorId: arbitraryString(),
       name: arbitraryString(),
       description: arbitraryString(),
     }))
