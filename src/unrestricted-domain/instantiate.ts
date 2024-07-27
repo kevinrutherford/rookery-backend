@@ -1,7 +1,7 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { domainEvent } from './domain-event'
-import { dispatch } from './handle-event/dispatch'
+import * as HandleEvent from './handle-event'
 import * as Queries from './queries'
 import * as State from './state'
 import { Domain } from '../domain/index.open'
@@ -17,6 +17,7 @@ type DomainModel = {
 
 export const instantiate = (observer: DomainObserver): DomainModel => {
   const currentState = State.instantiate()
+  const { dispatch } = HandleEvent.instantiate()
 
   const queries = Queries.instantiate(currentState)
 
