@@ -1,3 +1,4 @@
+import { cacheActor } from './cache-actor'
 import { CollectionCreatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -14,5 +15,6 @@ export const recordCollectionCreated = (state: Readmodel, event: CollectionCreat
     occurredWithinPrivateCollection: false,
     name: event.data.name,
   })
+  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 

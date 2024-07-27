@@ -1,4 +1,5 @@
 import * as O from 'fp-ts/Option'
+import { cacheActor } from './cache-actor'
 import { CommunityCreatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -12,5 +13,6 @@ export const recordCommunityCreated = (state: Readmodel, event: CommunityCreated
     communityId: event.data.id,
     occurredWithinPrivateCollection: false,
   })
+  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 

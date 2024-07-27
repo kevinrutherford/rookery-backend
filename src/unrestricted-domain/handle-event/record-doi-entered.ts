@@ -1,3 +1,4 @@
+import { cacheActor } from './cache-actor'
 import { Entry } from '../../domain/index.open'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
@@ -44,5 +45,6 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     collectionId: event.data.collectionId,
     workId,
   })
+  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 

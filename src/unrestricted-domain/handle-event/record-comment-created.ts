@@ -1,3 +1,4 @@
+import { cacheActor } from './cache-actor'
 import { CommentCreatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -33,5 +34,6 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
     entryId: comment.entryId,
     workId: entry.workId,
   })
+  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 
