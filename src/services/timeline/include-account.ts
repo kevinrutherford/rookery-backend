@@ -7,7 +7,7 @@ import { renderAccount } from '../json-api/render-account'
 export const includeAccount = (queries: Domain, accountId: string): O.Option<JsonApiResource> => pipe(
   accountId,
   queries.lookupAccount,
-  O.fromEither,
-  O.map(renderAccount),
+  renderAccount,
+  O.some,
 )
 

@@ -1,4 +1,3 @@
-import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import * as RM from 'fp-ts/ReadonlyMap'
 import { pipe } from 'fp-ts/function'
@@ -15,6 +14,5 @@ export const lookupAccount = (currentState: Readmodel): Domain['lookupAccount'] 
     displayName: 'Unknown User',
     avatarUrl: 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
   })),
-  E.right,
 )
 
