@@ -1,4 +1,4 @@
-import { cacheActor } from './cache-actor'
+import { recordUpdate } from './record-update'
 import { CommentCreatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -24,7 +24,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
 
   entry.commentsCount += 1 // SMELL: is this really necessary now we have a unified readmodel?
 
-  state.updates.push({
+  recordUpdate(state, {
     type: 'update:comment-created',
     id: event.id,
     created: event.created,
@@ -34,6 +34,5 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
     entryId: comment.entryId,
     workId: entry.workId,
   })
-  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 

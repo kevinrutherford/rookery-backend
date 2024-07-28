@@ -1,4 +1,4 @@
-import { cacheActor } from './cache-actor'
+import { recordUpdate } from './record-update'
 import { Entry } from '../../domain/index.open'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
@@ -36,7 +36,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   state.entriesByCollection.set(data.collectionId, current)
   state.entriesByEntryId.set(data.entryId, entry)
 
-  state.updates.push({
+  recordUpdate(state, {
     type: event.type,
     id: event.id,
     created: event.created,
@@ -45,6 +45,5 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     collectionId: event.data.collectionId,
     workId,
   })
-  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 

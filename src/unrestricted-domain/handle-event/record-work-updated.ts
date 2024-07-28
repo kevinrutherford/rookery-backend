@@ -1,4 +1,4 @@
-import { cacheActor } from './cache-actor'
+import { recordUpdate } from './record-update'
 import { FrontMatterFound, WorkNotFound } from '../../domain/index.open'
 import { WorkUpdatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
@@ -16,7 +16,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
   })
 
   if (event.data.attributes.crossrefStatus === 'found') {
-    state.updates.push({
+    recordUpdate(state, {
       type: 'update:front-matter-found',
       id: event.id,
       created: event.created,
@@ -28,7 +28,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
       authors: event.data.attributes.authors, // SMELL -- maybe not needed if the Work is via a relationship?
     } satisfies FrontMatterFound)
   } else if (event.data.attributes.crossrefStatus === 'not-found') {
-    state.updates.push({
+    recordUpdate(state, {
       type: 'update:work-not-found',
       id: event.id,
       created: event.created,
@@ -37,6 +37,5 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
       workId: event.data.workId,
     } satisfies WorkNotFound)
   }
-  cacheActor(state, event.data.actorId) // SMELL -- duplicated for all events
 }
 
