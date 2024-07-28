@@ -36,7 +36,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   state.entriesByCollection.set(data.collectionId, current)
   state.entriesByEntryId.set(data.entryId, entry)
 
-  state.activities.push({
+  state.updates.push({
     type: event.type,
     id: event.id,
     created: event.created,

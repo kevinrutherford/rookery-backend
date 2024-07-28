@@ -6,7 +6,7 @@ import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
 export const lookupAccount = (currentState: Readmodel): Domain['lookupAccount'] => (accountId) => pipe(
-  currentState.accounts,
+  currentState.members,
   RM.lookup(S.Eq)(accountId),
   O.getOrElseW(() => ({
     id: accountId,

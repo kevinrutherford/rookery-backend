@@ -5,7 +5,7 @@ import { Readmodel } from '../state/readmodel'
 
 export const recordCommunityCreated = (state: Readmodel, event: CommunityCreatedEvent): void => {
   state.community = O.some(event.data)
-  state.activities.push({
+  state.updates.push({
     type: 'update:community-created',
     id: event.id,
     created: event.created,

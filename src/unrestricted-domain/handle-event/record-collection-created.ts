@@ -7,7 +7,7 @@ export const recordCollectionCreated = (state: Readmodel, event: CollectionCreat
     ...event.data,
     isPrivate: false,
   })
-  state.activities.push({
+  state.updates.push({
     type: event.type,
     id: event.id,
     created: event.created,

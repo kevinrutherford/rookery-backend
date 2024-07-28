@@ -24,7 +24,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
 
   entry.commentsCount += 1 // SMELL: is this really necessary now we have a unified readmodel?
 
-  state.activities.push({
+  state.updates.push({
     type: 'update:comment-created',
     id: event.id,
     created: event.created,
