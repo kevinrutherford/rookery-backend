@@ -1,10 +1,10 @@
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
-import { Account } from './account-resource'
 import { Collection } from './collection-resource'
 import { Comment } from './comment-resource'
 import { Community } from './community-resource'
 import { Entry } from './entry-resource'
+import { Member } from './member-resource'
 import { Update } from './update-resource'
 import { Work } from './work-resource'
 
@@ -24,7 +24,7 @@ export type Domain = {
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
   getLocalTimeline: () => ReadonlyArray<Update>,
-  lookupAccount: (accountId: string) => Account,
+  lookupMember: (accountId: string) => Member,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   lookupEntry: (entryId: string) => E.Either<DomainError, Entry>,
   lookupWork: (id: string) => E.Either<DomainError, Work>,

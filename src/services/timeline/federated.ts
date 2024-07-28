@@ -1,8 +1,8 @@
 import * as E from 'fp-ts/Either'
-import { renderAccount } from '../json-api/render-account'
-import { renderAccountIdentifier } from '../json-api/render-account-identifier'
 import { renderEntry } from '../json-api/render-entry'
 import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
+import { renderMember } from '../json-api/render-member'
+import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWork } from '../json-api/render-work'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 import { Service } from '../service'
@@ -41,14 +41,14 @@ export const getFederatedTimeline = (): Service => () => E.right({
         occurred_at: new Date().toISOString(),
       },
       relationships: {
-        actor: { data: renderAccountIdentifier(account.id) },
+        actor: { data: renderMemberIdentifier(account.id) },
         entry: { data: renderEntryIdentifier(entry.id) },
         work: { data: renderWorkIdentifier(work.id) },
       },
     },
   ],
   included: [
-    renderAccount(account),
+    renderMember(account),
     renderEntry(entry),
     renderWork(work),
   ],

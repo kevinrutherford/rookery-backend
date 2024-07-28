@@ -3,8 +3,8 @@ import { Collection } from './collection'
 import { Entry } from './entry'
 import { Work } from './work'
 import {
-  Account,
-  Comment, Community, DomainProbe, Update,
+  Comment,
+  Community, DomainProbe, Member, Update,
 } from '../../domain/index.open'
 
 export type Readmodel = {
@@ -14,7 +14,7 @@ export type Readmodel = {
   entriesByCollection: Map<string, Array<Entry>>,
   entriesByEntryId: Map<string, Entry>,
   info: DomainProbe,
-  members: Map<string, Account>,
+  members: Map<string, Member>,
   updates: Array<Update>,
   works: Map<string, Work>,
 }

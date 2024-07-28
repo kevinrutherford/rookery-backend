@@ -2,9 +2,9 @@ import { sequenceS } from 'fp-ts/Apply'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { includeAccount } from './include-account'
 import { includeCommunity } from './include-community'
 import { includeEntry } from './include-entry'
+import { includeMember } from './include-member'
 import { includeWork } from './include-work'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update, Work } from '../../domain/index.open'
@@ -39,7 +39,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           O.some,
         ),
         included: [
-          includeAccount(queries, update.actorId),
+          includeMember(queries, update.actorId),
           includeCommunity(queries),
         ],
       })
@@ -58,7 +58,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           O.some,
         ),
         included: [
-          includeAccount(queries, update.actorId),
+          includeMember(queries, update.actorId),
         ],
       })
     case 'doi-entered':
@@ -81,14 +81,14 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           O.map(renderUpdateResource),
         ),
         included: [
-          includeAccount(queries, update.actorId),
+          includeMember(queries, update.actorId),
         ],
       })
     case 'update:comment-created':
       return ({
         data: O.some(renderCommentCreatedUpdateResource(update)),
         included: [
-          includeAccount(queries, update.actorId),
+          includeMember(queries, update.actorId),
           includeEntry(queries, update.entryId),
           includeWork(queries, update.workId),
         ],
@@ -108,14 +108,14 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           O.some,
         ),
         included: [
-          includeAccount(queries, update.actorId),
+          includeMember(queries, update.actorId),
         ],
       })
     case 'update:work-not-found':
       return ({
         data: O.some(renderWorkNotFoundUpdateResource(update)),
         included: [
-          includeAccount(queries, update.actorId),
+          includeMember(queries, update.actorId),
           includeWork(queries, update.workId),
         ],
       })

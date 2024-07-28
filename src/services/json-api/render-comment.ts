@@ -1,7 +1,7 @@
 import { JsonApiResource } from './json-api-resource'
-import { renderAccountIdentifier } from './render-account-identifier'
 import { renderCommentIdentifier } from './render-comment-identifier'
 import { renderEntryIdentifier } from './render-entry-identifier'
+import { renderMemberIdentifier } from './render-member-identifier'
 import { Comment } from '../../domain/index.open'
 
 export const renderComment = (comment: Comment): JsonApiResource => ({
@@ -11,7 +11,7 @@ export const renderComment = (comment: Comment): JsonApiResource => ({
     createdAt: comment.createdAt.toISOString(),
   },
   relationships: {
-    author: { data: renderAccountIdentifier(comment.authorId) },
+    author: { data: renderMemberIdentifier(comment.authorId) },
     entry: { data: renderEntryIdentifier(comment.entryId) },
   },
 })

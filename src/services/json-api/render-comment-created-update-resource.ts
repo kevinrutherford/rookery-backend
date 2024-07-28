@@ -1,6 +1,6 @@
 import { JsonApiResource } from './json-api-resource'
-import { renderAccountIdentifier } from './render-account-identifier'
 import { renderEntryIdentifier } from './render-entry-identifier'
+import { renderMemberIdentifier } from './render-member-identifier'
 import { renderWorkIdentifier } from './render-work-identifier'
 import { CommentCreated } from '../../domain/index.open'
 
@@ -11,7 +11,7 @@ export const renderCommentCreatedUpdateResource = (update: CommentCreated): Json
     occurred_at: update.created.toISOString(),
   },
   relationships: {
-    actor: { data: renderAccountIdentifier(update.actorId) },
+    actor: { data: renderMemberIdentifier(update.actorId) },
     entry: { data: renderEntryIdentifier(update.entryId) },
     work: { data: renderWorkIdentifier(update.workId) },
   },

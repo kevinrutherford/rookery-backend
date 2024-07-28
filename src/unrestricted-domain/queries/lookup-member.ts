@@ -5,11 +5,11 @@ import * as S from 'fp-ts/string'
 import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
-export const lookupAccount = (currentState: Readmodel): Domain['lookupAccount'] => (accountId) => pipe(
+export const lookupMember = (currentState: Readmodel): Domain['lookupMember'] => (memberId) => pipe(
   currentState.members,
-  RM.lookup(S.Eq)(accountId),
+  RM.lookup(S.Eq)(memberId),
   O.getOrElseW(() => ({
-    id: accountId,
+    id: memberId,
     username: 'unknown',
     displayName: 'Unknown User',
     avatarUrl: 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',

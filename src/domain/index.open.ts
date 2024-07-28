@@ -1,6 +1,6 @@
 export { Domain, DomainProbe } from './domain'
 
-export { Account } from './account-resource'
+export { Member } from './member-resource'
 export { Activity } from './activity-resource'
 export { Collection } from './collection-resource'
 export { Comment } from './comment-resource'

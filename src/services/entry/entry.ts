@@ -6,11 +6,11 @@ import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
 import { Domain, Entry } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
-import { renderAccount } from '../json-api/render-account'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
 import { renderEntry } from '../json-api/render-entry'
 import { renderError } from '../json-api/render-error'
+import { renderMember } from '../json-api/render-member'
 import { renderWork } from '../json-api/render-work'
 import { resourceEq } from '../json-api/resource-eq'
 import { Service } from '../service'
@@ -71,8 +71,8 @@ const getInc = (
         entry.id,
         queries.findComments,
         RA.map((comment) => comment.authorId),
-        RA.map(queries.lookupAccount),
-        RA.map(renderAccount),
+        RA.map(queries.lookupMember),
+        RA.map(renderMember),
       )
     case 'work':
       return pipe(
