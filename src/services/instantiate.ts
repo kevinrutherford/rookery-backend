@@ -2,6 +2,7 @@ import { getCollection } from './collection/collection'
 import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
 import { getEntry } from './entry/entry'
+import { getMember } from './member/member'
 import { getRoot } from './root/root'
 import { ServicePath } from './service-path'
 import { getFederatedTimeline } from './timeline/federated'
@@ -31,6 +32,10 @@ export const instantiate = (): ReadonlyArray<ServicePath> => [
   {
     path: '/entries/:id',
     service: getEntry,
+  },
+  {
+    path: '/members/:id',
+    service: getMember,
   },
   {
     path: '/timelines/federated',
