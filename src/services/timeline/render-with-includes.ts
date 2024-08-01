@@ -2,6 +2,7 @@ import { sequenceS } from 'fp-ts/Apply'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
+import { includeCollection } from './include-collection'
 import { includeCommunity } from './include-community'
 import { includeEntry } from './include-entry'
 import { includeMember } from './include-member'
@@ -69,6 +70,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ),
         included: [
           includeMember(queries, update.actorId),
+          includeCollection(queries, update.collectionId),
         ],
       })
     case 'doi-entered':
