@@ -7,7 +7,7 @@ export const clientCanSeeUpdate = (claims: Authority, queries: Domain) => (updat
     return true
   switch (update.type) {
     case 'update:comment-created':
-    case 'doi-entered':
+    case 'update:doi-entered':
       return !(update.occurredWithinPrivateCollection)
     case 'update:front-matter-found':
     case 'update:work-not-found':

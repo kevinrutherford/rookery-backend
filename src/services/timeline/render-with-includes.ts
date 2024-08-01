@@ -59,7 +59,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           includeCollection(queries, update.collectionId),
         ],
       })
-    case 'doi-entered':
+    case 'update:doi-entered':
       return ({
         data: pipe(
           {

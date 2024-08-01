@@ -31,7 +31,7 @@ export type CommentCreated = UpdateCommonAttributes & {
 }
 
 type DoiEntered = UpdateCommonAttributes & {
-  type: 'doi-entered',
+  type: 'update:doi-entered',
   workId: string,
   collectionId: string,
 }
