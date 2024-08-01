@@ -63,7 +63,7 @@ git-status-clean:
 
 # Artefacts - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-node_modules: package.json
+node_modules: package.json .nvmrc
 	npm install
 	@touch $@
 
@@ -90,5 +90,4 @@ clean:
 
 clobber: clean
 	rm -rf node_modules
-	docker system prune --force --volumes
 
