@@ -1,7 +1,6 @@
 export { Domain, DomainProbe } from './domain'
 
 export { Member } from './member-resource'
-export { Activity } from './activity-resource'
 export { Collection } from './collection-resource'
 export { Comment } from './comment-resource'
 export { Community } from './community-resource'

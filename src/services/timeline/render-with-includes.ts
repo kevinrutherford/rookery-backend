@@ -12,7 +12,6 @@ import { renderCommentCreatedUpdateResource } from '../json-api/render-comment-c
 import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
 import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
-import { renderUpdateResource } from '../json-api/render-update-resource'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 import { renderWorkNotFoundUpdateResource } from '../json-api/render-work-not-found-update-resource'
 
@@ -97,14 +96,16 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
       return ({
         data: pipe(
           {
-            type: 'activity',
+            type: 'update:front-matter-fetched',
             id: update.id,
-            accountId: update.actorId,
-            action: 'found the title of a paper',
-            content: update.title, // SMELL -- the Work should be linked via a relationship
-            occurred_at: update.created,
+            attributes: {
+              occurred_at: update.created.toISOString(),
+            },
+            relationships: {
+              actor: { data: renderMemberIdentifier(update.actorId) },
+              work: { data: renderWorkIdentifier(update.workId) },
+            },
           },
-          renderUpdateResource,
           O.some,
         ),
         included: [
