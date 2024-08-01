@@ -9,6 +9,9 @@ import { includeWork } from './include-work'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update, Work } from '../../domain/index.open'
 import { renderCommentCreatedUpdateResource } from '../json-api/render-comment-created-update-resource'
+import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
+import { renderMemberIdentifier } from '../json-api/render-member-identifier'
+import { renderUpdateIdentifier } from '../json-api/render-update-identifier'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { renderWorkNotFoundUpdateResource } from '../json-api/render-work-not-found-update-resource'
 
@@ -24,18 +27,21 @@ const titleOf = (work: Work) => {
 }
 
 export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateWithIncludes => {
-  switch (update.type) { // SMELL -- duplicated switch? consider driving all copies from data
+  switch (update.type) {
     case 'update:community-created':
       return ({
         data: pipe(
           {
             type: 'update:community-created',
             id: update.id,
-            accountId: update.actorId,
-            communityId: update.communityId,
-            occurred_at: update.created,
+            attributes: {
+              occurred_at: update.created.toISOString(),
+            },
+            relationships: {
+              actor: { data: renderMemberIdentifier(update.actorId) },
+              community: { data: renderCommunityIdentifier(update.communityId) },
+            },
           },
-          renderUpdateResource,
           O.some,
         ),
         included: [
@@ -47,14 +53,16 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
       return ({
         data: pipe(
           {
-            type: 'activity',
-            id: update.id,
-            accountId: update.actorId,
-            action: `created collection ${update.name}`,
-            content: '',
-            occurred_at: update.created,
+            ...renderUpdateIdentifier(update.id),
+            attributes: {
+              action: `created collection ${update.name}`,
+              content: '',
+              occurred_at: update.created.toISOString(),
+            },
+            relationships: {
+              actor: { data: renderMemberIdentifier(update.actorId) },
+            },
           },
-          renderUpdateResource,
           O.some,
         ),
         included: [
