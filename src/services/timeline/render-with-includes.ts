@@ -13,6 +13,7 @@ import { renderCollectionIdentifier } from '../json-api/render-collection-identi
 import { renderCommentCreatedUpdateResource } from '../json-api/render-comment-created-update-resource'
 import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
+import { renderUpdateIdentifier } from '../json-api/render-update-identifier'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { renderWorkNotFoundUpdateResource } from '../json-api/render-work-not-found-update-resource'
 
@@ -88,7 +89,17 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
             content: titleOf(work), // SMELL: relate to the Work instead
             occurred_at: update.created,
           })),
-          O.map(renderUpdateResource),
+          O.map((x) => ({
+            ...renderUpdateIdentifier(x.id),
+            attributes: {
+              action: x.action,
+              content: x.content,
+              occurred_at: x.occurred_at.toISOString(),
+            },
+            relationships: {
+              actor: { data: renderMemberIdentifier(x.accountId) },
+            },
+          })),
         ),
         included: [
           includeMember(queries, update.actorId),
