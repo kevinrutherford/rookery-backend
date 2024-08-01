@@ -1,11 +1,3 @@
-export type Update =
-  | CommunityCreated
-  | CollectionCreated
-  | CommentCreated
-  | DoiEntered
-  | FrontMatterFound
-  | WorkNotFound
-
 type UpdateCommonAttributes = {
   id: string,
   created: Date,
@@ -37,16 +29,21 @@ type DoiEntered = UpdateCommonAttributes & {
   entryId: string,
 }
 
-export type FrontMatterFound = UpdateCommonAttributes & {
+export type FrontMatterFetched = UpdateCommonAttributes & {
   type: 'update:front-matter-found',
   workId: string,
-  title: string, // SMELL -- these 3 attributes form a DataClump
-  abstract: string, // SMELL -- these 3 attributes form a DataClump
-  authors: Array<string>, // SMELL -- these 3 attributes form a DataClump
 }
 
 export type WorkNotFound = UpdateCommonAttributes & {
   type: 'update:work-not-found',
   workId: string,
 }
+
+export type Update =
+  | CollectionCreated
+  | CommentCreated
+  | CommunityCreated
+  | DoiEntered
+  | FrontMatterFetched
+  | WorkNotFound
 

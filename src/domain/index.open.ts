@@ -9,7 +9,7 @@ export { Work } from './work-resource'
 
 export {
   CommentCreated,
-  FrontMatterFound,
+  FrontMatterFetched,
   Update,
   WorkNotFound,
 } from './update-resource'

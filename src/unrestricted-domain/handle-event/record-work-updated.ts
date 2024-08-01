@@ -1,5 +1,5 @@
 import { recordUpdate } from './record-update'
-import { FrontMatterFound, WorkNotFound } from '../../domain/index.open'
+import { FrontMatterFetched, WorkNotFound } from '../../domain/index.open'
 import { WorkUpdatedEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -23,10 +23,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
       actorId: event.data.actorId,
       occurredWithinPrivateCollection: false,
       workId: event.data.workId,
-      title: event.data.attributes.title, // SMELL -- maybe not needed if the Work is via a relationship?
-      abstract: event.data.attributes.abstract, // SMELL -- maybe not needed if the Work is via a relationship?
-      authors: event.data.attributes.authors, // SMELL -- maybe not needed if the Work is via a relationship?
-    } satisfies FrontMatterFound)
+    } satisfies FrontMatterFetched)
   } else if (event.data.attributes.crossrefStatus === 'not-found') {
     recordUpdate(state, {
       type: 'update:work-not-found',
