@@ -34,6 +34,7 @@ type DoiEntered = UpdateCommonAttributes & {
   type: 'update:doi-entered',
   workId: string,
   collectionId: string,
+  entryId: string,
 }
 
 export type FrontMatterFound = UpdateCommonAttributes & {

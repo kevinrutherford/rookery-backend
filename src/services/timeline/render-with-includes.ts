@@ -10,6 +10,7 @@ import { Domain, Update } from '../../domain/index.open'
 import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
 import { renderCommentCreatedUpdateResource } from '../json-api/render-comment-created-update-resource'
 import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
+import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderUpdateResource } from '../json-api/render-update-resource'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
@@ -71,6 +72,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
             relationships: {
               actor: { data: renderMemberIdentifier(update.actorId) },
               collection: { data: renderCollectionIdentifier(update.collectionId) },
+              entry: { data: renderEntryIdentifier(update.entryId) },
               work: { data: renderWorkIdentifier(update.workId) },
             },
           },
