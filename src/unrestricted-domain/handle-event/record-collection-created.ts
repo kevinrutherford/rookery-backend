@@ -8,7 +8,7 @@ export const recordCollectionCreated = (state: Readmodel, event: CollectionCreat
     isPrivate: false,
   })
   recordUpdate(state, {
-    type: event.type,
+    type: 'update:collection-created',
     id: event.id,
     created: event.created,
     actorId: event.data.actorId,

@@ -50,7 +50,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
           includeCommunity(queries),
         ],
       })
-    case 'collection-created':
+    case 'update:collection-created':
       return ({
         data: pipe(
           {

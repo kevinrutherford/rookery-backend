@@ -19,7 +19,7 @@ type CommunityCreated = UpdateCommonAttributes & {
 }
 
 type CollectionCreated = UpdateCommonAttributes & {
-  type: 'collection-created',
+  type: 'update:collection-created',
   collectionId: string,
 }
 
