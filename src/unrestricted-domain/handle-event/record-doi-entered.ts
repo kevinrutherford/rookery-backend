@@ -2,6 +2,7 @@ import { recordUpdate } from './record-update'
 import { Entry } from '../../domain/index.open'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
+import {renderEntryIdentifier} from '../../services/json-api/render-entry-identifier'
 
 export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void => {
   const collection = state.collections.get(event.data.collectionId)
@@ -36,15 +37,28 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   state.entriesByCollection.set(data.collectionId, current)
   state.entriesByEntryId.set(data.entryId, entry)
 
+  const actorId = event.data.actorId
   recordUpdate(state, {
     type: 'update:doi-entered',
     id: event.id,
     created: event.created,
-    actorId: event.data.actorId,
+    actorId,
     occurredWithinPrivateCollection: collection.isPrivate,
     collectionId: event.data.collectionId,
     entryId: event.data.entryId,
     workId,
   })
+
+  const actor = state.members.get(actorId)
+  if (actor !== undefined) {
+    const followings = actor.following
+    state.members.set(actorId, {
+      ...actor,
+      following: [
+        ...followings,
+        renderEntryIdentifier(event.data.entryId),
+      ],
+    })
+  }
 }
 

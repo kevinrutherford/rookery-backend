@@ -52,7 +52,7 @@ describe('given a public collection', () => {
         expect(d.allWorks()[0].id).toStrictEqual(workId)
       })
 
-      it.failing('records the actor as following the entry', () => {
+      it('records the actor as following the entry', () => {
         const actor = d.lookupMember(actorId)
         expect(actor.following[0]).toStrictEqual(renderEntryIdentifier(entryId))
       })

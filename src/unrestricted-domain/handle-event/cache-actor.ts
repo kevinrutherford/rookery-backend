@@ -1,6 +1,13 @@
 import { Readmodel } from '../state/readmodel'
 
 export const cacheActor = (state: Readmodel, actorId: string): void => {
+  state.members.set(actorId, {
+    id: actorId,
+    username: 'unknown',
+    displayName: 'Unknown User',
+    avatarUrl: 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
+    following: [],
+  })
   if (actorId === process.env.USER_1_ID) {
     state.members.set(actorId, {
       id: actorId,
