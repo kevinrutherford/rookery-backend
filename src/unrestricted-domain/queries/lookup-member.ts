@@ -13,6 +13,7 @@ export const lookupMember = (currentState: Readmodel): Domain['lookupMember'] =>
     username: 'unknown',
     displayName: 'Unknown User',
     avatarUrl: 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
+    following: [],
   })),
 )
 

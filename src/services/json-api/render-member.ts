@@ -8,7 +8,7 @@ export const renderMember = (member: Member): JsonApiResource => ({
     username: member.username,
     display_name: member.displayName,
     avatar_url: member.avatarUrl,
-    followingCount: 0,
+    followingCount: member.following.length,
   },
 })
 
