@@ -25,10 +25,13 @@ describe('given a public collection', () => {
 
   describe('that has no entries', () => {
     describe('when doi-entered', () => {
+      const actorId = arbitraryWord()
+      const entryId = arbitraryWord()
+
       beforeEach(() => {
         const doiEntered = mkEvent('doi-entered', {
-          actorId: arbitraryString(),
-          entryId: arbitraryWord(),
+          actorId,
+          entryId,
           doi: workId,
           collectionId,
         })
@@ -46,6 +49,14 @@ describe('given a public collection', () => {
       it('records the new Work', () => {
         expect(d.allWorks()).toHaveLength(1)
         expect(d.allWorks()[0].id).toStrictEqual(workId)
+      })
+
+      it.failing('records the actor as following the entry', () => {
+        const actor = d.lookupMember(actorId)
+        expect(actor.following[0]).toStrictEqual({
+          type: 'entry',
+          id: entryId,
+        })
       })
     })
 
