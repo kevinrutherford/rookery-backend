@@ -13,6 +13,7 @@ const account = {
   displayName: 'Voldemort',
   avatarUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Lordvoldemort.jpg',
   following: [],
+  cache: 'fetching' as const,
 }
 
 const work = {

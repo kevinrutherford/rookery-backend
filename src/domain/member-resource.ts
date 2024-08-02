@@ -6,5 +6,6 @@ export type Member = {
   displayName: string,
   avatarUrl: string,
   following: Array<ResourceIdentifier>,
+  cache: 'fetching' | 'fetched',
 }
 

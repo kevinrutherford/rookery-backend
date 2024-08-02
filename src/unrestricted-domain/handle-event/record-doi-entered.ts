@@ -1,8 +1,8 @@
 import { recordUpdate } from './record-update'
 import { Entry } from '../../domain/index.open'
+import { renderEntryIdentifier } from '../../services/json-api/render-entry-identifier'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
-import {renderEntryIdentifier} from '../../services/json-api/render-entry-identifier'
 
 export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void => {
   const collection = state.collections.get(event.data.collectionId)
