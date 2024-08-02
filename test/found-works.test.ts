@@ -18,18 +18,18 @@ describe('given a Work that has been found on Crossref', () => {
     const collectionId = arbitraryWord()
     handleEvent(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryString(),
+      actorId: arbitraryWord(),
       name: arbitraryString(),
       description: arbitraryString(),
     }))
     handleEvent(mkEvent('doi-entered', {
-      actorId: arbitraryString(),
+      actorId: arbitraryWord(),
       entryId: arbitraryWord(),
       doi,
       collectionId,
     }))
     handleEvent(mkEvent('work-updated', {
-      actorId: arbitraryString(),
+      actorId: arbitraryWord(),
       workId: doi,
       attributes: {
         crossrefStatus: 'found',

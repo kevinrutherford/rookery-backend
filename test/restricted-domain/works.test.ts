@@ -29,18 +29,18 @@ describe('visibility of works', () => {
     beforeEach(() => {
       handleEvent(mkEvent('collection-created', {
         id: publicCollectionId,
-        actorId: arbitraryString(),
+        actorId: arbitraryWord(),
         name: arbitraryString(),
         description: arbitraryString(),
       }))
       handleEvent(mkEvent('collection-created', {
         id: privateCollectionId,
-        actorId: arbitraryString(),
+        actorId: arbitraryWord(),
         name: arbitraryString(),
         description: arbitraryString(),
       }))
       handleEvent(mkEvent('collection-updated', {
-        actorId: arbitraryString(),
+        actorId: arbitraryWord(),
         collectionId: privateCollectionId,
         attributes: {
           isPrivate: true,
@@ -51,7 +51,7 @@ describe('visibility of works', () => {
     describe('and a Work entered only in the public collection', () => {
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
-          actorId: arbitraryString(),
+          actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
@@ -76,7 +76,7 @@ describe('visibility of works', () => {
     describe('and a Work entered only in the private collection', () => {
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
-          actorId: arbitraryString(),
+          actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
           collectionId: privateCollectionId,
@@ -115,13 +115,13 @@ describe('visibility of works', () => {
     describe('and a Work entered in both collections', () => {
       beforeEach(() => {
         handleEvent(mkEvent('doi-entered', {
-          actorId: arbitraryString(),
+          actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
         }))
         handleEvent(mkEvent('doi-entered', {
-          actorId: arbitraryString(),
+          actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
           collectionId: privateCollectionId,

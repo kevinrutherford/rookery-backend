@@ -18,7 +18,7 @@ describe('given a public collection', () => {
     h = handleEvent
     h(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryString(),
+      actorId: arbitraryWord(),
       name: arbitraryString(),
       description: arbitraryString(),
     }))
@@ -62,7 +62,7 @@ describe('given a public collection', () => {
       beforeEach(() => {
         h(mkEvent('comment-created', {
           id: arbitraryWord(),
-          actorId: arbitraryString(),
+          actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           content: arbitraryString(),
         }))
@@ -83,7 +83,7 @@ describe('given a public collection', () => {
 
     beforeEach(() => {
       h(mkEvent('doi-entered', {
-        actorId: arbitraryString(),
+        actorId: arbitraryWord(),
         entryId,
         doi: workId,
         collectionId,
@@ -99,7 +99,7 @@ describe('given a public collection', () => {
       beforeEach(() => {
         h(mkEvent('comment-created', {
           id: arbitraryWord(),
-          actorId: arbitraryString(),
+          actorId: arbitraryWord(),
           entryId,
           content: arbitraryString(),
         }))

@@ -1,7 +1,7 @@
 import * as E from 'fp-ts/Either'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
 import { defaultTestObserver } from '../default-test-observer'
-import { arbitraryString, arbitraryWord } from '../helpers'
+import { arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('given a non-existent collection', () => {
@@ -11,7 +11,7 @@ describe('given a non-existent collection', () => {
   describe('doi-entered', () => {
     const entryId = arbitraryWord()
     const event = mkEvent('doi-entered', {
-      actorId: arbitraryString(),
+      actorId: arbitraryWord(),
       entryId,
       doi: arbitraryWord(),
       collectionId,

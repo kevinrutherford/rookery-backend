@@ -1,5 +1,5 @@
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
-import { arbitraryString, arbitraryWord } from '../helpers'
+import { arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('any event', () => {
@@ -9,7 +9,7 @@ describe('any event', () => {
   beforeEach(() => {
     handleEvent(mkEvent('doi-entered', {
       id: arbitraryWord(),
-      actorId: arbitraryString(),
+      actorId: arbitraryWord(),
       workId: arbitraryWord(),
       collectionId: arbitraryWord(),
     }))
