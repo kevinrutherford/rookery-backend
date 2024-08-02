@@ -5,7 +5,6 @@ import { getEntry } from './entry/entry'
 import { getMember } from './member/member'
 import { getRoot } from './root/root'
 import { ServicePath } from './service-path'
-import { getFederatedTimeline } from './timeline/federated'
 import { getFollowingTimeline } from './timeline/following'
 import { getLocalTimeline } from './timeline/local'
 import { pathToCommunity } from './ui-links'
@@ -36,10 +35,6 @@ export const instantiate = (): ReadonlyArray<ServicePath> => [
   {
     path: '/members/:id',
     service: getMember,
-  },
-  {
-    path: '/timelines/federated',
-    service: getFederatedTimeline,
   },
   {
     path: '/timelines/following',
