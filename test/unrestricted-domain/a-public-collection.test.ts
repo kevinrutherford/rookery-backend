@@ -1,4 +1,5 @@
 import { Domain } from '../../src/domain/index.open'
+import { renderEntryIdentifier } from '../../src/services/json-api/render-entry-identifier'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
 import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
@@ -25,7 +26,7 @@ describe('given a public collection', () => {
 
   describe('that has no entries', () => {
     describe('when doi-entered', () => {
-      const actorId = arbitraryWord()
+      const actorId = arbitraryWord() // SMELL -- need to configure the actor cache with this id
       const entryId = arbitraryWord()
 
       beforeEach(() => {
@@ -53,10 +54,7 @@ describe('given a public collection', () => {
 
       it.failing('records the actor as following the entry', () => {
         const actor = d.lookupMember(actorId)
-        expect(actor.following[0]).toStrictEqual({
-          type: 'entry',
-          id: entryId,
-        })
+        expect(actor.following[0]).toStrictEqual(renderEntryIdentifier(entryId))
       })
     })
 
