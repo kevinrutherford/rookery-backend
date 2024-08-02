@@ -80,10 +80,11 @@ describe('given a public collection', () => {
 
   describe('that has one entry', () => {
     const entryId = arbitraryWord()
+    const actorId = arbitraryWord()
 
     beforeEach(() => {
       h(mkEvent('doi-entered', {
-        actorId: arbitraryWord(),
+        actorId,
         entryId,
         doi: workId,
         collectionId,
@@ -95,11 +96,10 @@ describe('given a public collection', () => {
     })
 
     describe('when comment-created on the entry', () => {
-
       beforeEach(() => {
         h(mkEvent('comment-created', {
           id: arbitraryWord(),
-          actorId: arbitraryWord(),
+          actorId,
           entryId,
           content: arbitraryString(),
         }))
@@ -112,6 +112,21 @@ describe('given a public collection', () => {
 
       it('records the commenting activity as private', () => {
         expect(d.getLocalTimeline()[2].occurredWithinPrivateCollection).toBe(false)
+      })
+    })
+
+    describe('when the same actor adds another DOI', () => {
+      beforeEach(() => {
+        h(mkEvent('doi-entered', {
+          actorId,
+          entryId: arbitraryWord(),
+          doi: arbitraryWord(),
+          collectionId,
+        }))
+      })
+
+      it('the actor is following both entries', () => {
+        expect(d.lookupMember(actorId).following).toHaveLength(2)
       })
     })
   })
