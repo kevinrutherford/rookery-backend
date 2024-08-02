@@ -7,11 +7,12 @@ import { mkEvent } from '../mk-event'
 describe('given a non-existent collection', () => {
   const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
   const collectionId = arbitraryWord()
+  const actorId = arbitraryWord()
 
   describe('doi-entered', () => {
     const entryId = arbitraryWord()
     const event = mkEvent('doi-entered', {
-      actorId: arbitraryWord(),
+      actorId,
       entryId,
       doi: arbitraryWord(),
       collectionId,
@@ -32,6 +33,10 @@ describe('given a non-existent collection', () => {
 
     it('reports the event as unexpected', () => {
       expect(queries.info().unexpectedEvents).toHaveLength(1)
+    })
+
+    it('does not set the actor to follow the entry', () => {
+      expect(queries.lookupMember(actorId).following).toHaveLength(0)
     })
   })
 
