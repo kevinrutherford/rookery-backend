@@ -6,7 +6,7 @@ import { renderCollection } from '../json-api/render-collection'
 
 export const includeCollection = (queries: Domain, collectionId: string): O.Option<JsonApiResource> => pipe(
   collectionId,
-  queries.lookupCollection,
+  queries.getCollection,
   O.fromEither,
   O.map(renderCollection),
 )

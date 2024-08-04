@@ -19,6 +19,7 @@ export const instantiate = (currentState: Readmodel): Domain => ({
   findComments: findComments(currentState),
   findEntries: findEntries(currentState),
   getCommunity: getCommunity(currentState),
+  getCollection: lookupCollection(currentState),
   getLocalTimeline: getLocalTimeline(currentState),
   info: () => currentState.info,
   lookupMember: lookupMember(currentState),

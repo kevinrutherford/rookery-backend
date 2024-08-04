@@ -23,6 +23,7 @@ export type Domain = {
   findComments: (entryId: string) => ReadonlyArray<Comment>,
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
+  getCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   getLocalTimeline: () => ReadonlyArray<Update>,
   lookupMember: (accountId: string) => Member,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
