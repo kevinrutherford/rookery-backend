@@ -8,7 +8,7 @@ describe('given a public collection', () => {
   const collectionId = arbitraryWord()
 
   const addEntry = () => {
-    domain.handleEvent(mkEvent('doi-entered', {
+    domain.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
       entryId: arbitraryWord(),
       doi: arbitraryWord(),

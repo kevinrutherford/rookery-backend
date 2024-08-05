@@ -50,7 +50,7 @@ describe('visibility of works', () => {
 
     describe('and a Work entered only in the public collection', () => {
       beforeEach(() => {
-        handleEvent(mkEvent('doi-entered', {
+        handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
@@ -75,7 +75,7 @@ describe('visibility of works', () => {
 
     describe('and a Work entered only in the private collection', () => {
       beforeEach(() => {
-        handleEvent(mkEvent('doi-entered', {
+        handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
@@ -114,13 +114,13 @@ describe('visibility of works', () => {
 
     describe('and a Work entered in both collections', () => {
       beforeEach(() => {
-        handleEvent(mkEvent('doi-entered', {
+        handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
         }))
-        handleEvent(mkEvent('doi-entered', {
+        handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           doi: workId,

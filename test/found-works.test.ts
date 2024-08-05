@@ -22,7 +22,7 @@ describe('given a Work that has been found on Crossref', () => {
       name: arbitraryString(),
       description: arbitraryString(),
     }))
-    handleEvent(mkEvent('doi-entered', {
+    handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
       entryId: arbitraryWord(),
       doi,

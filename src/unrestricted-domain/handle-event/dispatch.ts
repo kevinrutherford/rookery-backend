@@ -21,7 +21,7 @@ export const dispatch = (state: Readmodel) => (event: DomainEvent): void => {
     case 'community-created':
       recordCommunityCreated(state, event)
       break
-    case 'doi-entered':
+    case 'discussion-started':
       recordDoiEntered(state, event)
       break
     case 'work-updated':

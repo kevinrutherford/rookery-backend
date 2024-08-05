@@ -52,11 +52,11 @@ const createCollection: Action = {
 }
 
 const addEntry: Action = {
-  description: 'doi-entered',
+  description: 'discussion-started',
   act: (state) => {
     const entryId = arbitraryWord()
     const workId = arbitraryWord()
-    state.handleEvent(mkEvent('doi-entered', {
+    state.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
       entryId,
       doi: workId,

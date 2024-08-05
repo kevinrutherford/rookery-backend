@@ -9,9 +9,9 @@ describe('given a non-existent collection', () => {
   const collectionId = arbitraryWord()
   const actorId = arbitraryWord()
 
-  describe('doi-entered', () => {
+  describe('discussion-started', () => {
     const entryId = arbitraryWord()
-    const event = mkEvent('doi-entered', {
+    const event = mkEvent('discussion-started', {
       actorId,
       entryId,
       doi: arbitraryWord(),

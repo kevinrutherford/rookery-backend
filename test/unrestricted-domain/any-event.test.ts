@@ -7,7 +7,7 @@ describe('any event', () => {
   const { queries, handleEvent } = UnrestrictedDomain.instantiate(observer)
 
   beforeEach(() => {
-    handleEvent(mkEvent('doi-entered', {
+    handleEvent(mkEvent('discussion-started', {
       id: arbitraryWord(),
       actorId: arbitraryWord(),
       workId: arbitraryWord(),

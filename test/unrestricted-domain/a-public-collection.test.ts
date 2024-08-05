@@ -25,12 +25,12 @@ describe('given a public collection', () => {
   })
 
   describe('that has no entries', () => {
-    describe('when doi-entered', () => {
+    describe('when discussion-started', () => {
       const actorId = arbitraryWord() // SMELL -- need to configure the actor cache with this id
       const entryId = arbitraryWord()
 
       beforeEach(() => {
-        const doiEntered = mkEvent('doi-entered', {
+        const doiEntered = mkEvent('discussion-started', {
           actorId,
           entryId,
           doi: workId,
@@ -83,7 +83,7 @@ describe('given a public collection', () => {
     const actorId = arbitraryWord()
 
     beforeEach(() => {
-      h(mkEvent('doi-entered', {
+      h(mkEvent('discussion-started', {
         actorId,
         entryId,
         doi: workId,
@@ -117,7 +117,7 @@ describe('given a public collection', () => {
 
     describe('when the same actor adds another DOI', () => {
       beforeEach(() => {
-        h(mkEvent('doi-entered', {
+        h(mkEvent('discussion-started', {
           actorId,
           entryId: arbitraryWord(),
           doi: arbitraryWord(),

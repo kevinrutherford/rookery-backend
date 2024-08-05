@@ -10,7 +10,7 @@ describe('given a private collection', () => {
   const workId = arbitraryWord()
 
   const addEntry = () => {
-    domain.handleEvent(mkEvent('doi-entered', {
+    domain.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
       entryId,
       doi: workId,
@@ -39,7 +39,7 @@ describe('given a private collection', () => {
     becomePrivate()
   })
 
-  describe('when doi-entered', () => {
+  describe('when discussion-started', () => {
     beforeEach(() => {
       addEntry()
     })
