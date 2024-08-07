@@ -43,6 +43,10 @@ type InboxDiscussionStarted = UpdateCommonAttributes & {
   kind: 'inbox-update:discussion-started',
 }
 
+type InboxCommentCreated = UpdateCommonAttributes & {
+  kind: 'inbox-update:comment-created',
+}
+
 export type Update =
   | CollectionCreated
   | CommentCreated
@@ -51,4 +55,5 @@ export type Update =
   | FrontMatterFetched
   | WorkNotFound
   | InboxDiscussionStarted
+  | InboxCommentCreated
 
