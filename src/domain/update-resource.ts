@@ -39,6 +39,10 @@ export type WorkNotFound = UpdateCommonAttributes & {
   workId: string,
 }
 
+type InboxDiscussionStarted = UpdateCommonAttributes & {
+  kind: 'inbox-update:discussion-started',
+}
+
 export type Update =
   | CollectionCreated
   | CommentCreated
@@ -46,4 +50,5 @@ export type Update =
   | DoiEntered
   | FrontMatterFetched
   | WorkNotFound
+  | InboxDiscussionStarted
 
