@@ -34,7 +34,7 @@ const entry = {
   addedAt: new Date(),
 }
 
-export const getFollowingTimeline = (): Service => () => E.right({
+export const getFollowedTimeline = (): Service => () => E.right({
   data: [
     {
       type: 'update:comment-created',
