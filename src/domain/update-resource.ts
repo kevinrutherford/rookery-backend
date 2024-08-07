@@ -22,7 +22,7 @@ export type CommentCreated = UpdateCommonAttributes & {
   workId: string,
 }
 
-type DoiEntered = UpdateCommonAttributes & {
+export type DoiEntered = UpdateCommonAttributes & {
   type: 'update:doi-entered',
   workId: string,
   collectionId: string,

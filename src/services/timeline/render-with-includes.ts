@@ -1,14 +1,12 @@
 import * as O from 'fp-ts/Option'
-import { includeCollection } from './include-collection'
 import { includeMember } from './include-member'
 import { includeWork } from './include-work'
 import { renderCollectionCreated } from './render-collection-created'
 import { renderCommentCreated } from './render-comment-created'
 import { renderCommunityCreated } from './render-community-created'
+import { renderDiscussionStarted } from './render-discussion-started'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
-import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
-import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 import { renderWorkNotFoundUpdateResource } from '../json-api/render-work-not-found-update-resource'
@@ -20,26 +18,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
     case 'update:collection-created':
       return O.some(renderCollectionCreated(queries, update))
     case 'update:doi-entered':
-      return O.some({
-        data: {
-          type: 'update:doi-entered',
-          id: update.id,
-          attributes: {
-            occurred_at: update.created.toISOString(),
-          },
-          relationships: {
-            actor: { data: renderMemberIdentifier(update.actorId) },
-            collection: { data: renderCollectionIdentifier(update.collectionId) },
-            entry: { data: renderEntryIdentifier(update.entryId) },
-            work: { data: renderWorkIdentifier(update.workId) },
-          },
-        },
-        included: [
-          includeMember(queries, update.actorId),
-          includeCollection(queries, update.collectionId),
-          includeWork(queries, update.workId),
-        ],
-      })
+      return O.some(renderDiscussionStarted(queries, update))
     case 'update:comment-created':
       return O.some(renderCommentCreated(queries, update))
     case 'update:front-matter-found':
