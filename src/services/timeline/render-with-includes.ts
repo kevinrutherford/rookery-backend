@@ -14,10 +14,10 @@ import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 import { renderWorkNotFoundUpdateResource } from '../json-api/render-work-not-found-update-resource'
 
-export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateWithIncludes => {
+export const renderWithIncludes = (queries: Domain) => (update: Update): O.Option<UpdateWithIncludes> => {
   switch (update.type) {
     case 'update:community-created':
-      return ({
+      return O.some({
         data: pipe(
           {
             type: 'update:community-created',
@@ -38,7 +38,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ],
       })
     case 'update:collection-created':
-      return ({
+      return O.some({
         data: pipe(
           {
             type: 'update:collection-created',
@@ -59,7 +59,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ],
       })
     case 'update:doi-entered':
-      return ({
+      return O.some({
         data: pipe(
           {
             type: 'update:doi-entered',
@@ -83,9 +83,9 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ],
       })
     case 'update:comment-created':
-      return renderCommentCreated(queries, update)
+      return O.some(renderCommentCreated(queries, update))
     case 'update:front-matter-found':
-      return ({
+      return O.some({
         data: pipe(
           {
             type: 'update:front-matter-fetched',
@@ -105,7 +105,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ],
       })
     case 'update:work-not-found':
-      return ({
+      return O.some({
         data: O.some(renderWorkNotFoundUpdateResource(update)),
         included: [
           includeMember(queries, update.actorId),
@@ -113,10 +113,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ],
       })
     default:
-      return {
-        data: O.none,
-        included: [],
-      }
+      return O.none
   }
 }
 

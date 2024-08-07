@@ -42,6 +42,7 @@ export const renderAsFeed = (queries: Domain) => (updates: ReadonlyArray<Update>
   updates,
   RA.sort(byDateDescending),
   RA.map(renderWithIncludes(queries)),
+  RA.compact,
   RA.reduce({ data: [], included: [] }, appendUpdate),
 )
 
