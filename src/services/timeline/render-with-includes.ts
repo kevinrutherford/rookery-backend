@@ -8,7 +8,6 @@ import { includeWork } from './include-work'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
-import { renderCommentCreatedUpdateResource } from '../json-api/render-comment-created-update-resource'
 import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
 import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
@@ -85,7 +84,18 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
       })
     case 'update:comment-created':
       return ({
-        data: O.some(renderCommentCreatedUpdateResource(update)),
+        data: O.some({
+          type: update.type,
+          id: update.id,
+          attributes: {
+            occurred_at: update.created.toISOString(),
+          },
+          relationships: {
+            actor: { data: renderMemberIdentifier(update.actorId) },
+            entry: { data: renderEntryIdentifier(update.entryId) },
+            work: { data: renderWorkIdentifier(update.workId) },
+          },
+        }),
         included: [
           includeMember(queries, update.actorId),
           includeEntry(queries, update.entryId),

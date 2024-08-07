@@ -8,7 +8,6 @@ export { Entry } from './entry-resource'
 export { Work } from './work-resource'
 
 export {
-  CommentCreated,
   FrontMatterFetched,
   Update,
   WorkNotFound,

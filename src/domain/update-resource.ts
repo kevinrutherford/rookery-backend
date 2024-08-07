@@ -15,7 +15,7 @@ type CollectionCreated = UpdateCommonAttributes & {
   collectionId: string,
 }
 
-export type CommentCreated = UpdateCommonAttributes & {
+type CommentCreated = UpdateCommonAttributes & {
   type: 'update:comment-created',
   content: string,
   entryId: string,
