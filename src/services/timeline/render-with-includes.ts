@@ -1,13 +1,12 @@
 import * as O from 'fp-ts/Option'
 import { includeCollection } from './include-collection'
-import { includeCommunity } from './include-community'
 import { includeMember } from './include-member'
 import { includeWork } from './include-work'
 import { renderCommentCreated } from './render-comment-created'
+import { renderCommunityCreated } from './render-community-created'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
-import { renderCommunityIdentifier } from '../json-api/render-community-identifier'
 import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
@@ -16,23 +15,7 @@ import { renderWorkNotFoundUpdateResource } from '../json-api/render-work-not-fo
 export const renderWithIncludes = (queries: Domain) => (update: Update): O.Option<UpdateWithIncludes> => {
   switch (update.type) {
     case 'update:community-created':
-      return O.some({
-        data: {
-          type: 'update:community-created',
-          id: update.id,
-          attributes: {
-            occurred_at: update.created.toISOString(),
-          },
-          relationships: {
-            actor: { data: renderMemberIdentifier(update.actorId) },
-            community: { data: renderCommunityIdentifier(update.communityId) },
-          },
-        },
-        included: [
-          includeMember(queries, update.actorId),
-          includeCommunity(queries),
-        ],
-      })
+      return O.some(renderCommunityCreated(queries, update))
     case 'update:collection-created':
       return O.some({
         data: {

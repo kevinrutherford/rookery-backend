@@ -5,7 +5,7 @@ type UpdateCommonAttributes = {
   occurredWithinPrivateCollection: boolean,
 }
 
-type CommunityCreated = UpdateCommonAttributes & {
+export type CommunityCreated = UpdateCommonAttributes & {
   type: 'update:community-created',
   communityId: string,
 }
