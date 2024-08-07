@@ -6,7 +6,7 @@ import { Readmodel } from '../state/readmodel'
 export const recordCommunityCreated = (state: Readmodel, event: CommunityCreatedEvent): void => {
   state.community = O.some(event.data)
   recordUpdate(state, {
-    type: 'update:community-created',
+    kind: 'update:community-created',
     id: event.id,
     created: event.created,
     actorId: event.data.actorId,

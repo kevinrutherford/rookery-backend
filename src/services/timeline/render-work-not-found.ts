@@ -7,7 +7,7 @@ import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
 export const renderWorkNotFound = (queries: Domain, update: WorkNotFound): UpdateWithIncludes => ({
   data: {
-    type: update.type,
+    type: update.kind,
     id: update.id,
     attributes: {
       occurred_at: update.created.toISOString(),

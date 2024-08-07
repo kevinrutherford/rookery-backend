@@ -10,7 +10,7 @@ import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
 export const renderCommentCreated = (queries: Domain, update: CommentCreated): UpdateWithIncludes => ({
   data: {
-    type: update.type,
+    type: update.kind,
     id: update.id,
     attributes: {
       occurred_at: update.created.toISOString(),

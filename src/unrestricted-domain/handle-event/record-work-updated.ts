@@ -17,7 +17,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
 
   if (event.data.attributes.crossrefStatus === 'found') {
     recordUpdate(state, {
-      type: 'update:front-matter-found',
+      kind: 'update:front-matter-found',
       id: event.id,
       created: event.created,
       actorId: event.data.actorId,
@@ -26,7 +26,7 @@ export const recordWorkUpdated = (state: Readmodel, event: WorkUpdatedEvent): vo
     } satisfies FrontMatterFetched)
   } else if (event.data.attributes.crossrefStatus === 'not-found') {
     recordUpdate(state, {
-      type: 'update:work-not-found',
+      kind: 'update:work-not-found',
       id: event.id,
       created: event.created,
       actorId: event.data.actorId,

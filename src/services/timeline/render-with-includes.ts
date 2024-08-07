@@ -9,7 +9,7 @@ import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 
 export const renderWithIncludes = (queries: Domain) => (update: Update): O.Option<UpdateWithIncludes> => {
-  switch (update.type) {
+  switch (update.kind) {
     case 'update:community-created':
       return O.some(renderCommunityCreated(queries, update))
     case 'update:collection-created':

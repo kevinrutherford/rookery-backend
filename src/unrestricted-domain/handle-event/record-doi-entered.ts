@@ -39,7 +39,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
 
   const actorId = event.data.actorId
   recordUpdate(state, {
-    type: 'update:doi-entered',
+    kind: 'update:doi-entered',
     id: event.id,
     created: event.created,
     actorId,

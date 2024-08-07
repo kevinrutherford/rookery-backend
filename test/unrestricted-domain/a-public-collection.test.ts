@@ -107,7 +107,7 @@ describe('given a public collection', () => {
 
       it('a new activity is recorded', () => {
         expect(d.getLocalTimeline()).toHaveLength(3)
-        expect(d.getLocalTimeline()[2].type).toBe('update:comment-created')
+        expect(d.getLocalTimeline()[2].kind).toBe('update:comment-created')
       })
 
       it('records the commenting activity as private', () => {

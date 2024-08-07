@@ -5,7 +5,7 @@ import { Domain, Update } from '../domain/index.open'
 export const clientCanSeeUpdate = (claims: Authority, queries: Domain) => (update: Update): boolean => {
   if (claims('browse-private-collections'))
     return true
-  switch (update.type) {
+  switch (update.kind) {
     case 'update:comment-created':
     case 'update:doi-entered':
       return !(update.occurredWithinPrivateCollection)
