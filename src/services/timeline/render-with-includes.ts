@@ -1,5 +1,4 @@
 import * as O from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
 import { includeCollection } from './include-collection'
 import { includeCommunity } from './include-community'
 import { includeMember } from './include-member'
@@ -18,20 +17,17 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
   switch (update.type) {
     case 'update:community-created':
       return O.some({
-        data: pipe(
-          {
-            type: 'update:community-created',
-            id: update.id,
-            attributes: {
-              occurred_at: update.created.toISOString(),
-            },
-            relationships: {
-              actor: { data: renderMemberIdentifier(update.actorId) },
-              community: { data: renderCommunityIdentifier(update.communityId) },
-            },
+        data: {
+          type: 'update:community-created',
+          id: update.id,
+          attributes: {
+            occurred_at: update.created.toISOString(),
           },
-          O.some,
-        ),
+          relationships: {
+            actor: { data: renderMemberIdentifier(update.actorId) },
+            community: { data: renderCommunityIdentifier(update.communityId) },
+          },
+        },
         included: [
           includeMember(queries, update.actorId),
           includeCommunity(queries),
@@ -39,20 +35,17 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
       })
     case 'update:collection-created':
       return O.some({
-        data: pipe(
-          {
-            type: 'update:collection-created',
-            id: update.id,
-            attributes: {
-              occurred_at: update.created.toISOString(),
-            },
-            relationships: {
-              actor: { data: renderMemberIdentifier(update.actorId) },
-              collection: { data: renderCollectionIdentifier(update.collectionId) },
-            },
+        data: {
+          type: 'update:collection-created',
+          id: update.id,
+          attributes: {
+            occurred_at: update.created.toISOString(),
           },
-          O.some,
-        ),
+          relationships: {
+            actor: { data: renderMemberIdentifier(update.actorId) },
+            collection: { data: renderCollectionIdentifier(update.collectionId) },
+          },
+        },
         included: [
           includeMember(queries, update.actorId),
           includeCollection(queries, update.collectionId),
@@ -60,22 +53,19 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
       })
     case 'update:doi-entered':
       return O.some({
-        data: pipe(
-          {
-            type: 'update:doi-entered',
-            id: update.id,
-            attributes: {
-              occurred_at: update.created.toISOString(),
-            },
-            relationships: {
-              actor: { data: renderMemberIdentifier(update.actorId) },
-              collection: { data: renderCollectionIdentifier(update.collectionId) },
-              entry: { data: renderEntryIdentifier(update.entryId) },
-              work: { data: renderWorkIdentifier(update.workId) },
-            },
+        data: {
+          type: 'update:doi-entered',
+          id: update.id,
+          attributes: {
+            occurred_at: update.created.toISOString(),
           },
-          O.some,
-        ),
+          relationships: {
+            actor: { data: renderMemberIdentifier(update.actorId) },
+            collection: { data: renderCollectionIdentifier(update.collectionId) },
+            entry: { data: renderEntryIdentifier(update.entryId) },
+            work: { data: renderWorkIdentifier(update.workId) },
+          },
+        },
         included: [
           includeMember(queries, update.actorId),
           includeCollection(queries, update.collectionId),
@@ -86,27 +76,24 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
       return O.some(renderCommentCreated(queries, update))
     case 'update:front-matter-found':
       return O.some({
-        data: pipe(
-          {
-            type: 'update:front-matter-fetched',
-            id: update.id,
-            attributes: {
-              occurred_at: update.created.toISOString(),
-            },
-            relationships: {
-              actor: { data: renderMemberIdentifier(update.actorId) },
-              work: { data: renderWorkIdentifier(update.workId) },
-            },
+        data: {
+          type: 'update:front-matter-fetched',
+          id: update.id,
+          attributes: {
+            occurred_at: update.created.toISOString(),
           },
-          O.some,
-        ),
+          relationships: {
+            actor: { data: renderMemberIdentifier(update.actorId) },
+            work: { data: renderWorkIdentifier(update.workId) },
+          },
+        },
         included: [
           includeMember(queries, update.actorId),
         ],
       })
     case 'update:work-not-found':
       return O.some({
-        data: O.some(renderWorkNotFoundUpdateResource(update)),
+        data: renderWorkNotFoundUpdateResource(update),
         included: [
           includeMember(queries, update.actorId),
           includeWork(queries, update.workId),

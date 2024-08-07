@@ -1,5 +1,4 @@
 import * as D from 'fp-ts/Date'
-import * as O from 'fp-ts/Option'
 import * as Ord from 'fp-ts/Ord'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
@@ -24,19 +23,13 @@ type JsonApiTimeline = {
   included: ReadonlyArray<JsonApiResource>,
 }
 
-const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiTimeline => pipe(
-  para.data,
-  O.match(
-    () => memo,
-    (resource) => ({
-      data: [...memo.data, resource],
-      included: pipe(
-        [...memo.included, ...RA.compact(para.included)],
-        RA.uniq(resourceEq),
-      ),
-    }),
+const appendUpdate = (memo: JsonApiTimeline, para: UpdateWithIncludes): JsonApiTimeline => ({
+  data: [...memo.data, para.data],
+  included: pipe(
+    [...memo.included, ...RA.compact(para.included)],
+    RA.uniq(resourceEq),
   ),
-)
+})
 
 export const renderAsFeed = (queries: Domain) => (updates: ReadonlyArray<Update>): JsonApiTimeline => pipe(
   updates,

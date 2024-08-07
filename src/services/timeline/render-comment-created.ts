@@ -1,4 +1,3 @@
-import * as O from 'fp-ts/Option'
 import { includeEntry } from './include-entry'
 import { includeMember } from './include-member'
 import { includeWork } from './include-work'
@@ -10,7 +9,7 @@ import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
 export const renderCommentCreated = (queries: Domain, update: CommentCreated): UpdateWithIncludes => ({
-  data: O.some({
+  data: {
     type: update.type,
     id: update.id,
     attributes: {
@@ -21,7 +20,7 @@ export const renderCommentCreated = (queries: Domain, update: CommentCreated): U
       entry: { data: renderEntryIdentifier(update.entryId) },
       work: { data: renderWorkIdentifier(update.workId) },
     },
-  }),
+  },
   included: [
     includeMember(queries, update.actorId),
     includeEntry(queries, update.entryId),
