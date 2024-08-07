@@ -2,9 +2,9 @@ import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 import { includeCollection } from './include-collection'
 import { includeCommunity } from './include-community'
-import { includeEntry } from './include-entry'
 import { includeMember } from './include-member'
 import { includeWork } from './include-work'
+import { renderCommentCreated } from './render-comment-created'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain, Update } from '../../domain/index.open'
 import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
@@ -83,25 +83,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): UpdateW
         ],
       })
     case 'update:comment-created':
-      return ({
-        data: O.some({
-          type: update.type,
-          id: update.id,
-          attributes: {
-            occurred_at: update.created.toISOString(),
-          },
-          relationships: {
-            actor: { data: renderMemberIdentifier(update.actorId) },
-            entry: { data: renderEntryIdentifier(update.entryId) },
-            work: { data: renderWorkIdentifier(update.workId) },
-          },
-        }),
-        included: [
-          includeMember(queries, update.actorId),
-          includeEntry(queries, update.entryId),
-          includeWork(queries, update.workId),
-        ],
-      })
+      return renderCommentCreated(queries, update)
     case 'update:front-matter-found':
       return ({
         data: pipe(
