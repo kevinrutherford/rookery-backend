@@ -4,6 +4,7 @@ import { collectionsContainingWork } from './collections-containing-work'
 import { findComments } from './find-comments'
 import { findEntries } from './find-entries'
 import { getCommunity } from './get-community'
+import { getFollowedTimeline } from './get-followed-timeline'
 import { getLocalTimeline } from './get-local-timeline'
 import { lookupCollection } from './lookup-collection'
 import { lookupEntry } from './lookup-entry'
@@ -20,6 +21,7 @@ export const instantiate = (currentState: Readmodel): Domain => ({
   findEntries: findEntries(currentState),
   getCommunity: getCommunity(currentState),
   getCollection: lookupCollection(currentState),
+  getFollowedTimeline: getFollowedTimeline(currentState),
   getLocalTimeline: getLocalTimeline(currentState),
   info: () => currentState.info,
   lookupMember: lookupMember(currentState),

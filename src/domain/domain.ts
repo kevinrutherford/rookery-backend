@@ -24,6 +24,7 @@ export type Domain = {
   findEntries: (collectionId: string) => ReadonlyArray<Entry>,
   getCommunity: () => O.Option<Community>,
   getCollection: (collectionId: string) => E.Either<DomainError, Collection>,
+  getFollowedTimeline: () => ReadonlyArray<Update>,
   getLocalTimeline: () => ReadonlyArray<Update>,
   lookupMember: (accountId: string) => Member,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
