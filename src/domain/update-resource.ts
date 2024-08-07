@@ -10,7 +10,7 @@ export type CommunityCreated = UpdateCommonAttributes & {
   communityId: string,
 }
 
-type CollectionCreated = UpdateCommonAttributes & {
+export type CollectionCreated = UpdateCommonAttributes & {
   type: 'update:collection-created',
   collectionId: string,
 }

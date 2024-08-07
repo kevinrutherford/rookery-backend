@@ -2,6 +2,7 @@ import * as O from 'fp-ts/Option'
 import { includeCollection } from './include-collection'
 import { includeMember } from './include-member'
 import { includeWork } from './include-work'
+import { renderCollectionCreated } from './render-collection-created'
 import { renderCommentCreated } from './render-comment-created'
 import { renderCommunityCreated } from './render-community-created'
 import { UpdateWithIncludes } from './update-with-includes'
@@ -17,23 +18,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
     case 'update:community-created':
       return O.some(renderCommunityCreated(queries, update))
     case 'update:collection-created':
-      return O.some({
-        data: {
-          type: 'update:collection-created',
-          id: update.id,
-          attributes: {
-            occurred_at: update.created.toISOString(),
-          },
-          relationships: {
-            actor: { data: renderMemberIdentifier(update.actorId) },
-            collection: { data: renderCollectionIdentifier(update.collectionId) },
-          },
-        },
-        included: [
-          includeMember(queries, update.actorId),
-          includeCollection(queries, update.collectionId),
-        ],
-      })
+      return O.some(renderCollectionCreated(queries, update))
     case 'update:doi-entered':
       return O.some({
         data: {
