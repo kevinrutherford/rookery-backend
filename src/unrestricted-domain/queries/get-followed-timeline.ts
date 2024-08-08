@@ -19,7 +19,14 @@ export const getFollowedTimeline: GFT = () => () => [
       cache: 'fetched', // SMELL -- incorrect coupling
     },
     work: {
-      title: 'Some paper about poisons',
+      id: '10.7554%2Felife.80483',
+      doi: '10.7554/elife.80483',
+      frontMatter: {
+        crossrefStatus: 'found',
+        title: 'Some paper about poisons',
+        abstract: '', // SMELL -- should not be needed for the feed
+        authors: [], // SMELL -- should not be needed for the feed
+      },
     },
     discussion: {
       id: '567',
