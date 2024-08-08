@@ -47,7 +47,7 @@ type InboxDiscussionStarted = UpdateCommonAttributes & {
   kind: 'inbox-update:discussion-started',
 }
 
-type InboxCommentCreated = UpdateCommonAttributes & {
+export type InboxCommentCreated = UpdateCommonAttributes & {
   kind: 'inbox-update:comment-created',
   actor: Member,
   work: Work,
