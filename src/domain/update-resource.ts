@@ -1,3 +1,5 @@
+import { Member } from './member-resource'
+
 type UpdateCommonAttributes = {
   id: string,
   created: Date,
@@ -45,12 +47,7 @@ type InboxDiscussionStarted = UpdateCommonAttributes & {
 
 type InboxCommentCreated = UpdateCommonAttributes & {
   kind: 'inbox-update:comment-created',
-  actor: {
-    id: string,
-    username: string,
-    displayName: string,
-    avatarUrl: string,
-  },
+  actor: Member,
   work: {
     title: string,
   },

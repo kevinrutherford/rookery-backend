@@ -15,6 +15,8 @@ export const getFollowedTimeline: GFT = () => () => [
       username: '@voldemort@rookery-1.xpsurgery.com',
       displayName: 'Voldemort',
       avatarUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Lordvoldemort.jpg',
+      following: [],
+      cache: 'fetched', // SMELL -- incorrect coupling
     },
     work: {
       title: 'Some paper about poisons',
