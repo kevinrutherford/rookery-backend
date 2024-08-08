@@ -30,6 +30,10 @@ export const getFollowedTimeline: GFT = () => () => [
     },
     discussion: {
       id: '567',
+      collectionId: 'poisons',
+      workId: '10.7554%2Felife.80483',
+      addedAt: new Date(),
+      commentsCount: 0, // SMELL -- should not be needed for the feed
     },
   },
 ]
