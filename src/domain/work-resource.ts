@@ -19,7 +19,6 @@ type FrontMatter = FMF | FrontMatterNotFound | FrontMatterNotDetermined
 export type Work = {
   id: string,
   doi: string,
-  updatedAt: Date,
   frontMatter: FrontMatter,
 }
 
