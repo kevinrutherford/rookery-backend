@@ -3,6 +3,7 @@ import { recordCollectionUpdated } from './record-collection-updated'
 import { recordCommentCreated } from './record-comment-created'
 import { recordCommunityCreated } from './record-community-created'
 import { recordDoiEntered } from './record-doi-entered'
+import { recordInboxCommentCreated } from './record-inbox-comment-created'
 import { recordWorkUpdated } from './record-work-updated'
 import { DomainEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
@@ -26,6 +27,9 @@ export const dispatch = (state: Readmodel) => (event: DomainEvent): void => {
       break
     case 'work-updated':
       recordWorkUpdated(state, event)
+      break
+    case 'inbox:comment-created':
+      recordInboxCommentCreated(state, event)
       break
   }
 }

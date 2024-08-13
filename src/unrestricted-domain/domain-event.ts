@@ -102,6 +102,19 @@ export type WorkUpdatedEvent = t.TypeOf<typeof workUpdatedEvent>
 
 export type FrontMatter = t.TypeOf<typeof workUpdatedEvent>['data']['attributes']
 
+const inboxCommentCreatedEvent = t.intersection([esEventBase, t.type({
+  type: t.literal('inbox:comment-created'),
+  data: t.type({
+    id: t.string,
+    actorId: t.string,
+    publishedAt: tt.DateFromISOString,
+    entryId: t.string,
+    content: t.string,
+  }),
+})])
+
+export type InboxCommentCreatedEvent = t.TypeOf<typeof inboxCommentCreatedEvent>
+
 export const domainEvent = t.union([
   communityCreatedEvent,
   collectionCreatedEvent,
@@ -109,6 +122,7 @@ export const domainEvent = t.union([
   commentCreatedEvent,
   doiEnteredEvent,
   workUpdatedEvent,
+  inboxCommentCreatedEvent,
 ])
 
 export type DomainEvent = {
