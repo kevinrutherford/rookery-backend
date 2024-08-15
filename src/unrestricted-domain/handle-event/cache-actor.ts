@@ -11,36 +11,69 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
     following: [],
     cache: 'fetching',
   })
-  if (actorId === process.env.USER_1_ID) {
+
+  if (actorId === process.env.USER_A1_ID) {
     state.members.set(actorId, {
       id: actorId,
-      username: process.env.USER_1_USERNAME ?? 'Missing env var',
-      displayName: process.env.USER_1_DISPLAYNAME ?? 'Missing env var',
-      avatarUrl: process.env.USER_1_AVATAR_URL ?? 'Missing env var',
+      username: process.env.USER_A1_USERNAME ?? 'Missing env var',
+      displayName: process.env.USER_A1_DISPLAYNAME ?? 'Missing env var',
+      avatarUrl: process.env.USER_A1_AVATAR_URL ?? 'Missing env var',
       following: [],
       cache: 'fetched',
     })
   }
-  if (actorId === process.env.USER_2_ID) {
+  if (actorId === process.env.USER_A2_ID) {
     state.members.set(actorId, {
       id: actorId,
-      username: process.env.USER_2_USERNAME ?? 'Missing env var',
-      displayName: process.env.USER_2_DISPLAYNAME ?? 'Missing env var',
-      avatarUrl: process.env.USER_2_AVATAR_URL ?? 'Missing env var',
+      username: process.env.USER_A2_USERNAME ?? 'Missing env var',
+      displayName: process.env.USER_A2_DISPLAYNAME ?? 'Missing env var',
+      avatarUrl: process.env.USER_A2_AVATAR_URL ?? 'Missing env var',
       following: [],
       cache: 'fetched',
     })
   }
-  if (actorId === process.env.USER_3_ID) {
+  if (actorId === process.env.USER_A3_ID) {
     state.members.set(actorId, {
       id: actorId,
-      username: process.env.USER_3_USERNAME ?? 'Missing env var',
-      displayName: process.env.USER_3_DISPLAYNAME ?? 'Missing env var',
-      avatarUrl: process.env.USER_3_AVATAR_URL ?? 'Missing env var',
+      username: process.env.USER_A3_USERNAME ?? 'Missing env var',
+      displayName: process.env.USER_A3_DISPLAYNAME ?? 'Missing env var',
+      avatarUrl: process.env.USER_A3_AVATAR_URL ?? 'Missing env var',
       following: [],
       cache: 'fetched',
     })
   }
+
+  if (actorId === process.env.USER_B1_ID) {
+    state.members.set(actorId, {
+      id: actorId,
+      username: process.env.USER_B1_USERNAME ?? 'Missing env var',
+      displayName: process.env.USER_B1_DISPLAYNAME ?? 'Missing env var',
+      avatarUrl: process.env.USER_B1_AVATAR_URL ?? 'Missing env var',
+      following: [],
+      cache: 'fetched',
+    })
+  }
+  if (actorId === process.env.USER_B2_ID) {
+    state.members.set(actorId, {
+      id: actorId,
+      username: process.env.USER_B2_USERNAME ?? 'Missing env var',
+      displayName: process.env.USER_B2_DISPLAYNAME ?? 'Missing env var',
+      avatarUrl: process.env.USER_B2_AVATAR_URL ?? 'Missing env var',
+      following: [],
+      cache: 'fetched',
+    })
+  }
+  if (actorId === process.env.USER_B3_ID) {
+    state.members.set(actorId, {
+      id: actorId,
+      username: process.env.USER_B3_USERNAME ?? 'Missing env var',
+      displayName: process.env.USER_B3_DISPLAYNAME ?? 'Missing env var',
+      avatarUrl: process.env.USER_B3_AVATAR_URL ?? 'Missing env var',
+      following: [],
+      cache: 'fetched',
+    })
+  }
+
   if (actorId === process.env.USER_CRB_ID) {
     state.members.set(actorId, {
       id: actorId,
