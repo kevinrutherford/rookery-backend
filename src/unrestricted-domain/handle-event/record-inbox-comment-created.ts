@@ -19,6 +19,7 @@ export const recordInboxCommentCreated = (state: Readmodel, event: InboxCommentC
     work: {
       id: '10.7554%2Felife.80483',
       doi: '10.7554/elife.80483',
+      updatedAt: new Date(),
       frontMatter: {
         crossrefStatus: 'found',
         title: 'Some paper about poisons',
