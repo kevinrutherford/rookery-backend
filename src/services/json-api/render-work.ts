@@ -7,6 +7,7 @@ export const renderWork = (work: Work): JsonApiResource => ({
   attributes: {
     doi: work.doi,
     ...work.frontMatter,
+    updatedAt: work.updatedAt.toISOString(),
   },
 })
 
