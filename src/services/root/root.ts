@@ -11,7 +11,9 @@ export const getRoot = (queries: Domain): Service => () => pipe(
     data: {
       type: 'root',
       id: '0',
-      attributes: {},
+      attributes: {
+        version: '$Version$',
+      },
       relationships: {
         community: {
           data: pipe(
