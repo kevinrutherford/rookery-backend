@@ -6,7 +6,6 @@ import { renderCommunityIdentifier } from '../json-api/render-community-identifi
 import { Service } from '../service'
 import { pathToCommunity } from '../ui-links'
 
-
 export const getRoot = (queries: Domain): Service => () => pipe(
   {
     data: {
