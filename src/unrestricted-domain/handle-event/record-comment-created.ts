@@ -27,7 +27,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
   recordUpdate(state, {
     kind: 'update:comment-created',
     id: event.id,
-    created: event.created,
+    created: event.data.publishedAt,
     actorId: event.data.actorId,
     occurredWithinPrivateCollection: collection.isPrivate,
     content: event.data.content,

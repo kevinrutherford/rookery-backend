@@ -52,6 +52,7 @@ const commentCreatedEvent = t.intersection([esEventBase, t.type({
     actorId: t.string,
     entryId: t.string,
     content: t.string,
+    publishedAt: tt.DateFromISOString,
   }),
 })])
 

@@ -8,7 +8,9 @@ export const reportEvents = (logger: Logger.Logger): DomainObserver => (domain: 
   if (info.unexpectedEvents.length > 0)
     logger.warn('Unexpected events received', { events: info.unexpectedEvents })
   if (info.unrecognisedEvents.length > 0) {
-    logger.error('Unrecognised event; terminating')
+    logger.error('Unrecognised event; terminating', {
+      events: info.unrecognisedEvents,
+    })
     process.exit(1)
   }
 }

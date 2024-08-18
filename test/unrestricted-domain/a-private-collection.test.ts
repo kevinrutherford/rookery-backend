@@ -91,6 +91,7 @@ describe('given a private collection', () => {
           actorId: arbitraryWord(),
           entryId,
           content: arbitraryString(),
+          publishedAt: new Date().toISOString(),
         }))
         activities = domain.queries.getLocalTimeline()
       })

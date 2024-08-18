@@ -86,8 +86,9 @@ const addComment: Action = {
     state.handleEvent(mkEvent('comment-created', {
       id: arbitraryWord(),
       actorId: arbitraryWord(),
-      entryId: state.entryId,
+      entryId: state.entryId ?? 'not-found',
       content: arbitraryString(),
+      publishedAt: new Date().toISOString(),
     }))
     return state
   },

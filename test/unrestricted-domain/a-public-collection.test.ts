@@ -65,6 +65,7 @@ describe('given a public collection', () => {
           actorId: arbitraryWord(),
           entryId: arbitraryWord(),
           content: arbitraryString(),
+          publishedAt: new Date().toISOString(),
         }))
       })
 
@@ -102,6 +103,7 @@ describe('given a public collection', () => {
           actorId,
           entryId,
           content: arbitraryString(),
+          publishedAt: new Date().toISOString(),
         }))
       })
 
