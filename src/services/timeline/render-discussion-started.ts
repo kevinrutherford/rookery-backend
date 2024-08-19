@@ -5,7 +5,7 @@ import { UpdateWithIncludes } from './update-with-includes'
 import { Domain } from '../../domain/index.open'
 import { DoiEntered } from '../../domain/update-resource'
 import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
-import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
+import { renderDiscussionIdentifier } from '../json-api/render-discussion-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
@@ -19,7 +19,7 @@ export const renderDiscussionStarted = (queries: Domain, update: DoiEntered): Up
     relationships: {
       actor: { data: renderMemberIdentifier(update.actorId) },
       collection: { data: renderCollectionIdentifier(update.collectionId) },
-      entry: { data: renderEntryIdentifier(update.entryId) },
+      entry: { data: renderDiscussionIdentifier(update.entryId) },
       work: { data: renderWorkIdentifier(update.workId) },
     },
   },

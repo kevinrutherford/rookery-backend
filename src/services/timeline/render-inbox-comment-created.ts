@@ -2,8 +2,8 @@ import * as O from 'fp-ts/Option'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain } from '../../domain/index.open'
 import { InboxCommentCreated } from '../../domain/update-resource'
-import { renderEntry } from '../json-api/render-entry'
-import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
+import { renderDiscussion } from '../json-api/render-discussion'
+import { renderDiscussionIdentifier } from '../json-api/render-discussion-identifier'
 import { renderMember } from '../json-api/render-member'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWork } from '../json-api/render-work'
@@ -18,13 +18,13 @@ export const renderInboxCommentCreated = (queries: Domain, update: InboxCommentC
     },
     relationships: {
       actor: { data: renderMemberIdentifier(update.actorId) },
-      entry: { data: renderEntryIdentifier(update.discussion.id) },
+      entry: { data: renderDiscussionIdentifier(update.discussion.id) },
       work: { data: renderWorkIdentifier(update.work.id) },
     },
   },
   included: [
     O.some(renderMember(update.actor)),
-    O.some(renderEntry(update.discussion)),
+    O.some(renderDiscussion(update.discussion)),
     O.some(renderWork(update.work)),
   ],
 })

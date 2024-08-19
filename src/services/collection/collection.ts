@@ -7,7 +7,7 @@ import { optionFromNullable } from 'io-ts-types'
 import { Collection, Domain } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
-import { renderEntry } from '../json-api/render-entry'
+import { renderDiscussion } from '../json-api/render-discussion'
 import { renderError } from '../json-api/render-error'
 import { renderWork } from '../json-api/render-work'
 import { Service } from '../service'
@@ -47,7 +47,7 @@ const getInc = (queries: Domain, collection: Collection) => (opt: Includes): Rea
       return pipe(
         collection.id,
         queries.findEntries,
-        RA.map(renderEntry),
+        RA.map(renderDiscussion),
       )
     case 'entries.work':
       return pipe(

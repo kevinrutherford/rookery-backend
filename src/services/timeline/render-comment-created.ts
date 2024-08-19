@@ -4,7 +4,7 @@ import { includeWork } from './include-work'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain } from '../../domain/index.open'
 import { CommentCreated } from '../../domain/update-resource'
-import { renderEntryIdentifier } from '../json-api/render-entry-identifier'
+import { renderDiscussionIdentifier } from '../json-api/render-discussion-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
@@ -17,7 +17,7 @@ export const renderCommentCreated = (queries: Domain, update: CommentCreated): U
     },
     relationships: {
       actor: { data: renderMemberIdentifier(update.actorId) },
-      entry: { data: renderEntryIdentifier(update.entryId) },
+      entry: { data: renderDiscussionIdentifier(update.entryId) },
       work: { data: renderWorkIdentifier(update.workId) },
     },
   },

@@ -1,6 +1,6 @@
 import { recordUpdate } from './record-update'
 import { Discussion } from '../../domain/index.open'
-import { renderEntryIdentifier } from '../../services/json-api/render-entry-identifier'
+import { renderDiscussionIdentifier } from '../../services/json-api/render-discussion-identifier'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
@@ -57,7 +57,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
       ...actor,
       following: [
         ...followings,
-        renderEntryIdentifier(event.data.entryId),
+        renderDiscussionIdentifier(event.data.entryId),
       ],
     })
   }

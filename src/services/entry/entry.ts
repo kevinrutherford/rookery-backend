@@ -8,7 +8,7 @@ import { Discussion, Domain } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
-import { renderEntry } from '../json-api/render-entry'
+import { renderDiscussion } from '../json-api/render-discussion'
 import { renderError } from '../json-api/render-error'
 import { renderMember } from '../json-api/render-member'
 import { renderWork } from '../json-api/render-work'
@@ -92,14 +92,14 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry:
   incl,
   O.matchW(
     () => ({
-      data: renderEntry(entry),
+      data: renderDiscussion(entry),
     }),
     (incs) => pipe(
       incs,
       RA.chain(getInc(queries, entry)),
       RA.uniq(resourceEq),
       (i) => ({
-        data: renderEntry(entry),
+        data: renderDiscussion(entry),
         included: i,
       }),
     ),

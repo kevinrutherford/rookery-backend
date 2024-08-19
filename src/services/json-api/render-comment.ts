@@ -1,6 +1,6 @@
 import { JsonApiResource } from './json-api-resource'
 import { renderCommentIdentifier } from './render-comment-identifier'
-import { renderEntryIdentifier } from './render-entry-identifier'
+import { renderDiscussionIdentifier } from './render-discussion-identifier'
 import { renderMemberIdentifier } from './render-member-identifier'
 import { Comment } from '../../domain/index.open'
 
@@ -12,7 +12,7 @@ export const renderComment = (comment: Comment): JsonApiResource => ({
   },
   relationships: {
     author: { data: renderMemberIdentifier(comment.authorId) },
-    entry: { data: renderEntryIdentifier(comment.entryId) },
+    entry: { data: renderDiscussionIdentifier(comment.entryId) },
   },
 })
 

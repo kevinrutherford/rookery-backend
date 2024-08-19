@@ -1,7 +1,7 @@
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { Domain } from '../../src/domain/index.open'
-import { renderEntryIdentifier } from '../../src/services/json-api/render-entry-identifier'
+import { renderDiscussionIdentifier } from '../../src/services/json-api/render-discussion-identifier'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
 import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord, shouldNotHappen } from '../helpers'
@@ -64,7 +64,7 @@ describe('given a public collection', () => {
 
       it('records the actor as following the entry', () => {
         const actor = d.lookupMember(actorId)
-        expect(actor.following[0]).toStrictEqual(renderEntryIdentifier(entryId))
+        expect(actor.following[0]).toStrictEqual(renderDiscussionIdentifier(entryId))
       })
     })
 
