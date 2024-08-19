@@ -34,10 +34,10 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     title: `DOI ${event.data.doi}`,
     commentsCount: 0,
   }
-  const current = state.entriesByCollection.get(data.collectionId) ?? []
+  const current = state.discussionsByCollection.get(data.collectionId) ?? []
   current.push(discussion)
-  state.entriesByCollection.set(data.collectionId, current)
-  state.entriesByEntryId.set(data.entryId, discussion)
+  state.discussionsByCollection.set(data.collectionId, current)
+  state.discussionsByEntryId.set(data.entryId, discussion)
 
   const actorId = event.data.actorId
   recordUpdate(state, {

@@ -5,7 +5,7 @@ import { Collection } from '../state/collection'
 import { Readmodel } from '../state/readmodel'
 
 const containsWork = (workId: string, currentState: Readmodel) => (collection: Collection): boolean => pipe(
-  currentState.entriesByCollection.get(collection.id) ?? [],
+  currentState.discussionsByCollection.get(collection.id) ?? [],
   RA.filter((entry) => entry.workId === workId),
   RA.isNonEmpty,
 )

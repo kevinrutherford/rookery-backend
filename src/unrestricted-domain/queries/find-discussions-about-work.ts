@@ -4,7 +4,7 @@ import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
 export const findDiscussionsAboutWork = (currentState: Readmodel): Domain['findDiscussionsAboutWork'] => (workId) => pipe(
-  Array.from(currentState.entriesByEntryId.values()),
+  Array.from(currentState.discussionsByEntryId.values()),
   RA.filter((discussion) => discussion.workId === workId),
 )
 

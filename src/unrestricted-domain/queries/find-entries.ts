@@ -6,7 +6,7 @@ import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
 export const findEntries = (currentState: Readmodel): Domain['findEntries'] => (collectionId) => pipe(
-  currentState.entriesByCollection,
+  currentState.discussionsByCollection,
   RM.lookup(S.Eq)(collectionId),
   O.match(
     () => [],

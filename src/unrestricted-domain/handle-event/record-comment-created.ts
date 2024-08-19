@@ -4,7 +4,7 @@ import { Readmodel } from '../state/readmodel'
 
 export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEvent): void => {
   const comment = event.data
-  const entry = state.entriesByEntryId.get(comment.entryId)
+  const entry = state.discussionsByEntryId.get(comment.entryId)
   if (entry === undefined) {
     state.info.unexpectedEvents.push(event)
     return
