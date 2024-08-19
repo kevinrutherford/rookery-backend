@@ -4,7 +4,7 @@ export { Member } from './member-resource'
 export { Collection } from './collection-resource'
 export { Comment } from './comment-resource'
 export { Community } from './community-resource'
-export { Entry } from './entry-resource'
+export { Discussion } from './discussion-resource'
 export { Work } from './work-resource'
 
 export {

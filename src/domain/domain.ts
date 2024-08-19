@@ -3,7 +3,7 @@ import * as O from 'fp-ts/Option'
 import { Collection } from './collection-resource'
 import { Comment } from './comment-resource'
 import { Community } from './community-resource'
-import { Entry } from './entry-resource'
+import { Discussion } from './discussion-resource'
 import { Member } from './member-resource'
 import { Update } from './update-resource'
 import { Work } from './work-resource'
@@ -21,14 +21,14 @@ export type Domain = {
   allWorks: () => ReadonlyArray<Work>,
   collectionsContainingWork: (workId: string) => ReadonlyArray<Collection>,
   findComments: (entryId: string) => ReadonlyArray<Comment>,
-  findEntries: (collectionId: string) => ReadonlyArray<Entry>,
+  findEntries: (collectionId: string) => ReadonlyArray<Discussion>,
   getCommunity: () => O.Option<Community>,
   getCollection: (collectionId: string) => E.Either<DomainError, Collection>,
   getFollowedTimeline: () => ReadonlyArray<Update>,
   getLocalTimeline: () => ReadonlyArray<Update>,
   lookupMember: (accountId: string) => Member,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
-  lookupEntry: (entryId: string) => E.Either<DomainError, Entry>,
+  lookupEntry: (entryId: string) => E.Either<DomainError, Discussion>,
   lookupWork: (id: string) => E.Either<DomainError, Work>,
   info: () => DomainProbe,
 }

@@ -1,5 +1,5 @@
 import { recordUpdate } from './record-update'
-import { Entry } from '../../domain/index.open'
+import { Discussion } from '../../domain/index.open'
 import { renderEntryIdentifier } from '../../services/json-api/render-entry-identifier'
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
@@ -26,7 +26,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   }
 
   const data = event.data
-  const entry: Entry = {
+  const entry: Discussion = {
     id: event.data.entryId,
     collectionId: event.data.collectionId,
     workId,

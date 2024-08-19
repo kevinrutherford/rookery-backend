@@ -4,7 +4,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types'
-import { Domain, Entry } from '../../domain/index.open'
+import { Discussion, Domain } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderCollection } from '../json-api/render-collection'
 import { renderComment } from '../json-api/render-comment'
@@ -48,7 +48,7 @@ type Params = t.TypeOf<typeof paramsCodec>
 
 const getInc = (
   queries: Domain,
-  entry: Entry,
+  entry: Discussion,
 ) => (opt: Includes): ReadonlyArray<JsonApiResource> => {
   switch (opt) {
     case 'collection':
@@ -88,7 +88,7 @@ const getInc = (
   }
 }
 
-const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry: Entry) => pipe(
+const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry: Discussion) => pipe(
   incl,
   O.matchW(
     () => ({

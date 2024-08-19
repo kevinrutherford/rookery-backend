@@ -1,4 +1,4 @@
-import { Entry } from './entry-resource'
+import { Discussion } from './discussion-resource'
 import { Member } from './member-resource'
 import { Work } from './work-resource'
 
@@ -51,7 +51,7 @@ export type InboxCommentCreated = UpdateCommonAttributes & {
   kind: 'inbox-update:comment-created',
   actor: Member,
   work: Work,
-  discussion: Entry,
+  discussion: Discussion,
 }
 
 export type Update =

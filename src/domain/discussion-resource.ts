@@ -1,4 +1,4 @@
-export type Entry = {
+export type Discussion = {
   id: string,
   workId: string,
   collectionId: string,

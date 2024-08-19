@@ -6,7 +6,7 @@ import { clientCanSeeUpdate } from './client-can-see-update'
 import { workIsEnteredInSomePublicCollection } from './work-is-entered-in-some-public-collection'
 import { Authority } from '../auth/authority'
 import {
-  Collection, Domain, Entry, Work,
+  Collection, Discussion, Domain, Work,
 } from '../domain/index.open'
 
 const collectionIsAccessible = (clientCan: Authority) => (collection: Collection): boolean => (
@@ -17,7 +17,7 @@ const workIsAccessible = (clientCan: Authority, queries: Domain) => (work: Work)
   clientCan('browse-private-collections') || workIsEnteredInSomePublicCollection(queries)(work.id)
 )
 
-const clientCanAccessEntry = (clientCan: Authority, queries: Domain) => (entry: Entry): boolean => pipe(
+const clientCanAccessEntry = (clientCan: Authority, queries: Domain) => (entry: Discussion): boolean => pipe(
   entry.collectionId,
   queries.lookupCollection,
   E.match(
