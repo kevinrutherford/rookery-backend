@@ -131,7 +131,7 @@ describe('given a public collection', () => {
         }))
       })
 
-      it.failing('updates the discussion title', () => {
+      it('updates the discussion title', () => {
         const discussion = pipe(
           d.lookupEntry(discussionId),
           E.getOrElseW(shouldNotHappen),
