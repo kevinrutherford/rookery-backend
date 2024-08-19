@@ -1,4 +1,5 @@
 import { includeCollection } from './include-collection'
+import { includeEntry } from './include-entry'
 import { includeMember } from './include-member'
 import { includeWork } from './include-work'
 import { UpdateWithIncludes } from './update-with-includes'
@@ -26,6 +27,7 @@ export const renderDiscussionStarted = (queries: Domain, update: DoiEntered): Up
   included: [
     includeMember(queries, update.actorId),
     includeCollection(queries, update.collectionId),
+    includeEntry(queries, update.entryId),
     includeWork(queries, update.workId),
   ],
 })
