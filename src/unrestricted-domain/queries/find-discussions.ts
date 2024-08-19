@@ -5,7 +5,7 @@ import * as S from 'fp-ts/string'
 import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
-export const findEntries = (currentState: Readmodel): Domain['findEntries'] => (collectionId) => pipe(
+export const findDiscussions = (currentState: Readmodel): Domain['findDiscussions'] => (collectionId) => pipe(
   currentState.discussionsByCollection,
   RM.lookup(S.Eq)(collectionId),
   O.match(
