@@ -21,6 +21,7 @@ export type Domain = {
   allWorks: () => ReadonlyArray<Work>,
   collectionsContainingWork: (workId: string) => ReadonlyArray<Collection>,
   findComments: (entryId: string) => ReadonlyArray<Comment>,
+  findDiscussionsAboutWork: (workId: string) => ReadonlyArray<Discussion>,
   findEntries: (collectionId: string) => ReadonlyArray<Discussion>,
   getCommunity: () => O.Option<Community>,
   getCollection: (collectionId: string) => E.Either<DomainError, Collection>,
