@@ -4,15 +4,16 @@ import { renderDiscussionIdentifier } from './render-discussion-identifier'
 import { renderWorkIdentifier } from './render-work-identifier'
 import { Discussion } from '../../domain/index.open'
 
-export const renderDiscussion = (entry: Discussion): JsonApiResource => ({
-  ...renderDiscussionIdentifier(entry.id),
+export const renderDiscussion = (discussion: Discussion): JsonApiResource => ({
+  ...renderDiscussionIdentifier(discussion.id),
   attributes: {
-    addedAt: entry.addedAt.toISOString(),
-    commentsCount: entry.commentsCount,
+    addedAt: discussion.addedAt.toISOString(),
+    commentsCount: discussion.commentsCount,
+    title: discussion.title,
   },
   relationships: {
-    collection: { data: renderCollectionIdentifier(entry.collectionId) },
-    work: { data: renderWorkIdentifier(entry.workId) },
+    collection: { data: renderCollectionIdentifier(discussion.collectionId) },
+    work: { data: renderWorkIdentifier(discussion.workId) },
   },
 })
 

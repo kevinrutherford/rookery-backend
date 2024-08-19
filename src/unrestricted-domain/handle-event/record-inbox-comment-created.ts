@@ -32,6 +32,7 @@ export const recordInboxCommentCreated = (state: Readmodel, event: InboxCommentC
       collectionId: 'poisons',
       workId: '10.7554%2Felife.80483',
       addedAt: new Date(),
+      title: 'Unknown',
       commentsCount: 0, // SMELL -- should not be needed for the feed
     },
   })

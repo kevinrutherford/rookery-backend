@@ -3,6 +3,7 @@ export type Discussion = {
   workId: string,
   collectionId: string,
   addedAt: Date,
+  title: string,
   commentsCount: number,
 }
 
