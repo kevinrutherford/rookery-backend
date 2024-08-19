@@ -49,6 +49,14 @@ describe('given a public collection', () => {
         expect(collection.discussionCount).toBe(1)
       })
 
+      it('starts the discussion with a title matching the DOI', () => {
+        const discussion = pipe(
+          d.lookupEntry(entryId),
+          E.getOrElseW(shouldNotHappen),
+        )
+        expect(discussion.title).toContain(workId)
+      })
+
       it('records a new activity', () => {
         expect(d.getLocalTimeline()).toHaveLength(2)
       })
