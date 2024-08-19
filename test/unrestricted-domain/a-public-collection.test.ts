@@ -29,12 +29,12 @@ describe('given a public collection', () => {
   describe('that has no entries', () => {
     describe('when discussion-started', () => {
       const actorId = arbitraryWord() // SMELL -- need to configure the actor cache with this id
-      const entryId = arbitraryWord()
+      const discussionId = arbitraryWord()
 
       beforeEach(() => {
         const doiEntered = mkEvent('discussion-started', {
           actorId,
-          entryId,
+          entryId: discussionId,
           doi: workId,
           collectionId,
         })
@@ -51,7 +51,7 @@ describe('given a public collection', () => {
 
       it('starts the discussion with a title matching the DOI', () => {
         const discussion = pipe(
-          d.lookupEntry(entryId),
+          d.lookupEntry(discussionId),
           E.getOrElseW(shouldNotHappen),
         )
         expect(discussion.title).toContain(workId)
@@ -72,7 +72,7 @@ describe('given a public collection', () => {
 
       it('records the actor as following the entry', () => {
         const actor = d.lookupMember(actorId)
-        expect(actor.following[0]).toStrictEqual(renderDiscussionIdentifier(entryId))
+        expect(actor.following[0]).toStrictEqual(renderDiscussionIdentifier(discussionId))
       })
     })
 
@@ -98,13 +98,13 @@ describe('given a public collection', () => {
   })
 
   describe('that has one entry', () => {
-    const entryId = arbitraryWord()
+    const discussionId = arbitraryWord()
     const actorId = arbitraryWord()
 
     beforeEach(() => {
       h(mkEvent('discussion-started', {
         actorId,
-        entryId,
+        entryId: discussionId,
         doi: workId,
         collectionId,
       }))
@@ -114,12 +114,38 @@ describe('given a public collection', () => {
       expect(d.getLocalTimeline()).toHaveLength(2)
     })
 
-    describe('when comment-created on the entry', () => {
+    describe('when front-matter-found in the discussion', () => {
+      const title = arbitraryString()
+
+      beforeEach(() => {
+        h(mkEvent('work-updated', {
+          id: arbitraryWord(),
+          actorId,
+          workId,
+          attributes: {
+            crossrefStatus: 'found',
+            title,
+            abstract: arbitraryString(),
+            authors: [arbitraryString()],
+          },
+        }))
+      })
+
+      it.failing('updates the discussion title', () => {
+        const discussion = pipe(
+          d.lookupEntry(discussionId),
+          E.getOrElseW(shouldNotHappen),
+        )
+        expect(discussion.title).toBe(title)
+      })
+    })
+
+    describe('when comment-created in the discussion', () => {
       beforeEach(() => {
         h(mkEvent('comment-created', {
           id: arbitraryWord(),
           actorId,
-          entryId,
+          entryId: discussionId,
           content: arbitraryString(),
           publishedAt: new Date().toISOString(),
         }))
