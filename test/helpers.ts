@@ -2,6 +2,10 @@ import * as A from 'fp-ts/Array'
 import { pipe } from 'fp-ts/function'
 import * as tt from 'io-ts-types'
 
+export const shouldNotHappen = (): never => {
+  throw new Error('should not happen')
+}
+
 // ts-unused-exports:disable-next-line
 export const arbitraryNumber = (min: number, max: number): number => (
   Math.floor(Math.random() * (max - min + 1) + min)

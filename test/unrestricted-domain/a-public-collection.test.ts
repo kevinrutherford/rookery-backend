@@ -1,8 +1,10 @@
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
 import { Domain } from '../../src/domain/index.open'
 import { renderEntryIdentifier } from '../../src/services/json-api/render-entry-identifier'
 import * as UnrestrictedDomain from '../../src/unrestricted-domain'
 import { defaultTestObserver } from '../default-test-observer'
-import { arbitraryString, arbitraryWord } from '../helpers'
+import { arbitraryString, arbitraryWord, shouldNotHappen } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('given a public collection', () => {
@@ -37,6 +39,14 @@ describe('given a public collection', () => {
           collectionId,
         })
         h(doiEntered)
+      })
+
+      it('increments the discussion count', () => {
+        const collection = pipe(
+          d.getCollection(collectionId),
+          E.getOrElseW(shouldNotHappen),
+        )
+        expect(collection.discussionCount).toBe(1)
       })
 
       it('records a new activity', () => {

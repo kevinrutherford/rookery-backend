@@ -10,6 +10,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     state.info.unexpectedEvents.push(event)
     return
   }
+  collection.discussionCount += 1
   const workId = event.data.doi
   const existingWork = state.works.get(workId)
   if (!existingWork) {
