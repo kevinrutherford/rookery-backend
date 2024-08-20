@@ -22,13 +22,18 @@ describe('given a non-existent collection', () => {
     const entryId = arbitraryWord()
 
     beforeEach(() => {
-      const event = mkEvent('discussion-started', {
+      handleEvent(mkEvent('member-joined', {
+        id: actorId,
+        username: arbitraryWord(),
+        displayName: arbitraryWord(),
+        avatarUrl: arbitraryWord(),
+      }))
+      handleEvent(mkEvent('discussion-started', {
         actorId,
         entryId,
         doi: arbitraryWord(),
         collectionId,
-      })
-      handleEvent(event)
+      }))
     })
 
     it('does not record the Work', () => {
@@ -47,7 +52,7 @@ describe('given a non-existent collection', () => {
       expect(queries.info().unexpectedEvents).toHaveLength(1)
     })
 
-    it.failing('does not set the actor to follow the entry', () => {
+    it('does not set the actor to follow the entry', () => {
       const member = pipe(
         actorId,
         queries.lookupMember,
