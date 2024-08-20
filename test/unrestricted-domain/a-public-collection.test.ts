@@ -71,8 +71,12 @@ describe('given a public collection', () => {
       })
 
       it('records the actor as following the entry', () => {
-        const actor = d.lookupMember(actorId)
-        expect(actor.following[0]).toStrictEqual(renderDiscussionIdentifier(discussionId))
+        const member = pipe(
+          actorId,
+          d.lookupMember,
+          E.getOrElseW(shouldNotHappen),
+        )
+        expect(member.following[0]).toStrictEqual(renderDiscussionIdentifier(discussionId))
       })
     })
 
@@ -172,7 +176,12 @@ describe('given a public collection', () => {
       })
 
       it('the actor is following both entries', () => {
-        expect(d.lookupMember(actorId).following).toHaveLength(2)
+        const member = pipe(
+          actorId,
+          d.lookupMember,
+          E.getOrElseW(shouldNotHappen),
+        )
+        expect(member.following).toHaveLength(2)
       })
     })
   })

@@ -72,6 +72,7 @@ const getInc = (
         queries.findComments,
         RA.map((comment) => comment.authorId),
         RA.map(queries.lookupMember),
+        RA.rights,
         RA.map(renderMember),
       )
     case 'work':

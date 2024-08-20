@@ -7,7 +7,7 @@ import { renderMember } from '../json-api/render-member'
 export const includeMember = (queries: Domain, memberId: string): O.Option<JsonApiResource> => pipe(
   memberId,
   queries.lookupMember,
-  renderMember,
-  O.some,
+  O.fromEither,
+  O.map(renderMember),
 )
 
