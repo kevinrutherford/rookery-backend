@@ -8,14 +8,6 @@ export const recordInboxCommentCreated = (state: Readmodel, event: InboxCommentC
     created: event.data.publishedAt,
     actorId: event.data.actorId,
     occurredWithinPrivateCollection: false,
-    actor: {
-      id: event.data.actorId,
-      username: '@voldemort@rookery-1.xpsurgery.com',
-      displayName: 'He who shall not be named',
-      avatarUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Lordvoldemort.jpg',
-      following: [],
-      cache: 'fetched', // SMELL -- incorrect coupling
-    },
     work: {
       id: '10.7554%2Felife.80483',
       doi: '10.7554/elife.80483',

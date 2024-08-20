@@ -1,5 +1,4 @@
 import { Discussion } from './discussion-resource'
-import { Member } from './member-resource'
 import { Work } from './work-resource'
 
 type UpdateCommonAttributes = {
@@ -49,7 +48,6 @@ type InboxDiscussionStarted = UpdateCommonAttributes & {
 
 export type InboxCommentCreated = UpdateCommonAttributes & {
   kind: 'inbox-update:comment-created',
-  actor: Member,
   work: Work,
   discussion: Discussion,
 }
