@@ -1,10 +1,10 @@
 import * as O from 'fp-ts/Option'
+import { includeMember } from './include-member'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain } from '../../domain/index.open'
 import { InboxCommentCreated } from '../../domain/update-resource'
 import { renderDiscussion } from '../json-api/render-discussion'
 import { renderDiscussionIdentifier } from '../json-api/render-discussion-identifier'
-import { renderMember } from '../json-api/render-member'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWork } from '../json-api/render-work'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
@@ -23,7 +23,7 @@ export const renderInboxCommentCreated = (queries: Domain, update: InboxCommentC
     },
   },
   included: [
-    O.some(renderMember(update.actor)),
+    includeMember(queries, update.actorId),
     O.some(renderDiscussion(update.discussion)),
     O.some(renderWork(update.work)),
   ],
