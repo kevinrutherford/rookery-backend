@@ -8,17 +8,6 @@ export const recordInboxCommentCreated = (state: Readmodel, event: InboxCommentC
     created: event.data.publishedAt,
     actorId: event.data.actorId,
     occurredWithinPrivateCollection: false,
-    work: {
-      id: '10.7554%2Felife.80483',
-      doi: '10.7554/elife.80483',
-      updatedAt: new Date(),
-      frontMatter: {
-        crossrefStatus: 'found',
-        title: 'Some paper about poisons',
-        abstract: '', // SMELL -- should not be needed for the feed
-        authors: [], // SMELL -- should not be needed for the feed
-      },
-    },
     discussion: {
       id: event.data.entryId,
       collectionId: 'poisons',
