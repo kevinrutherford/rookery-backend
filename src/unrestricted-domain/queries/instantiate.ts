@@ -1,4 +1,5 @@
 import { allCollections } from './all-collections'
+import { allMembers } from './all-members'
 import { allWorks } from './all-works'
 import { collectionsContainingWork } from './collections-containing-work'
 import { findComments } from './find-comments'
@@ -16,6 +17,7 @@ import { Readmodel } from '../state/readmodel'
 
 export const instantiate = (currentState: Readmodel): Domain => ({
   allCollections: allCollections(currentState),
+  allMembers: allMembers(currentState),
   allWorks: allWorks(currentState),
   collectionsContainingWork: collectionsContainingWork(currentState),
   findComments: findComments(currentState),
