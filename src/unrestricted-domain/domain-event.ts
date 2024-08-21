@@ -82,6 +82,18 @@ const memberJoinedEvent = t.intersection([esEventBase, t.type({
 
 export type MemberJoinedEvent = t.TypeOf<typeof memberJoinedEvent>
 
+const remoteMemberFetchedEvent = t.intersection([esEventBase, t.type({
+  type: t.literal('remote-member-fetched'),
+  data: t.type({
+    id: t.string,
+    username: t.string,
+    displayName: t.string,
+    avatarUrl: t.string,
+  }),
+})])
+
+export type RemoteMemberFetchedEvent = t.TypeOf<typeof remoteMemberFetchedEvent>
+
 const frontMatterNotDetermined = t.type({
   crossrefStatus: t.literal('not-determined'),
   reason: t.union([
@@ -135,6 +147,7 @@ export const domainEvent = t.union([
   commentCreatedEvent,
   doiEnteredEvent,
   memberJoinedEvent,
+  remoteMemberFetchedEvent,
   workUpdatedEvent,
   inboxCommentCreatedEvent,
 ])
