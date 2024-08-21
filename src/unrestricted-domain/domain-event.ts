@@ -86,9 +86,13 @@ const remoteMemberFetchedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('remote-member-fetched'),
   data: t.type({
     id: t.string,
-    username: t.string,
-    displayName: t.string,
-    avatarUrl: t.string,
+    type: t.literal('member'),
+    attributes: t.type({
+      username: t.string,
+      display_name: t.string,
+      avatar_url: t.string,
+      followingCount: t.number,
+    }),
   }),
 })])
 

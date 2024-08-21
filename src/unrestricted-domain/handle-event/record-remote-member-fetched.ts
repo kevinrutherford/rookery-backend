@@ -9,7 +9,10 @@ export const recordRemoteMemberFetched = (state: Readmodel, event: RemoteMemberF
     return
   }
   state.members.set(memberId, {
-    ...event.data,
+    id: event.data.id,
+    username: event.data.attributes.username,
+    displayName: event.data.attributes.display_name,
+    avatarUrl: event.data.attributes.avatar_url,
     following: [],
     cache: 'fetched' as const,
   })
