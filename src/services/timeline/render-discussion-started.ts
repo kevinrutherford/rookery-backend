@@ -4,13 +4,13 @@ import { includeMember } from './include-member'
 import { includeWork } from './include-work'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain } from '../../domain/index.open'
-import { DoiEntered } from '../../domain/update-resource'
+import { DiscussionStarted } from '../../domain/update-resource'
 import { renderCollectionIdentifier } from '../json-api/render-collection-identifier'
 import { renderDiscussionIdentifier } from '../json-api/render-discussion-identifier'
 import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
-export const renderDiscussionStarted = (queries: Domain, update: DoiEntered): UpdateWithIncludes => ({
+export const renderDiscussionStarted = (queries: Domain, update: DiscussionStarted): UpdateWithIncludes => ({
   data: {
     type: 'update:doi-entered',
     id: update.id,

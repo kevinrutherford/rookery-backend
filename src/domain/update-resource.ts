@@ -24,7 +24,7 @@ export type CommentCreated = UpdateCommonAttributes & {
   workId: string,
 }
 
-export type DoiEntered = UpdateCommonAttributes & {
+export type DiscussionStarted = UpdateCommonAttributes & {
   kind: 'update:doi-entered',
   workId: string,
   collectionId: string,
@@ -54,7 +54,7 @@ export type Update =
   | CollectionCreated
   | CommentCreated
   | CommunityCreated
-  | DoiEntered
+  | DiscussionStarted
   | FrontMatterFetched
   | WorkNotFound
   | InboxDiscussionStarted
