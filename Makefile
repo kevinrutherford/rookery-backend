@@ -4,7 +4,6 @@ GRAPHS_DIR := graphs
 IMAGE := kevinrutherford/rookery-views
 IMAGE_VERSION := $(shell git describe --tags)
 MK_IMAGE := .mk-built
-MK_PUBLISHED := .mk-published
 MK_COMPILED := .mk-compiled
 MK_LINTED := .mk-linted
 MK_TESTED := .mk-tested
@@ -84,10 +83,11 @@ $(GRAPHS_DIR):
 # Utilities - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 clean:
-	rm -f .mk-*
+	rm -f $(MK_COMPILED) $(MK_LINTED) $(MK_TESTED)
 	rm -rf $(COMPILER_CACHE_DIR)
 	rm -rf $(GRAPHS_DIR)
 
 clobber: clean
+	rm -f $(MK_IMAGE)
 	rm -rf node_modules
 
