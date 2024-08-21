@@ -4,8 +4,8 @@ import { Domain } from '../../domain/index.open'
 import { JsonApiResource } from '../json-api/json-api-resource'
 import { renderDiscussion } from '../json-api/render-discussion'
 
-export const includeEntry = (queries: Domain, entryId: string): O.Option<JsonApiResource> => pipe(
-  entryId,
+export const includeDiscussion = (queries: Domain, discussionId: string): O.Option<JsonApiResource> => pipe(
+  discussionId,
   queries.lookupEntry,
   O.fromEither,
   O.map(renderDiscussion),

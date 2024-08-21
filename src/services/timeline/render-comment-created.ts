@@ -1,4 +1,4 @@
-import { includeEntry } from './include-entry'
+import { includeDiscussion } from './include-discussion'
 import { includeMember } from './include-member'
 import { UpdateWithIncludes } from './update-with-includes'
 import { Domain } from '../../domain/index.open'
@@ -20,7 +20,7 @@ export const renderCommentCreated = (queries: Domain, update: CommentCreated): U
   },
   included: [
     includeMember(queries, update.actorId),
-    includeEntry(queries, update.entryId),
+    includeDiscussion(queries, update.entryId),
   ],
 })
 
