@@ -84,7 +84,7 @@ export type MemberJoinedEvent = t.TypeOf<typeof memberJoinedEvent>
 
 const remoteMemberFetchedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('remote-member-fetched'),
-  data: t.type({
+  data: t.type({ // SMELL -- coupled to member resource rendering
     id: t.string,
     type: t.literal('member'),
     attributes: t.type({
