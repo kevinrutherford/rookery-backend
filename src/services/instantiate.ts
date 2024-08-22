@@ -30,7 +30,7 @@ export const instantiate = (): ReadonlyArray<ServicePath> => [
     service: getCollection,
   },
   {
-    path: '/entries/:id',
+    path: '/discussions/:id',
     service: getEntry,
   },
   {
