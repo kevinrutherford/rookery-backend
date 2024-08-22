@@ -12,7 +12,7 @@ export const renderComment = (comment: Comment): JsonApiResource => ({
   },
   relationships: {
     author: { data: renderMemberIdentifier(comment.authorId) },
-    entry: { data: renderDiscussionIdentifier(comment.entryId) },
+    discussion: { data: renderDiscussionIdentifier(comment.discussionId) },
   },
 })
 

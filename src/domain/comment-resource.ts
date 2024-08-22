@@ -1,6 +1,6 @@
 export type Comment = {
   id: string,
-  entryId: string,
+  discussionId: string,
   authorId: string,
   content: string,
   createdAt: Date,

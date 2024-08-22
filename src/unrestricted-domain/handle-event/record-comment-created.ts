@@ -17,7 +17,7 @@ export const recordCommentCreated = (state: Readmodel, event: CommentCreatedEven
   const current = state.comments.get(comment.entryId) ?? [] // SMELL: could be stored on the entry
   current.push({
     id: comment.id,
-    entryId: comment.entryId,
+    discussionId: comment.entryId,
     content: comment.content,
     authorId: event.data.actorId,
     createdAt: event.created,
