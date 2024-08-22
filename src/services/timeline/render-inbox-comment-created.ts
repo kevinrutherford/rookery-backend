@@ -12,7 +12,7 @@ import { renderMemberIdentifier } from '../json-api/render-member-identifier'
 export const renderInboxCommentCreated = (queries: Domain, update: InboxCommentCreated): UpdateWithIncludes => pipe(
   update.discussionId,
   queries.lookupEntry,
-  E.match(
+  E.matchW(
     () => ({
       data: {
         type: update.kind,
@@ -22,12 +22,11 @@ export const renderInboxCommentCreated = (queries: Domain, update: InboxCommentC
         },
         relationships: {
           actor: { data: renderMemberIdentifier(update.actorId) },
-          entry: { data: renderDiscussionIdentifier(update.discussionId) },
+          entry: { data: null },
         },
       },
       included: [
         includeMember(queries, update.actorId),
-        O.some(renderDiscussion(update.discussion)),
       ],
     }),
     (discussion) => ({
