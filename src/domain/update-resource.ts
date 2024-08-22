@@ -47,6 +47,7 @@ type InboxDiscussionStarted = UpdateCommonAttributes & {
 
 export type InboxCommentCreated = UpdateCommonAttributes & {
   kind: 'inbox-update:comment-created',
+  discussionId: string,
   discussion: Discussion,
 }
 
