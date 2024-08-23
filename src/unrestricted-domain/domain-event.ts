@@ -82,6 +82,21 @@ const memberJoinedEvent = t.intersection([esEventBase, t.type({
 
 export type MemberJoinedEvent = t.TypeOf<typeof memberJoinedEvent>
 
+const remoteDiscussionFetchedEvent = t.intersection([esEventBase, t.type({
+  type: t.literal('remote-discussion-fetched'),
+  data: t.type({ // SMELL -- coupled to discussion resource rendering
+    id: t.string,
+    type: t.literal('discussion'),
+    attributes: t.type({
+      addedAt: tt.DateFromISOString,
+      title: t.string,
+      commentsCount: t.number,
+    }),
+  }),
+})])
+
+export type RemoteDiscussionFetchedEvent = t.TypeOf<typeof remoteDiscussionFetchedEvent>
+
 const remoteMemberFetchedEvent = t.intersection([esEventBase, t.type({
   type: t.literal('remote-member-fetched'),
   data: t.type({ // SMELL -- coupled to member resource rendering
@@ -151,6 +166,7 @@ export const domainEvent = t.union([
   commentCreatedEvent,
   doiEnteredEvent,
   memberJoinedEvent,
+  remoteDiscussionFetchedEvent,
   remoteMemberFetchedEvent,
   workUpdatedEvent,
   inboxCommentCreatedEvent,

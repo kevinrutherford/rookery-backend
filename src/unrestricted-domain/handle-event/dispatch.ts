@@ -5,6 +5,7 @@ import { recordCommunityCreated } from './record-community-created'
 import { recordDoiEntered } from './record-doi-entered'
 import { recordInboxCommentCreated } from './record-inbox-comment-created'
 import { recordMemberJoined } from './record-member-joined'
+import { recordRemoteDiscussionFetched } from './record-remote-discussion-fetched'
 import { recordRemoteMemberFetched } from './record-remote-member-fetched'
 import { recordWorkUpdated } from './record-work-updated'
 import { DomainEvent } from '../domain-event'
@@ -29,6 +30,9 @@ export const dispatch = (state: Readmodel) => (event: DomainEvent): void => {
       break
     case 'member-joined':
       recordMemberJoined(state, event)
+      break
+    case 'remote-discussion-fetched':
+      recordRemoteDiscussionFetched(state, event)
       break
     case 'remote-member-fetched':
       recordRemoteMemberFetched(state, event)
