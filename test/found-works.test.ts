@@ -24,7 +24,7 @@ describe('given a Work that has been found on Crossref', () => {
     }))
     handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
-      entryId: arbitraryWord(),
+      discussionId: arbitraryWord(),
       doi,
       collectionId,
     }))

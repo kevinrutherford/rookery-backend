@@ -10,7 +10,7 @@ import { mkEvent } from '../mk-event'
 type State = {
   handleEvent: UnrestrictedDomain.EventHandler,
   collectionId?: string,
-  entryId?: string,
+  discussionId?: string,
   workId?: string,
 }
 
@@ -54,15 +54,15 @@ const createCollection: Action = {
 const addEntry: Action = {
   description: 'discussion-started',
   act: (state) => {
-    const entryId = arbitraryWord()
+    const discussionId = arbitraryWord()
     const workId = arbitraryWord()
     state.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
-      entryId,
+      discussionId,
       doi: workId,
       collectionId: state.collectionId,
     }))
-    return { ...state, entryId, workId }
+    return { ...state, discussionId, workId }
   },
 }
 
@@ -86,7 +86,7 @@ const addComment: Action = {
     state.handleEvent(mkEvent('comment-created', {
       id: arbitraryWord(),
       actorId: arbitraryWord(),
-      entryId: state.entryId ?? 'not-found',
+      discussionId: state.discussionId ?? 'not-found',
       content: arbitraryString(),
       publishedAt: new Date().toISOString(),
     }))

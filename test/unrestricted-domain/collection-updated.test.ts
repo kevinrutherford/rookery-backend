@@ -10,7 +10,7 @@ describe('given a public collection', () => {
   const addEntry = () => {
     domain.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
-      entryId: arbitraryWord(),
+      discussionId: arbitraryWord(),
       doi: arbitraryWord(),
       collectionId,
     }))

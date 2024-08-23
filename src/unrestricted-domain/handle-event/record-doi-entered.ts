@@ -27,7 +27,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
 
   const data = event.data
   const discussion: Discussion = {
-    id: event.data.entryId,
+    id: event.data.discussionId,
     collectionId: event.data.collectionId,
     workId,
     addedAt: event.created,
@@ -37,7 +37,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
   const current = state.discussionsByCollection.get(data.collectionId) ?? []
   current.push(discussion)
   state.discussionsByCollection.set(data.collectionId, current)
-  state.discussionsByEntryId.set(data.entryId, discussion)
+  state.discussionsByEntryId.set(data.discussionId, discussion)
 
   const actorId = event.data.actorId
   recordUpdate(state, {
@@ -47,7 +47,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     actorId,
     occurredWithinPrivateCollection: collection.isPrivate,
     collectionId: event.data.collectionId,
-    entryId: event.data.entryId,
+    discussionId: event.data.discussionId,
     workId,
   })
 
@@ -58,7 +58,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
       ...actor,
       following: [
         ...followings,
-        renderDiscussionIdentifier(event.data.entryId),
+        renderDiscussionIdentifier(event.data.discussionId),
       ],
     })
   }

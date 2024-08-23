@@ -5,9 +5,9 @@ import * as S from 'fp-ts/string'
 import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
-export const findComments = (currentState: Readmodel): Domain['findComments'] => (entryId) => pipe(
+export const findComments = (currentState: Readmodel): Domain['findComments'] => (discussionId) => pipe(
   currentState.comments,
-  RM.lookup(S.Eq)(entryId),
+  RM.lookup(S.Eq)(discussionId),
   O.match(
     () => [],
     identity,

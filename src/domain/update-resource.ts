@@ -18,7 +18,7 @@ export type CollectionCreated = UpdateCommonAttributes & {
 export type CommentCreated = UpdateCommonAttributes & {
   kind: 'update:comment-created',
   content: string,
-  entryId: string,
+  discussionId: string,
   workId: string,
 }
 
@@ -26,7 +26,7 @@ export type DiscussionStarted = UpdateCommonAttributes & {
   kind: 'update:doi-entered',
   workId: string,
   collectionId: string,
-  entryId: string,
+  discussionId: string,
 }
 
 export type FrontMatterFetched = UpdateCommonAttributes & {

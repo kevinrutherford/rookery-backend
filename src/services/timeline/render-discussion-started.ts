@@ -20,14 +20,14 @@ export const renderDiscussionStarted = (queries: Domain, update: DiscussionStart
     relationships: {
       actor: { data: renderMemberIdentifier(update.actorId) },
       collection: { data: renderCollectionIdentifier(update.collectionId) },
-      entry: { data: renderDiscussionIdentifier(update.entryId) },
+      entry: { data: renderDiscussionIdentifier(update.discussionId) },
       work: { data: renderWorkIdentifier(update.workId) },
     },
   },
   included: [
     includeMember(queries, update.actorId),
     includeCollection(queries, update.collectionId),
-    includeDiscussion(queries, update.entryId),
+    includeDiscussion(queries, update.discussionId),
     includeWork(queries, update.workId),
   ],
 })

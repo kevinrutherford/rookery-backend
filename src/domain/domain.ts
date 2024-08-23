@@ -21,7 +21,7 @@ export type Domain = {
   allMembers: () => ReadonlyArray<Member>,
   allWorks: () => ReadonlyArray<Work>,
   collectionsContainingWork: (workId: string) => ReadonlyArray<Collection>,
-  findComments: (entryId: string) => ReadonlyArray<Comment>,
+  findComments: (discussionId: string) => ReadonlyArray<Comment>,
   findDiscussionsAboutWork: (workId: string) => ReadonlyArray<Discussion>,
   findDiscussions: (collectionId: string) => ReadonlyArray<Discussion>,
   getCommunity: () => O.Option<Community>,
@@ -30,7 +30,7 @@ export type Domain = {
   getLocalTimeline: () => ReadonlyArray<Update>,
   lookupMember: (accountId: string) => E.Either<DomainError, Member>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
-  lookupEntry: (entryId: string) => E.Either<DomainError, Discussion>,
+  lookupEntry: (discussionId: string) => E.Either<DomainError, Discussion>,
   lookupWork: (id: string) => E.Either<DomainError, Work>,
   info: () => DomainProbe,
 }

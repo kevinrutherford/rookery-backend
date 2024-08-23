@@ -50,7 +50,7 @@ const commentCreatedEvent = t.intersection([esEventBase, t.type({
   data: t.type({
     id: t.string,
     actorId: t.string,
-    entryId: t.string,
+    discussionId: t.string,
     content: t.string,
     publishedAt: tt.DateFromISOString,
   }),
@@ -62,7 +62,7 @@ const doiEnteredEvent = t.intersection([esEventBase, t.type({
   type: t.literal('discussion-started'),
   data: t.type({
     actorId: t.string,
-    entryId: t.string,
+    discussionId: t.string,
     doi: t.string,
     collectionId: t.string,
   }),
@@ -152,7 +152,7 @@ const inboxCommentCreatedEvent = t.intersection([esEventBase, t.type({
     id: t.string,
     actorId: t.string,
     publishedAt: tt.DateFromISOString,
-    entryId: t.string,
+    discussionId: t.string,
     content: t.string,
   }),
 })])

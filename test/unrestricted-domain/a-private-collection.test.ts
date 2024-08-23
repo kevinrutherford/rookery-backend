@@ -6,13 +6,13 @@ import { mkEvent } from '../mk-event'
 describe('given a private collection', () => {
   let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
   const collectionId = arbitraryWord()
-  const entryId = arbitraryWord()
+  const discussionId = arbitraryWord()
   const workId = arbitraryWord()
 
   const addEntry = () => {
     domain.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
-      entryId,
+      discussionId,
       doi: workId,
       collectionId,
     }))
@@ -89,7 +89,7 @@ describe('given a private collection', () => {
         domain.handleEvent(mkEvent('comment-created', {
           id: arbitraryWord(),
           actorId: arbitraryWord(),
-          entryId,
+          discussionId,
           content: arbitraryString(),
           publishedAt: new Date().toISOString(),
         }))

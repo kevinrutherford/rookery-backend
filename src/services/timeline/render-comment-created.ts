@@ -15,12 +15,12 @@ export const renderCommentCreated = (queries: Domain, update: CommentCreated): U
     },
     relationships: {
       actor: { data: renderMemberIdentifier(update.actorId) },
-      entry: { data: renderDiscussionIdentifier(update.entryId) },
+      entry: { data: renderDiscussionIdentifier(update.discussionId) },
     },
   },
   included: [
     includeMember(queries, update.actorId),
-    includeDiscussion(queries, update.entryId),
+    includeDiscussion(queries, update.discussionId),
   ],
 })
 

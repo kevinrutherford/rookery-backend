@@ -7,7 +7,7 @@ export const recordInboxCommentCreated = (state: Readmodel, event: InboxCommentC
     id: event.data.id,
     created: event.data.publishedAt,
     actorId: event.data.actorId,
-    discussionId: event.data.entryId,
+    discussionId: event.data.discussionId,
     occurredWithinPrivateCollection: false,
   })
 }

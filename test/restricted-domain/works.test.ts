@@ -52,7 +52,7 @@ describe('visibility of works', () => {
       beforeEach(() => {
         handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
-          entryId: arbitraryWord(),
+          discussionId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
         }))
@@ -77,7 +77,7 @@ describe('visibility of works', () => {
       beforeEach(() => {
         handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
-          entryId: arbitraryWord(),
+          discussionId: arbitraryWord(),
           doi: workId,
           collectionId: privateCollectionId,
         }))
@@ -116,13 +116,13 @@ describe('visibility of works', () => {
       beforeEach(() => {
         handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
-          entryId: arbitraryWord(),
+          discussionId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
         }))
         handleEvent(mkEvent('discussion-started', {
           actorId: arbitraryWord(),
-          entryId: arbitraryWord(),
+          discussionId: arbitraryWord(),
           doi: workId,
           collectionId: privateCollectionId,
         }))

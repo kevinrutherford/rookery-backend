@@ -19,7 +19,7 @@ describe('given a non-existent collection', () => {
   })
 
   describe('discussion-started', () => {
-    const entryId = arbitraryWord()
+    const discussionId = arbitraryWord()
 
     beforeEach(() => {
       handleEvent(mkEvent('member-joined', {
@@ -30,7 +30,7 @@ describe('given a non-existent collection', () => {
       }))
       handleEvent(mkEvent('discussion-started', {
         actorId,
-        entryId,
+        discussionId,
         doi: arbitraryWord(),
         collectionId,
       }))
@@ -41,7 +41,7 @@ describe('given a non-existent collection', () => {
     })
 
     it('does not record the Entry', () => {
-      expect(queries.lookupEntry(entryId)).toStrictEqual(E.left('not-found'))
+      expect(queries.lookupEntry(discussionId)).toStrictEqual(E.left('not-found'))
     })
 
     it('does not record the Activity', () => {

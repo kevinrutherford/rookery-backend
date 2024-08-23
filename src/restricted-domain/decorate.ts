@@ -50,8 +50,8 @@ export const lookupCollection = (queries: Domain, claims: Authority): Domain['lo
   ),
 )
 
-export const lookupEntry = (queries: Domain, claims: Authority): Domain['lookupEntry'] => (entryId) => pipe(
-  entryId,
+export const lookupEntry = (queries: Domain, claims: Authority): Domain['lookupEntry'] => (discussionId) => pipe(
+  discussionId,
   queries.lookupEntry,
   E.filterOrElseW(
     clientCanAccessEntry(claims, queries),
