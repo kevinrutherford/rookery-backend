@@ -10,11 +10,11 @@ export const recordRemoteDiscussionFetched = (state: Readmodel, event: RemoteDis
   }
   state.discussionsByDiscussionId.set(discussionId, {
     id: event.data.id,
-    workId: '',
-    collectionId: '',
     addedAt: event.data.attributes.addedAt,
     title: event.data.attributes.title,
     commentsCount: event.data.attributes.commentsCount,
+    workId: '',
+    collectionId: '',
   })
 }
 

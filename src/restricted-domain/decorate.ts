@@ -21,7 +21,7 @@ const clientCanAccessDiscussion = (clientCan: Authority, queries: Domain) => (di
   discussion.collectionId,
   queries.lookupCollection,
   E.match(
-    () => false,
+    () => true,
     collectionIsAccessible(clientCan),
   ),
 )
