@@ -2,6 +2,7 @@ import { getCollection } from './collection/collection'
 import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
 import { getDiscussion } from './discussion/discussion'
+import { getDiscussions } from './discussion/discussions'
 import { getMember } from './member/member'
 import { getMembers } from './member/members'
 import { getRoot } from './root/root'
@@ -28,6 +29,10 @@ export const instantiate = (): ReadonlyArray<ServicePath> => [
   {
     path: '/collections/:id',
     service: getCollection,
+  },
+  {
+    path: '/discussions',
+    service: getDiscussions,
   },
   {
     path: '/discussions/:id',

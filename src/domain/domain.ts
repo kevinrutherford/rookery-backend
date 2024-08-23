@@ -18,6 +18,7 @@ type DomainError = 'not-found' | 'not-authorised'
 
 export type Domain = {
   allCollections: () => ReadonlyArray<Collection>,
+  allDiscussions: () => ReadonlyArray<Discussion>,
   allMembers: () => ReadonlyArray<Member>,
   allWorks: () => ReadonlyArray<Work>,
   collectionsContainingWork: (workId: string) => ReadonlyArray<Collection>,
