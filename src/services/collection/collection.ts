@@ -14,8 +14,8 @@ import { Service } from '../service'
 import { validateInput } from '../validate-input'
 
 const includes = t.union([
-  t.literal('entries'),
-  t.literal('entries.work'),
+  t.literal('discussions'),
+  t.literal('discussions.work'),
 ])
 
 type Includes = t.TypeOf<typeof includes>
@@ -43,13 +43,13 @@ type Params = t.TypeOf<typeof paramsCodec>
 
 const getInc = (queries: Domain, collection: Collection) => (opt: Includes): ReadonlyArray<JsonApiResource> => {
   switch (opt) {
-    case 'entries':
+    case 'discussions':
       return pipe(
         collection.id,
         queries.findDiscussions,
         RA.map(renderDiscussion),
       )
-    case 'entries.work':
+    case 'discussions.work':
       return pipe(
         collection.id,
         queries.findDiscussions,

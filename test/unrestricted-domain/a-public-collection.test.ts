@@ -26,7 +26,7 @@ describe('given a public collection', () => {
     }))
   })
 
-  describe('that has no entries', () => {
+  describe('that has no discussions', () => {
     describe('when discussion-started', () => {
       const actorId = arbitraryWord() // SMELL -- need to configure the actor cache with this id
       const discussionId = arbitraryWord()
@@ -175,7 +175,7 @@ describe('given a public collection', () => {
         }))
       })
 
-      it('the actor is following both entries', () => {
+      it('the actor is following both discussions', () => {
         const member = pipe(
           actorId,
           d.lookupMember,
