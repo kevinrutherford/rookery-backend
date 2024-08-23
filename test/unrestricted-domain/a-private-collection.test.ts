@@ -9,7 +9,7 @@ describe('given a private collection', () => {
   const discussionId = arbitraryWord()
   const workId = arbitraryWord()
 
-  const addEntry = () => {
+  const addDiscussion = () => {
     domain.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
       discussionId,
@@ -41,7 +41,7 @@ describe('given a private collection', () => {
 
   describe('when discussion-started', () => {
     beforeEach(() => {
-      addEntry()
+      addDiscussion()
     })
 
     it('the activity is recorded as private', () => {
@@ -51,11 +51,11 @@ describe('given a private collection', () => {
     })
   })
 
-  describe('with an entry', () => {
+  describe('with an discussion', () => {
     let activities: ReturnType<typeof domain.queries.getLocalTimeline>
 
     beforeEach(() => {
-      addEntry()
+      addDiscussion()
     })
 
     describe('when collection-updated to become public', () => {
@@ -83,7 +83,7 @@ describe('given a private collection', () => {
       })
     })
 
-    describe('when comment-created on the entry', () => {
+    describe('when comment-created on the discussion', () => {
 
       beforeEach(() => {
         domain.handleEvent(mkEvent('comment-created', {

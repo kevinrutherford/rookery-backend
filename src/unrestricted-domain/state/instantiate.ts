@@ -1,6 +1,6 @@
 import * as O from 'fp-ts/Option'
 import { Collection } from './collection'
-import { Entry } from './entry'
+import { Discussion } from './discussion'
 import { Readmodel } from './readmodel'
 import { Work } from './work'
 import { Comment } from '../../domain/index.open'
@@ -9,8 +9,8 @@ export const instantiate = (): Readmodel => ({
   collections: new Map<string, Collection>(),
   comments: new Map<string, Array<Comment>>(),
   community: O.none,
-  discussionsByCollection: new Map<string, Array<Entry>>(),
-  discussionsByDiscussionId: new Map<string, Entry>(),
+  discussionsByCollection: new Map<string, Array<Discussion>>(),
+  discussionsByDiscussionId: new Map<string, Discussion>(),
   inbox: [],
   info: {
     eventsCount: 0,

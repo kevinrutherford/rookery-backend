@@ -48,12 +48,12 @@ type Params = t.TypeOf<typeof paramsCodec>
 
 const getInc = (
   queries: Domain,
-  entry: Discussion,
+  discussion: Discussion,
 ) => (opt: Includes): ReadonlyArray<JsonApiResource> => {
   switch (opt) {
     case 'collection':
       return pipe(
-        entry.collectionId,
+        discussion.collectionId,
         queries.lookupCollection,
         E.match(
           () => [],
@@ -62,13 +62,13 @@ const getInc = (
       )
     case 'comments':
       return pipe(
-        entry.id,
+        discussion.id,
         queries.findComments,
         RA.map(renderComment),
       )
     case 'comments.author':
       return pipe(
-        entry.id,
+        discussion.id,
         queries.findComments,
         RA.map((comment) => comment.authorId),
         RA.map(queries.lookupMember),
@@ -77,7 +77,7 @@ const getInc = (
       )
     case 'work':
       return pipe(
-        entry.workId,
+        discussion.workId,
         queries.lookupWork,
         E.match(
           () => [],
@@ -89,18 +89,18 @@ const getInc = (
   }
 }
 
-const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry: Discussion) => pipe(
+const renderWithIncludes = (queries: Domain, incl: Params['include']) => (discussion: Discussion) => pipe(
   incl,
   O.matchW(
     () => ({
-      data: renderDiscussion(entry),
+      data: renderDiscussion(discussion),
     }),
     (incs) => pipe(
       incs,
-      RA.chain(getInc(queries, entry)),
+      RA.chain(getInc(queries, discussion)),
       RA.uniq(resourceEq),
       (i) => ({
-        data: renderDiscussion(entry),
+        data: renderDiscussion(discussion),
         included: i,
       }),
     ),
@@ -109,14 +109,14 @@ const renderWithIncludes = (queries: Domain, incl: Params['include']) => (entry:
 
 const renderResult = (queries: Domain) => (params: Params) => pipe(
   params.id,
-  queries.lookupEntry,
+  queries.lookupDiscussion,
   E.bimap(
-    () => renderError('not-found', 'Entry not found', { id: params.id }),
+    () => renderError('not-found', 'Discussion not found', { id: params.id }),
     renderWithIncludes(queries, params.include),
   ),
 )
 
-export const getEntry = (queries: Domain): Service => (input) => pipe(
+export const getDiscussion = (queries: Domain): Service => (input) => pipe(
   input,
   validateInput(paramsCodec),
   E.chain(renderResult(queries)),

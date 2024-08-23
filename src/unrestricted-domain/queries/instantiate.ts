@@ -9,7 +9,7 @@ import { getCommunity } from './get-community'
 import { getFollowedTimeline } from './get-followed-timeline'
 import { getLocalTimeline } from './get-local-timeline'
 import { lookupCollection } from './lookup-collection'
-import { lookupEntry } from './lookup-entry'
+import { lookupDiscussion } from './lookup-discussion'
 import { lookupMember } from './lookup-member'
 import { lookupWork } from './lookup-work'
 import { Domain } from '../../domain/index.open'
@@ -30,7 +30,7 @@ export const instantiate = (currentState: Readmodel): Domain => ({
   info: () => currentState.info,
   lookupMember: lookupMember(currentState),
   lookupCollection: lookupCollection(currentState),
-  lookupEntry: lookupEntry(currentState),
+  lookupDiscussion: lookupDiscussion(currentState),
   lookupWork: lookupWork(currentState),
 })
 

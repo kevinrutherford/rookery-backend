@@ -40,8 +40,8 @@ describe('given a non-existent collection', () => {
       expect(queries.allWorks()).toHaveLength(0)
     })
 
-    it('does not record the Entry', () => {
-      expect(queries.lookupEntry(discussionId)).toStrictEqual(E.left('not-found'))
+    it('does not record the Discussion', () => {
+      expect(queries.lookupDiscussion(discussionId)).toStrictEqual(E.left('not-found'))
     })
 
     it('does not record the Activity', () => {
@@ -52,7 +52,7 @@ describe('given a non-existent collection', () => {
       expect(queries.info().unexpectedEvents).toHaveLength(1)
     })
 
-    it('does not set the actor to follow the entry', () => {
+    it('does not set the actor to follow the discussion', () => {
       const member = pipe(
         actorId,
         queries.lookupMember,

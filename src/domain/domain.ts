@@ -30,7 +30,7 @@ export type Domain = {
   getLocalTimeline: () => ReadonlyArray<Update>,
   lookupMember: (accountId: string) => E.Either<DomainError, Member>,
   lookupCollection: (collectionId: string) => E.Either<DomainError, Collection>,
-  lookupEntry: (discussionId: string) => E.Either<DomainError, Discussion>,
+  lookupDiscussion: (discussionId: string) => E.Either<DomainError, Discussion>,
   lookupWork: (id: string) => E.Either<DomainError, Work>,
   info: () => DomainProbe,
 }

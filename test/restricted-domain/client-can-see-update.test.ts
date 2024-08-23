@@ -51,7 +51,7 @@ const createCollection: Action = {
   },
 }
 
-const addEntry: Action = {
+const addDiscussion: Action = {
   description: 'discussion-started',
   act: (state) => {
     const discussionId = arbitraryWord()
@@ -131,14 +131,14 @@ const emptyPrivateCollection: Scenario = {
   setup: flow(emptyCollection.setup, becomePrivate.act),
 }
 
-const publicCollectionWithEntry: Scenario = {
-  description: 'an entry in a public collection',
-  setup: flow(emptyCollection.setup, addEntry.act),
+const publicCollectionWithDiscussion: Scenario = {
+  description: 'an discussion in a public collection',
+  setup: flow(emptyCollection.setup, addDiscussion.act),
 }
 
-const privateCollectionWithEntry: Scenario = {
-  description: 'an entry in a private collection',
-  setup: flow(publicCollectionWithEntry.setup, becomePrivate.act),
+const privateCollectionWithDiscussion: Scenario = {
+  description: 'an discussion in a private collection',
+  setup: flow(publicCollectionWithDiscussion.setup, becomePrivate.act),
 }
 
 type Example = [scenario: Scenario, event: Action, activitiesAdded: number]
@@ -164,23 +164,23 @@ describe.each([
     [emptyDatabase, createCommunity, 1],
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 0],
-    [emptyCollection, addEntry, 1],
-    [emptyPrivateCollection, addEntry, 0],
-    [publicCollectionWithEntry, addComment, 1],
-    [privateCollectionWithEntry, addComment, 0],
-    [publicCollectionWithEntry, workFound, 1],
-    [privateCollectionWithEntry, workFound, 0],
+    [emptyCollection, addDiscussion, 1],
+    [emptyPrivateCollection, addDiscussion, 0],
+    [publicCollectionWithDiscussion, addComment, 1],
+    [privateCollectionWithDiscussion, addComment, 0],
+    [publicCollectionWithDiscussion, workFound, 1],
+    [privateCollectionWithDiscussion, workFound, 0],
   ] satisfies Examples],
   [canBrowsePrivateCollections, [
     [emptyDatabase, createCommunity, 1],
     [emptyDatabase, createCollection, 1],
     // [emptyDatabase, createPrivateCollection, 1],
-    [emptyCollection, addEntry, 1],
-    [emptyPrivateCollection, addEntry, 1],
-    [publicCollectionWithEntry, addComment, 1],
-    [privateCollectionWithEntry, addComment, 1],
-    [publicCollectionWithEntry, workFound, 1],
-    [privateCollectionWithEntry, workFound, 1],
+    [emptyCollection, addDiscussion, 1],
+    [emptyPrivateCollection, addDiscussion, 1],
+    [publicCollectionWithDiscussion, addComment, 1],
+    [privateCollectionWithDiscussion, addComment, 1],
+    [publicCollectionWithDiscussion, workFound, 1],
+    [privateCollectionWithDiscussion, workFound, 1],
   ] satisfies Examples],
 ])('client-can-see-update', (client: Client, examples: Examples) => {
   let handleEvent: UnrestrictedDomain.EventHandler

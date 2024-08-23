@@ -7,7 +7,7 @@ describe('given a public collection', () => {
   let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
   const collectionId = arbitraryWord()
 
-  const addEntry = () => {
+  const addDiscussion = () => {
     domain.handleEvent(mkEvent('discussion-started', {
       actorId: arbitraryWord(),
       discussionId: arbitraryWord(),
@@ -44,7 +44,7 @@ describe('given a public collection', () => {
       name: arbitraryString(),
       description: arbitraryString(),
     }))
-    addEntry()
+    addDiscussion()
   })
 
   describe('when collection-updated to become private', () => {
@@ -52,7 +52,7 @@ describe('given a public collection', () => {
 
     beforeEach(() => {
       becomePrivate()
-      addEntry()
+      addDiscussion()
       activities = domain.queries.getLocalTimeline()
     })
 
@@ -75,9 +75,9 @@ describe('given a public collection', () => {
 
     beforeEach(() => {
       becomePrivate()
-      addEntry() // SMELL: need to test all kinds of activity
+      addDiscussion() // SMELL: need to test all kinds of activity
       becomePublic()
-      addEntry()
+      addDiscussion()
       activities = domain.queries.getLocalTimeline()
     })
 

@@ -1,6 +1,6 @@
 import * as O from 'fp-ts/Option'
 import { Collection } from './collection'
-import { Entry } from './entry'
+import { Discussion } from './discussion'
 import { Work } from './work'
 import {
   Comment,
@@ -11,8 +11,8 @@ export type Readmodel = {
   collections: Map<string, Collection>,
   comments: Map<string, Array<Comment>>,
   community: O.Option<Community>,
-  discussionsByCollection: Map<string, Array<Entry>>,
-  discussionsByDiscussionId: Map<string, Entry>,
+  discussionsByCollection: Map<string, Array<Discussion>>,
+  discussionsByDiscussionId: Map<string, Discussion>,
   inbox: Array<Update>,
   info: DomainProbe,
   members: Map<string, Member>,

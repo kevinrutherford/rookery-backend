@@ -6,7 +6,7 @@ import { renderDiscussion } from '../json-api/render-discussion'
 
 export const includeDiscussion = (queries: Domain, discussionId: string): O.Option<JsonApiResource> => pipe(
   discussionId,
-  queries.lookupEntry,
+  queries.lookupDiscussion,
   O.fromEither,
   O.map(renderDiscussion),
 )

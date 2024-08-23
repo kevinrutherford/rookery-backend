@@ -51,7 +51,7 @@ describe('given a public collection', () => {
 
       it('starts the discussion with a title matching the DOI', () => {
         const discussion = pipe(
-          d.lookupEntry(discussionId),
+          d.lookupDiscussion(discussionId),
           E.getOrElseW(shouldNotHappen),
         )
         expect(discussion.title).toContain(workId)
@@ -70,7 +70,7 @@ describe('given a public collection', () => {
         expect(d.allWorks()[0].id).toStrictEqual(workId)
       })
 
-      it('records the actor as following the entry', () => {
+      it('records the actor as following the discussion', () => {
         const member = pipe(
           actorId,
           d.lookupMember,
@@ -101,7 +101,7 @@ describe('given a public collection', () => {
     })
   })
 
-  describe('that has one entry', () => {
+  describe('that has one discussion', () => {
     const discussionId = arbitraryWord()
     const actorId = arbitraryWord()
 
@@ -137,7 +137,7 @@ describe('given a public collection', () => {
 
       it('updates the discussion title', () => {
         const discussion = pipe(
-          d.lookupEntry(discussionId),
+          d.lookupDiscussion(discussionId),
           E.getOrElseW(shouldNotHappen),
         )
         expect(discussion.title).toBe(title)

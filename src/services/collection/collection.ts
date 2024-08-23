@@ -53,7 +53,7 @@ const getInc = (queries: Domain, collection: Collection) => (opt: Includes): Rea
       return pipe(
         collection.id,
         queries.findDiscussions,
-        RA.map((entry) => entry.workId),
+        RA.map((discussion) => discussion.workId),
         RA.map(queries.lookupWork),
         RA.rights,
         RA.map(renderWork),

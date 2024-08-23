@@ -17,8 +17,8 @@ const workIsAccessible = (clientCan: Authority, queries: Domain) => (work: Work)
   clientCan('browse-private-collections') || workIsEnteredInSomePublicCollection(queries)(work.id)
 )
 
-const clientCanAccessEntry = (clientCan: Authority, queries: Domain) => (entry: Discussion): boolean => pipe(
-  entry.collectionId,
+const clientCanAccessDiscussion = (clientCan: Authority, queries: Domain) => (discussion: Discussion): boolean => pipe(
+  discussion.collectionId,
   queries.lookupCollection,
   E.match(
     () => false,
@@ -50,11 +50,11 @@ export const lookupCollection = (queries: Domain, claims: Authority): Domain['lo
   ),
 )
 
-export const lookupEntry = (queries: Domain, claims: Authority): Domain['lookupEntry'] => (discussionId) => pipe(
+export const lookupDiscussion = (queries: Domain, claims: Authority): Domain['lookupDiscussion'] => (discussionId) => pipe(
   discussionId,
-  queries.lookupEntry,
+  queries.lookupDiscussion,
   E.filterOrElseW(
-    clientCanAccessEntry(claims, queries),
+    clientCanAccessDiscussion(claims, queries),
     () => 'not-authorised' as const,
   ),
 )
