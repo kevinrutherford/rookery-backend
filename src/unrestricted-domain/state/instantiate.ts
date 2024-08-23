@@ -10,7 +10,7 @@ export const instantiate = (): Readmodel => ({
   comments: new Map<string, Array<Comment>>(),
   community: O.none,
   discussionsByCollection: new Map<string, Array<Entry>>(),
-  discussionsByEntryId: new Map<string, Entry>(),
+  discussionsByDiscussionId: new Map<string, Entry>(),
   inbox: [],
   info: {
     eventsCount: 0,

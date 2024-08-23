@@ -12,7 +12,7 @@ export type Readmodel = {
   comments: Map<string, Array<Comment>>,
   community: O.Option<Community>,
   discussionsByCollection: Map<string, Array<Entry>>,
-  discussionsByEntryId: Map<string, Entry>,
+  discussionsByDiscussionId: Map<string, Entry>,
   inbox: Array<Update>,
   info: DomainProbe,
   members: Map<string, Member>,

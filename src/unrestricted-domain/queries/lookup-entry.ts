@@ -6,7 +6,7 @@ import { Domain } from '../../domain/index.open'
 import { Readmodel } from '../state/readmodel'
 
 export const lookupEntry = (currentState: Readmodel): Domain['lookupEntry'] => (discussionId) => pipe(
-  currentState.discussionsByEntryId,
+  currentState.discussionsByDiscussionId,
   RM.lookup(S.Eq)(discussionId),
   E.fromOption(() => 'not-found' as const),
 )

@@ -3,12 +3,12 @@ import { Readmodel } from '../state/readmodel'
 
 export const recordRemoteDiscussionFetched = (state: Readmodel, event: RemoteDiscussionFetchedEvent): void => {
   const discussionId = event.data.id
-  const existing = state.discussionsByEntryId.get(discussionId)
+  const existing = state.discussionsByDiscussionId.get(discussionId)
   if (existing !== undefined) {
     state.info.unexpectedEvents.push(event)
     return
   }
-  state.discussionsByEntryId.set(discussionId, {
+  state.discussionsByDiscussionId.set(discussionId, {
     id: event.data.id,
     workId: '',
     collectionId: '',
