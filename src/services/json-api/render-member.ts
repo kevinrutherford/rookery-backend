@@ -10,5 +10,12 @@ export const renderMember = (member: Member): JsonApiResource => ({
     avatar_url: member.avatarUrl,
     followingCount: member.following.length,
   },
+  relationships: {
+    followers: {
+      links: {
+        related: `/members/${member.id}/followers`,
+      },
+    },
+  },
 })
 
