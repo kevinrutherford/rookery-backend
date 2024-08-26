@@ -4,6 +4,7 @@ import { recordCommentCreated } from './record-comment-created'
 import { recordCommunityCreated } from './record-community-created'
 import { recordDoiEntered } from './record-doi-entered'
 import { recordInboxCommentCreated } from './record-inbox-comment-created'
+import { recordInboxMemberFollowedMember } from './record-inbox-member-followed-member'
 import { recordMemberJoined } from './record-member-joined'
 import { recordRemoteDiscussionFetched } from './record-remote-discussion-fetched'
 import { recordRemoteMemberFetched } from './record-remote-member-fetched'
@@ -42,6 +43,9 @@ export const dispatch = (state: Readmodel) => (event: DomainEvent): void => {
       break
     case 'inbox:comment-created':
       recordInboxCommentCreated(state, event)
+      break
+    case 'inbox:member-followed-member':
+      recordInboxMemberFollowedMember(state, event)
       break
   }
 }

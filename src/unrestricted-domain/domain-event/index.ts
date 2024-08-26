@@ -42,11 +42,12 @@ export const domainEvent = t.union([
   collectionUpdatedEvent,
   commentCreatedEvent,
   discussionStartedEvent,
+  inboxMemberFollowedMemberEvent,
+  inboxCommentCreatedEvent,
   memberJoinedEvent,
   remoteDiscussionFetchedEvent,
   remoteMemberFetchedEvent,
   workUpdatedEvent,
-  inboxCommentCreatedEvent,
 ])
 
 export type DomainEvent = t.TypeOf<typeof esEventBase> & t.TypeOf<typeof domainEvent>
