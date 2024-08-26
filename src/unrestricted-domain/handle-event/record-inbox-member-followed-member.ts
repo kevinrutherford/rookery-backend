@@ -11,5 +11,7 @@ export const recordInboxMemberFollowedMember = (state: Readmodel, event: InboxMe
   const followers = state.followers.get(localMemberId) ?? []
   followers.push(event.data.remoteActorUrl)
   state.followers.set(localMemberId, followers)
+
+  localMember.followers.push(event.data.remoteActorUrl)
 }
 
