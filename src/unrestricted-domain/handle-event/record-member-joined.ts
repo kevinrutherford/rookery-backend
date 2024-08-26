@@ -10,6 +10,7 @@ export const recordMemberJoined = (state: Readmodel, event: MemberJoinedEvent): 
   }
   state.members.set(memberId, {
     ...event.data,
+    followers: [],
     following: [],
     cache: 'fetched' as const,
   })

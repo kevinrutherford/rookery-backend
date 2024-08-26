@@ -8,6 +8,7 @@ export type JsonApiResource = ResourceIdentifier & {
     links?: {
       related: string,
     },
+    meta?: Json,
   }>,
 }
 

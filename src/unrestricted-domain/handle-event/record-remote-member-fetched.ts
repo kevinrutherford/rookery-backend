@@ -13,6 +13,7 @@ export const recordRemoteMemberFetched = (state: Readmodel, event: RemoteMemberF
     username: event.data.attributes.username,
     displayName: event.data.attributes.display_name,
     avatarUrl: event.data.attributes.avatar_url,
+    followers: [],
     following: [],
     cache: 'fetched' as const,
   })

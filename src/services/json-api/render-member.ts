@@ -15,6 +15,9 @@ export const renderMember = (member: Member): JsonApiResource => ({
       links: {
         related: `/members/${member.id}/followers`,
       },
+      meta: {
+        count: member.followers.length,
+      },
     },
   },
 })
