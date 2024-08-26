@@ -3,6 +3,7 @@ import { getCollections } from './collection/collections'
 import { getCommunity } from './community/community'
 import { getDiscussion } from './discussion/discussion'
 import { getDiscussions } from './discussion/discussions'
+import { getFollowers } from './member/followers'
 import { getMember } from './member/member'
 import { getMembers } from './member/members'
 import { getRoot } from './root/root'
@@ -45,6 +46,10 @@ export const instantiate = (): ReadonlyArray<ServicePath> => [
   {
     path: '/members/:id',
     service: getMember,
+  },
+  {
+    path: '/members/:id/followers',
+    service: getFollowers,
   },
   {
     path: '/timelines/followed',
