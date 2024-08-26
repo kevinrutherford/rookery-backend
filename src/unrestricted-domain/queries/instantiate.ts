@@ -8,6 +8,7 @@ import { findDiscussions } from './find-discussions'
 import { findDiscussionsAboutWork } from './find-discussions-about-work'
 import { getCommunity } from './get-community'
 import { getFollowedTimeline } from './get-followed-timeline'
+import { getFollowers } from './get-followers'
 import { getLocalTimeline } from './get-local-timeline'
 import { lookupCollection } from './lookup-collection'
 import { lookupDiscussion } from './lookup-discussion'
@@ -28,6 +29,7 @@ export const instantiate = (currentState: Readmodel): Domain => ({
   getCommunity: getCommunity(currentState),
   getCollection: lookupCollection(currentState),
   getFollowedTimeline: getFollowedTimeline(currentState),
+  getFollowers: getFollowers(currentState),
   getLocalTimeline: getLocalTimeline(currentState),
   info: () => currentState.info,
   lookupMember: lookupMember(currentState),

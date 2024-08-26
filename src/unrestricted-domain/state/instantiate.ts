@@ -11,6 +11,7 @@ export const instantiate = (): Readmodel => ({
   community: O.none,
   discussionsByCollection: new Map<string, Array<Discussion>>(),
   discussionsByDiscussionId: new Map<string, Discussion>(),
+  followers: new Map<string, Array<string>>(),
   inbox: [],
   info: {
     eventsCount: 0,

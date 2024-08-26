@@ -13,6 +13,7 @@ export type Readmodel = {
   community: O.Option<Community>,
   discussionsByCollection: Map<string, Array<Discussion>>,
   discussionsByDiscussionId: Map<string, Discussion>,
+  followers: Map<string, Array<string>>,
   inbox: Array<Update>,
   info: DomainProbe,
   members: Map<string, Member>,
