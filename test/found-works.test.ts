@@ -11,25 +11,32 @@ const mustBeOnTheRight = (
 )
 
 describe('given a Work that has been found on Crossref', () => {
+  const actorId = arbitraryWord()
   const doi = arbitraryWord()
   const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
 
   beforeEach(() => {
     const collectionId = arbitraryWord()
+    handleEvent(mkEvent('member-joined', {
+      id: actorId,
+      username: arbitraryWord(),
+      displayName: arbitraryWord(),
+      avatarUrl: arbitraryWord(),
+    }))
     handleEvent(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryWord(),
+      actorId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))
     handleEvent(mkEvent('discussion-started', {
-      actorId: arbitraryWord(),
+      actorId,
       discussionId: arbitraryWord(),
       doi,
       collectionId,
     }))
     handleEvent(mkEvent('work-updated', {
-      actorId: arbitraryWord(),
+      actorId,
       workId: doi,
       attributes: {
         crossrefStatus: 'found',

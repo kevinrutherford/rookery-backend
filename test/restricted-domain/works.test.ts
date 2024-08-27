@@ -11,6 +11,7 @@ const canBrowsePrivateCollections: Authority = () => true
 const cannotBrowsePrivateCollections: Authority = () => false
 
 describe('visibility of works', () => {
+  const actorId = arbitraryWord()
   const workId = arbitraryWord()
   let handleEvent: UnrestrictedDomain.EventHandler
   let unrestrictedQueries: Domain
@@ -20,6 +21,12 @@ describe('visibility of works', () => {
     const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
     handleEvent = unrestrictedDomain.handleEvent
     unrestrictedQueries = unrestrictedDomain.queries
+    handleEvent(mkEvent('member-joined', {
+      id: actorId,
+      username: arbitraryWord(),
+      displayName: arbitraryWord(),
+      avatarUrl: arbitraryWord(),
+    }))
   })
 
   describe('given a public collection and a private collection', () => {
@@ -29,18 +36,18 @@ describe('visibility of works', () => {
     beforeEach(() => {
       handleEvent(mkEvent('collection-created', {
         id: publicCollectionId,
-        actorId: arbitraryWord(),
+        actorId,
         name: arbitraryString(),
         description: arbitraryString(),
       }))
       handleEvent(mkEvent('collection-created', {
         id: privateCollectionId,
-        actorId: arbitraryWord(),
+        actorId,
         name: arbitraryString(),
         description: arbitraryString(),
       }))
       handleEvent(mkEvent('collection-updated', {
-        actorId: arbitraryWord(),
+        actorId,
         collectionId: privateCollectionId,
         attributes: {
           isPrivate: true,
@@ -51,7 +58,7 @@ describe('visibility of works', () => {
     describe('and a Work entered only in the public collection', () => {
       beforeEach(() => {
         handleEvent(mkEvent('discussion-started', {
-          actorId: arbitraryWord(),
+          actorId,
           discussionId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
@@ -76,7 +83,7 @@ describe('visibility of works', () => {
     describe('and a Work entered only in the private collection', () => {
       beforeEach(() => {
         handleEvent(mkEvent('discussion-started', {
-          actorId: arbitraryWord(),
+          actorId,
           discussionId: arbitraryWord(),
           doi: workId,
           collectionId: privateCollectionId,
@@ -115,13 +122,13 @@ describe('visibility of works', () => {
     describe('and a Work entered in both collections', () => {
       beforeEach(() => {
         handleEvent(mkEvent('discussion-started', {
-          actorId: arbitraryWord(),
+          actorId,
           discussionId: arbitraryWord(),
           doi: workId,
           collectionId: publicCollectionId,
         }))
         handleEvent(mkEvent('discussion-started', {
-          actorId: arbitraryWord(),
+          actorId,
           discussionId: arbitraryWord(),
           doi: workId,
           collectionId: privateCollectionId,

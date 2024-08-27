@@ -5,13 +5,14 @@ import { mkEvent } from '../mk-event'
 
 describe('given a private collection', () => {
   let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
+  const actorId = arbitraryWord()
   const collectionId = arbitraryWord()
   const discussionId = arbitraryWord()
   const workId = arbitraryWord()
 
   const addDiscussion = () => {
     domain.handleEvent(mkEvent('discussion-started', {
-      actorId: arbitraryWord(),
+      actorId,
       discussionId,
       doi: workId,
       collectionId,
@@ -20,7 +21,7 @@ describe('given a private collection', () => {
 
   const becomePrivate = () => {
     domain.handleEvent(mkEvent('collection-updated', {
-      actorId: arbitraryWord(),
+      actorId,
       collectionId,
       attributes: {
         isPrivate: true,
@@ -30,9 +31,15 @@ describe('given a private collection', () => {
 
   beforeEach(() => {
     domain = UnrestrictedDomain.instantiate(defaultTestObserver)
+    domain.handleEvent(mkEvent('member-joined', {
+      id: actorId,
+      username: arbitraryWord(),
+      displayName: arbitraryWord(),
+      avatarUrl: arbitraryWord(),
+    }))
     domain.handleEvent(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryWord(),
+      actorId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))
@@ -61,7 +68,7 @@ describe('given a private collection', () => {
     describe('when collection-updated to become public', () => {
       const becomePublic = () => {
         domain.handleEvent(mkEvent('collection-updated', {
-          actorId: arbitraryWord(),
+          actorId,
           collectionId,
           attributes: {
             isPrivate: false,
@@ -88,7 +95,7 @@ describe('given a private collection', () => {
       beforeEach(() => {
         domain.handleEvent(mkEvent('comment-created', {
           id: arbitraryWord(),
-          actorId: arbitraryWord(),
+          actorId,
           discussionId,
           content: arbitraryString(),
           publishedAt: new Date().toISOString(),

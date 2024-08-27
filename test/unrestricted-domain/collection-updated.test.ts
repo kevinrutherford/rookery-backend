@@ -5,11 +5,12 @@ import { mkEvent } from '../mk-event'
 
 describe('given a public collection', () => {
   let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
+  const actorId = arbitraryWord()
   const collectionId = arbitraryWord()
 
   const addDiscussion = () => {
     domain.handleEvent(mkEvent('discussion-started', {
-      actorId: arbitraryWord(),
+      actorId,
       discussionId: arbitraryWord(),
       doi: arbitraryWord(),
       collectionId,
@@ -18,7 +19,7 @@ describe('given a public collection', () => {
 
   const becomePrivate = () => {
     domain.handleEvent(mkEvent('collection-updated', {
-      actorId: arbitraryWord(),
+      actorId,
       collectionId,
       attributes: {
         isPrivate: true,
@@ -28,7 +29,7 @@ describe('given a public collection', () => {
 
   const becomePublic = () => {
     domain.handleEvent(mkEvent('collection-updated', {
-      actorId: arbitraryWord(),
+      actorId,
       collectionId,
       attributes: {
         isPrivate: false,
@@ -38,9 +39,15 @@ describe('given a public collection', () => {
 
   beforeEach(() => {
     domain = UnrestrictedDomain.instantiate(defaultTestObserver)
+    domain.handleEvent(mkEvent('member-joined', {
+      id: actorId,
+      username: arbitraryWord(),
+      displayName: arbitraryWord(),
+      avatarUrl: arbitraryWord(),
+    }))
     domain.handleEvent(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryWord(),
+      actorId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))

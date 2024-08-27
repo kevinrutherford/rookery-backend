@@ -7,6 +7,8 @@ import { defaultTestObserver } from '../default-test-observer'
 import { arbitraryString, arbitraryWord } from '../helpers'
 import { mkEvent } from '../mk-event'
 
+const actorId = arbitraryWord()
+
 type State = {
   handleEvent: UnrestrictedDomain.EventHandler,
   collectionId?: string,
@@ -27,7 +29,7 @@ const createCommunity: Action = {
     const id = arbitraryWord()
     state.handleEvent(mkEvent('community-created', {
       id,
-      actorId: arbitraryWord(),
+      actorId,
       name: arbitraryString(),
       affiliation: arbitraryString(),
       overview: [arbitraryString()],
@@ -43,7 +45,7 @@ const createCollection: Action = {
     const collectionId = arbitraryWord()
     state.handleEvent(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryWord(),
+      actorId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))
@@ -57,7 +59,7 @@ const addDiscussion: Action = {
     const discussionId = arbitraryWord()
     const workId = arbitraryWord()
     state.handleEvent(mkEvent('discussion-started', {
-      actorId: arbitraryWord(),
+      actorId,
       discussionId,
       doi: workId,
       collectionId: state.collectionId,
@@ -70,7 +72,7 @@ const becomePrivate: Action = {
   description: 'collection-updated to become private',
   act: (state) => {
     state.handleEvent(mkEvent('collection-updated', {
-      actorId: arbitraryWord(),
+      actorId,
       collectionId: state.collectionId,
       attributes: {
         isPrivate: true,
@@ -85,7 +87,7 @@ const addComment: Action = {
   act: (state) => {
     state.handleEvent(mkEvent('comment-created', {
       id: arbitraryWord(),
-      actorId: arbitraryWord(),
+      actorId,
       discussionId: state.discussionId ?? 'not-found',
       content: arbitraryString(),
       publishedAt: new Date().toISOString(),
@@ -98,7 +100,7 @@ const workFound: Action = {
   description: 'work found',
   act: (state) => {
     state.handleEvent(mkEvent('work-updated', {
-      actorId: arbitraryWord(),
+      actorId,
       workId: state.workId,
       attributes: {
         crossrefStatus: 'found',
@@ -193,6 +195,12 @@ describe.each([
         const unrestrictedDomain = UnrestrictedDomain.instantiate(defaultTestObserver)
         handleEvent = unrestrictedDomain.handleEvent
         unrestrictedQueries = unrestrictedDomain.queries
+        handleEvent(mkEvent('member-joined', {
+          id: actorId,
+          username: arbitraryWord(),
+          displayName: arbitraryWord(),
+          avatarUrl: arbitraryWord(),
+        }))
       })
 
       it(`when ${action.description}, the activity is ${activitiesAdded === 0 ? 'not ' : ''}visible`, () => {

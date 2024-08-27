@@ -8,6 +8,7 @@ import { arbitraryString, arbitraryWord, shouldNotHappen } from '../helpers'
 import { mkEvent } from '../mk-event'
 
 describe('given a public collection', () => {
+  const actorId = arbitraryWord()
   const collectionId = arbitraryWord()
   const workId = arbitraryWord()
 
@@ -18,9 +19,15 @@ describe('given a public collection', () => {
     const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
     d = queries
     h = handleEvent
+    h(mkEvent('member-joined', {
+      id: actorId,
+      username: arbitraryWord(),
+      displayName: arbitraryWord(),
+      avatarUrl: arbitraryWord(),
+    }))
     h(mkEvent('collection-created', {
       id: collectionId,
-      actorId: arbitraryWord(),
+      actorId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))
@@ -28,7 +35,6 @@ describe('given a public collection', () => {
 
   describe('that has no discussions', () => {
     describe('when discussion-started', () => {
-      const actorId = arbitraryWord() // SMELL -- need to configure the actor cache with this id
       const discussionId = arbitraryWord()
 
       beforeEach(() => {
@@ -103,7 +109,6 @@ describe('given a public collection', () => {
 
   describe('that has one discussion', () => {
     const discussionId = arbitraryWord()
-    const actorId = arbitraryWord()
 
     beforeEach(() => {
       h(mkEvent('discussion-started', {
