@@ -6,7 +6,7 @@ export const inboxMemberFollowedMemberEvent = t.intersection([esEventBase, t.typ
   data: t.type({
     id: t.string,
     remoteActorId: t.string,
-    remoteActorUrl: t.string,
+    remoteActorInboxUrl: t.string,
     localMemberId: t.string,
   }),
 })])
