@@ -75,16 +75,24 @@ describe('given a Work that has been found on Crossref', () => {
   })
 
   describe('when the work is added to another collection', () => {
+    const collectionId = arbitraryWord()
+
     beforeEach(() => {
+      domain.handleEvent(mkEvent('collection-created', {
+        id: collectionId,
+        actorId,
+        name: arbitraryString(),
+        description: arbitraryString(),
+      }))
       domain.handleEvent(mkEvent('discussion-started', {
         actorId,
         discussionId: arbitraryWord(),
         doi,
-        collectionId: arbitraryWord(),
+        collectionId,
       }))
     })
 
-    it.failing('gives the work title to the discussion', () => {
+    it('gives the work title to the discussion', () => {
       const discussionTitles = pipe(
         doi,
         domain.queries.findDiscussionsAboutWork,

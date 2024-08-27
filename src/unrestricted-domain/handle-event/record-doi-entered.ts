@@ -11,6 +11,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     return
   }
   collection.discussionCount += 1
+  let title = `DOI ${event.data.doi}`
   const workId = event.data.doi
   const existingWork = state.works.get(workId)
   if (!existingWork) {
@@ -23,7 +24,8 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
         reason: 'never-fetched',
       },
     })
-  }
+  } else if (existingWork.frontMatter.crossrefStatus === 'found')
+    title = existingWork.frontMatter.title
 
   const data = event.data
   const discussion: Discussion = {
@@ -31,7 +33,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
     collectionId: event.data.collectionId,
     workId,
     addedAt: event.created,
-    title: `DOI ${event.data.doi}`,
+    title,
     commentsCount: 0,
   }
   const current = state.discussionsByCollection.get(data.collectionId) ?? []
