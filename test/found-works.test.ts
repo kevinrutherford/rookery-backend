@@ -1,4 +1,5 @@
 import * as E from 'fp-ts/Either'
+import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 import { defaultTestObserver } from './default-test-observer'
 import { arbitraryString, arbitraryWord } from './helpers'
@@ -13,35 +14,37 @@ const mustBeOnTheRight = (
 describe('given a Work that has been found on Crossref', () => {
   const actorId = arbitraryWord()
   const doi = arbitraryWord()
-  const { queries, handleEvent } = UnrestrictedDomain.instantiate(defaultTestObserver)
+  const title = arbitraryString()
+  let domain: ReturnType<typeof UnrestrictedDomain.instantiate>
 
   beforeEach(() => {
+    domain = UnrestrictedDomain.instantiate(defaultTestObserver)
     const collectionId = arbitraryWord()
-    handleEvent(mkEvent('member-joined', {
+    domain.handleEvent(mkEvent('member-joined', {
       id: actorId,
       username: arbitraryWord(),
       displayName: arbitraryWord(),
       avatarUrl: arbitraryWord(),
     }))
-    handleEvent(mkEvent('collection-created', {
+    domain.handleEvent(mkEvent('collection-created', {
       id: collectionId,
       actorId,
       name: arbitraryString(),
       description: arbitraryString(),
     }))
-    handleEvent(mkEvent('discussion-started', {
+    domain.handleEvent(mkEvent('discussion-started', {
       actorId,
       discussionId: arbitraryWord(),
       doi,
       collectionId,
     }))
-    handleEvent(mkEvent('work-updated', {
+    domain.handleEvent(mkEvent('work-updated', {
       actorId,
       workId: doi,
       attributes: {
         crossrefStatus: 'found',
-        title: 'A General Framework for Analyzing Sustainability of Social-Ecological Systems',
-        abstract: '<jats:p>A major problem worldwide is the potential loss of fisheries, forests, and water resources. Understanding of the processes that lead to improvements in or deterioration of natural resources is limited, because scientific disciplines use different concepts and languages to describe and explain complex social-ecological systems (SESs). Without a common framework to organize findings, isolated knowledge does not cumulate. Until recently, accepted theory has assumed that resource users will never self-organize to maintain their resources and that governments must impose solutions. Research in multiple disciplines, however, has found that some government policies accelerate resource destruction, whereas some resource users have invested their time and energy to achieve sustainability. A general framework is used to identify 10 subsystem variables that affect the likelihood of self-organization in efforts to achieve a sustainable SES.</jats:p>',
+        title,
+        abstract: arbitraryString(),
         authors: [
           'Elinor Ostrom',
         ],
@@ -54,7 +57,7 @@ describe('given a Work that has been found on Crossref', () => {
       {
         'filter[crossrefStatus]': 'not-determined',
       },
-      getWorks(queries),
+      getWorks(domain.queries),
       mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(0)
@@ -65,10 +68,32 @@ describe('given a Work that has been found on Crossref', () => {
       {
         'filter[crossrefStatus]': 'found',
       },
-      getWorks(queries),
+      getWorks(domain.queries),
       mustBeOnTheRight,
     )
     expect('data' in response && response.data).toHaveLength(1)
+  })
+
+  describe('when the work is added to another collection', () => {
+    beforeEach(() => {
+      domain.handleEvent(mkEvent('discussion-started', {
+        actorId,
+        discussionId: arbitraryWord(),
+        doi,
+        collectionId: arbitraryWord(),
+      }))
+    })
+
+    it.failing('gives the work title to the discussion', () => {
+      const discussionTitles = pipe(
+        doi,
+        domain.queries.findDiscussionsAboutWork,
+        RA.map((discussion) => discussion.title),
+      )
+      expect(discussionTitles).toHaveLength(2)
+      expect(discussionTitles[0]).toStrictEqual(title)
+      expect(discussionTitles[1]).toStrictEqual(title)
+    })
   })
 })
 
