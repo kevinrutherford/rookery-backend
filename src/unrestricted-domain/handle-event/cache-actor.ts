@@ -61,7 +61,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
   const actorData = env.right
 
   state.members.set(actorData.USER_A1_ID, {
-    id: actorId,
+    id: actorData.USER_A1_ID,
     username: actorData.USER_A1_USERNAME,
     displayName: actorData.USER_A1_DISPLAYNAME,
     avatarUrl: actorData.USER_A1_AVATAR_URL,
@@ -70,7 +70,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
     cache: 'fetched',
   })
   state.members.set(actorData.USER_A2_ID, {
-    id: actorId,
+    id: actorData.USER_A2_ID,
     username: actorData.USER_A2_USERNAME,
     displayName: actorData.USER_A2_DISPLAYNAME,
     avatarUrl: actorData.USER_A2_AVATAR_URL,
@@ -79,7 +79,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
     cache: 'fetched',
   })
   state.members.set(actorData.USER_A3_ID, {
-    id: actorId,
+    id: actorData.USER_A3_ID,
     username: actorData.USER_A3_USERNAME,
     displayName: actorData.USER_A3_DISPLAYNAME,
     avatarUrl: actorData.USER_A3_AVATAR_URL,
@@ -89,7 +89,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
   })
 
   state.members.set(actorData.USER_B1_ID, {
-    id: actorId,
+    id: actorData.USER_B1_ID,
     username: actorData.USER_B1_USERNAME,
     displayName: actorData.USER_B1_DISPLAYNAME,
     avatarUrl: actorData.USER_B1_AVATAR_URL,
@@ -98,7 +98,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
     cache: 'fetched',
   })
   state.members.set(actorData.USER_B2_ID, {
-    id: actorId,
+    id: actorData.USER_B2_ID,
     username: actorData.USER_B2_USERNAME,
     displayName: actorData.USER_B2_DISPLAYNAME,
     avatarUrl: actorData.USER_B2_AVATAR_URL,
@@ -107,7 +107,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
     cache: 'fetched',
   })
   state.members.set(actorData.USER_B3_ID, {
-    id: actorId,
+    id: actorData.USER_B3_ID,
     username: actorData.USER_B3_USERNAME,
     displayName: actorData.USER_B3_DISPLAYNAME,
     avatarUrl: actorData.USER_B3_AVATAR_URL,
@@ -117,7 +117,7 @@ export const cacheActor = (state: Readmodel, actorId: string): void => {
   })
 
   state.members.set(actorData.USER_CRB_ID, {
-    id: actorId,
+    id: actorData.USER_CRB_ID,
     username: actorData.USER_CRB_USERNAME,
     displayName: actorData.USER_CRB_DISPLAYNAME,
     avatarUrl: actorData.USER_CRB_AVATAR_URL,
