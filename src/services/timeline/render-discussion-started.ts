@@ -12,7 +12,7 @@ import { renderWorkIdentifier } from '../json-api/render-work-identifier'
 
 export const renderDiscussionStarted = (queries: Domain, update: DiscussionStarted): UpdateWithIncludes => ({
   data: {
-    type: 'update:doi-entered',
+    type: 'update:discussion-started',
     id: update.id,
     attributes: {
       occurred_at: update.created.toISOString(),

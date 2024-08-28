@@ -2,7 +2,7 @@ import { recordCollectionCreated } from './record-collection-created'
 import { recordCollectionUpdated } from './record-collection-updated'
 import { recordCommentCreated } from './record-comment-created'
 import { recordCommunityCreated } from './record-community-created'
-import { recordDoiEntered } from './record-doi-entered'
+import { recordDiscussionStarted } from './record-discussion-started'
 import { recordInboxCommentCreated } from './record-inbox-comment-created'
 import { recordInboxMemberFollowedMember } from './record-inbox-member-followed-member'
 import { recordMemberJoined } from './record-member-joined'
@@ -27,7 +27,7 @@ export const dispatch = (state: Readmodel) => (event: DomainEvent): void => {
       recordCommunityCreated(state, event)
       break
     case 'discussion-started':
-      recordDoiEntered(state, event)
+      recordDiscussionStarted(state, event)
       break
     case 'member-joined':
       recordMemberJoined(state, event)

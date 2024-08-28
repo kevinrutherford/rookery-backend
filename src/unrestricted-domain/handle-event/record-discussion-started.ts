@@ -4,7 +4,7 @@ import { renderDiscussionIdentifier } from '../../services/json-api/render-discu
 import { DoiEnteredEvent } from '../domain-event'
 import { Readmodel } from '../state/readmodel'
 
-export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void => {
+export const recordDiscussionStarted = (state: Readmodel, event: DoiEnteredEvent): void => {
   const collection = state.collections.get(event.data.collectionId)
   if (collection === undefined) {
     state.info.unexpectedEvents.push(event)
@@ -43,7 +43,7 @@ export const recordDoiEntered = (state: Readmodel, event: DoiEnteredEvent): void
 
   const actorId = event.data.actorId
   recordUpdate(state, {
-    kind: 'update:doi-entered',
+    kind: 'update:discussion-started',
     id: event.id,
     created: event.created,
     actorId,

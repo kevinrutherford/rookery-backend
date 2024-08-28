@@ -23,7 +23,7 @@ export type CommentCreated = UpdateCommonAttributes & {
 }
 
 export type DiscussionStarted = UpdateCommonAttributes & {
-  kind: 'update:doi-entered',
+  kind: 'update:discussion-started',
   workId: string,
   collectionId: string,
   discussionId: string,

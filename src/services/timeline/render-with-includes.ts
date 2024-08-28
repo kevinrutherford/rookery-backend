@@ -15,7 +15,7 @@ export const renderWithIncludes = (queries: Domain) => (update: Update): O.Optio
       return O.some(renderCommunityCreated(queries, update))
     case 'update:collection-created':
       return O.some(renderCollectionCreated(queries, update))
-    case 'update:doi-entered':
+    case 'update:discussion-started':
       return O.some(renderDiscussionStarted(queries, update))
     case 'update:comment-created':
       return O.some(renderCommentCreated(queries, update))
