@@ -26,6 +26,7 @@ export const getRoot = (queries: Domain): Service => () => pipe(
           links: { related: pathToCommunity() },
         },
       },
+      meta: queries.info(),
     },
   },
   E.right,
